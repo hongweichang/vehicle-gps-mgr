@@ -1,0 +1,18 @@
+/*
+index.php
+*/
+body {
+  color: white;
+  background: white;
+}
+.alltable {
+margin:100px auto;
+vertical-align: middle;
+}
+td {color: #006600}
+.style1 {
+	font-size: 24px;
+	font-weight: bold;
+}
+.style2 {font-weight: bold}
+
