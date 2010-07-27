@@ -42,7 +42,7 @@ switch($act)
 		foreach($result as	$key => $val)
 		{
 			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],$val['area1'],$val['company_id'],$val['role_id'],$val['email'],$val['state'],$val['backup1'],$val['backup2'],$val['backup3'],$val['backup4'],$val['mobile'],$val['create_id'],$val['create_time'],$val['update_id'],$val['update_time']);
+			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],$val['company_id'],$val['role_id'],$val['email'],$val['state'],$val['backup1'],$val['backup2'],$val['backup3'],$val['backup4'],$val['create_id'],$val['create_time'],$val['update_id'],$val['update_time']);
 		}
 
 		//打印json格式的数据
@@ -77,7 +77,7 @@ switch($act)
 		break;
 	
 	case "edit":		//用户修改
-		
+		msg('hello');
 		break;
 	case "edit_submit":		//用户修改
 		
