@@ -1,5 +1,5 @@
-jQuery("#navgrid").jqGrid({
-   	url:'driver/driver_cache.php',
+jQuery("#navgrid1").jqGrid({
+   	url:'index.php?a=5002',
 	datatype: "json",
 	colNames:['ID','姓名', '驾驶证号', '性别','出生日期','所属公司Id','参加工作时间','工号','驾照类型','手机','驾驶状态','手机邮箱','家庭住址','创建人','创建时间','更新人','更新时间'],
    	colModel:[
@@ -23,19 +23,20 @@ jQuery("#navgrid").jqGrid({
    	],
    	rowNum:10,
    	rowList:[10,20,30],
-   	pager: '#pagernav',
+   	pager: '#pagernav1',
    	sortname: 'id',
     viewrecords: true,
-    sortorder: "desc",
+    sortorder: "asc",
     caption:"人员管理",
     editurl:"index.php?a=5002",
 	height:210
 });
-jQuery("#navgrid").jqGrid('navGrid','#pagernav',
+jQuery("#navgrid1").jqGrid('navGrid','#pagernav1',
 {}, //options
 //edit:false,add:false,del:false
-{height:200,reloadAfterSubmit:false}, // edit options
+{del:false,add:true,edit:false,alerttext:"请选择需要操作的数据行!"});
+/*{height:200,reloadAfterSubmit:false}, // edit options
 {height:280,reloadAfterSubmit:false}, // add options
 {reloadAfterSubmit:false}, // del options
-{} // search options
-);
+{} // search options 
+);*/

@@ -381,8 +381,7 @@ Class MySQL
 		global $comm;
 		$filename = $GLOBALS["all"]["BASE"].$GLOBALS["all"]["gong_neng"]["directory"]."/templates/".substr($GLOBALS["all"]["gong_neng"]["file_name"], 0,-4)."_".$act.".html";
 		$contents = file_get_contents($filename);
-		$data["htmlheader"]="<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=UTF-8\">\n<META NAME=\"keywords\" CONTENT=\"购物\">\n<META NAME=\"DESCRIPTION\" CONTENT=\"\">\n<META HTTP-EQUIV=\"Window-target\" CONTENT=\"_top\">\n<META HTTP-EQUIV=\"Pragma\" CONTENT=\"no-cache\">\n<link href=\"../styles/main.css\" rel=\"stylesheet\" type=\"text/css\" />\n<script language=\"javascript\" src=\"../../js/common.js\"></script>";
-		$data["htmlfooter"]="<div id=\"footer_div\"> 版权所有 &copy; 2005-2009 ，保留所有权利。</div>";
+		$data["top"] = @file_get_contents("include/templates.php");
 		return $this->parse_string($data,$contents);
 	}
 

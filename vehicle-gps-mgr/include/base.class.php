@@ -1,4 +1,4 @@
-<?
+<?php
 /** 
 * 功能说明        这是所有类的基类。用于处理render, render_all
 * @copyright 	  Brother In Arms, 2008
