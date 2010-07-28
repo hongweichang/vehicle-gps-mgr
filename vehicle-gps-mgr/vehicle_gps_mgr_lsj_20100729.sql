@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 -- 
 -- 主机: localhost
--- 生成日期: 2010 年 07 月 28 日 06:22
+-- 生成日期: 2010 年 07 月 28 日 16:55
 -- 服务器版本: 5.0.18
 -- PHP 版本: 5.2.5
 -- 
@@ -357,11 +357,13 @@ INSERT INTO `module_function` VALUES (1003, '登录成功页面', 1, '2010-07-26
 INSERT INTO `module_function` VALUES (1004, '管理', 1, '2010-07-26 10:37:50', 'user', 'user.php', 'manage_list', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (1005, '退出', 1, '2010-07-26 10:37:50', 'user', 'user.php', 'logout', NULL, 0, 1, '2010-07-26 10:37:50', 1, '2010-07-26 10:37:50');
 INSERT INTO `module_function` VALUES (1006, '系统设置', 1, '2010-07-26 10:37:50', 'user', 'user.php', 'setup', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
-INSERT INTO `module_function` VALUES (1007, '用户修改', 1, '2010-07-26 10:37:50', 'user', 'user.php', 'edit', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
+INSERT INTO `module_function` VALUES (1007, '用户增删该操作', 1, '2010-07-26 10:37:50', 'user', 'user.php', 'operate', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (1010, '车辆html页面输出', 1, '2010-07-26 10:37:50', 'vehicle', 'vehicle.php', 'list', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (1011, '车辆数据输出', 1, '2010-07-26 10:37:50', 'vehicle', 'vehicle.php', 'list_data', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
+INSERT INTO `module_function` VALUES (1012, '车辆的增删改操作', 1, '2010-07-26 10:37:50', 'vehicle', 'vehicle.php', 'operate', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (1020, '车辆组html页面输出', 1, '2010-07-26 10:37:50', 'vehicle_group', 'vehicle_group.php', 'list', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (1021, '车辆组数据输出', 1021, '2010-07-26 10:37:50', 'vehicle_group', 'vehicle_group.php', 'list_data', NULL, 0, 1, '2010-07-26 10:37:50', 1, '2010-07-26 10:37:50');
+INSERT INTO `module_function` VALUES (1022, '车辆组的增删改操作', 1, '2010-07-26 10:37:50', 'vehicle_group', 'vehicle_group.php', 'operate', NULL, 0, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
 INSERT INTO `module_function` VALUES (5001, '人员管理：列表', 1, '2010-07-26 20:41:21', 'driver', 'driver.php', 'list', NULL, 0, 1, '2010-07-26 20:42:16', 1, '2010-07-26 20:42:22');
 INSERT INTO `module_function` VALUES (5002, '人员管理：列表数据', 1, '2010-07-26 20:41:21', 'driver', 'driver.php', 'list_data', NULL, 0, 1, '2010-07-26 20:42:16', 1, '2010-07-26 20:42:22');
 INSERT INTO `module_function` VALUES (5003, '公司管理：列表', 1, '2010-07-26 21:26:28', 'company', 'company.php', 'list', NULL, 0, 1, '2010-07-26 21:26:28', 1, '2010-07-26 21:26:28');
@@ -539,7 +541,7 @@ CREATE TABLE `user` (
   `update_id` int(11) default NULL COMMENT '更新人',
   `update_time` datetime default NULL COMMENT '更新时间',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 -- 
 -- 导出表中的数据 `user`
@@ -586,13 +588,14 @@ CREATE TABLE `vehicle_group` (
   `update_id` int(11) default NULL COMMENT '更新人',
   `update_time` datetime default NULL COMMENT '更新时间',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=102 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=103 ;
 
 -- 
 -- 导出表中的数据 `vehicle_group`
 -- 
 
 INSERT INTO `vehicle_group` VALUES (101, 'bbv', 1, 1, 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
+INSERT INTO `vehicle_group` VALUES (102, 'lsjlsfhdw', 2, 3, 2, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -623,13 +626,14 @@ CREATE TABLE `vehicle_manage` (
   `update_id` int(11) default NULL COMMENT '更新人',
   `update_time` datetime default NULL COMMENT '更新时间',
   PRIMARY KEY  (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- 
 -- 导出表中的数据 `vehicle_manage`
 -- 
 
 INSERT INTO `vehicle_manage` VALUES (1, '10034', '1001', 100, 1, 2, NULL, NULL, NULL, NULL, 1, NULL, 2, 'a', 'b', 'c', 'd', 1, '2010-07-26 10:36:23', 1, '2010-07-26 10:36:36');
+INSERT INTO `vehicle_manage` VALUES (2, '13245', '1324', 3, 3, 6, 2.000000, NULL, NULL, NULL, NULL, NULL, NULL, 'er', 'we', NULL, NULL, 3, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

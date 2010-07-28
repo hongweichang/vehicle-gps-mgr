@@ -256,6 +256,10 @@ Class MySQL
 	*/
 	function prepare_value($value,$type)
 	{
+		if(!$value && empty($value))	//不论什么类型，如果值不存在，设置为NULL
+		{
+			return 'NULL';
+		}
 		switch ($type)
 		{
 			case "STRING":
@@ -407,13 +411,44 @@ Class MySQL
 		}
 		return $info;
 	}
-
+	
 	/**
-	*		得到上一次执行的SQL
+	*		得到字段的数据类型
+	*		@param $talblename 表名 $field 字段名
+	*		@return mixed
 	*/
-	function get_last_sql()
+	function get_field_type($talblename=false,$field=false)
 	{
-		return $this->sql;
+		if(!$talblename or !$field)
+		{
+			echo "error,The talblename or Field is not exists!";
+			return false;
+		}
+		mysql_query("set names utf8");
+		//得到表结构
+		$structure = mysql_query("describe ".$talblename,$this->CONN) or die("db-line:437:error:".mysql_error());
+		$count = 0;
+		while($row = mysql_fetch_array($structure,MYSQL_BOTH))
+		{
+			$data[$count] = $row;
+			$count++;
+		}
+		mysql_free_result($structure);
+		foreach($data as $tmp)
+		{
+			if($tmp["Field"]==$field)
+			{
+				if(strpos($tmp["Type"],"int") ===false && strpos($tmp["Type"],"float") ===false && strpos($tmp["Type"],"double") ===false)
+				{
+					$type = "VARCHAR";
+				}
+				else
+				{
+					$type = "INT";
+				}
+			}
+		}
+		return $type;
 	}
 }
 

@@ -1,9 +1,9 @@
 jQuery("#navgrid_vehicle_group").jqGrid({
    	url:'index.php?a=1021',
 		datatype: "json",
-   	colNames:['ID','组名', '所属公司Id', '描述','创建人','创建人','更新人','更新时间'],
+   	colNames:['ID','组名', '所属公司Id', '描述','创建人','创建时间','更新人','更新时间'],
    	colModel:[
-   		{name:'ID',index:'ID', width:55,editable:false,editoptions:{readonly:true,size:10}},
+   		{name:'id',index:'id', width:55,editable:false,editoptions:{readonly:true,size:10}},
    		{name:'name',index:'number_plate', width:80,editable:true,editoptions:{size:10}},
    		{name:'company_id',index:'gps_id', width:40,editable:true,editoptions:{size:25}},
    		{name:'description',index:'vehicle_group_id', width:60, align:"right",editable:true,editoptions:{size:10}},
@@ -20,8 +20,6 @@ jQuery("#navgrid_vehicle_group").jqGrid({
     sortorder: "desc",
     caption:"车辆组管理",
     editurl:"index.php?a=1022",
-    	//alert('hello');
-    	//alert($("#navgrid2").getDataIDs());
 	height:300
 });
 jQuery("#navgrid_vehicle_group").jqGrid('navGrid','#pagernav_vehicle_group',

@@ -3,7 +3,7 @@ jQuery("#navgrid2").jqGrid({
 		datatype: "json",
    	colNames:['ID','登录用户名', '密码', '用户名','所属公司ID','角色ID','邮箱','状态','备用字段1','备用字段2','备用字段3','备用字段4','创建人','创建时间','更新人','更新时间'],
    	colModel:[
-   		{name:'ID',index:'ID', width:55,editable:false,editoptions:{readonly:true,size:10}},
+   		{name:'id',index:'id', width:55,editable:false,editoptions:{readonly:true,size:10}},
    		{name:'login_name',index:'login_name', width:80,editable:true,editoptions:{size:10}},
    		{name:'password',index:'password', width:40,editable:true,editoptions:{size:25}},
    		{name:'name',index:'name', width:60, align:"right",editable:true,editoptions:{size:10}},
@@ -16,9 +16,9 @@ jQuery("#navgrid2").jqGrid({
    		{name:'backup3',index:'backup3', width:60, align:"right",editable:true,editoptions:{size:10}},
    		{name:'backup4',index:'backup4', width:60, align:"right",editable:true,editoptions:{size:10}},		
    		{name:'create_id',index:'create_id', width:60,align:"right",editable:true,editoptions:{size:10}},
-		{name:'create_time',index:'create_time',width:55,align:'center',editable:true,edittype:"checkbox",editoptions:{value:"Yes:No"}},
-		{name:'update_id',index:'update_id',width:70, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;TN:TNT"}},
-   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"20"}}
+		{name:'create_time',index:'create_time',width:55,align:'center',editable:true,editoptions:{size:10}},
+		{name:'update_id',index:'update_id',width:70, editable: true,editoptions:{size:10}},
+   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true, editoptions:{rows:"2",cols:"20"}}
    	],
    	rowNum:10,
    	rowList:[10,20,30],
@@ -28,10 +28,9 @@ jQuery("#navgrid2").jqGrid({
     sortorder: "desc",
     caption:"用户管理",
     editurl:"index.php?a=1007",
-    	//alert('hello');
-    	//alert($("#navgrid2").getDataIDs());
 	height:300
 });
+
 jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
 {edit:true,add:true,del:true}, //options
 //edit:false,add:false,del:false
@@ -41,3 +40,5 @@ jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
 {reloadAfterSubmit:false}, // del options
 {} // search options 
 );*/
+//jQuery("#navgrid2").jqGrid('editGridRow', rowid, properties );
+

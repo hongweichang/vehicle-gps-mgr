@@ -14,6 +14,8 @@ $page = $_REQUEST['page']; // get the requested page
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST['sord']; // get the direction
+$searchfil = $_REQUEST['searchField']; // get the direction
+$searchstr = $_REQUEST['searchString']; // get the direction
 
 if(!$sidx) $sidx =1;
 
@@ -35,13 +37,21 @@ switch($act)
 		$start = $limit*$page - $limit;
 		if ($start<0) $start = 0;
 
+		//得到字段类型
+		if(empty($searchfil) or empty($searchstr))
+			$wh = '';
+		else
+		{
+			$type = $user->get_type($searchfil);
+			$searchstr = $db->prepare_value($searchstr,$type);
+			$wh = "where ".$searchfil." = ".$searchstr;
+		}
+		
 		//得到所有用户
 		$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
-
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
-
 		foreach($result as	$key => $val)
 		{
 			$responce->rows[$key]['id']=$val['id'];
@@ -69,20 +79,37 @@ switch($act)
 	case "setup":		//你进入到了系统设置页面
 		msg('你进入到了系统设置页面.');
 		break;
-	case "add":			//模拟添加用户
-		$arr['url_submit'] = URL('us','user','add_submit');
-		echo $GLOBALS['db']->display($arr,$act);
-		break;
-	case "add_submit":		//模拟添加用户提交
-		msg($_REQUEST['user_name']);
-		msg($_REQUEST['user_pass']);
-		break;
-	
-	case "edit":		//用户修改
-		msg('hello');
-		break;
-	case "edit_submit":		//用户修改
-		
+	case "operate":		//用户修改、添加、删除
+		$oper = $_REQUEST['oper'];
+		//file_put_contents("a.txt",$oper);exit;
+		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
+		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");
+		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
+		$arr["company_id"] = $db->prepare_value($_REQUEST['company_id'],"INT");
+		$arr["role_id"] = $db->prepare_value($_REQUEST['role_id'],"INT");
+		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
+		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
+		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
+		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
+		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
+		$arr["backup4"] = $db->prepare_value($_REQUEST['backup4'],"VARCHAR");
+		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
+		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
+		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
+		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
+		$user = new User($_REQUEST['id']);
+		switch($oper)
+		{
+			case "add":		//增加
+				$user->add_user($arr);
+				break;
+			case "edit":		//修改
+				$user->edit_user($arr);
+				break;
+			case "del":		//删除
+				$user->del_user($arr);
+				break;
+		}
 		break;
 }
 

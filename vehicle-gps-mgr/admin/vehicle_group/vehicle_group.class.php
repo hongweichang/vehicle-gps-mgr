@@ -26,7 +26,7 @@ class Vehicle_group extends BASE
 	
 	/**
 	*		构造函数
-	*		@param $user_id 
+	*		@param $id 
 	*		@return no
 	*/
 	function Vehicle_group($id=false)
@@ -45,7 +45,7 @@ class Vehicle_group extends BASE
 	*/
 	private function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where user_id = %d",$this->tablename,$this->id);
+		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else
@@ -57,14 +57,66 @@ class Vehicle_group extends BASE
 	*	@param $vehicle_group
 	*	@return boolean
 	*/
-	private function add_vehicle_group($vehicle_group)
+	function add_vehicle_group($vehicle_group)
 	{
-		
+		if(!$vehicle_group)
+		{
+			$this->message = "error,object must be not empty!";
+			return false;
+		}
+		if(!$GLOBALS['db']->insert_row($this->tablename,$vehicle_group))
+		{
+			$this->message = "error,insert data failed!";
+			return false;
+		}
+		return true;
 	}
 	
+	/**
+	*	修改车辆组
+	*	@param $vehicle_group
+	*	@return boolean
+	*/
+	function edit_vehicle_group($vehicle_group)
+	{
+		if(!$vehicle_group)
+		{
+			$this->message = "error,object must be not empty!";
+			return false;
+		}
+		//添加主键ID
+		$vehicle_group['id'] = $this->id;
+		if(!$GLOBALS['db']->update_row($this->tablename,$vehicle_group,"id"))
+		{
+			$this->message = "error,edit data failed!";
+			return false;
+		}
+		return true;
+	}
 	
 	/**
-	*	实体函数的render，用户对指定的列名称（字符串）进行润色、翻译
+	*	删除车辆组
+	*	@param $vehicle_group
+	*	@return boolean
+	*/
+	function del_vehicle_group($vehicle_group)
+	{
+		if(!$vehicle_group)
+		{
+			$this->message = "error,object must be not empty!";
+			return false;
+		}
+		$this->sql = sprintf("delete from %s where id = %d",$this->tablename,$this->id);
+		if(!$GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "error,delete data failed!";
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	*	实体函数的render，车辆组对指定的列名称（字符串）进行润色、翻译
 	*	@param $col_name 列名称（字符串）
 	*	@return $o  润色翻译后的数值
 	*/
@@ -102,7 +154,27 @@ class Vehicle_group extends BASE
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
-	
+	/**
+	*		得到指定字段类型
+	*		@param $searchfield 字段名
+	*		@return mixed
+	*/
+	function get_type($searchfield=false)
+	{
+		
+		if(!$searchfield)
+		{
+			$this->message = 'error,Searchfield is not exists!';
+			return false;
+		}
+		$type = $GLOBALS["db"]->get_field_type($this->tablename,$searchfield);
+		if(!$type)
+		{
+			$this->message = 'error,Get Field type failed!';
+			return false;
+		}
+		return $type;
+	}
 	
 	
 }
