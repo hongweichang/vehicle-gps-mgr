@@ -1,9 +1,9 @@
 <?php
 /**
-* 	用户类（模拟）
+* 	车辆管理类
 *
 *
-* @copyright 	  company, 2010
+* @copyright 	  Vehicle_group_group, 2010
 * @author 　　李少杰
 * @create date 　 2010.07.24
 * @modify  　　　 n/a
@@ -11,40 +11,41 @@
 * @modify describe   2010.07.24 18:45	文件生成
 * @todo			  n/a
 */
-class User extends BASE
+class Vehicle_group extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "user";
+	public $tablename = "Vehicle_group";
 	public $data = false;                //数据
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
 	public $message;                     //消息
 	
-	private $user_id = false;		//用户ID
-	private $tablename_company = "company";		//公司表
+	private $id = false;		//车辆管理表主键ID
+	//private $tablename_Vehicle_group_group = "Vehicle_group_group";		//车辆分组表
+	//private $tablename_Vehicle_group_type = "Vehicle_group_type_manage";		//车辆类型表
 	
 	/**
 	*		构造函数
 	*		@param $user_id 
 	*		@return no
 	*/
-	function User($user_id=false)
+	function Vehicle_group($id=false)
 	{
-		if($user_id && !empty($user_id))
+		if($id && !empty($id))
 		{
-			$this->user_id = $user_id;
+			$this->id = $id;
 			$this->retrieve_data();
 		}
 	}
 	
 	/**
-	*		查询得到指定用户信息
-	*		@param $user_id 
+	*		查询得到指定车辆信息
+	*		@param $id 
 	*		@return no
 	*/
 	private function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where user_id = %d",$this->tablename,$this->user_id);
+		$this->sql = sprintf("select * from %s where user_id = %d",$this->tablename,$this->id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else
@@ -52,29 +53,11 @@ class User extends BASE
 	}
 	
 	/**
-	*	用户login
-	*	@param $username $password $verify
+	*	添加车辆
+	*	@param $vehicle_group
 	*	@return boolean
 	*/
-	function login($user_name,$user_pass,$companyloginid)
-	{
-		$this->sql = sprintf("select * from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = %d",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
-		//echo $this->sql;
-		if(!$result = $GLOBALS['db']->query_once($this->sql))
-		{
-			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
-			return false;
-		}
-		set_session("admin_id",$result['id']);
-		return true;
-	}
-	
-	/**
-	*	添加用户
-	*	@param $user
-	*	@return boolean
-	*/
-	private function add_user($user)
+	private function add_vehicle_group($vehicle_group)
 	{
 		
 	}
@@ -89,19 +72,19 @@ class User extends BASE
 	{
 		switch ($col_name)
 		{
-			case "user_red_name":		//模拟实现一位用户姓名的显示方式，显示成红色
-				$value = '<font color="red">------test child_render:'.$this->get_data('user_name').'</font>';
+			case "vehicle_group_red_name":
+				//$value = '<font color="red">------test child_render:'.$this->get_data('number_plate').'</font>';
 				break;
 		}
 		return $value;
 	}
 	
 	/**
-	*	查询所有用户
+	*	查询所有车辆数目
 	*	@param null
-	*	@return no
+	*	@return numeric or null
 	*/
-	function get_user_count()
+	function get_vehicle_group_count()
 	{
 		$this->sql = "select count(*) from ".$this->tablename;
 		$count = $GLOBALS["db"]->query_once($this->sql);
@@ -109,11 +92,11 @@ class User extends BASE
 	}
 	
 	/**
-	*		查询所有用户
+	*		查询所有车辆
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
 	*		@return no
 	*/
-	function get_all_users($wh="",$sidx="",$sord="",$start="",$limit="")
+	function get_all_vehicle_groups($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
 		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);

@@ -1,7 +1,7 @@
 <?php
 /** 
 * 用户处理
-* @copyright		company, 2010
+* @copyright		user, 2010
 * @author			李少杰
 * @create date		2010.07.24
 * @modify			修改人

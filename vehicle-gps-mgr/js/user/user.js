@@ -28,12 +28,14 @@ jQuery("#navgrid2").jqGrid({
     sortorder: "desc",
     caption:"用户管理",
     editurl:"index.php?a=1007",
+    	//alert('hello');
+    	//alert($("#navgrid2").getDataIDs());
 	height:300
 });
 jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
-{}, //options
+{edit:true,add:true,del:true}, //options
 //edit:false,add:false,del:false
-{del:false,add:true,edit:false,alerttext:"请选择需要操作的数据行!"});
+{del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options
 {height:280,reloadAfterSubmit:false}, // add options
 {reloadAfterSubmit:false}, // del options
