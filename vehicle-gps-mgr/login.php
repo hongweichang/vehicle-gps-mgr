@@ -15,6 +15,10 @@
               <td width="203" align="center" bgcolor="#FFFFFF">
                   <img src="images/cat.jpg" width="203" height="149" /></td>
               <td align="center" bgcolor="#FFFFFF"><table>
+              		<tr>
+                    <td>公司登录ID：</td>
+                    <td><input name="companyloginid" type="text" /></td>
+                  </tr>
                   <tr>
                     <td>用户名：</td>
                     <td><input name="username" type="text" /></td>

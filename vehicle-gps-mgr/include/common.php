@@ -30,7 +30,7 @@
 		}
 		else
 		{
-			return URL("xt","cuo_wu_ti_shi.php","cuo_wu");
+			return URL("error","error.php","error");
 		}
 	}
 

@@ -1,5 +1,5 @@
 jQuery("#navgrid2").jqGrid({
-   	url:'index.php?a=1001',
+   	url:'index.php?a=1002',
 		datatype: "json",
    	colNames:['ID','登录用户名', '密码', '用户名','所属公司ID','角色ID','邮箱','状态','备用字段1','备用字段2','备用字段3','备用字段4','创建人','创建时间','更新人','更新时间'],
    	colModel:[

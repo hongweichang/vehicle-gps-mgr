@@ -19,7 +19,10 @@ if(!$sidx) $sidx =1;
 
 switch($act)
 {
-	case "list":		//模拟测试【登录首页】
+	case "user_manage":			//加载用户管理的html页面
+		echo $db->display(null,"manage");
+		break;
+	case "list_data":		//用户管理html中，js文件会加载这个case，取得并输出数据
 		$user	= new User();
 		$count = $user->get_user_count();
 
@@ -48,24 +51,23 @@ switch($act)
 		//打印json格式的数据
 		echo json_encode($responce);
 		break;
+	case "manage_list":			//模拟管理页面
+		echo $db->display(null,"manage_list");
+		break;
 	case "login_success":		
 		$arr['url_manage'] = URL('user','user.php','manage_list');
+		$arr['url_setup'] = URL('user','user.php','setup');
 		$arr['url_logout'] = URL('user','user.php','logout');
 		echo $db->display($arr,"login_success");
-		break;
-	case "manage_list":			//模拟管理页面
-		echo $db->display($arr=array(),"manage_list");
-		break;
-	case "user_manage":			//模拟用户管理
-
-		echo $db->display(null,"manage");
-
 		break;
 	case "logout":	//模拟退出
 		session_start();
 		session_unset();
 		session_destroy();
 		Header("Location: index.php");
+		break;
+	case "setup":		//你进入到了系统设置页面
+		msg('你进入到了系统设置页面.');
 		break;
 	case "add":			//模拟添加用户
 		$arr['url_submit'] = URL('us','user','add_submit');

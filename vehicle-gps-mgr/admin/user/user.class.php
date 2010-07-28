@@ -21,6 +21,7 @@ class User extends BASE
 	public $message;                     //消息
 	
 	private $user_id = false;		//用户ID
+	private $tablename_company = "company";		//公司表
 	
 	/**
 	*		构造函数
@@ -55,12 +56,13 @@ class User extends BASE
 	*	@param $username $password $verify
 	*	@return boolean
 	*/
-	function login($user_name,$user_pass)
+	function login($user_name,$user_pass,$companyloginid)
 	{
-		$this->sql = sprintf("select * from %s where login_name = '%s' and password = '%s'",$this->tablename,$user_name,$user_pass);
+		$this->sql = sprintf("select * from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = %d",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
+		echo $this->sql;
 		if(!$result = $GLOBALS['db']->query_once($this->sql))
 		{
-			$this->message = "用户名或密码错误，登录失败！";
+			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
 			return false;
 		}
 		set_session("admin_id",$result['id']);
