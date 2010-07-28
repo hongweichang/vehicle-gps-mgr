@@ -407,6 +407,14 @@ Class MySQL
 		}
 		return $info;
 	}
+
+	/**
+	*		得到上一次执行的SQL
+	*/
+	function get_last_sql()
+	{
+		return $this->sql;
+	}
 }
 
 // End Class
