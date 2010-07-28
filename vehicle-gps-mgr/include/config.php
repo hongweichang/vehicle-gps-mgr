@@ -1,12 +1,12 @@
 <?php
-//		Êı¾İ¿âÅäÖÃ
+//		æ•°æ®åº“é…ç½®
 $db_config = array(
 	'HOST'			=> 'localhost',
 	'USERNAME'			=> 'root',
 	'PASSWORD'			=> 'root',
 	'DB'		=> 'vehicle_gps_mgr');
 	
-//		memcachedÅäÖÃ
+//		memcachedé…ç½®
 $memcache_config = array(
 	'ENABLED' => false,
 	'SERVER' => array(

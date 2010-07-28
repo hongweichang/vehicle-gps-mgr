@@ -1,7 +1,7 @@
 <?php
 	/**
 	*		
-	*		ÓÃÓÚµÇÂ¼Ð£Ñé
+	*		ç”¨äºŽç™»å½•æ ¡éªŒ
 	*
 	*/
 	require_once('include/inc_all.php');
@@ -10,7 +10,7 @@
 	$user = new User();
 	if(!$user->login($user_name,$user_pass))
 	{
-		$errormsg = $user->message;//"ÓÃ»§Ãû»òÃÜÂë´íÎó£¬µÇÂ¼Ê§°Ü£¡";
+		$errormsg = $user->message;//"ç”¨æˆ·åæˆ–å¯†ç é”™è¯¯ï¼Œç™»å½•å¤±è´¥ï¼";
 		echo $db->result_display_alert(0,false,$errormsg);
 		die();
 	}

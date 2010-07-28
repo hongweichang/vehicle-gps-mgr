@@ -1,16 +1,16 @@
 <?php
 /** 
-* ¹¦ÄÜËµÃ÷        ÕâÊÇËùÓĞÀàµÄ»ùÀà¡£ÓÃÓÚ´¦Àírender, render_all
+* åŠŸèƒ½è¯´æ˜        è¿™æ˜¯æ‰€æœ‰ç±»çš„åŸºç±»ã€‚ç”¨äºå¤„ç†render, render_all
 * @copyright 	  Brother In Arms, 2008
-* @author ¡¡¡¡¡¡¡¡ÀîÉÙ½Ü
-* @create date ¡¡ 2009-5-14 12:01
-* @modify  ¡¡¡¡¡¡ ÀîÉÙ½Ü
-* @modify date¡¡¡¡2009-5-14 12:01
+* @author ã€€ã€€ã€€ã€€æå°‘æ°
+* @create date ã€€ 2009-5-14 12:01
+* @modify  ã€€ã€€ã€€ æå°‘æ°
+* @modify dateã€€ã€€2009-5-14 12:01
 */
 class BASE
 {
 	/**
-	*		¶ÔÒ»¸ö¶şÎ»Êı×é½øĞĞÈóÉ«
+	*		å¯¹ä¸€ä¸ªäºŒä½æ•°ç»„è¿›è¡Œæ¶¦è‰²
 	*/
 	function render_all($col_list)
 	{
@@ -28,7 +28,7 @@ class BASE
 	}
 
 	/**
-	*		ÅĞ¶ÏÀàµÄÊı¾İÊÇ·ñÒÑ¾­ÕıÈ·È¡µÃ¡£
+	*		åˆ¤æ–­ç±»çš„æ•°æ®æ˜¯å¦å·²ç»æ­£ç¡®å–å¾—ã€‚
 	*/
 	function is_valid()
 	{
@@ -39,15 +39,15 @@ class BASE
 	}
 		
 	/**
-	*		Ö»ÊÇÎªÁË±ÜÃâÔÚ×ÓÀàÃ»ÓĞpost_retrieveµÄÇé¿öÏÂ³ö´í
+	*		åªæ˜¯ä¸ºäº†é¿å…åœ¨å­ç±»æ²¡æœ‰post_retrieveçš„æƒ…å†µä¸‹å‡ºé”™
 	*/
 	function post_retrieve()
 	{
 	}
 
 	/**
-	*		¸ù¾İÊôĞÔÃû³ÆÈ¡µÃÊôĞÔÖµ
-	*			Õâ¸öÊôĞÔÖµ¿ÉÒÔÊÇÔ­Ê¼µÄÃû³Æ£¬¿ÉÒÔÊÇ·­ÒëÖ®ºóµÄÃû³Æ
+	*		æ ¹æ®å±æ€§åç§°å–å¾—å±æ€§å€¼
+	*			è¿™ä¸ªå±æ€§å€¼å¯ä»¥æ˜¯åŸå§‹çš„åç§°ï¼Œå¯ä»¥æ˜¯ç¿»è¯‘ä¹‹åçš„åç§°
 	*/
 	function get_data($str)
 	{
@@ -57,21 +57,21 @@ class BASE
 	}
 
 	/**
-	*		¶Ôµ±Ç°µÄÊı¾İ½øĞĞÈóÉ«,ÒÔ±ãÓÚºóÃæµÄÏÔÊ¾¹¤×÷
+	*		å¯¹å½“å‰çš„æ•°æ®è¿›è¡Œæ¶¦è‰²,ä»¥ä¾¿äºåé¢çš„æ˜¾ç¤ºå·¥ä½œ
 	*
-	*		r_column_name£¬Ö±½Ó·µ»ØÔ­Ê¼ÊıÖµ
-	*		vx_column_name£¬·µ»ØÈóÉ«ºóµÄÊıÖµ
+	*		r_column_nameï¼Œç›´æ¥è¿”å›åŸå§‹æ•°å€¼
+	*		vx_column_nameï¼Œè¿”å›æ¶¦è‰²åçš„æ•°å€¼
 	*/
 	function render($col_list)
 	{
 		if (!$col_list)
 			return array();
 		unset($rtn_array);
-		foreach ($col_list as $col_name)			//¶ÔÃ¿¸öĞèÇóµÄÁĞ,ÖğĞĞ´¦Àí
+		foreach ($col_list as $col_name)			//å¯¹æ¯ä¸ªéœ€æ±‚çš„åˆ—,é€è¡Œå¤„ç†
 		{
 			if (!isset($this->data[$col_name]))
 			{
-				$pos = strpos($col_name,"_");			//Õâ¼¸ĞĞ´¦Àír_xxx£¬Ö±½Ó·µ»ØÔ­Ê¼ÊıÖµ
+				$pos = strpos($col_name,"_");			//è¿™å‡ è¡Œå¤„ç†r_xxxï¼Œç›´æ¥è¿”å›åŸå§‹æ•°å€¼
 				$prefix = substr($col_name,0,$pos);
 				$column = substr($col_name,$pos+1);
 				if ($prefix == "r")

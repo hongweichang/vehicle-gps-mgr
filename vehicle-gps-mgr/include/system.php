@@ -1,17 +1,17 @@
 <?php
 	/**
-	*			ÕâÀï·ÅÁËÒ»Ğ©Ö»ÓĞÏµÍ³²ÅÄÜÊ¹ÓÃµÄº¯Êı£¬ÀıÈçÎªi.phpĞ´µÄº¯Êı¡£
-	*			ÔÚÆÕÍ¨µÄ¹¦ÄÜÖĞ£¬²»ÔÊĞíÊ¹ÓÃÕâĞ©º¯Êı¡£
-	*			Èç¹ûĞèÒªÊ¹ÓÃÕâÀïµÄº¯Êı£¬Çë½«ÕâĞ©º¯Êı×ªÒÆµ½common.phpÖĞ
+	*			è¿™é‡Œæ”¾äº†ä¸€äº›åªæœ‰ç³»ç»Ÿæ‰èƒ½ä½¿ç”¨çš„å‡½æ•°ï¼Œä¾‹å¦‚ä¸ºi.phpå†™çš„å‡½æ•°ã€‚
+	*			åœ¨æ™®é€šçš„åŠŸèƒ½ä¸­ï¼Œä¸å…è®¸ä½¿ç”¨è¿™äº›å‡½æ•°ã€‚
+	*			å¦‚æœéœ€è¦ä½¿ç”¨è¿™é‡Œçš„å‡½æ•°ï¼Œè¯·å°†è¿™äº›å‡½æ•°è½¬ç§»åˆ°common.phpä¸­
 	*/
 	
 	/**	
-	*	¸ù¾İ²ÎÊı£¬Æ´½ÓURL
-	*	@parm	Ä£¿é¼ò³Æ
-	*	@parm	ÎÄ¼şÃû
-	*	@parm	²Ù×÷
+	*	æ ¹æ®å‚æ•°ï¼Œæ‹¼æ¥URL
+	*	@parm	æ¨¡å—ç®€ç§°
+	*	@parm	æ–‡ä»¶å
+	*	@parm	æ“ä½œ
 	*	@rtn	URL
-	*	×¢Òâ£º	³ı·ÇÌØ±ğ±ØÒª£¬·ñÔò²»Ó¦¸ÃÖ±½ÓÊ¹ÓÃÕâ¸öÓÎÏ·£¬¶øÓ¦¸ÃÊ¹ÓÃURLº¯Êı
+	*	æ³¨æ„ï¼š	é™¤éç‰¹åˆ«å¿…è¦ï¼Œå¦åˆ™ä¸åº”è¯¥ç›´æ¥ä½¿ç”¨è¿™ä¸ªæ¸¸æˆï¼Œè€Œåº”è¯¥ä½¿ç”¨URLå‡½æ•°
 	*/
 	function format_url_by_id($id)
 	{
@@ -21,17 +21,17 @@
 	
 
 	/**		
-	*	´ÓÊı¾İ¿â»òÕßcache¶ÁÈ¡ÏµÍ³¹¦ÄÜÊı¾İ£¨ÄÚ²¿¹¦ÄÜ£¬Íâ²¿¾¡Á¿²»Òªµ÷ÓÃ£©
+	*	ä»æ•°æ®åº“æˆ–è€…cacheè¯»å–ç³»ç»ŸåŠŸèƒ½æ•°æ®ï¼ˆå†…éƒ¨åŠŸèƒ½ï¼Œå¤–éƒ¨å°½é‡ä¸è¦è°ƒç”¨ï¼‰
 	*
 	*/
 	function get_xt_gong_neng_all()
 	{
-		$gong_neng_str = $GLOBALS["db"]->get_cache("module_function","all");		//	È¡×Ômemcache
+		$gong_neng_str = $GLOBALS["db"]->get_cache("module_function","all");		//	å–è‡ªmemcache
 		if ($gong_neng_str)
 		{
 			$GLOBALS["all"]["gong_neng_dat"] = unserialize($gong_neng_str);
 		}
-		else		//	È¡×ÔÊı¾İ¿â
+		else		//	å–è‡ªæ•°æ®åº“
 		{
 			$sql = "SELECT * FROM module_function gn left join module mk on mk.abbreviation  = gn.module_abbreviation where mk.abbreviation <> '--'";
 			$gong_neng_list = $GLOBALS["db"]->query($sql);
@@ -40,7 +40,7 @@
 				$func_str = $gong_neng["abbreviation"]."|".$gong_neng["file_name"]."|".$gong_neng["operate"];
 				$func[md5($func_str)] = $gong_neng[0];
 				//echo "set cache for ".$gong_neng["id"];
-				$GLOBALS["db"]->set_cache("module_function",$gong_neng["id"],$gong_neng);	//	Õâ¸ö²»¾­³£ÓÃ¡£ËùÒÔ·ÖÌõ´æ·Å
+				$GLOBALS["db"]->set_cache("module_function",$gong_neng["id"],$gong_neng);	//	è¿™ä¸ªä¸ç»å¸¸ç”¨ã€‚æ‰€ä»¥åˆ†æ¡å­˜æ”¾
 			}
 			$GLOBALS["all"]["gong_neng_dat"] = $func;
 			$GLOBALS["db"]->set_cache("module_function","all",serialize($GLOBALS["all"]["gong_neng_dat"]));
@@ -49,9 +49,9 @@
 
 
 	/**	
-	* ·ÖÎöµ±Ç°µÄurl£¬²¢¾İ´ËÉèÖÃ¶ÔÓ¦µÄoperate£¬ÒÔ±ãÓÚºóĞøµÄ³ÌĞòÖ´ĞĞ
-	*	Õâ¸öº¯ÊıºÍÉÏÃæµÄº¯ÊıÊÇÒ»Ì×µÄ¡£ÉÏÃæÊÇurlÆ´½Ó£¬Õâ¸öÊÇ½âÊÍ¡£½«À´ÕâÁ½¸ö¶«Î÷¿ÉÒÔ¶ÔÓ¦ĞŞ¸Ä
-	*	Õâ¸öº¯Êı½öÓÉi.phpµ÷ÓÃ¡£ÆäËûÈË²»Ó¦¸Ãµ÷ÓÃ
+	* åˆ†æå½“å‰çš„urlï¼Œå¹¶æ®æ­¤è®¾ç½®å¯¹åº”çš„operateï¼Œä»¥ä¾¿äºåç»­çš„ç¨‹åºæ‰§è¡Œ
+	*	è¿™ä¸ªå‡½æ•°å’Œä¸Šé¢çš„å‡½æ•°æ˜¯ä¸€å¥—çš„ã€‚ä¸Šé¢æ˜¯urlæ‹¼æ¥ï¼Œè¿™ä¸ªæ˜¯è§£é‡Šã€‚å°†æ¥è¿™ä¸¤ä¸ªä¸œè¥¿å¯ä»¥å¯¹åº”ä¿®æ”¹
+	*	è¿™ä¸ªå‡½æ•°ä»…ç”±i.phpè°ƒç”¨ã€‚å…¶ä»–äººä¸åº”è¯¥è°ƒç”¨
 	*/
 	function decode_func_url()
 	{
@@ -83,20 +83,20 @@
 	}
 
 	/**
-	*		×Ô¶¯¼ÓÔØÀà¡£Ê¹ÓÃÕâ¸öº¯ÊıÖ®ºó£¬½ûÖ¹×Ô¼ºÈ¥requireÈÎºÎclassÁË
+	*		è‡ªåŠ¨åŠ è½½ç±»ã€‚ä½¿ç”¨è¿™ä¸ªå‡½æ•°ä¹‹åï¼Œç¦æ­¢è‡ªå·±å»requireä»»ä½•classäº†
 	*/
 	function __autoload($class_name)
 	{
 //		if (!$class_parts = explode("_",$class_name))
 //			return;
-// 	cache ¿ªÊ¼
+// 	cache å¼€å§‹
 		if (!$data_list = $GLOBALS["db"]->get_cache("module",1))
 		{
-			//	´Ë´¦ºóÆÚÖ±½Ó¸ÄÎªÊı×é
+			//	æ­¤å¤„åæœŸç›´æ¥æ”¹ä¸ºæ•°ç»„
 			$sql = "select * from module";
 			$data_list = $GLOBALS["db"]->query($sql);
 			
-			// cache ½áÊø
+			// cache ç»“æŸ
 			if ($data_list)
 				$GLOBALS["db"]->set_cache("module",1,$data_list);		
 		}
@@ -107,7 +107,7 @@
 		}
 		if (!isset($muo_kuai_list[strtolower($class_name)]))
 		{
-			echo "Ã»ÓĞÕÒµ½Ä£¿é:".$class_name;
+			echo "æ²¡æœ‰æ‰¾åˆ°æ¨¡å—:".$class_name;
 			return;
 		}
 		$directory = $muo_kuai_list[strtolower($class_name)];

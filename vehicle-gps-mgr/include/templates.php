@@ -2,11 +2,11 @@
 
 <script type='text/javascript' src='js/jquery.js'></script>
 <!-- jqgrid -->
-<!-- ¼ÓÔØ css ÎÄ¼þ¿â -->
+<!-- åŠ è½½ css æ–‡ä»¶åº“ -->
 <link rel="stylesheet" type="text/css" media="screen" href="css/redmond/jquery-ui-1.8.1.custom.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
-<!-- ¼ÓÔØ js ÎÄ¼þ¿â -->
+<!-- åŠ è½½ js æ–‡ä»¶åº“ -->
 <script src="js/jquery.js" type="text/javascript"></script>
 <script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
 <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
