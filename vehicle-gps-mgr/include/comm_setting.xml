@@ -71,12 +71,8 @@
 			<item value="0" displayText="未驾驶" />
 			<item value="1" displayText="正在驾驶" />
 		</driving_state>
-		<!-- 性别 -->
-		<sex>
-			<item value="0" displayText="男" />
-			<item value="1" displayText="女" />
-		</sex>
-		<!-- 驾照类型 A1、A2、A3、B1、B2、C1、C2、C3、C4、D、E、F、M、N、P -->
+	
+		<!-- 驾照类型 -->
 		<driving_type>
 			<item value="0" displayText="A1" />
 			<item value="1" displayText="A2" />
@@ -113,7 +109,14 @@
 			<item value="1" displayText="疲劳驾驶" />
 		</alert_type>
 	</alert_info>
-
+   
+    <!--公共调用-->
+	<comm>
+		<sex>
+			<item value="0" displayText="男"/>
+			<item value="1" displayText="女"/> 
+		</sex>
+	</comm>		
 </data>
 
    
