@@ -1,81 +1,82 @@
+<?xml version='1.0' encoding='UTF-8'?> 
 <data>
-    <!--ÐÅÏ¢·¢²¼±í-->
+    <!--ä¿¡æ¯å‘å¸ƒè¡¨-->
 	 <info_issue>
-	   <!--ÊÇ·ñÊÇÇøÓòÐÅÏ¢-->
+	   <!--æ˜¯å¦æ˜¯åŒºåŸŸä¿¡æ¯-->
 		<is_area_info>
-			  <item value="0" displayText="·ñ"/>
-			  <item value="1" displayText="ÊÇ"/>
+			  <item value="0" displayText="å¦"/>
+			  <item value="1" displayText="æ˜¯"/>
 		</is_area_info>
-       <!--ÐÅÏ¢ÀàÐÍ(ÓÐ´ýÀ©Õ¹)-->
+       <!--ä¿¡æ¯ç±»åž‹(æœ‰å¾…æ‰©å±•)-->
 		<type>
-			  <item value="0" displayText="ÌáÐÑÐÅÏ¢"/>
-			  <item value="1" displayText="ÆøÏóÐÅÏ¢"/>
-			  <item value="2" displayText="½»Í¨ÐÅÏ¢"/>
+			  <item value="0" displayText="æé†’ä¿¡æ¯"/>
+			  <item value="1" displayText="æ°”è±¡ä¿¡æ¯"/>
+			  <item value="2" displayText="äº¤é€šä¿¡æ¯"/>
 		</type>
 	 </info_issue>
      
-	 <!--ÇøÓòÐÅÏ¢±í-->
+	 <!--åŒºåŸŸä¿¡æ¯è¡¨-->
 	 <area_info>
-	       <!--ÀàÐÍ-->
+	       <!--ç±»åž‹-->
 			<type>
-			   <item value="0" displayText="Ô²"/>
-			   <item value="1" displayText="¾ØÐÎ"/>
-			   <item value="2" displayText="¶à±ßÐÎ"/>
+			   <item value="0" displayText="åœ†"/>
+			   <item value="1" displayText="çŸ©å½¢"/>
+			   <item value="2" displayText="å¤šè¾¹å½¢"/>
 			</type>
 	 </area_info>
 
-	   <!--¹«Ë¾±í-->
+	   <!--å…¬å¸è¡¨-->
 	   <company>
-	       <!--×´Ì¬-->
+	       <!--çŠ¶æ€-->
 		    <state>
-				  <item value="0" displayText="Î´¼¤»î"/>
-				  <item value="1" displayText="¼¤»î"/> 
+				  <item value="0" displayText="æœªæ¿€æ´»"/>
+				  <item value="1" displayText="æ¿€æ´»"/> 
 			</state>
 	   </company>
 
-	   <!--ÓÃ»§±í-->
+	   <!--ç”¨æˆ·è¡¨-->
 	   <user>
-	       <!--×´Ì¬-->
+	       <!--çŠ¶æ€-->
 		   <state>
-		        <item value="0" displayText="Î´¼¤»î"/>
-				  <item value="1" displayText="¼¤»î"/> 
+		        <item value="0" displayText="æœªæ¿€æ´»"/>
+				  <item value="1" displayText="æ¿€æ´»"/> 
 		   </state>
 	   </user>
 
-       <!--³µÁ¾¹ÜÀí±í-->
+       <!--è½¦è¾†ç®¡ç†è¡¨-->
 	   <vehicle_manage>
-	       <!--¸æ¾¯×´Ì¬(ÓÐ´ýÀ©Õ¹)-->
+	       <!--å‘Šè­¦çŠ¶æ€(æœ‰å¾…æ‰©å±•)-->
 		    <alert_state>
-			     <item value="0" displayText="ÎÞ¸æ¾¯"/>
-				 <item value="1" displayText="³¬ËÙ"/>
-				 <item value="2" displayText="Æ£ÀÍ"/> 
+			     <item value="0" displayText="æ— å‘Šè­¦"/>
+				 <item value="1" displayText="è¶…é€Ÿ"/>
+				 <item value="2" displayText="ç–²åŠ³"/> 
 			</alert_state>
 	   </vehicle_manage>
 
-     <!--ÈËÔ±(¼ÝÊ»Ô±)¹ÜÀí±í-->
+     <!--äººå‘˜(é©¾é©¶å‘˜)ç®¡ç†è¡¨-->
 	 <driver_manage>
-			 <!--¼ÝÊ»×´Ì¬-->
+			 <!--é©¾é©¶çŠ¶æ€-->
 			 <driving_state>
-					 <item value="0" displayText="Î´¼ÝÊ»"/>
-					 <item value="1" displayText="ÕýÔÚ¼ÝÊ»"/>
+					 <item value="0" displayText="æœªé©¾é©¶"/>
+					 <item value="1" displayText="æ­£åœ¨é©¾é©¶"/>
 			 </driving_state>
 	 </driver_manage>
 
-    <!--ÐÅÏ¢½ÓÊÕÈËÔ±±í-->
+    <!--ä¿¡æ¯æŽ¥æ”¶äººå‘˜è¡¨-->
 	<info_receive_driver>
-	       <!--½ÓÊÕÈËÔ±ÀàÐÍ-->
+	       <!--æŽ¥æ”¶äººå‘˜ç±»åž‹-->
 		   <receiver_type>
-				   <item value="0" displayText="¼ÝÊ»Ô±"/>
-				   <item value="1" displayText="ÆóÒµ¹ÜÀíÔ±"/>
+				   <item value="0" displayText="é©¾é©¶å‘˜"/>
+				   <item value="1" displayText="ä¼ä¸šç®¡ç†å‘˜"/>
 		   </receiver_type>
 	</info_receive_driver>
 
-  <!--¸æ¾¯±í-->
+  <!--å‘Šè­¦è¡¨-->
   <alert_info>
-        <!--¸æ¾¯ÀàÐÍ-->
+        <!--å‘Šè­¦ç±»åž‹-->
 		<alert_type>
-		        <item value="0" displayText="³¬ËÙ"/>
-				<item value="1" displayText="Æ£ÀÍ¼ÝÊ»"/>
+		        <item value="0" displayText="è¶…é€Ÿ"/>
+				<item value="1" displayText="ç–²åŠ³é©¾é©¶"/>
 		</alert_type>
   </alert_info>
 
