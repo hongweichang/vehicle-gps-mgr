@@ -17,6 +17,9 @@ $sord = $_REQUEST['sord']; // get the direction
 $searchfil = $_REQUEST['searchField']; // get the direction
 $searchstr = $_REQUEST['searchString']; // get the direction
 
+$par = $_REQUEST["par"];
+$child = $_REQUEST["child"];
+
 if(!$sidx) $sidx =1;
 
 switch($act)
@@ -78,25 +81,26 @@ switch($act)
 		break;
 	case "setup":		//你进入到了系统设置页面
 		msg('你进入到了系统设置页面.');
+		//echo '<select><option>hello</option><option>world</option></select>';
 		break;
 	case "operate":		//用户修改、添加、删除
 		$oper = $_REQUEST['oper'];
 		//file_put_contents("a.txt",$oper);exit;
 		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
-		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");
+		$arr["password"] = $db->prepare_value("1","VARCHAR");//$_REQUEST['password']
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
-		$arr["company_id"] = $db->prepare_value($_REQUEST['company_id'],"INT");
-		$arr["role_id"] = $db->prepare_value($_REQUEST['role_id'],"INT");
+		$arr["company_id"] = $db->prepare_value(1,"INT");//$_REQUEST['company_id']
+		$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
-		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
-		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
-		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
-		$arr["backup4"] = $db->prepare_value($_REQUEST['backup4'],"VARCHAR");
-		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
-		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
-		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
-		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
+//		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
+//		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
+//		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
+//		$arr["backup4"] = $db->prepare_value($_REQUEST['backup4'],"VARCHAR");
+//		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
+//		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
+//		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
+//		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
 		$user = new User($_REQUEST['id']);
 		switch($oper)
 		{
@@ -105,12 +109,38 @@ switch($act)
 				break;
 			case "edit":		//修改
 				$user->edit_user($arr);
+//				file_put_contents("a.txt",$db->sql);
 				break;
 			case "del":		//删除
 				$user->del_user($arr);
 				break;
 		}
 		break;
+	case "select":		//下拉列表
+		$p = $_REQUEST["p"];		//获得需要翻译的字段
+		$vehicle = new User();
+		switch($p)
+		{
+//			case "vehicle_group_id":
+//				$html = $vehicle->get_select("vehicle_group","name");
+//				break;
+//			case "driver_id":
+//				$html = $vehicle->get_select("driver_manage","name");
+//				break;
+//			case "type_id":
+//				$html = $vehicle->get_select("vehicle_type_manage","name");
+//				break;
+			case "state":
+				if(!$par or !$child)
+				{
+					$par = "user";
+					$child = "state";
+				}
+				$xml = new Xml($par,$child);
+				$html = $xml->get_html_xml();
+				break;
+		}
+		echo $html;
 }
 
 

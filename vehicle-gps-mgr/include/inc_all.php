@@ -24,6 +24,7 @@
 	require_once("readxml/genera_class/GetStr.php");
 	require_once("readxml/genera_class/Xmlfile_resolve.php");
 	require_once("readxml/entity/AllEntityInfo.php");
+	require_once("readxml/xml.class.php");
 	$db = new MySQL();
 
 	//	开始session

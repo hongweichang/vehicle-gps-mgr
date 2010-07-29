@@ -256,7 +256,7 @@ Class MySQL
 	*/
 	function prepare_value($value,$type)
 	{
-		if(!$value && empty($value))	//不论什么类型，如果值不存在，设置为NULL
+		if(!$value && empty($value) && $value != 0)	//不论什么类型，如果值不存在，设置为NULL
 		{
 			return 'NULL';
 		}

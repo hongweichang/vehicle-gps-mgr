@@ -124,9 +124,11 @@ class Vehicle_group extends BASE
 	{
 		switch ($col_name)
 		{
-			case "vehicle_group_red_name":
-				//$value = '<font color="red">------test child_render:'.$this->get_data('number_plate').'</font>';
+			case "company_name":
+				$com = new Company($this->get_data("company_id"));
+				$value = $com->get_data("name");
 				break;
+				
 		}
 		return $value;
 	}
@@ -176,7 +178,24 @@ class Vehicle_group extends BASE
 		return $type;
 	}
 	
-	
+	/**
+	*		得到外键对应的所有name选择下拉列表（有选定状态）
+	*		@param $tablename 外键对应的表名 $fieldname 字段名
+	*		@return mixed
+	*/
+	function get_select($tablename,$fieldname)
+	{
+		$this->sql = sprintf("select id,%s from %s",$fieldname,$tablename);
+		//file_put_contents("a.txt",$this->sql);
+		$result = $GLOBALS['db']->query($this->sql);
+		$select = '<select>';
+		foreach($result as $temp)
+		{
+			$select .= "<option value='".$temp['id']."'>".$temp['name']."</option>";
+		}
+		$select .= '<select>';
+		return $select;
+	}
 }
 
 
