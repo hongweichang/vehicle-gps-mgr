@@ -19,7 +19,11 @@
 	require_once("include/base.class.php");
 	require_once("include/system.php");
 	require_once("include/common.php");
-	
+	require_once("include/common.php");
+	//xml
+	require_once("readxml/genera_class/GetStr.php");
+	require_once("readxml/genera_class/Xmlfile_resolve.php");
+	require_once("readxml/entity/AllEntityInfo.php");
 	$db = new MySQL();
 
 	//	开始session

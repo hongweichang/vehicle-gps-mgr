@@ -1,0 +1,94 @@
+<data>
+    <!--信息发布表-->
+	 <info_issue>
+	   <!--是否是区域信息-->
+		<is_area_info>
+			  <item value="0" displayText="否"/>
+			  <item value="1" displayText="是"/>
+		</is_area_info>
+       <!--信息类型(有待扩展)-->
+		<type>
+			  <item value="0" displayText="提醒信息"/>
+			  <item value="1" displayText="气象信息"/>
+			  <item value="2" displayText="交通信息"/>
+		</type>
+	 </info_issue>
+     
+	 <!--区域信息表-->
+	 <area_info>
+	       <!--类型-->
+			<type>
+			   <item value="0" displayText="圆"/>
+			   <item value="1" displayText="矩形"/>
+			   <item value="2" displayText="多边形"/>
+			</type>
+	 </area_info>
+
+	   <!--公司表-->
+	   <company>
+	       <!--状态-->
+		    <state>
+				  <item value="0" displayText="未激活"/>
+				  <item value="1" displayText="激活"/> 
+			  </state> 
+	   </company>
+
+	   <!--用户表-->
+	   <user>
+	       <!--状态-->
+		   <state>
+		        <item value="0" displayText="未激活"/>
+				  <item value="1" displayText="激活"/> 
+		   </state>
+	   </user>
+
+       <!--车辆管理表-->
+	   <vehicle_manage>
+	       <!--告警状态(有待扩展)-->
+		    <alert_state>
+			     <item value="0" displayText="无告警"/>
+				 <item value="1" displayText="超速"/>
+				 <item value="2" displayText="疲劳"/> 
+			</alert_state>
+	   </vehicle_manage>
+
+     <!--人员(驾驶员)管理表-->
+	 <driver_manage>
+			 <!--驾驶状态-->
+			 <driving_state>
+					 <item value="0" displayText="未驾驶"/>
+					 <item value="1" displayText="正在驾驶"/>
+			 </driving_state> 
+	 </driver_manage>
+
+    <!--信息接收人员表-->
+	<info_receive_driver>
+	       <!--接收人员类型-->
+		   <receiver_type>
+				   <item value="0" displayText="驾驶员"/>
+				   <item value="1" displayText="企业管理员"/>
+		   </receiver_type>
+	</info_receive_driver>
+
+  <!--告警表-->
+  <alert_info>
+        <!--告警类型-->
+		<alert_type>
+		        <item value="0" displayText="超速"/>
+				<item value="1" displayText="疲劳驾驶"/>
+		</alert_type>
+  </alert_info>
+  
+ <!--公共调用-->
+  <comm>
+      <sex>
+				  <item value="0" displayText="男"/>
+				  <item value="1" displayText="女"/> 
+			 </sex>
+	</comm>		 
+</data>
+
+   
+
+
+
