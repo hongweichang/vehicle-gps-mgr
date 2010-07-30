@@ -138,9 +138,17 @@ class Driver
 	*		@param $searchfield 字段名
 	*		@return mixed
 	*/
-	function checkName($name,$id)
+	function checkName($name,$company_id,$driver_id = "")
 	{
-		$this->sql = "select * from ".$this->tablename." where name = '".$name."' and company_id =".$id;
+		if(!empty($driver_id))
+		{
+			$wh = " and id <> ".$driver_id;
+		}
+		else
+		{
+			$wh = "";
+		}
+		$this->sql = "select * from ".$this->tablename." where name = '".$name."' and company_id =".$company_id.$wh;
 		$result = $GLOBALS["db"]->query_once($this->sql);
 		return $result;
 	}
