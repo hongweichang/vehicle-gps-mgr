@@ -132,7 +132,7 @@ switch($act)
 				$driver = new Driver();
 
 				//检查同一公司的人员是否重复
-				$result = $driver->checkName($_REQUEST["name"],0);
+				$result = $driver->checkName($_REQUEST["name"],get_session("company_id"));
 				if($result)
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'重复的姓名!')));
