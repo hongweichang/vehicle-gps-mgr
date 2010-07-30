@@ -13,7 +13,7 @@
 * @todo			  n/a
 */
 
-class Driver extends BASE
+class Driver
 {
 
 	//	以下为每个类都必须有的变量
@@ -131,6 +131,18 @@ class Driver extends BASE
 			return false;
 		}
 		return $type;
+	}
+
+	/**
+	*		检查同一公司的人员是否重复
+	*		@param $searchfield 字段名
+	*		@return mixed
+	*/
+	function checkName($name,$id)
+	{
+		$this->sql = "select * from ".$this->tablename." where name = '".$name."' and company_id =".$id;
+		$result = $GLOBALS["db"]->query_once($this->sql);
+		return $result;
 	}
 }
 ?>
