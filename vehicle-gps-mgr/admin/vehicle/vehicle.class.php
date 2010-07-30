@@ -130,7 +130,7 @@ class Vehicle extends BASE
 				break;
 			case "driver_name":
 				$driver = new Driver($this->get_data("driver_id"));
-				$value = $driver->get_data("name");
+				$value = $driver->data["name"];
 				break;
 			case "type_name":
 //				$driver = new Driver($this->get_data("driver_id"));

@@ -44,7 +44,7 @@ class User extends BASE
 	*/
 	private function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where user_id = %d",$this->tablename,$this->user_id);
+		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->user_id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else
@@ -145,6 +145,13 @@ class User extends BASE
 		{
 			case "user_red_name":		//模拟实现一位用户姓名的显示方式，显示成红色
 				$value = '<font color="red">------test child_render:'.$this->get_data('user_name').'</font>';
+				break;
+			case "v_state":
+				$par = "user";
+				$child = "state";
+				$xml = new Xml($par,$child);
+				$xmldata = $xml->get_array_xml();
+				$value = $xmldata[$this->get_data("state")];
 				break;
 		}
 		return $value;

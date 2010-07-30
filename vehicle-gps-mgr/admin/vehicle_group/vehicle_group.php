@@ -61,8 +61,9 @@ switch($act)
 			$vehicle2	= new Vehicle_group($val['id']);
 			$company_name = $vehicle2->get_data("company_name");
 			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['name'],$company_name
-																					//$val['description'],$val['create_id'],$val['create_time'],
+			$responce->rows[$key]['cell']=array($val['id'],$val['name'],$company_name,
+																					$val['description'],
+																					//$val['create_id'],$val['create_time'],
 																					//$val['update_id'],$val['update_time']
 																					);
 		}
@@ -74,7 +75,7 @@ switch($act)
 		$oper = $_REQUEST['oper'];
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
 		$arr["company_id"] = $db->prepare_value($_REQUEST['company_id'],"INT");
-//		$arr["description"] = $db->prepare_value($_REQUEST['description'],"INT");
+		$arr["description"] = $db->prepare_value($_REQUEST['description'],"INT");
 //		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
 //		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
 //		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
@@ -87,7 +88,6 @@ switch($act)
 				break;
 			case "edit":		//修改
 				$group->edit_vehicle_group($arr);
-				file_put_contents('a.txt',$db->sql);
 				break;
 			case "del":		//删除
 				$group->del_vehicle_group($arr);

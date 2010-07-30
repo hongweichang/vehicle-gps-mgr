@@ -4,7 +4,7 @@ jQuery("#navgrid_vehicle").jqGrid({
 		datatype: "json",
    	colNames:['ID','车牌号', 'GPS设备编号', '车辆组','驾驶员','车型','当前经度','当前纬度','当前速度','当前方向','告警状态','颜色','当前累计的行驶时间'],
    	colModel:[
-   		{name:'id',index:'id', width:55,editable:false,editoptions:{readonly:true,size:10}},
+   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80,editable:true,editoptions:{size:10}},
    		{name:'gps_id',index:'gps_id', width:40,editable:true,editoptions:{size:25}},
    		{name:'vehicle_group_id',index:'vehicle_group_id', width:60, align:"right",editable:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1013&p=vehicle_group_id'}},

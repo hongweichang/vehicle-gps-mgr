@@ -57,8 +57,15 @@ switch($act)
 		$responce->records = $count;
 		foreach($result as	$key => $val)
 		{
+			$user = new User($val['id']);
+			$state = $user->get_data("v_state");
 			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],$val['company_id'],$val['role_id'],$val['email'],$val['state'],$val['backup1'],$val['backup2'],$val['backup3'],$val['backup4'],$val['create_id'],$val['create_time'],$val['update_id'],$val['update_time']);
+			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],
+																					$val['company_id'],$val['role_id'],$val['email'],$state
+//																					$val['backup1'],$val['backup2'],
+//																					$val['backup3'],$val['backup4'],$val['create_id'],
+//																					$val['create_time'],$val['update_id'],$val['update_time']
+																					);
 		}
 
 		//打印json格式的数据
