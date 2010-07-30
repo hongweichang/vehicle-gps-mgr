@@ -133,8 +133,14 @@
 	{
 		switch($name)
 		{
-			case "admin_id":
-				return $_SESSION["admin_id"] = $value ;
+			case "user_id":
+				return $_SESSION["user_id"] = $value ;
+				break;
+			case "company_id":
+				return $_SESSION["company_id"] = $value ;
+				break;
+			case "login_id":
+				return $_SESSION["login_id"] = $value ;
 				break;
 		}
 	}
@@ -149,8 +155,14 @@
 	{
 		switch($name)
 		{
-			case "admin_id":
-				return $_SESSION["admin_id"];
+			case "user_id":
+				return $_SESSION["user_id"];
+				break;
+			case "company_id":
+				return $_SESSION["company_id"];
+				break;
+			case "login_id":
+				return $_SESSION["login_id"];
 				break;
 		}
 	}

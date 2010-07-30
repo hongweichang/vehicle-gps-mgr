@@ -196,6 +196,31 @@ class Vehicle_group extends BASE
 		$select .= '<select>';
 		return $select;
 	}
+	
+	/**
+	*		公司接口，添加公司的时候，增加一条车辆组信息
+	*		@param	$company_id 公司ID $name 公司名
+	*		@return boolean
+	*/
+	function add_vehicle_group_by_company($company_id,$name)
+	{
+		if(!$company_id or !$name)
+		{
+			$this->message = "Company_id or name is not null!";
+			return false;
+		}
+		$parms['name'] = $db->prepare_value($name,"VARCHAR");
+		$parms['company_id'] = $db->prepare_value($company_id,"INT");
+		$parms['description'] = $db->prepare_value(1,"INT");
+		$parms['create_id'] = $db->prepare_value(get_session("user_id"),"INT");
+		$parms['create_time'] = $db->prepare_value(get_sysdate(),"DATETIME");
+		$parms['update_id'] = $db->prepare_value(get_session("user_id"),"INT");
+		$parms['update_time'] = $db->prepare_value(get_session("user_id"),"DATETIME");
+		$r = $GLOBALS['db']->insert_row($this->tablename,$parms);
+		if(!$r)
+			return false;
+		return true;
+	}
 }
 
 

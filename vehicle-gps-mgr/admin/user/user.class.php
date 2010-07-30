@@ -65,7 +65,9 @@ class User extends BASE
 			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
 			return false;
 		}
-		set_session("admin_id",$result['id']);
+		set_session("user_id",$result['id']);
+		set_session("login_id",$companyloginid);
+		set_session("company_id",$result['company_id']);
 		return true;
 	}
 	

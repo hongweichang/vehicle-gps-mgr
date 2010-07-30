@@ -1,9 +1,9 @@
 <?php
 	require_once('include/inc_all.php');
 
-	$admin_id = get_session("admin_id");
+	$user_id = get_session("user_id");
 	//session_destroy();exit;
-	if(!$admin_id)
+	if(!$user_id)
 	{
 		//模拟跳转到登录或注册页面
 		goto_url("login.php");
