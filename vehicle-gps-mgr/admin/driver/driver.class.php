@@ -92,7 +92,7 @@ class Driver
 	*		@param $
 	*		@return no
 	*/
-	function delete_data($parms,$wh)
+	function delete_data($parms,$wh="")
 	{
 		$pk = array_keys($parms);
 		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;

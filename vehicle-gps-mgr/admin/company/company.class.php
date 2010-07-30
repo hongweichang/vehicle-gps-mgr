@@ -13,7 +13,7 @@
 * @todo			  n/a
 */
 
-class Company extends BASE
+class Company
 {
 
 	//	以下为每个类都必须有的变量
@@ -92,7 +92,7 @@ class Company extends BASE
 	*		@param $
 	*		@return no
 	*/
-	function delete_data($parms,$wh)
+	function delete_data($parms,$wh="")
 	{
 		$pk = array_keys($parms);
 		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;
@@ -108,6 +108,18 @@ class Company extends BASE
 	function add_data($parms)
 	{
 		$result = $GLOBALS["db"]->insert_row($this->tablename,$parms);
+		return $result;
+	}
+
+	/**
+	*		检查重复的登录ID
+	*		@param $
+	*		@return no
+	*/
+	function checkLoignid($login_id)
+	{
+		$this->sql = 'select * from '.$this->tablename.' where login_id = '.$login_id;
+		$result = $GLOBALS["db"]->query($this->sql);
 		return $result;
 	}
 }
