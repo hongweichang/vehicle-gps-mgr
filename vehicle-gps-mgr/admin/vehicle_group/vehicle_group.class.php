@@ -209,6 +209,12 @@ class Vehicle_group extends BASE
 			$this->message = "Company_id or name is not null!";
 			return false;
 		}
+		$this->sql = sprintf("select * from %s where company_id = %d",$this->tablename,$company_id);
+		if($result = $GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "This company was have vehicle_group!";
+			return false;
+		}
 		$parms['name'] = $db->prepare_value($name,"VARCHAR");
 		$parms['company_id'] = $db->prepare_value($company_id,"INT");
 		$parms['description'] = $db->prepare_value(1,"INT");
