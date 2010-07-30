@@ -1,7 +1,7 @@
 <?php
 
 /**
-* 	人员管理类
+* 	信息管理类
 *
 *
 * @copyright 	  company, 2010
@@ -13,28 +13,28 @@
 * @todo			  n/a
 */
 
-class Company extends BASE
+class Message extends BASE
 {
 
 	//	以下为每个类都必须有的变量
-	public $tablename = "company";
+	public $tablename = "info_issue";
 	public $data = false;                //数据
 	public $data_list = false;			 //数据集合
 	public $sql;                         //SQL语句
 	public $message;                     //消息
 
-	private $id = false;			//公司ID
+	private $message_id = false;			//信息ID
 
 	/**
 	*		构造函数
 	*		@param $driver_id 
 	*		@return no
 	*/
-	function Driver($id=false)
+	function Message($message_id=false)
 	{
-		if($id && !empty($id))
+		if($message_id && !empty($message_id))
 		{
-			$this->id = $id;
+			$this->message_id = $message_id;
 			$this->retrieve_data();
 		}
 	}
@@ -46,7 +46,7 @@ class Company extends BASE
 	*/
 	function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->driver_id);
+		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->message_id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else
@@ -54,11 +54,11 @@ class Company extends BASE
 	}
 
 	/**
-	*		查询所有公司
+	*		查询所有人员
 	*		@param $driver_id 
 	*		@return no
 	*/
-	function get_all_companys($wh="",$sidx="",$sord="",$start="",$limit="")
+	function get_all_messages($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
 		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data = $GLOBALS["db"]->query($this->sql);
@@ -77,38 +77,45 @@ class Company extends BASE
 	}
 
 	/**
-	*		修改单条数据
-	*		@param $
-	*		@return no
+	*	所有接收到信息的人员
+	*
 	*/
-	function edit_data($parms,$pk)
+	function get_all_receivers($id)
 	{
-		$result = $GLOBALS["db"]->update_row($this->tablename,$parms,$pk);
-		return $result;
+		$this->sql = "select * from info_receive_driver where info_id =".$id;
+		return $this->data = $GLOBALS["db"]->query($this->sql);
 	}
 
 	/**
-	*		删除单条数据
-	*		@param $
-	*		@return no
+	*	所有接收到信息的人员总数
+	*
 	*/
-	function delete_data($parms,$wh)
+	function get_all_receiver_count($id)
 	{
-		$pk = array_keys($parms);
-		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;
-		$result = $GLOBALS["db"]->query($this->sql);
-		return $result;
+		$this->sql = "select * from info_receive_driver where info_id =".$id;
+		$count = $GLOBALS["db"]->query_once($this->sql);
+		return $count[0];
 	}
 
 	/**
-	*		添加单条数据
-	*		@param $
-	*		@return no
+	*	影响区域
+	*
 	*/
-	function add_data($parms)
+	function get_all_areas($id)
 	{
-		$result = $GLOBALS["db"]->insert_row($this->tablename,$parms);
-		return $result;
+		$this->sql = "select * from area_info where info_id =".$id;
+		return $this->data = $GLOBALS["db"]->query($this->sql);
+	}
+
+	/**
+	*	所有接收到信息的人员总数
+	*
+	*/
+	function get_all_area_count($id)
+	{
+		$this->sql = "select * from area_info where info_id =".$id;
+		$count = $GLOBALS["db"]->query_once($this->sql);
+		return $count[0];
 	}
 }
 ?>

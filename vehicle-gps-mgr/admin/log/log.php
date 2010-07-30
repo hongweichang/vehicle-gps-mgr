@@ -14,6 +14,8 @@ $page = $_REQUEST['page']; // get the requested page
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST['sord']; // get the direction
+$searchfil = $_REQUEST['searchField']; // get the direction
+$searchstr = $_REQUEST['searchString']; // get the direction
 
 if(!$sidx) $sidx =1;
 
@@ -37,6 +39,16 @@ switch($act)
 			if ($page > $total_pages) $page=$total_pages;
 			$start = $limit*$page - $limit;
 			if ($start<0) $start = 0;
+
+			//得到字段类型
+			if(empty($searchfil) or empty($searchstr))
+				$wh = '';
+			else
+			{
+//				$type = $driver->get_type($searchfil);
+//				$searchstr = $db->prepare_value($searchstr,$type);
+				$wh = "where ".$searchfil." LIKE '%".$searchstr."%'";
+			}
 
 			$rtn = $log->get_all_logs($wh,$sidx,$sord,$start,$limit);
 

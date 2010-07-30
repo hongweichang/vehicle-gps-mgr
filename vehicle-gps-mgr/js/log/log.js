@@ -21,7 +21,7 @@ jQuery("#navgrid").jqGrid({
 	width:500
 });
 jQuery("#navgrid").jqGrid('navGrid','#pagernav',
-{edit:false,add:false,del:false}, //options
+{edit:false,add:false,del:false,view:true}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:false,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options

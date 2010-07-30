@@ -16,7 +16,7 @@ $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST['sord']; // get the direction
 $searchfil = $_REQUEST['searchField']; // get the direction
 $searchstr = $_REQUEST['searchString']; // get the direction
-
+$foper = $_REQUEST['searchOper'];
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 

@@ -76,5 +76,61 @@ class Driver extends BASE
 		return $count[0];
 	}
 
+	/**
+	*		修改单条数据
+	*		@param $
+	*		@return no
+	*/
+	function edit_data($parms,$pk)
+	{
+		$result = $GLOBALS["db"]->update_row($this->tablename,$parms,$pk);
+		return $result;
+	}
+
+	/**
+	*		删除单条数据
+	*		@param $
+	*		@return no
+	*/
+	function delete_data($parms,$wh)
+	{
+		$pk = array_keys($parms);
+		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;
+		$result = $GLOBALS["db"]->query($this->sql);
+		return $result;
+	}
+
+	/**
+	*		添加单条数据
+	*		@param $
+	*		@return no
+	*/
+	function add_data($parms)
+	{
+		$result = $GLOBALS["db"]->insert_row($this->tablename,$parms);
+		return $result;
+	}
+
+	/**
+	*		得到指定字段类型
+	*		@param $searchfield 字段名
+	*		@return mixed
+	*/
+	function get_type($searchfield=false)
+	{
+		
+		if(!$searchfield)
+		{
+			$this->message = 'error,Searchfield is not exists!';
+			return false;
+		}
+		$type = $GLOBALS["db"]->get_field_type($this->tablename,$searchfield);
+		if(!$type)
+		{
+			$this->message = 'error,Get Field type failed!';
+			return false;
+		}
+		return $type;
+	}
 }
 ?>
