@@ -27,10 +27,10 @@ class Company extends BASE
 
 	/**
 	*		构造函数
-	*		@param $driver_id 
+	*		@param $id 
 	*		@return no
 	*/
-	function Driver($id=false)
+	function Company($id=false)
 	{
 		if($id && !empty($id))
 		{
@@ -41,12 +41,12 @@ class Company extends BASE
 
 	/**
 	*		查询得到指定用户信息
-	*		@param $driver_id 
+	*		@param $id 
 	*		@return no
 	*/
 	function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->driver_id);
+		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else
@@ -55,7 +55,7 @@ class Company extends BASE
 
 	/**
 	*		查询所有公司
-	*		@param $driver_id 
+	*		@param $id 
 	*		@return no
 	*/
 	function get_all_companys($wh="",$sidx="",$sord="",$start="",$limit="")
