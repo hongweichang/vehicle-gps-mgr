@@ -209,19 +209,21 @@ class Vehicle_group extends BASE
 			$this->message = "Company_id or name is not null!";
 			return false;
 		}
+
 		$this->sql = sprintf("select * from %s where company_id = %d",$this->tablename,$company_id);
 		if($result = $GLOBALS['db']->query($this->sql))
 		{
 			$this->message = "This company was have vehicle_group!";
 			return false;
 		}
-		$parms['name'] = $db->prepare_value($name,"VARCHAR");
-		$parms['company_id'] = $db->prepare_value($company_id,"INT");
-		$parms['description'] = $db->prepare_value(1,"INT");
-		$parms['create_id'] = $db->prepare_value(get_session("user_id"),"INT");
-		$parms['create_time'] = $db->prepare_value(get_sysdate(),"DATETIME");
-		$parms['update_id'] = $db->prepare_value(get_session("user_id"),"INT");
-		$parms['update_time'] = $db->prepare_value(get_session("user_id"),"DATETIME");
+		
+		$parms['name'] = $GLOBALS['db']->prepare_value($name,"VARCHAR");
+		$parms['company_id'] = $GLOBALS['db']->prepare_value($company_id,"INT");
+		$parms['description'] = $GLOBALS['db']->prepare_value(1,"INT");
+		$parms['create_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+		$parms['create_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"DATETIME");
+		$parms['update_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+		$parms['update_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"DATETIME");
 		$r = $GLOBALS['db']->insert_row($this->tablename,$parms);
 		if(!$r)
 			return false;
