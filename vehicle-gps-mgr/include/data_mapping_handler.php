@@ -32,11 +32,11 @@ class Data_mapping_handler {
 				$val = $items->getAttribute ( "value" );
 				$text = $items->getAttribute ( "displayText" );
 				if ($val == $value) {
-					$displayText = iconv ( "UTF-8", "GB2312", $text );
+					return $text;
 				}
 			}
 		}
-		return $displayText;
+	
 	}
 
 	/**
@@ -52,10 +52,7 @@ class Data_mapping_handler {
 			foreach ( $xml_info->getElementsByTagName ( "item" ) as $items ) {
 				$val = $items->getAttribute ( "value" );
 				$text = $items->getAttribute ( "displayText" );
-				
-				$key = iconv ( "UTF-8", "GB2312", $val );
-				$displayText = iconv ( "UTF-8", "GB2312", $text );
-				$dataList [$key] = $displayText;
+				$dataList [$val] = $text;
 			}
 		}
 		return $dataList;
