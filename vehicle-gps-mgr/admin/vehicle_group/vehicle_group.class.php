@@ -71,7 +71,7 @@ class Vehicle_group extends BASE
 		}
 		return true;
 	}
-	
+
 	/**
 	*	修改车辆组
 	*	@param $vehicle_group
@@ -229,6 +229,17 @@ class Vehicle_group extends BASE
 			return false;
 		return true;
 	}
+
+	/**
+	*		得到本公司所有车辆组
+	*		@param	$company_id
+	*		@return array
+	*/
+	function get_all_group($company_id)
+	{
+		$this->sql = "select id,name from ".$this->tablename." where company_id = ".$company_id;
+		return $this->data_list = $GLOBALS["db"]->query($this->sql); 
+	}
 	
 	/**
 	*		通过name得到车辆组id
@@ -256,6 +267,7 @@ class Vehicle_group extends BASE
 		}
 		return $result[0]["id"];
 	}
+
 }
 
 

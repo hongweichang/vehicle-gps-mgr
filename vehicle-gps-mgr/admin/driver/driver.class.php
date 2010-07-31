@@ -152,5 +152,40 @@ class Driver
 		$result = $GLOBALS["db"]->query_once($this->sql);
 		return $result;
 	}
+
+	/**
+	*		授权管理
+	*		@param 
+	*		@return 
+	*/
+	function driver_vehicle($parms)
+	{
+		$result = $GLOBALS["db"]->insert_row("driver_vehicle",$parms);
+		return $result;
+	}
+
+	/**
+	*		已经授权车辆
+	*		@param 
+	*		@return 
+	*/
+	function get_driver_vehicle($driver_id)
+	{
+		$this->sql = "select * from driver_vehicle where driver_id = ".$driver_id;
+		$result = $GLOBALS["db"]->query($this->sql);
+		return $result;
+	}
+
+	/**
+	*		删除已经授权车辆
+	*		@param 
+	*		@return 
+	*/
+	function del_driver_vehicle($driver_id)
+	{
+		$this->sql = "delete from driver_vehicle where driver_id = ".$driver_id;
+		$result = $GLOBALS["db"]->query($this->sql);
+		return $result;
+	}
 }
 ?>

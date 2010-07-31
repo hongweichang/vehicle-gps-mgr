@@ -1,7 +1,7 @@
 jQuery("#navgrid1").jqGrid({
    	url:'index.php?a=5002',
 	datatype: "json",
-	colNames:['姓名', '驾驶证号', '性别','出生日期','参加工作时间','工号','驾照类型','手机','手机邮箱','家庭住址'],
+	colNames:['姓名', '驾驶证号', '性别','出生日期','参加工作时间','工号','驾照类型','手机','手机邮箱','家庭住址',"操作"],
    	colModel:[
 //   		{name:'id',index:'id', width:55,align:"center",editable:false,editoptions:{readonly:true,size:10}},
    		{name:'name',index:'name',width:80,align:"center",editable:true,editoptions:{size:20},formoptions:{elmsuffix:"(*)"},editrules:{required:false}},
@@ -56,6 +56,7 @@ jQuery("#navgrid1").jqGrid({
 //		{name:'create_time',index:'create_time', width:60, align:'center', editable: true,editoptions:{size:10}},
 //		{name:'update_id',index:'update_id', width:60, align:'center', editable: true,editoptions:{size:10}},
 //		{name:'update_time',index:'update_time', width:60, align:'center', editable: true,editoptions:{size:10}}
+		{name:"授权",index:"aaa", width:60, align:'center', editable: true,editoptions:{size:10}}
    	],
    	rowNum:10,
    	rowList:[10,20,30],
@@ -65,7 +66,7 @@ jQuery("#navgrid1").jqGrid({
     sortorder: "asc",
     caption:"人员管理",
     editurl:"index.php?a=5010",
-	height:"400",
+	height:"250",
 	width:"1024"
 });
 jQuery("#navgrid1").jqGrid('navGrid','#pagernav1',
@@ -103,3 +104,62 @@ function processAddEdit(response){
 {reloadAfterSubmit:false}, // del options
 {} // search options 
 );*/
+
+//授权弹出层
+function adviceDialog(driver_id,company_id){
+    jQuery("#dialog").dialog({
+			bgiframe: true,
+			autoOpen: true, 
+			height: 320, 
+			width: 400,
+			modal: true,
+			title: '车辆授权',
+			buttons: {
+			    '取消': function() {
+					jQuery(this).dialog('close');
+			  },'提交': function() { 
+					
+					var check_list = document.getElementsByName("vehicle[]");
+
+					var temp="";
+					for(var i=0;i<check_list.length;i++) 
+					{ 
+						if(check_list[i].checked) 
+						{
+							temp+=check_list[i].value+",";
+						} 
+					}
+
+					//提交
+					 $.ajax({
+						type: "POST",
+						url: "index.php?a=5016",
+						data: "temp="+temp+"&driver_id="+driver_id+"&company_id="+company_id,
+						success: function(msg){
+//							 alert(msg);
+							 //关闭层
+							 jQuery("#dialog").dialog('close');
+						}
+					 });
+				}
+            },open:function(event,ui){
+
+		        getTraffic(driver_id,company_id);
+            }
+	 });
+
+}
+
+//ajax 得到授权的车辆
+function getTraffic(driver_id,company_id)
+{
+//	alert(driver_id+"===="+company_id);
+	$.ajax({
+		type: "POST",
+		url: "index.php?a=5015",
+		data: "driver_id="+driver_id+"&company_id="+company_id,
+		success: function(msg){
+			 jQuery("#canAdviceSelectDiv").html(msg); 
+		}
+	 });
+}

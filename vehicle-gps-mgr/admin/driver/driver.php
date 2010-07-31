@@ -94,7 +94,7 @@ switch($act)
 			foreach($rtn as	$key=>$rtn_driver)
 			{
 				$responce->rows[$key]['id']=$rtn_driver['id'];
-				$responce->rows[$key]['cell']=array($rtn_driver['name'],$rtn_driver['driving_licence_id'],$sex[$rtn_driver['sex']],$rtn_driver['birthday'],$rtn_driver['career_time'],$rtn_driver['job_number'],$driving_type[$rtn_driver['driving_type']],$rtn_driver['mobile'],$rtn_driver['phone_email'],$rtn_driver['address']);
+				$responce->rows[$key]['cell']=array($rtn_driver['name'],$rtn_driver['driving_licence_id'],$sex[$rtn_driver['sex']],$rtn_driver['birthday'],$rtn_driver['career_time'],$rtn_driver['job_number'],$driving_type[$rtn_driver['driving_type']],$rtn_driver['mobile'],$rtn_driver['phone_email'],$rtn_driver['address'],"<a href='javascript:void(0)' onclick='adviceDialog(".$rtn_driver['id'].",".$rtn_driver['company_id'].");' style='text-decoration:none;color:#0099FF'>车辆授权</a>");
 			}
 
 			//打印json格式的数据
@@ -192,8 +192,103 @@ switch($act)
 				$driver->delete_data($parms);
 				break;
 		}
-
 //		file_put_contents("d:\a.txt",$GLOBALS['db']->sql);
+		break;
+
+	// 车辆授权
+	case "driver_pri":
+
+		//人员ID
+		$driver_id = $_REQUEST["driver_id"];
+
+		//公司ID
+		$company_id = $_REQUEST["company_id"];
+
+		//取出该公司所有的车辆组
+		$group = new Vehicle_group;
+		$rtn = $group->get_all_group($company_id);
+
+		//查出已经授权的车辆
+		$driver = new Driver();
+		$pri = $driver->get_driver_vehicle($driver_id);
+
+		$pri_driver = array();
+		foreach($pri as $pri_temp)
+		{
+			$pri_driver[] = $pri_temp["vehicle_id"];
+		}
+
+		//拼一个组的页面
+		$html = '';
+		foreach($rtn as $key=>$group)
+		{
+			//得到每个组的车辆
+			$vehicle = new Vehicle();
+			$rtn_vehicle = $vehicle->get_all_vehicle($group["id"]);
+
+			$html .= "<br>".$group["name"]."<br>";
+
+			$i = 0;
+			foreach($rtn_vehicle as $key_v=>$rtn_vehicle)
+			{
+				$i++;
+//echo $i."<br>";
+				//如果已经则表示选中
+				if(in_array($rtn_vehicle["id"],$pri_driver))
+				{
+					$check = " checked ";
+				}
+				else
+				{
+					$check = " ";
+				}
+
+				if($i%5 == 0)
+				{
+					$b = " <br> ";
+				}
+				else
+				{
+					$b = "&nbsp;&nbsp;&nbsp;";
+				}
+
+				$html .= "<input type='checkbox' name='vehicle[]' ".$check." value='".$rtn_vehicle["id"]."'> ".$rtn_vehicle["number_plate"].$b;
+			}
+
+		}
+		echo $html;
+		break;
+
+	case "submit_pri":
+
+		//得到选中的车辆ID
+		$driver_ids = $_REQUEST["temp"];
+
+		$driver = new Driver();
+
+		//先删除已经授权的车辆
+		$driver->del_driver_vehicle($_REQUEST["driver_id"]);
+
+		if(!empty($driver_ids))
+		{
+
+			$driver_ids = substr($driver_ids, 0, -1);  
+
+			//分隔得到的车辆ID
+			$ids = explode(",", $driver_ids);
+
+			foreach($ids as $v_id)
+			{
+				$parms["driver_id"]				= $GLOBALS['db']->prepare_value($_REQUEST["driver_id"],"INT");
+				$parms["vehicle_id"]			= $GLOBALS['db']->prepare_value($v_id,"INT");
+				$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+				$parms["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+				$parms["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+				$parms["update_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+				$rtn = $driver->driver_vehicle($parms);			
+			}
+		}
+//		file_put_contents("d:\a.txt",$driver_ids);
 		break;
 }
 ?>

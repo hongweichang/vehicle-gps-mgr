@@ -211,6 +211,17 @@ class Vehicle extends BASE
 		$select .= '<select>';
 		return $select;
 	}
+
+	/**
+	*		根据组ID 查出所有的车辆
+	*		@param 
+	*		@return array
+	*/
+	function get_all_vehicle($vehicle_group_id)
+	{
+		$this->sql = "select id,number_plate from ".$this->tablename." where vehicle_group_id = ".$vehicle_group_id;
+		return $this->data_list = $GLOBALS["db"]->query($this->sql); 
+	}
 }
 
 
