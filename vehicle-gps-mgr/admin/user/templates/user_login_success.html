@@ -15,7 +15,7 @@
 				  <div class="header_content">
 				  	  <div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
 					  <div class="hearder_div"><a href="{{URL_MANAGE}}" target="_blank">管理中心</a></div>
-					  <div class="hearder_div"><a href="{{URL_LOGOUT}}" target="_blank">退出</a></div> 
+					  <div class="hearder_div"><a href="{{URL_LOGOUT}}">退出</a></div> 
 				  </div>
 			  </div>
 			  <div id="content">
@@ -111,43 +111,8 @@
 						state=0;
 					});
 				});
-			  
-			 
-			  
-			  /**拉框查找功能
-				  var control = new LTZoomSearchControl();
-					maps.addControl( control );
-					function doit(){
-					var bounds = control.getBoundsLatLng();
-					var xmax = bounds.getXmax();
-					var ymax = bounds.getYmax();
-					var xmin = bounds.getXmin();
-					var ymin = bounds.getYmin();
-					alert( "Max-X:"+xmax+"\nMax-Y:"+ymax+"\nMin-X:"+xmin+"\nMin-Y:"+ymin ); 
-					}
-					LTEvent.addListener( control , "mouseup" , doit );
-				*/
+			    
 				
-				//测距离控件
-					var control = new LTPolyLineControl();
-					maps.addControl( control );
-					control.setTop( 10 ); 
-			
-				
-				/**测面积控件
-					var control = new LTPolygonControl();
-					maps.addControl( control );
-					control.setTop( 10 ); 
-				*/
-				/**标注控件
-					var control = new LTMarkControl();
-					maps.addControl( control );
-					function getPoi(){
-					var poi = control.getMarkControlPoint();
-					alert( "纬度：" + poi.getLatitude() + "\n经度：" + poi.getLongitude() ); 
-					}
-					LTEvent.addListener( control , "mouseup" , getPoi );
-				*/
 				
 				//地图平移
 				//setTimeout( "maps.moveToCenter( new LTPoint( 11629376 , 3995776 ) )" , 3000 );
