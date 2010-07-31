@@ -265,12 +265,19 @@ Class MySQL
 			case "STRING":
 			case "VARCHAR":
 			case "TEXT":
+			case "CHAR":
 				//return "'".mysql_real_escape_string($value)."'";
 				return "'".htmlspecialchars($value,ENT_QUOTES)."'";
 				break;
 
 			case "NUM":
 			case "INT":
+			case "BIGINT":
+			case "FLOAT":
+			case "DOUBLE":
+			case "TINYINT":
+			case "SMALLINT":
+			case "MEDIUMINT":
 				if (is_numeric($value))
 					return $value;
 				else
@@ -438,7 +445,7 @@ Class MySQL
 		{
 			if($tmp["Field"]==$field)
 			{
-				if(strpos($tmp["Type"],"int") ===false && strpos($tmp["Type"],"float") ===false && strpos($tmp["Type"],"double") ===false)
+				if(strpos($tmp["Type"],"int") ===false && strpos($tmp["Type"],"float") ===false && strpos($tmp["Type"],"double") ===false && strpos($tmp["Type"],"smallint") ===false && strpos($tmp["Type"],"mediumint") ===false && strpos($tmp["Type"],"bigint") ===false && strpos($tmp["Type"],"tinyint") ===false)
 				{
 					$type = "VARCHAR";
 				}

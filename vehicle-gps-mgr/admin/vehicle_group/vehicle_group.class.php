@@ -126,7 +126,7 @@ class Vehicle_group extends BASE
 		{
 			case "company_name":
 				$com = new Company($this->get_data("company_id"));
-				$value = $com->get_data("name");
+				$value = $com->data["name"];
 				break;
 				
 		}
@@ -219,7 +219,7 @@ class Vehicle_group extends BASE
 		
 		$parms['name'] = $GLOBALS['db']->prepare_value($name,"VARCHAR");
 		$parms['company_id'] = $GLOBALS['db']->prepare_value($company_id,"INT");
-		$parms['description'] = $GLOBALS['db']->prepare_value(1,"INT");
+		$parms['description'] = $GLOBALS['db']->prepare_value($name,"VARCHAR");
 		$parms['create_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 		$parms['create_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"DATETIME");
 		$parms['update_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
@@ -228,6 +228,33 @@ class Vehicle_group extends BASE
 		if(!$r)
 			return false;
 		return true;
+	}
+	
+	/**
+	*		通过name得到车辆组id
+	*		@param	$name 车辆组name
+	*		@return mixed
+	*/
+	function get_vehicle_group_id_by_name($name=false)
+	{
+		//车辆组name一定不能==null
+		if(!$name)
+		{
+			$this->message = "Error,The vehicle_group name must not null!";
+			return false;
+		}
+		$this->sql = sprintf("select name,id from %s where name = '%s'",$this->tablename);
+		$result = $GLOBALS['db']->query($this->sql);
+		foreach($result as $temp)
+		{
+			$group[$temp['name']] = $temp['id'];
+		}
+		if(count($group[$name]) >= 2)
+		{
+			$this->message = "Vehicle group name must be Unique!";
+			return false;
+		}
+		return $result[0]["id"];
 	}
 }
 

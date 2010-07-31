@@ -40,22 +40,93 @@ switch($act)
 		$start = $limit*$page - $limit;
 		if ($start<0) $start = 0;
 
-		//得到字段类型
-		if(empty($searchfil) or empty($searchstr))
+		//得到查询条件
+		if(empty($searchfil) or $searchstr == '')
 			$wh = '';
 		else
 		{
 			$type = $vehicle->get_type($searchfil);
+			//翻译serchstr
+			switch($searchfil)
+			{
+				case "vehicle_group_id":
+					$tra = new Translate("vehicle_group","id");
+					$vgroup = $tra->get_all_data();
+					foreach($vgroup as $key=>$gro)
+					{
+						if($gro['name'] == $searchstr)
+						{
+							$searcharr[] = $key;		//有可能在车辆组表中存在两个相同的name，所以用数组存储
+						}
+					}
+					if(is_array($searcharr))
+					{
+						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$type = "RAW";
+						//file_put_contents("a.txt",$searchstr);
+					}
+					break;
+				case "driver_id":
+					$tra = new Translate("driver_manage","id");
+					$driver = $tra->get_all_data();
+					foreach($driver as $key=>$dri)
+					{
+						if($dri['name'] == $searchstr)
+						{
+							$searcharr[] = $key;
+						}
+					}
+					if(is_array($searcharr))
+					{
+						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$type = "RAW";
+					}
+					break;
+				case "type_id":
+					$tra = new Translate("vehicle_type_manage","id");
+					$type = $tra->get_all_data();
+					foreach($type as $key=>$typ)
+					{
+						if($typ['name'] == $searchstr)
+						{
+							$searcharr[] = $key;
+						}
+					}
+					if(is_array($searcharr))
+					{
+						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$type = "RAW";
+					}
+					break;
+				case "alert_state":
+					$xml = new Xml("vehicle_manage","alert_state");
+					$xmldata = $xml->get_array_xml();
+					$data = array_flip($xmldata);
+					$searchstr = $data[$searchstr];
+					break;
+			}
 			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
+			if($type == 'INT')	//----用=号
+			{
+				$wh = "where ".$searchfil." = ".$searchstr;
+			}
+			else if($type == 'RAW')	//----用in
+			{
+				$wh = $searchstr;
+			}
+			else	//----用like
+			{
+				$searchstr = str_replace("'","",$searchstr);
+				$wh = "where ".$searchfil." like '%".$searchstr."%'";
+			}
 		}
-		
+		//file_put_contents("a.txt",$wh);
 		//得到所有车辆
 		$result = $vehicle->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
 
-		$responce->page	= $page;
-		$responce->total = $total_pages;
-		$responce->records = $count;
+		$response->page	= $page;
+		$response->total = $total_pages;
+		$response->records = $count;
 
 		foreach($result as	$key => $val)
 		{
@@ -65,8 +136,8 @@ switch($act)
 			$driver_name = $vehicle2->get_data("driver_name");
 			$type_name = $vehicle2->get_data("type_name");
 			$alert_state = $vehicle2->get_data("v_alert_state");
-			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['number_plate'],
+			$response->rows[$key]['id']=$val['id'];
+			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 																					$val['gps_id'],$vehicle_group_name,
 																					$driver_name,$type_name,$val['cur_longitude'],
 																					$val['cur_latitude'],$val['cur_speed'],
@@ -79,7 +150,7 @@ switch($act)
 		}
 
 		//打印json格式的数据
-		echo json_encode($responce);
+		echo json_encode($response);
 		break;
 		
 	case "operate":		//车辆修改、添加、删除

@@ -6,7 +6,7 @@ jQuery("#navgrid_vehicle").jqGrid({
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80,editable:true,editoptions:{size:10}},
-   		{name:'gps_id',index:'gps_id', width:40,editable:true,editoptions:{size:25}},
+   		{name:'gps_id',index:'gps_id', width:60,editable:true,editoptions:{size:25}},
    		{name:'vehicle_group_id',index:'vehicle_group_id', width:60, align:"right",editable:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1013&p=vehicle_group_id'}},
    		{name:'driver_id',index:'driver_id', width:60, align:"right",editable:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1013&p=driver_id'}},
    		{name:'type_id',index:'type_id', width:60, align:"right",editable:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1013&p=type_id'}},
@@ -26,6 +26,7 @@ jQuery("#navgrid_vehicle").jqGrid({
 //		{name:'update_id',index:'update_id',width:70, editable: true,editoptions:{size:10}},
 //   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true, editoptions:{size:30}}
    	],
+   	width:1000,
    	rowNum:10,
    	rowList:[10,20,30],
    	pager: '#pagernav_vehicle',

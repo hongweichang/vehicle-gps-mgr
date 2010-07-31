@@ -46,8 +46,26 @@ switch($act)
 		else
 		{
 			$type = $user->get_type($searchfil);
+			switch($searchfil)
+			{
+				case "state":
+					$xml = new Xml("user","state");
+					$xmldata = $xml->get_array_xml();
+					$data = array_flip($xmldata);
+					$searchstr = $data[$searchstr];
+					break;
+			}
 			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
+			if($type == 'INT')
+			{
+				$wh = "where ".$searchfil." = ".$searchstr;
+			}
+			else
+			{
+				$searchstr = str_replace("'","",$searchstr);
+				$wh = "where ".$searchfil." like '%".$searchstr."%'";
+			}
+			//file_put_contents("a.txt",$wh);
 		}
 		
 		//得到所有用户

@@ -13,6 +13,7 @@ jQuery("#navgrid_vehicle_group").jqGrid({
 //   		{name:'update_id',index:'cur_longitude', width:50, align:"right",editable:true,editoptions:{size:10}},
 //   		{name:'update_time',index:'cur_latitude', width:50, align:"right",editable:true,editoptions:{size:10}}
    	],
+   	width:500,
    	rowNum:10,
    	rowList:[10,20,40],
    	pager: '#pagernav_vehicle_group',

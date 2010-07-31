@@ -46,8 +46,19 @@ switch($act)
 		else
 		{
 			$type = $user->get_type($searchfil);
+			switch($searchfil)
+			{
+			}
 			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
+			if($type == 'INT')
+			{
+				$wh = "where ".$searchfil." = ".$searchstr;
+			}
+			else
+			{
+				$searchstr = str_replace("'","",$searchstr);
+				$wh = "where ".$searchfil." like '%".$searchstr."%'";
+			}
 		}
 		//得到所有车辆组
 		$result = $user->get_all_vehicle_groups($wh,$sidx,$sord,$start,$limit);
@@ -75,7 +86,7 @@ switch($act)
 		$oper = $_REQUEST['oper'];
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
 		$arr["company_id"] = $db->prepare_value($_REQUEST['company_id'],"INT");
-		$arr["description"] = $db->prepare_value($_REQUEST['description'],"INT");
+		$arr["description"] = $db->prepare_value($_REQUEST['description'],"VARCHAR");
 //		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
 //		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
 //		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
