@@ -1,3 +1,163 @@
-<a href="{{URL_MANAGE}}" target="_blank">管理</a>
-&nbsp;&nbsp;<a href="{{URL_SETUP}}" target="_blank">系统设置</a>
-&nbsp;&nbsp;<a href="{{URL_LOGOUT}}" target="_blank">退出</a>
+<style type="text/css">
+
+.clear{clear:both;} 
+
+#wrapper {
+	margin-top: 0px;
+	text-align: left;
+	width: 100%;
+} 
+</style>
+<link rel="stylesheet" href="http://localhost:3722/gps/css/style.css" /><!-- 页面样式 -->
+<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
+<script src="http://localhost:3722/gps/js/jquery.js" type="text/javascript"></script> 
+<div id="header">
+				  <div class="header_content">
+					  <div class="marquee"><a href="#">框选对象</a></div>
+					  <div class="hearder_div"><a href="#">管理中心</a></div>
+					  <div class="hearder_div"><a href="#">退出</a></div> 
+				  </div>
+			  </div>
+			  <div id="content">
+			  
+				  <div id="map">放置地图</div>
+				  
+				  <div class="button_content">
+						<ul id="nav">
+								<li  class="jsbutton" id="vehicle">
+									<div class="button_font">选择车辆</div>
+								</li>
+								<li class="jsbutton" id="sendInfo">
+									<div class="button_font">发布信息</div>
+								</li>
+								<li class="jsbutton" id="searchInfo">
+									<div class="button_font">查询信息</div>
+								</li>
+								<li class="jsbutton" id="statistic">
+									<div class="button_font">统计分析</div>
+								</li>
+								<li class="jsbutton" id="text_mode">
+									<div class="button_font">文字模式</div>
+								</li>
+								<li class="jsbutton" id="setting">
+									<div class="button_font">设置</div>
+								</li>
+						</ul>
+						 <div id="alertInfo">
+								<div id="newAlert">最新告警信息</div>
+								<div id="alert_info">2010年7月21日13点21分25秒&nbsp;车牌号为XXXX的车超速&nbsp;<a href="#">处理</a>&nbsp;<a href="#">查看更多</a></div>	
+								<hr />	
+						</div>	
+						</div>			
+				  </div>
+			  </div>
+			   
+<!-- 弹出层 --> 
+<div id="vehicle_Pop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute; display:none; width: 40%; height:50%;z-Index:2">
+	<div id="close" style="text-align:right;cursor:pointer;font-size:14px;">关闭</div>
+	<div style="border:0px red solid;width:100%;height:90%;">
+			<iframe id="vehicle_option"  style="width:100%;height:100%;" scrolling='no' frameborder='0'></iframe>
+	</div>
+</div> 
+<script language="javascript"> 
+				var maps = new LTMaps("map");
+				maps.cityNameAndZoom(new LTPoint( 11636224 , 3991040 ), 1 );				
+				maps.addControl(new LTStandMapControl());
+							
+
+				var state = 0;	  
+				$(document).ready(function() { 
+
+					$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
+					 .each(function () {
+						$('span.hover').css('opacity', 0).hover(function () {
+							$(this).stop().fadeTo(650, 1);
+						}, function () {
+							$(this).stop().fadeTo(650, 0);
+						});
+					});
+					$("#vehicle").append("<div class='button_font'>选择车辆</div>");
+					$("#sendInfo").append("<div class='button_font'>发布信息</div>");
+					$("#searchInfo").append("<div class='button_font'>查询信息</div>");
+					$("#statistic").append("<div class='button_font'>统计分析</div>");
+					$("#text_mode").append("<div class='button_font'>文字模式</div>");
+					$("#setting").append("<div class='button_font'>设置</div>");
+					
+					var speed = 500;//动画速度
+
+					//绑定事件处理 
+					$("#vehicle").click(function(event) {
+
+						if(state===1){
+							$("#vehicle_Pop").hide(speed);
+							state=0;
+  					    }else{
+							$("#vehicle_option").attr("src","http://localhost:3722/gps/index.php?a=1");
+							  
+							var offset = $(event.target).offset();//设置弹出层位置
+							//event.stopPropagation();//取消事件冒泡 
+							
+							$("#vehicle_Pop").css({ bottom:offset.top-500+$(event.target).height()+"px", left: offset.left+2 }); 
+							$("#vehicle_Pop").show(speed);//动画显示
+	
+							state=1;
+  					    }
+						 
+					}); 
+				
+					//单击弹出层则自身隐藏 
+					$("#close").click(function(event) {
+						$("#vehicle_Pop").hide(speed) 
+						state=0;
+					});
+				});
+			  
+			 
+			  
+			  /**拉框查找功能
+				  var control = new LTZoomSearchControl();
+					maps.addControl( control );
+					function doit(){
+					var bounds = control.getBoundsLatLng();
+					var xmax = bounds.getXmax();
+					var ymax = bounds.getYmax();
+					var xmin = bounds.getXmin();
+					var ymin = bounds.getYmin();
+					alert( "Max-X:"+xmax+"\nMax-Y:"+ymax+"\nMin-X:"+xmin+"\nMin-Y:"+ymin ); 
+					}
+					LTEvent.addListener( control , "mouseup" , doit );
+				*/
+				
+				//测距离控件
+					var control = new LTPolyLineControl();
+					maps.addControl( control );
+					control.setTop( 10 ); 
+			
+				
+				/**测面积控件
+					var control = new LTPolygonControl();
+					maps.addControl( control );
+					control.setTop( 10 ); 
+				*/
+				/**标注控件
+					var control = new LTMarkControl();
+					maps.addControl( control );
+					function getPoi(){
+					var poi = control.getMarkControlPoint();
+					alert( "纬度：" + poi.getLatitude() + "\n经度：" + poi.getLongitude() ); 
+					}
+					LTEvent.addListener( control , "mouseup" , getPoi );
+				*/
+				
+				//地图平移
+				//setTimeout( "maps.moveToCenter( new LTPoint( 11629376 , 3995776 ) )" , 3000 );
+				
+				/*事件和事件响应
+					var marker1 = new LTMarker( new LTPoint( 11636224 , 3991040 ) );
+					maps.addOverLay( marker1 );
+					function doit(){
+					alert( "Hello World!" );
+					}
+					LTEvent.addListener( marker1 , "mouseover" , doit );*/
+				
+		</script>
