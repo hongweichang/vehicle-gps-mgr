@@ -15,7 +15,7 @@
 	if (is_file($func_file))
   {
   	require($func_file);
-  }
+  } 
   else
   {
     echo "操作无效，请重新登录！";
