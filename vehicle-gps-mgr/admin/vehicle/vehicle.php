@@ -42,10 +42,11 @@ switch($act)
 
 		//得到查询条件
 		if(empty($searchfil) or $searchstr == '')
-			$wh = '';
+			$wh = 'where 1=1 ';
 		else
 		{
 			$type = $vehicle->get_type($searchfil);
+			$wh = "where 1=1 ";
 			//翻译serchstr
 			switch($searchfil)
 			{
@@ -61,7 +62,7 @@ switch($act)
 					}
 					if(is_array($searcharr))
 					{
-						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$searchstr = " and ".$searchfil." in (".implode(",",$searcharr).")";
 						$type = "RAW";
 						//file_put_contents("a.txt",$searchstr);
 					}
@@ -78,7 +79,7 @@ switch($act)
 					}
 					if(is_array($searcharr))
 					{
-						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$searchstr = " and ".$searchfil." in (".implode(",",$searcharr).")";
 						$type = "RAW";
 					}
 					break;
@@ -94,7 +95,7 @@ switch($act)
 					}
 					if(is_array($searcharr))
 					{
-						$searchstr = " where ".$searchfil." in (".implode(",",$searcharr).")";
+						$searchstr = " and ".$searchfil." in (".implode(",",$searcharr).")";
 						$type = "RAW";
 					}
 					break;
@@ -108,16 +109,16 @@ switch($act)
 			$searchstr = $db->prepare_value($searchstr,$type);
 			if($type == 'INT')	//----用=号
 			{
-				$wh = "where ".$searchfil." = ".$searchstr;
+				$wh .= "and ".$searchfil." = ".$searchstr;
 			}
 			else if($type == 'RAW')	//----用in
 			{
-				$wh = $searchstr;
+				$wh .= $searchstr;
 			}
 			else	//----用like
 			{
 				$searchstr = str_replace("'","",$searchstr);
-				$wh = "where ".$searchfil." like '%".$searchstr."%'";
+				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
 			}
 		}
 		//file_put_contents("a.txt",$wh);

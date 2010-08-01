@@ -22,7 +22,7 @@ class User extends BASE
 	
 	private $user_id = false;		//用户ID
 	private $tablename_company = "company";		//公司表
-	
+	private $tablename_log = "login_log";		//登录、登出日志
 	/**
 	*		构造函数
 	*		@param $user_id 
@@ -53,13 +53,13 @@ class User extends BASE
 	
 	/**
 	*	用户login
-	*	@param $username $password $verify
+	*	@param $username $password $companyloginid
 	*	@return boolean
 	*/
 	function login($user_name,$user_pass,$companyloginid)
 	{
-		$this->sql = sprintf("select * from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = %d",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
-		//echo $this->sql;
+		$this->sql = sprintf("select u.* from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = %d",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
+		//echo $this->sql;exit;
 		if(!$result = $GLOBALS['db']->query_once($this->sql))
 		{
 			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
@@ -68,6 +68,43 @@ class User extends BASE
 		set_session("user_id",$result['id']);
 		set_session("login_id",$companyloginid);
 		set_session("company_id",$result['company_id']);
+		//记录登陆日志
+		$ip = get_user_ip();
+		$log['user_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+		$log['company_id'] = $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
+		$log['ip'] = $GLOBALS['db']->prepare_value($ip,"VARCHAR");
+		$log['login_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+		$log['logout_time'] = $GLOBALS['db']->prepare_value('NULL',"RAW");
+		if(!$GLOBALS['db']->insert_row($this->tablename_log,$log))
+		{
+			$this->message = "登录日志记录失败！";
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	*	用户loginout
+	*	@param no
+	*	@return boolean
+	*/
+	function logout()
+	{
+		$ip = get_user_ip();
+		$log['user_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+		$log['company_id'] = $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
+		$log['ip'] = $GLOBALS['db']->prepare_value($ip,"VARCHAR");
+		$log['login_time'] = $GLOBALS['db']->prepare_value('NULL',"RAW");
+		$log['logout_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+		if(!$GLOBALS['db']->insert_row($this->tablename_log,$log))
+		{
+			msg($GLOBALS['db']->sql);
+			$this->message = "登出日志记录失败！";
+			return false;
+		}
+		session_start();
+		session_unset();
+		session_destroy();
 		return true;
 	}
 	
@@ -176,7 +213,7 @@ class User extends BASE
 	*/
 	function get_all_users($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	

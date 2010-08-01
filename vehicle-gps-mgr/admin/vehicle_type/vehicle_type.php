@@ -1,7 +1,7 @@
 <?php
 /** 
-* 车辆处理
-* @copyright		vehicle_group, 2010
+* 车辆类型处理
+* @copyright		vehicle, 2010
 * @author			李少杰
 * @create date		2010.07.24
 * @modify			修改人
@@ -27,9 +27,9 @@ switch($act)
 	case "list":			//加载车辆管理的html页面
 		echo $db->display(null,"list");
 		break;
-	case "list_data":		//车辆组管理html中，js文件会加载这个case，取得并输出数据
-		$user	= new Vehicle_group();
-		$count = $user->get_vehicle_group_count();
+	case "list_data":		//车辆管理html中，js文件会加载这个case，取得并输出数据
+		$vehicle	= new Vehicle_type();
+		$count = $vehicle->get_vehicle_type_count();
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
@@ -40,98 +40,86 @@ switch($act)
 		$start = $limit*$page - $limit;
 		if ($start<0) $start = 0;
 
-		//得到字段类型
-		if(empty($searchfil) or empty($searchstr))
+		//得到查询条件
+		if(empty($searchfil) or $searchstr == '')
 			$wh = 'where 1=1 ';
 		else
 		{
-			$type = $user->get_type($searchfil);
+			$type = $vehicle->get_type($searchfil);
 			$wh = "where 1=1 ";
+			//翻译serchstr
 			switch($searchfil)
 			{
 			}
 			$searchstr = $db->prepare_value($searchstr,$type);
-			if($type == 'INT')
+			if($type == 'INT')	//----用=号
 			{
 				$wh .= "and ".$searchfil." = ".$searchstr;
 			}
-			else
+			else if($type == 'RAW')	//----用in
+			{
+				$wh .= $searchstr;
+			}
+			else	//----用like
 			{
 				$searchstr = str_replace("'","",$searchstr);
 				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
 			}
 		}
-		//得到所有车辆组
-		$result = $user->get_all_vehicle_groups($wh,$sidx,$sord,$start,$limit);
-		$responce->page	= $page;
-		$responce->total = $total_pages;
-		$responce->records = $count;
+		//file_put_contents("a.txt",$wh);
+		//得到所有车辆
+		$result = $vehicle->get_all_vehicle_types($wh,$sidx,$sord,$start,$limit);
+		//file_put_contents("a.txt",$db->sql);
+		$response->page	= $page;
+		$response->total = $total_pages;
+		$response->records = $count;
 
 		foreach($result as	$key => $val)
 		{
-			//对指定字段进行翻译
-			$vehicle2	= new Vehicle_group($val['id']);
-			$company_name = $vehicle2->get_data("company_name");
-			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['name'],$company_name,
-																					$val['description'],
-																					//$val['create_id'],$val['create_time'],
-																					//$val['update_id'],$val['update_time']
+			$response->rows[$key]['id']=$val['id'];
+			$response->rows[$key]['cell']=array($val['id'],$val['company_id'],$val['name'],
+																					$val['fuel_consumption'],$val['load_capacity'],
+																					$val['description']
 																					);
 		}
-
 		//打印json格式的数据
-		echo json_encode($responce);
+		echo json_encode($response);
 		break;
-	case "operate":		//车辆组修改、添加、删除
+		
+	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
+		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
+		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"VARCHAR");
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
-		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
+		$arr["fuel_consumption"] = $db->prepare_value($_REQUEST['fuel_consumption'],"INT");
+		$arr["load_capacity"] = $db->prepare_value($_REQUEST['load_capacity'],"INT");
 		$arr["description"] = $db->prepare_value($_REQUEST['description'],"VARCHAR");
 //		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
 //		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
 //		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
 //		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
-		$group = new Vehicle_group($_REQUEST['id']);
+		$vehicle = new Vehicle_type($_REQUEST['id']);//file_put_contents("a.txt",implode(",",array_keys($_REQUEST)));
 		switch($oper)
 		{
 			case "add":		//增加
-				$group->add_vehicle_group($arr);
+				$vehicle->add_vehicle_type($arr);
 				break;
 			case "edit":		//修改
-				$group->edit_vehicle_group($arr);
+				$vehicle->edit_vehicle_type($arr);//file_put_contents("a.txt",$db->sql);
 				break;
 			case "del":		//删除
-				$group->del_vehicle_group($arr);
+				$vehicle->del_vehicle_type($arr);
 				break;
 		}
 		break;
-	case "select":		//下拉列表
-		$p = $_REQUEST["p"];		//获得需要翻译的字段
-		$vehicle = new Vehicle_group();
-		switch($p)
-		{
-			case "company_id":
-				$html = $vehicle->get_select("company","name");
-				break;
-//			case "driver_id":
-//				$html = $vehicle->get_select("driver_manage","name");
-//				break;
-//			case "type_id":
-//				$html = $vehicle->get_select("vehicle_type_manage","name");
-//				break;
-//			case "alert_state":
-//				if(!$par or !$child)
-//				{
-//					$par = "vehicle_manage";
-//					$child = "alert_state";
-//				}
-//				$xml = new Xml($par,$child);
-//				$html = $xml->get_html_xml();
-				break;
-		}
-		echo $html;
-		break;
+//	case "select":		//下拉列表
+//		$p = $_REQUEST["p"];		//获得需要翻译的字段
+//		$vehicle = new Vehicle_type();
+//		switch($p)
+//		{
+//		}
+//		echo $html;
+//		break;
 }
 
 

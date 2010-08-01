@@ -1,9 +1,9 @@
 <?php
 /**
-* 	车辆管理类
+* 	车辆组管理类
 *
 *
-* @copyright 	  vehicle, 2010
+* @copyright 	  Vehicle_type, 2010
 * @author 　　李少杰
 * @create date 　 2010.07.24
 * @modify  　　　 n/a
@@ -11,25 +11,23 @@
 * @modify describe   2010.07.24 18:45	文件生成
 * @todo			  n/a
 */
-class Vehicle extends BASE
+class Vehicle_type extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "vehicle_manage";
+	public $tablename = "vehicle_type_manage";
 	public $data = false;                //数据
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
 	public $message;                     //消息
 	
 	private $id = false;		//车辆管理表主键ID
-	private $tablename_vehicle_group = "vehicle_group";		//车辆分组表
-	//private $tablename_vehicle_type = "vehicle_type_manage";		//车辆类型表
 	
 	/**
 	*		构造函数
 	*		@param $id 
 	*		@return no
 	*/
-	function Vehicle($id=false)
+	function Vehicle_type($id=false)
 	{
 		if($id && !empty($id))
 		{
@@ -39,7 +37,7 @@ class Vehicle extends BASE
 	}
 	
 	/**
-	*		查询得到指定车辆信息
+	*		查询得到指定车辆组信息
 	*		@param $id 
 	*		@return no
 	*/
@@ -53,18 +51,18 @@ class Vehicle extends BASE
 	}
 	
 	/**
-	*	添加车辆
-	*	@param $vehicle
+	*	添加车辆组
+	*	@param $vehicle_type
 	*	@return boolean
 	*/
-	function add_vehicle($vehicle)
+	function add_vehicle_type($vehicle_type)
 	{
-		if(!$vehicle)
+		if(!$vehicle_type)
 		{
 			$this->message = "error,object must be not empty!";
 			return false;
 		}
-		if(!$GLOBALS['db']->insert_row($this->tablename,$vehicle))
+		if(!$GLOBALS['db']->insert_row($this->tablename,$vehicle_type))
 		{
 			$this->message = "error,insert data failed!";
 			return false;
@@ -73,20 +71,20 @@ class Vehicle extends BASE
 	}
 	
 	/**
-	*	修改车辆
-	*	@param $vehicle
+	*	修改车辆组
+	*	@param $vehicle_type
 	*	@return boolean
 	*/
-	function edit_vehicle($vehicle)
+	function edit_vehicle_type($vehicle_type)
 	{
-		if(!$vehicle)
+		if(!$vehicle_type)
 		{
 			$this->message = "error,object must be not empty!";
 			return false;
 		}
 		//添加主键ID
-		$vehicle['id'] = $this->id;
-		if(!$GLOBALS['db']->update_row($this->tablename,$vehicle,"id"))
+		$vehicle_type['id'] = $this->id;
+		if(!$GLOBALS['db']->update_row($this->tablename,$vehicle_type,"id"))
 		{
 			$this->message = "error,edit data failed!";
 			return false;
@@ -95,13 +93,13 @@ class Vehicle extends BASE
 	}
 	
 	/**
-	*	删除车辆
-	*	@param $vehicle
+	*	删除车辆组
+	*	@param $vehicle_type
 	*	@return boolean
 	*/
-	function del_vehicle($vehicle)
+	function del_vehicle_type($vehicle_type)
 	{
-		if(!$vehicle)
+		if(!$vehicle_type)
 		{
 			$this->message = "error,object must be not empty!";
 			return false;
@@ -124,35 +122,18 @@ class Vehicle extends BASE
 	{
 		switch ($col_name)
 		{
-			case "vehicle_group_name":
-				$vehicle_group = new Vehicle_group($this->get_data("vehicle_group_id"));
-				$value = $vehicle_group->get_data("name");
-				break;
-			case "driver_name":
-				$driver = new Driver($this->get_data("driver_id"));
-				$value = $driver->data["name"];
-				break;
-			case "type_name":
-				$type = new Vehicle_type($this->get_data("type_id"));
-				$value = $type->get_data("name");
-				break;
-			case "v_alert_state":
-				$par = "vehicle_manage";
-				$child = "alert_state";
-				$xml  = new Xml($par,$child);
-				$xmldata = $xml->get_array_xml();
-				$value = $xmldata[$this->get_data("alert_state")];
+			case "abc":
 				break;
 		}
 		return $value;
 	}
 	
 	/**
-	*	查询所有车辆数目
+	*	查询所有车辆组数目
 	*	@param null
 	*	@return numeric or null
 	*/
-	function get_vehicle_count()
+	function get_vehicle_type_count()
 	{
 		$this->sql = "select count(*) from ".$this->tablename;
 		$count = $GLOBALS["db"]->query_once($this->sql);
@@ -160,13 +141,13 @@ class Vehicle extends BASE
 	}
 	
 	/**
-	*		查询所有车辆
+	*		查询所有车辆组
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
 	*		@return no
 	*/
-	function get_all_vehicles($wh="",$sidx="",$sord="",$start="",$limit="")
+	function get_all_vehicle_types($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." and vehicle_group_id in(select id from ".$this->tablename_vehicle_group." where company_id = ".get_session("company_id").") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
@@ -199,29 +180,16 @@ class Vehicle extends BASE
 	*/
 	function get_select($tablename,$fieldname)
 	{
-		$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
+		$this->sql = sprintf("select id,%s from %s",$fieldname,$tablename);
 		//file_put_contents("a.txt",$this->sql);
 		$result = $GLOBALS['db']->query($this->sql);
-		$select = '<select>
-								<option value="-1">请选择</option>
-								';
+		$select = '<select>';
 		foreach($result as $temp)
 		{
 			$select .= "<option value='".$temp['id']."'>".$temp['name']."</option>";
 		}
 		$select .= '<select>';
 		return $select;
-	}
-
-	/**
-	*		根据组ID 查出所有的车辆
-	*		@param 
-	*		@return array
-	*/
-	function get_all_vehicle($vehicle_group_id)
-	{
-		$this->sql = "select id,number_plate from ".$this->tablename." where vehicle_group_id = ".$vehicle_group_id;
-		return $this->data_list = $GLOBALS["db"]->query($this->sql); 
 	}
 }
 
