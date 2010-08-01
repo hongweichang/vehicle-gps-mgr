@@ -71,7 +71,7 @@ switch($act)
 		
 		//得到所有用户
 		$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
-		file_put_contents("a.txt",$db->sql);
+//		file_put_contents("a.txt",$db->sql);
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
