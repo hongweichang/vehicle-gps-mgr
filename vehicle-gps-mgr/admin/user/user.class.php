@@ -68,6 +68,7 @@ class User extends BASE
 		set_session("user_id",$result['id']);
 		set_session("login_id",$companyloginid);
 		set_session("company_id",$result['company_id']);
+		set_session("user_name",$result['login_name']);
 		//记录登陆日志
 		$ip = get_user_ip();
 		$log['user_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");

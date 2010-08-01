@@ -42,7 +42,7 @@ switch($act)
 
 		//得到字段类型
 		if(empty($searchfil) or empty($searchstr))
-			$wh = 'where 1=1 ';
+			$wh = '';
 		else
 		{
 			$type = $user->get_type($searchfil);
@@ -56,15 +56,14 @@ switch($act)
 					break;
 			}
 			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where 1=1 ";
 			if($type == 'INT')
 			{
-				$wh .= "and ".$searchfil." = ".$searchstr;
+				$wh = "where ".$searchfil." = ".$searchstr;
 			}
 			else
 			{
 				$searchstr = str_replace("'","",$searchstr);
-				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
+				$wh = "where ".$searchfil." like '%".$searchstr."%'";
 			}
 			//file_put_contents("a.txt",$wh);
 		}
@@ -91,7 +90,8 @@ switch($act)
 		echo json_encode($responce);
 		break;
 	case "manage_list":			//模拟管理页面
-		echo $db->display(null,"manage_list");
+		$data["user_name"] = get_session("user_name");
+		echo $db->display($data,"manage_list");
 		break;
 	case "login_success":		
 		$arr['url_manage'] = URL('user','user.php','manage_list');
@@ -100,25 +100,23 @@ switch($act)
 		echo $db->display($arr,"login_success");
 		break;
 	case "logout":	//模拟退出
-		$user = new User();
-		if(!$user->logout())
-			msg($user->message);
-		else
-			Header("Location: index.php");
+		session_start();
+		session_unset();
+		session_destroy();
+		Header("Location: index.php");
 		break;
 	case "setup":		//你进入到了系统设置页面
-		//msg('你进入到了系统设置页面.');
-		goto_url(URL("setting","sys_set.php","list"));
+		msg('你进入到了系统设置页面.');
 		//echo '<select><option>hello</option><option>world</option></select>';
 		break;
 	case "operate":		//用户修改、添加、删除
 		$oper = $_REQUEST['oper'];
 		//file_put_contents("a.txt",$oper);exit;
 		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
-		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");//$_REQUEST['password']
+		$arr["password"] = $db->prepare_value("1","VARCHAR");//$_REQUEST['password']
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
-		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");//$_REQUEST['company_id']
-		$arr["role_id"] = $db->prepare_value(0,"INT");//$_REQUEST['role_id']
+		$arr["company_id"] = $db->prepare_value(1,"INT");//$_REQUEST['company_id']
+		$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
 //		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");

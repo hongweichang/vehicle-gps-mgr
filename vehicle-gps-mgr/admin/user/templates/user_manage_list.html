@@ -1,8 +1,107 @@
-<frameset rows="52,*" framespacing="0" border="0">
-  <frame src="admin/user/templates/user_top.html" id="header-frame" name="header-frame" frameborder="no" scrolling="no">
-  <frameset cols="190, 10, *" framespacing="0" border="0" id="frame-body">
-    <frame src="admin/user/templates/user_menu.html" id="menu-frame" name="menu-frame" frameborder="no" scrolling="yes">
-    <frame src="admin/user/templates/user_drag.htm" id="drag-frame" name="drag-frame" frameborder="no" scrolling="no">
-    <frame src="admin/user/templates/user_welcome.html" id="main-frame" name="main-frame" frameborder="no" scrolling="yes">
-  </frameset>
-</frameset>
+{{top}}
+
+<script type="text/javascript">
+
+jQuery(document).ready(function(){
+    //$('#switcher').themeswitcher();
+
+	$('body').layout({
+		resizerClass: 'ui-state-default',
+        west__onresize: function (pane, $Pane) {
+            jQuery("#west-grid").jqGrid('setGridWidth',$Pane.innerWidth()-2);
+		}
+	});
+	$.jgrid.defaults = $.extend($.jgrid.defaults,{loadui:"enable"});
+	var maintab =jQuery('#tabs','#RightPane').tabs({
+        add: function(e, ui) {
+            // append close thingy
+            $(ui.tab).parents('li:first')
+                .append('<span class="ui-tabs-close ui-icon ui-icon-close" title="关闭"></span>')
+                .find('span.ui-tabs-close')
+                .click(function() {
+                    maintab.tabs('remove', $('li', maintab).index($(this).parents('li:first')[0]));
+                });
+            // select just added tab
+            maintab.tabs('select', '#' + ui.panel.id);
+        }
+    });
+    jQuery("#west-grid").jqGrid({
+        url: "xml/tree.xml",
+        datatype: "xml",
+        height: "auto",
+        pager: false,
+        loadui: "disable",
+        colNames: ["id","Items","url"],
+        colModel: [
+            {name: "id",width:1,hidden:true, key:true},
+            {name: "menu", width:150, resizable: false, sortable:false},
+            {name: "url",width:1,hidden:true}
+        ],
+        treeGrid: true,
+		caption: "欢迎 {{user_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?a=1005'>安全退出</a>",
+        ExpandColumn: "menu",
+        autowidth: true,
+        //width: 180,
+        rowNum: 200,
+        ExpandColClick: true,
+        treeIcons: {leaf:'ui-icon-document-b'},
+        onSelectRow: function(rowid) {
+            var treedata = $("#west-grid").jqGrid('getRowData',rowid);
+            if(treedata.isLeaf=="true") {
+                //treedata.url
+                var st = "#t"+treedata.id;
+				if($(st).html() != null ) {
+					maintab.tabs('select',st);
+				} else {
+					maintab.tabs('add',st, treedata.menu);
+					//$(st,"#tabs").load(treedata.url);
+
+
+					$.ajax({
+						url: treedata.url,
+						type: "GET",
+						dataType: "html",
+						complete : function (req, err) {
+							$(st,"#tabs").append(req.responseText);
+							try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
+						}
+					});
+
+
+				}
+            }
+        }
+    });
+	
+// end splitter
+
+});
+</script>
+</head>
+<body>
+<script type="text/javascript"
+  //src="http://ui.jquery.com/themeroller/themeswitchertool/">
+</script>
+
+  	<div id="LeftPane" class="ui-layout-west ui-widget ui-widget-content">
+		<table id="west-grid"></table>
+	</div> 
+	<!-- #LeftPane -->
+	
+	<div id="RightPane" class="ui-layout-center ui-helper-reset ui-widget-content" ><!-- Tabs pane -->
+    
+	<div id="switcher"></div>
+		<div id="tabs" class="jqgtabs">
+			<ul>
+				<li><a href="#tabs-1">GPS车辆定位服务系统</a></li>
+			</ul>
+			<div id="tabs-1" style="font-size:12px;"> 欢迎来到 GPS车辆定位服务系统 - 管理中心<br/>
+			<br/>
+
+			</div>
+		</div>
+	</div> 
+	<!-- #RightPane -->
+</body>
+
+</html>

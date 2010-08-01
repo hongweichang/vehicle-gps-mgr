@@ -142,6 +142,9 @@
 			case "login_id":
 				return $_SESSION["login_id"] = $value ;
 				break;
+			case "user_name":
+				return $_SESSION["user_name"] = $value ;
+				break;
 		}
 	}
 
@@ -163,6 +166,9 @@
 				break;
 			case "login_id":
 				return $_SESSION["login_id"];
+				break;
+			case "user_name":
+				return $_SESSION["user_name"];
 				break;
 		}
 	}

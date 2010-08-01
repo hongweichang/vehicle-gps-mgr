@@ -22,7 +22,6 @@ if(!$sidx) $sidx =1;
 switch($act)
 {
 	case "list":		//模拟测试
-		include("include/templates.php");
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 
