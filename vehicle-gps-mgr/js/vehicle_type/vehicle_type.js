@@ -5,7 +5,7 @@ jQuery("#navgrid_vehicle_type").jqGrid({
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{size:10}},
    		{name:'company_id',index:'company_id',hidden:true,editable:true,editoptions:{size:10}},
-   		{name:'name',index:'name', width:80,editable:true,editoptions:{size:10}},
+   		{name:'name',index:'name', width:80,editable:true,editrules:{required:true},editoptions:{size:10}},
    		{name:'fuel_consumption',index:'fuel_consumption',width:40,editable:true,editoptions:{size:10}},
    		{name:'load_capacity',index:'load_capacity',width:40,editable:true,editoptions:{size:10}},
    		{name:'description',index:'description',width:60,editable:true,editoptions:{size:10}}

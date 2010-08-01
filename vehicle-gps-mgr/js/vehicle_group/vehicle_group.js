@@ -5,7 +5,7 @@ jQuery("#navgrid_vehicle_group").jqGrid({
    	colNames:['ID','组名', '公司','描述'],
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
-   		{name:'name',index:'name', width:80,editable:true,editoptions:{size:10}},
+   		{name:'name',index:'name', width:80,editable:true,editrules:{required:true},editoptions:{size:10}},
    		{name:'company_id',index:'company_id',width:40,editable:true,hidden:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1023&p=company_id'}},
    		{name:'description',index:'description',width:60,editable:true,editoptions:{size:10}}
 //   		{name:'create_id',index:'driver_id', width:60, align:"right",editable:true,editoptions:{size:10}},
