@@ -56,11 +56,13 @@ class Log
 	*/
 	function write_log($desc = "")
 	{
-		$log_arr = array("5007"=>"日志接口","5001"=>"人员管理列表","5002"=>"人员管理列表数据","5003"=>"公司管理列表","5004"=>"公司管理列表数据");
 
 		// $des 为空的话，使用映射关系
 		if(empty($des))
 		{
+			//引入 $log_arr
+			include("include/function_log.php");
+
 			$this->desc = $log_arr[$_REQUEST["a"]];
 			$parms["description"] = $GLOBALS["db"]->prepare_value($log_arr[$_REQUEST["a"]],"VARCHAR");
 		}
