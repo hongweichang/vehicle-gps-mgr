@@ -3,11 +3,11 @@ jQuery("#navgrid").jqGrid({
 	datatype: "json",
 	colNames:['ID','用户', '所属公司', '操作时间','操作描述'],
    	colModel:[
-   		{name:'id',index:'id', width:55,editable:false,editoptions:{readonly:true,size:10}},
-   		{name:'user_id',index:'user_id', width:80,editable:true,editoptions:{size:20}},
-   		{name:'company_id',index:'company_id', width:90,editable:true,editoptions:{size:18}},
-   		{name:'time',index:'time', width:60, align:"right",editable:true,editoptions:{size:1}},
-   		{name:'description',index:'description', width:60, align:"right",editable:true,editoptions:{size:10}}
+   		{name:'id',index:'id', width:55, align:"center",editable:false,editoptions:{readonly:true,size:10}},
+   		{name:'user_id',index:'user_id', align:"center",width:80,editable:true,editoptions:{size:20}},
+   		{name:'company_id',index:'company_id', width:90,align:"center",editable:true,editoptions:{size:18}},
+   		{name:'time',index:'time', width:60, align:"center",editable:true,editoptions:{size:1}},
+   		{name:'description',index:'description', width:60, align:"center",editable:true,editoptions:{size:10}}
    	],
    	rowNum:10,
    	rowList:[10,20,30],

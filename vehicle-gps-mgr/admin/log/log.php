@@ -58,8 +58,16 @@ switch($act)
 
 			foreach($rtn as	$key=>$rtn_log)
 			{
+				//翻译用户名
+				$tra = new Translate("user","id");
+				$user_name = $tra->get_attr("login_name",$rtn_log['user_id']);
+
+				//翻译公司名
+				$tra_c = new Translate("company","id");
+				$comp_name = $tra_c->get_attr("name",$rtn_log['company_id']);
+
 				$responce->rows[$key]['id']=$rtn_log['id'];
-				$responce->rows[$key]['cell']=array($rtn_log['id'],$rtn_log['user_id'],$rtn_log['company_id'],$rtn_log['time'],$rtn_log['description']);
+				$responce->rows[$key]['cell']=array($rtn_log['id'],$user_name,$comp_name,$rtn_log['time'],$rtn_log['description']);
 			}
 			//打印json格式的数据
 			echo json_encode($responce);

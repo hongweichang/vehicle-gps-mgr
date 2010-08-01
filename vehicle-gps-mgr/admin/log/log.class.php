@@ -58,23 +58,25 @@ class Log
 	{
 
 		// $des 为空的话，使用映射关系
-		if(empty($des))
+		if(empty($desc))
 		{
 			//引入 $log_arr
 			include("include/function_log.php");
 
 			$this->desc = $log_arr[$_REQUEST["a"]];
-			$parms["description"] = $GLOBALS["db"]->prepare_value($log_arr[$_REQUEST["a"]],"VARCHAR");
+			if(empty($this->desc))
+				$this->desc = '未知操作！请检查 function_log.php';
 		}
 		else			//不为 描述则使用传过来的值
 		{
 			$this->desc = $desc;
-			$parms["description"] = $GLOBALS["db"]->prepare_value($desc,"VARCHAR");
 		}
 
-		$parms["user_id"] = $GLOBALS["db"]->prepare_value(get_session(""),"INT");
-		$parms["company_id"] = $GLOBALS["db"]->prepare_value(get_session(""),"INT");
+		$parms["user_id"] = $GLOBALS["db"]->prepare_value(get_session("user_id"),"INT");
+		$parms["company_id"] = $GLOBALS["db"]->prepare_value(get_session("company_id"),"INT");
 		$parms["time"] = $GLOBALS["db"]->prepare_value(get_sysdate(),"VARCHAR");
+		$parms["description"] = $GLOBALS["db"]->prepare_value($this->desc,"VARCHAR");
+//		print_r($parms);
 		$result = $GLOBALS["db"]->insert_row($this->tablename,$parms);
 	}
 
