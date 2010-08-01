@@ -66,8 +66,8 @@ jQuery("#navgrid1").jqGrid({
     sortorder: "asc",
     caption:"人员管理",
     editurl:"index.php?a=5010",
-	height:"250",
-	width:"1024"
+	height:"350",
+	width:"750"
 });
 jQuery("#navgrid1").jqGrid('navGrid','#pagernav1',
 {edit:true, add:true, del:true,view:true}, //options

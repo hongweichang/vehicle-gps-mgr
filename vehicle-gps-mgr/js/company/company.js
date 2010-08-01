@@ -79,8 +79,8 @@ jQuery("#navgrid").jqGrid({
     caption:"公司管理",
     editurl:"index.php?a=5011",
 //	multiselect: true, 
-	height:"400",
-	width:"1024"
+	height:"350",
+	width:"750"
 });
 jQuery("#navgrid").jqGrid('navGrid','#pagernav',
 {edit:true, add:true, del:true,view:true}, //options

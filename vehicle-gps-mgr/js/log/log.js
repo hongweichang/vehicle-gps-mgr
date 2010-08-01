@@ -17,8 +17,8 @@ jQuery("#navgrid").jqGrid({
     sortorder: "asc",
     caption:"日志管理",
     editurl:"index.php?a=5006",
-	height:210,
-	width:500
+	height:350,
+	width:750
 });
 jQuery("#navgrid").jqGrid('navGrid','#pagernav',
 {edit:false,add:false,del:false,view:true}, //options
