@@ -4,7 +4,7 @@ jQuery("#navgrid").jqGrid({
 	colNames:['ID','登录id', '公司名', '公司注册号','地区1(省)','地区2(市)','地区3(区、县)','描述','联系人名字','地址','邮编','电话','传真','移动电话','邮箱','网址','状态','服务开始时间','服务结束时间','收费标准','创建人','创建时间','更新人','更新时间'],
    	colModel:[
    		{name:'id',index:'id',hidden:true, width:55,align:"center",editable:false,editoptions:{size:10}},
-		{name:'login_id',index:'login_id', width:55,align:"center",editable:true,editoptions:{size:10,maxlength:20},formoptions:{elmsuffix:"(*)"},editrules:{required:true}},
+		{name:'login_id',index:'login_id', width:55,align:"center",editable:true,editoptions:{size:10,maxlength:20},formoptions:{elmsuffix:"(*) 可添加不可修改"},editrules:{required:true}},
 		{name:'name',index:'name', width:55,align:"center",editable:true,editoptions:{size:20,maxlength:50},formoptions:{elmsuffix:"(*)"},editrules:{required:true}},
 		{name:'register_num',index:'register_num', width:55,align:"center",editable:true,editoptions:{size:20,maxlength:20},formoptions:{elmsuffix:"(*)"},editrules:{required:true}},
 		{name:'area1',index:'area1', hidden:true,width:55,align:"center",editable:true,editoptions:{size:6}},

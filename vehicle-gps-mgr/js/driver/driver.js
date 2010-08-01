@@ -56,7 +56,7 @@ jQuery("#navgrid1").jqGrid({
 //		{name:'create_time',index:'create_time', width:60, align:'center', editable: true,editoptions:{size:10}},
 //		{name:'update_id',index:'update_id', width:60, align:'center', editable: true,editoptions:{size:10}},
 //		{name:'update_time',index:'update_time', width:60, align:'center', editable: true,editoptions:{size:10}}
-		{name:"授权",index:"aaa", width:60, align:'center', editable: true,editoptions:{size:10}}
+		{name:"授权",index:"aaa", width:60, align:'center', editable: false,editoptions:{size:10}}
    	],
    	rowNum:10,
    	rowList:[10,20,30],
