@@ -14,7 +14,7 @@ jQuery("#navgrid_vehicle_type").jqGrid({
 //   		{name:'update_id',index:'cur_longitude', width:50, align:"right",editable:true,editoptions:{size:10}},
 //   		{name:'update_time',index:'cur_latitude', width:50, align:"right",editable:true,editoptions:{size:10}}
    	],
-   	width:500,
+   	width:750,
    	rowNum:10,
    	rowList:[10,20,40],
    	pager: '#pagernav_vehicle_type',
@@ -23,7 +23,7 @@ jQuery("#navgrid_vehicle_type").jqGrid({
     sortorder: "desc",
     caption:"车辆类型管理",
     editurl:"index.php?a=1032",
-	height:300
+	height:350
 });
 jQuery("#navgrid_vehicle_type").jqGrid('navGrid','#pagernav_vehicle_type',
 {edit:true,add:true,del:true}, //options

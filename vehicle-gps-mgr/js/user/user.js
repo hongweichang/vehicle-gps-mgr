@@ -21,7 +21,7 @@ jQuery("#navgrid2").jqGrid({
 //		{name:'update_id',index:'update_id',width:70, editable: true,editoptions:{size:10}},
 //   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true, editoptions:{rows:"2",cols:"20"}}
    	],
-   	width:500,
+   	width:750,
    	rowNum:10,
    	rowList:[10,20,30],
    	pager: '#pagernav2',
@@ -30,11 +30,11 @@ jQuery("#navgrid2").jqGrid({
     sortorder: "desc",
     caption:"用户管理",
     editurl:"index.php?a=1007",
-	height:300
+	height:350
 });
 
 jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
-{edit:true,add:true,del:true}, //options
+{edit:true,add:true,del:true,view:true}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options

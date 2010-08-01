@@ -26,7 +26,7 @@ jQuery("#navgrid_vehicle").jqGrid({
 //		{name:'update_id',index:'update_id',width:70, editable: true,editoptions:{size:10}},
 //   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true, editoptions:{size:30}}
    	],
-   	width:1000,
+   	width:750,
    	rowNum:10,
    	rowList:[10,20,30],
    	pager: '#pagernav_vehicle',
@@ -35,7 +35,7 @@ jQuery("#navgrid_vehicle").jqGrid({
     sortorder: "desc",
     caption:"车辆管理",
     editurl:"index.php?a=1012",
-	height:300
+	height:350
 });
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
 {edit:true,add:true,del:true}, //options
