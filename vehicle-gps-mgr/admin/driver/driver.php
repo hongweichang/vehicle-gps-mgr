@@ -256,7 +256,10 @@ switch($act)
 			}
 
 		}
-		echo $html;
+		if(empty($html))
+			echo "当前公司没有车辆组！";
+		else
+			echo $html;
 		break;
 
 	case "submit_pri":
