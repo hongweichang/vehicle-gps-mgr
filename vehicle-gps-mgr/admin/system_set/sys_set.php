@@ -77,7 +77,7 @@ switch($act)
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['company_id'],
 																					$val['page_refresh_time'],$val['default_color'],
-																					$val['speed_astrict'],$val['fatigue_remind_time']
+																					$val['speed_limit'],$val['fatigue_remind_time']
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
 																					//$val['create_time'],$val['update_id'],$val['update_time']
@@ -94,7 +94,7 @@ switch($act)
 		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
 		$arr["page_refresh_time"] = $db->prepare_value($_REQUEST['page_refresh_time'],"INT");
 		$arr["default_color"] = $db->prepare_value($_REQUEST['default_color'],"VARCHAR");
-		$arr["speed_astrict"] = $db->prepare_value($_REQUEST['speed_astrict'],"INT");
+		$arr["speed_limit"] = $db->prepare_value($_REQUEST['speed_limit'],"INT");
 		$arr["fatigue_remind_time"] = $db->prepare_value($_REQUEST['fatigue_remind_time'],"INT");
 //		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
 //		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
@@ -108,7 +108,7 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				$set->add_system_set($arr);file_put_contents("a.txt",$db->sql);
+				$set->add_system_set($arr);
 				break;
 			case "edit":		//修改
 				$set->edit_system_set($arr);

@@ -7,7 +7,7 @@ jQuery("#navgrid_system_set").jqGrid({
    		{name:'company_id',index:'company_id',hidden:true,editable:true,editoptions:{size:10}},
    		{name:'page_refresh_time',index:'page_refresh_time', width:60,editable:true,editoptions:{size:15}},
    		{name:'default_color',index:'default_color', width:60, align:"right",editable:true,editoptions:{size:15}},
-   		{name:'speed_astrict',index:'speed_astrict', width:60, align:"right",editable:true,editoptions:{size:15}},
+   		{name:'speed_limit',index:'speed_astrict', width:60, align:"right",editable:true,editoptions:{size:15}},
    		{name:'fatigue_remind_time',index:'fatigue_remind_time', width:60, align:"right",editable:true,editoptions:{size:15}}
 //   		{name:'backup1',index:'backup1', width:60,align:"right",editable:true,editoptions:{size:10}},
 //   		{name:'backup2',index:'backup2', width:60,align:"right",editable:true,editoptions:{size:10}},
@@ -24,7 +24,7 @@ jQuery("#navgrid_system_set").jqGrid({
    	sortname: 'id',
     viewrecords: true,
     sortorder: "desc",
-    caption:"车辆管理",
+    caption:"系统设置",
     editurl:"index.php?a=1042",
     width:750,
 		height:350

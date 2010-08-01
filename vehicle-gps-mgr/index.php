@@ -18,7 +18,9 @@
   } 
   else
   {
-    echo "操作无效，请重新登录！";
-    exit;
+  	//用户已经成功登录，如果访问功能（文件）不存在，则直接跳到首页
+  	goto_url(URL("user","user.php","login_success"));
+    //echo "操作无效，请重新登录！";
+    //exit;
   }
 ?>
