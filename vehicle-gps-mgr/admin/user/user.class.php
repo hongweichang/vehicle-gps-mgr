@@ -99,7 +99,6 @@ class User extends BASE
 		$log['logout_time'] = $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
 		if(!$GLOBALS['db']->insert_row($this->tablename_log,$log))
 		{
-			msg($GLOBALS['db']->sql);
 			$this->message = "登出日志记录失败！";
 			return false;
 		}

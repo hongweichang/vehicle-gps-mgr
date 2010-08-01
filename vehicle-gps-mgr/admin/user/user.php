@@ -102,10 +102,11 @@ switch($act)
 		echo $db->display($arr,"login_success");
 		break;
 	case "logout":	//模拟退出
-		session_start();
-		session_unset();
-		session_destroy();
-		Header("Location: index.php");
+		$user = new User();
+		if(!$user->logout())
+			msg("退出失败！");
+		else
+			Header("Location: index.php");
 		break;
 	case "setup":		//你进入到了系统设置页面
 		goto_url(URL("system_set","sys_set.php","list"));
