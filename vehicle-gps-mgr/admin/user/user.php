@@ -42,10 +42,11 @@ switch($act)
 
 		//得到字段类型
 		if(empty($searchfil) or empty($searchstr))
-			$wh = '';
+			$wh = 'where 1=1 ';
 		else
 		{
 			$type = $user->get_type($searchfil);
+			$wh = "where 1=1 ";
 			switch($searchfil)
 			{
 				case "state":
@@ -58,18 +59,19 @@ switch($act)
 			$searchstr = $db->prepare_value($searchstr,$type);
 			if($type == 'INT')
 			{
-				$wh = "where ".$searchfil." = ".$searchstr;
+				$wh .= "and ".$searchfil." = ".$searchstr;
 			}
 			else
 			{
 				$searchstr = str_replace("'","",$searchstr);
-				$wh = "where ".$searchfil." like '%".$searchstr."%'";
+				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
 			}
 			//file_put_contents("a.txt",$wh);
 		}
 		
 		//得到所有用户
 		$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
+		file_put_contents("a.txt",$db->sql);
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
@@ -106,7 +108,7 @@ switch($act)
 		Header("Location: index.php");
 		break;
 	case "setup":		//你进入到了系统设置页面
-		msg('你进入到了系统设置页面.');
+		goto_url(URL("system_set","sys_set.php","list"));
 		//echo '<select><option>hello</option><option>world</option></select>';
 		break;
 	case "operate":		//用户修改、添加、删除
