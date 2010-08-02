@@ -1,0 +1,73 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+ <head> 
+ 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link type="text/css" href="js/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
+	
+	<!-- 滚动条样式 -->
+	<style>
+ 		.scroll{
+			PADDING-RIGHT:10px;OVERFLOW-Y:auto;PADDING-LEFT:10px;
+			FONT-SIZE:11pt;PADDING-BOTTOM:0px;OVERFLOW:auto;WIDTH:510px;
+			LINE- HEIGHT:100%;PADDING-TOP:0px;FONT-FAMILY:宋体;LETTER-SPACING:1pt;
+			HEIGHT:150px;TEXT-ALIGN:left
+		}
+ 	</style>
+</head>
+<body>	
+	<script type="text/javascript">
+	$(function() {
+		$("#tabs").tabs({}); //加载JQUERY UI
+
+        $(".selectall").click(function(){
+			if($(this).attr("checked")==true){
+			    $("input[name='"+$(this).attr("value")+"']").each(function(){
+				    $(this).attr("checked",true);
+				});
+			}else{
+			      $("input[name='"+$(this).attr("value")+"']").each(function(){
+				    $(this).attr("checked",false);
+			});
+			}
+		});
+
+		$("#all").click(function(){
+		     if($(this).attr("checked")==true){
+			     $(":input").each(function(){
+				     $(this).attr("checked",true);
+				 });
+			 }else{
+			     $("input").each(function(){
+				     $(this).attr("checked",false);
+				 });
+			 }
+		});
+
+		$("#commit").click(function(){
+            var vehicles = $("input:checked");
+            var str="";
+            vehicles.each(function(i){
+              str = str+$(this).attr("name")+",";
+               });
+            parent.window.vehiclePosition(str);
+			});
+	});
+	
+	</script>
+ 
+
+<div>
+
+<div id="tabs">
+     {{VEHICLE_GROUP_DATA}}
+</div>
+<div>
+<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type='checkbox' name='all' id='all' align='center'>全选</input></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<span><input type="button" id="commit" value="定位"></input></span></div>
+</div> 
+</body>
+</html>
