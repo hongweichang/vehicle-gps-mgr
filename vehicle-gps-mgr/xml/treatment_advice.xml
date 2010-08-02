@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<!--处理意见 -->
+<advice>
+	<item value="0" displayText="批评警告" />
+	<item value="1" displayText="罚款" />
+	<item value="2" displayText="通报上级" />
+</advice>

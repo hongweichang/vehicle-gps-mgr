@@ -38,7 +38,7 @@ class Data_mapping_handler {
 		}
 	
 	}
-
+	
 	/**
 	 * 
 	 * @param $tableName section名,对应的数据库中的表名
@@ -54,6 +54,22 @@ class Data_mapping_handler {
 				$text = $items->getAttribute ( "displayText" );
 				$dataList [$val] = $text;
 			}
+		}
+		return $dataList;
+	}
+	/**
+	 * 
+	 * @param $lableName section名,对应的xml文件的本标签的名字
+	 * @return $dataList 对应的返回数组
+	 */
+	function getTextDataList($lableName) {
+		$dataList = array ();
+		$XML_info = $this->file_handler->getElementsByTagName ( $lableName )->item ( 0 );
+		
+		foreach ( $XML_info->getElementsByTagName ( "item" ) as $items ) {
+			$val = $items->getAttribute ( "value" );
+			$text = $items->getAttribute ( "displayText" );
+			$dataList [$val] = $text;
 		}
 		return $dataList;
 	}

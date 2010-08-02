@@ -1,9 +1,9 @@
 <?php
 //		数据库配置
 $db_config = array(
-	'HOST'			=> '220.194.47.152',
-	'USERNAME'			=> 'qinyh',
-	'PASSWORD'			=> '608',
+	'HOST'			=> 'localhost',
+	'USERNAME'			=> 'root',
+	'PASSWORD'			=> 'root',
 	'DB'		=> 'vehicle_gps_mgr');
 	
 //		memcached配置
