@@ -324,14 +324,8 @@ Class MySQL
 	function update_row($table_name,$parms,$key_column)
 	{
 		foreach($parms as $keys => $value)
-			if (strlen($value)>=1){
-				$type=gettype($value);
-				if("integer"==gettype($value)){
+			if (strlen($value)>=1)
 				$pairs[]= $keys."=".$value;
-				}else{
-				$pairs[]= $keys."='".$value."'";
-				}
-			}
 		if (!$pairs)
 			return true;
 		$str = implode(" , ",$pairs)." where ".$key_column." = ".$parms[$key_column];
