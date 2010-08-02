@@ -1,128 +1,189 @@
-<style type="text/css">
-
-.clear{clear:both;} 
-
-#wrapper {
-	margin-top: 0px;
-	text-align: left;
-	width: 100%;
-} 
-</style>
-<link rel="stylesheet" href="http://localhost:3722/gps/css/style.css" /><!-- 页面样式 -->
-<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
-<script src="http://localhost:3722/gps/js/jquery.js" type="text/javascript"></script> 
-<div id="header">
-				  <div class="header_content">
-				  	  <div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
-					  <div class="hearder_div"><a href="{{URL_MANAGE}}" target="_blank">管理中心</a></div>
-					  <div class="hearder_div"><a href="{{URL_LOGOUT}}">退出</a></div> 
-				  </div>
-			  </div>
-			  <div id="content">
-			  
-				  <div id="map">放置地图</div>
-				  
-				  <div class="button_content">
-						<ul id="nav">
-								<li  class="jsbutton" id="vehicle">
-									<div class="button_font">选择车辆</div>
-								</li>
-								<li class="jsbutton" id="sendInfo">
-									<div class="button_font">发布信息</div>
-								</li>
-								<li class="jsbutton" id="searchInfo">
-									<div class="button_font">查询信息</div>
-								</li>
-								<li class="jsbutton" id="statistic">
-									<div class="button_font">统计分析</div>
-								</li>
-								<li class="jsbutton" id="text_mode">
-									<div class="button_font">文字模式</div>
-								</li>
-								<li class="jsbutton" id="setting">
-									<div class="button_font">设置</div>
-								</li>
-						</ul>
-						 <div id="alertInfo">
-								<div id="newAlert">最新告警信息</div>
-								<div id="alert_info">2010年7月21日13点21分25秒&nbsp;车牌号为XXXX的车超速&nbsp;<a href="#">处理</a>&nbsp;<a href="#">查看更多</a></div>	
-								<hr />	
-						</div>	
-						</div>			
-				  </div>
-			  </div>
-			   
-<!-- 弹出层 --> 
-<div id="vehicle_Pop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute; display:none; width: 40%; height:50%;z-Index:2">
-	<div id="close" style="text-align:right;cursor:pointer;font-size:14px;">关闭</div>
-	<div style="border:0px red solid;width:100%;height:90%;">
-			<iframe id="vehicle_option"  style="width:100%;height:100%;" scrolling='no' frameborder='0'></iframe>
-	</div>
-</div> 
-<script language="javascript"> 
-				var maps = new LTMaps("map");
-				maps.cityNameAndZoom(new LTPoint( 11636224 , 3991040 ), 1 );				
-				maps.addControl(new LTStandMapControl());
-							
-
-				var state = 0;	  
-				$(document).ready(function() { 
-
-					$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
-					 .each(function () {
-						$('span.hover').css('opacity', 0).hover(function () {
-							$(this).stop().fadeTo(650, 1);
-						}, function () {
-							$(this).stop().fadeTo(650, 0);
-						});
-					});
-					$("#vehicle").append("<div class='button_font'>选择车辆</div>");
-					$("#sendInfo").append("<div class='button_font'>发布信息</div>");
-					$("#searchInfo").append("<div class='button_font'>查询信息</div>");
-					$("#statistic").append("<div class='button_font'>统计分析</div>");
-					$("#text_mode").append("<div class='button_font'>文字模式</div>");
-					$("#setting").append("<div class='button_font'>设置</div>");
-					
-					var speed = 500;//动画速度
-
-					//绑定事件处理 
-					$("#vehicle").click(function(event) {
-
-						if(state===1){
-							$("#vehicle_Pop").hide(speed);
-							state=0;
-  					    }else{
-							$("#vehicle_option").attr("src","http://localhost:3722/gps/index.php?a=1");
-							  
-							var offset = $(event.target).offset();//设置弹出层位置
-							//event.stopPropagation();//取消事件冒泡 
-							
-							$("#vehicle_Pop").css({ bottom:offset.top-500+$(event.target).height()+"px", left: offset.left+2 }); 
-							$("#vehicle_Pop").show(speed);//动画显示
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+	<meta name="keywords" content=""/>
 	
-							state=1;
-  					    }
-						 
-					}); 
-				
-					//单击弹出层则自身隐藏 
-					$("#close").click(function(event) {
-						$("#vehicle_Pop").hide(speed) 
-						state=0;
+	<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
+	<script src="http://192.168.1.120:3722/vehicle-gps-mgr/js/jquery.js" type="text/javascript"></script>
+	<link rel="stylesheet" href="http://192.168.1.120:3722/vehicle-gps-mgr/css/style.css" />
+	<style type="text/css">
+		.clear{clear:both;} 
+		#wrapper {
+			margin-top: 0px;
+			text-align: left;
+			width: 100%;
+		} 
+	</style>
+</head>
+<body>
+	<div id="header">
+	<div class="header_content">
+	<div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
+	<div class="hearder_div"><a href="{{URL_MANAGE}}" target="_blank">管理中心</a></div>
+	<div class="hearder_div"><a href="{{URL_LOGOUT}}">退出</a></div>
+	</div>
+	</div>
+	<div id="content">
+	
+		<div id="map"></div>
+		
+		<div class="button_content">
+			<ul id="nav">
+				<li class="jsbutton" id="vehicle">
+					<div class="button_font">选择车辆</div>
+				</li>
+				<li class="jsbutton" id="sendInfo">
+					<div class="button_font">发布信息</div>
+				</li>
+				<li class="jsbutton" id="searchInfo">
+					<div class="button_font">查询信息</div>
+				</li>
+				<li class="jsbutton" id="statistic">
+					<div class="button_font">统计分析</div>
+				</li>
+				<li class="jsbutton" id="text_mode">
+					<div class="button_font">文字模式</div>
+				</li>
+				<li class="jsbutton" id="setting">
+					<div class="button_font">设置</div>
+				</li>
+			</ul>
+			<div id="alertInfo">
+				<div id="newAlert">最新告警信息</div>
+				<div id="alert_info">
+					2010年7月21日13点21分25秒&nbsp;车牌号为XXXX的车超速&nbsp;<a href="#">处理</a>&nbsp;<a href="#">查看更多</a>
+				</div> <hr />
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- 弹出层 -->
+	<div id="vehicle_Pop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute; display: none; width: 40%; height: 50%; z-Index: 2">
+		<div id="close" style="text-align: right; cursor: pointer; font-size: 14px;">关闭</div>
+		<div style="border: 0px red solid; width: 100%; height: 90%;">
+			<iframe id="vehicle_option" style="width: 100%; height: 100%;" scrolling='no'frameborder='0'></iframe>
+		</div>
+	</div>
+	<script language="javascript">
+		  	var state = 0; //操作状态
+		  	  
+			$(document).ready(function() { 
+
+				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
+				 .each(function () {
+					$('span.hover').css('opacity', 0).hover(function () {
+						$(this).stop().fadeTo(650, 1);
+					}, function () {
+						$(this).stop().fadeTo(650, 0);
 					});
 				});
-			    
+				$("#vehicle").append("<div class='button_font'>选择车辆</div>");
+				$("#sendInfo").append("<div class='button_font'>发布信息</div>");
+				$("#searchInfo").append("<div class='button_font'>查询信息</div>");
+				$("#statistic").append("<div class='button_font'>统计分析</div>");
+				$("#text_mode").append("<div class='button_font'>文字模式</div>");
+				$("#setting").append("<div class='button_font'>设置</div>");
 				
+				var speed = 500;//动画速度
+
+				//绑定事件处理 
+				$("#vehicle").click(function(event) {
+
+					if(state===1){
+						$("#vehicle_Pop").hide(speed);
+						state=0;
+ 					    }else{
+						$("#vehicle_option").attr("src","index.php?a=1");
+						  
+						var offset = $(event.target).offset();//设置弹出层位置
+						//event.stopPropagation();//取消事件冒泡 
+						
+						$("#vehicle_Pop").css({ bottom:offset.top-500+$(event.target).height()+"px", left: offset.left+2 }); 
+						$("#vehicle_Pop").show(speed);//动画显示
+
+						state=1;
+ 					    }
+				}); 
+			 	//单击弹出层则自身隐藏 
+				$("#close").click(function(event) {
+					$("#vehicle_Pop").hide(speed) 
+					state=0;
+				});
+			});
+			onLoadMap();
+			
+			var map;  //声明51地图对象
+			var control; //声明51地图控件
+
+			//加载地图
+			function onLoadMap()
+			{
+				window._LT_map_disableProgressBar=true;	//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
+				map=new LTMaps("map");
+				map.centerAndZoom(new LTPoint(11640969,3994940),6);
+				map.addControl(new LTStandMapControl());
+				/*
+			     * 多边形
+			     * */
+					//生成多边形的点数组
+					var points = new Array();
+					points.push( new LTPoint( 11629376 , 3995776 ) );
+					points.push( new LTPoint( 11642688 , 3988608 ) );
+					points.push( new LTPoint( 11641152 , 3992640 ) );
+	
+					//根据点数组创建一个多边形
+					var polygon = new LTPolygon( points );
+					//将多边形添加到地图
+					map.addOverLay( polygon );
 				
-				//地图平移
-				//setTimeout( "maps.moveToCenter( new LTPoint( 11629376 , 3995776 ) )" , 3000 );
+					/*给多边形添加点击事件绑定*/
+					LTEvent.addListener(polygon,"click",onClick);	
+					LTEvent.bind(polygon,"mouseover",polygon,onMouseOver);
+					LTEvent.bind(polygon,"mouseout",polygon,onMouseOut);
+					
 				
-				/*事件和事件响应
-					var marker1 = new LTMarker( new LTPoint( 11636224 , 3991040 ) );
-					maps.addOverLay( marker1 );
-					function doit(){
-					alert( "Hello World!" );
-					}
-					LTEvent.addListener( marker1 , "mouseover" , doit );*/
+			    control = new LTZoomSearchControl();
+				map.addControl( control );
+
+				//选中区域
+				LTEvent.addListener(control,"mouseup",drawRectangle);
+			}
+
+			//手动画矩形
+			function drawRectangle(){
 				
+				//矩形地理区域的对象
+				var drawBounds = control.getBoundsLatLng();
+
+				var lonMin = drawBounds.getXmin();//最小经度
+				var latMin = drawBounds.getYmin();//最小纬度
+				var lonMax = drawBounds.getXmax();//最大经度
+				var latMax = drawBounds.getYmax();//最大纬度
+
+				//生成矩形地理区域
+				var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
+
+				//在地图画出矩形图 
+				map.addOverLay(new LTRect(rectangleBounds));
+				
+			}
+ 
+			
+			function onClick()
+			{
+				alert('您点在多边形上');
+			}
+			function onMouseOver()
+			{
+				this.setLineColor("red");
+				this.setLineStroke(5);
+			}
+			function onMouseOut()
+			{
+				this.setLineColor("blue");
+				this.setLineStroke(3);
+			}		
 		</script>
+</body>
+
+</html>
