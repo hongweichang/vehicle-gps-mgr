@@ -116,9 +116,9 @@ switch($act)
 		$oper = $_REQUEST['oper'];
 		//file_put_contents("a.txt",$oper);exit;
 		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
-		$arr["password"] = $db->prepare_value("1","VARCHAR");//$_REQUEST['password']
+		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");//$_REQUEST['password']
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
-		$arr["company_id"] = $db->prepare_value(1,"INT");//$_REQUEST['company_id']
+		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");//$_REQUEST['company_id']
 		$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
