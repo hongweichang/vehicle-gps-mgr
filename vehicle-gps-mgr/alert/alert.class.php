@@ -21,8 +21,19 @@ class Alert extends BASE {
 	
 
 	private $alert_id = false; //人员ID
-	//定义xml映射文件绝对路径
 	
+  /**
+	*		构造函数
+	*		@param $alert_id 
+	*		@return no
+	*/
+	function Alert($alert_id=false)
+	{
+		if($alert_id && !empty($alert_id))
+		{
+			$this->alert_id = $alert_id;
+		}
+	}
 
 	/**
 	 * 查询所有记录
@@ -68,6 +79,26 @@ class Alert extends BASE {
 		$this->sql = "select name from " . $this->user_table_name . " where id=" . $id;
 		$count = $GLOBALS ["db"]->query_once ( $this->sql );
 		return $count [0];
+	}
+	/**
+	 * 修改告警处理意见
+	 * @param $id
+	 * @param $advice
+	 */
+	function edit_alert_advice($alert){
+		if(!$alert)
+		{
+			$this->message = "error,object must be not empty!";
+			return false;
+		}
+		//添加主键ID
+		$alert['id'] = $this->alert_id;
+		if(!$GLOBALS['db']->update_row($this->mysel_table_name,$alert,"id"))
+		{
+			$this->message = "error,edit data failed!";
+			return false;
+		}
+		return true;
 	}
 }
 ?>

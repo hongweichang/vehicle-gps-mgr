@@ -18,7 +18,7 @@
 	*/
 	date_default_timezone_set('Asia/Shanghai');
 	function URL($muo_kuai_jian_cheng,$wen_jian_ming,$act)
-	{
+	{ 
 		if (!$GLOBALS["all"]["gong_neng_dat"])		//保证只是读取一次。内存数组比memcache快，所以一次取出
 			get_xt_gong_neng_all();
 

@@ -1,0 +1,44 @@
+/*错误信息提示样式*/
+.errorInfo {
+	color: red;
+}
+
+/*页面统一字体样式*/
+body {
+	font-family: Verdana, 宋体, Geneva, sans-serif;
+	font-size: 12px;
+}
+
+/*页面操作事件标题样式*/
+.title {
+	width: 50%;
+	height: 25px;
+	text-align: left;
+	color: #666666;
+	font-size: 12px;
+	
+}
+
+.topo {
+	text-align: center
+}
+
+.context-align {
+	float: left
+}
+
+.div-align {
+	float: left;
+}
+
+.input-align {
+	width: 30px;
+	align: center;
+	margin-left: 2px;
+	margin-right: 2px;
+}
+
+.select-style {
+	width: 200px;
+	heigh: 400px;
+}
