@@ -1,4 +1,4 @@
-<?
+<?php
 /** 
 * 功能说明       翻译
 * @copyright 	  Brother In Arms, 2008
