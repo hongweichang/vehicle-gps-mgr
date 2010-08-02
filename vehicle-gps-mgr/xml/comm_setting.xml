@@ -62,6 +62,10 @@
 			<item value="6" displayText="西南" />
 			<item value="7" displayText="西北" />
 		</cur_direction>
+		<gprs_status>
+		   <item value="0" displayText="离线" />
+		   <item value="1" displayText="正常" />
+		</gprs_status>
 	</vehicle_manage>
 
 	<!--人员(驾驶员)管理表-->
@@ -116,7 +120,7 @@
 			<item value="0" displayText="男"/>
 			<item value="1" displayText="女"/> 
 		</sex>
-	</comm>		
+	</comm>	
 </data>
 
    
