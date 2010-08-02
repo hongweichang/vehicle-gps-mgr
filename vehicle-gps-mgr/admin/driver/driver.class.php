@@ -60,7 +60,7 @@ class Driver
 	*/
 	function get_all_drivers($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." where company_id = ".get_session("company_id")." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data = $GLOBALS["db"]->query($this->sql);
 	}
 
