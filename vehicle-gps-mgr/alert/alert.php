@@ -19,7 +19,7 @@ $advice = $_REQUEST ["advice"]; //接收到的告警处理意见
 $id = $_REQUEST ["id"]; //要增加处理意见的数据id
 
 
-$path = $_SERVER ["DOCUMENT_ROOT"] . "/vehicle-gps-mgr/include/comm_setting.xml"; //定义xml文件局对路径
+$path = $_SERVER ["DOCUMENT_ROOT"] . "/vehicle-gps-mgr/xml/comm_setting.xml"; //定义xml文件局对路径
 $tableName = "alert_info";
 $colName = "alert_type";
 
