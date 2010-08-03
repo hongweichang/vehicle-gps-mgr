@@ -115,7 +115,10 @@
 			
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
-
+			var lat = 11636160;  //纬度
+			var lon = 3991104;  // 经度
+			var speed = 1000;  //速度/ms
+			var marker1;
 			//加载地图
 			function onLoadMap()
 			{
@@ -123,25 +126,38 @@
 				map=new LTMaps("map");
 				map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
-				/*
-			     * 多边形
-			     * 
-					//生成多边形的点数组
-					var points = new Array();
-					points.push( new LTPoint( 11629376 , 3995776 ) );
-					points.push( new LTPoint( 11642688 , 3988608 ) );
-					points.push( new LTPoint( 11641152 , 3992640 ) );
-	
-					//根据点数组创建一个多边形
-					var polygon = new LTPolygon( points );
-					//将多边形添加到地图
-					map.addOverLay( polygon );
+
+				marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
+				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
+				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
+ 	
+				 
+				map.addOverLay(marker1 );
+				map.addOverLay(marker2 );
+				map.addOverLay(marker3 );
+				map.addOverLay(marker4 );
+
+
+
+				var points1 = new Array();
+				points1.push( new LTPoint( 11641088 , 3992704 ) );
+				points1.push( new LTPoint( 11636160 , 3991104 ) );
+				 
+
+				//根据点数组创建一条折线
+				var polyLine1 = new LTPolyLine( points1 );
 				
-					/*给多边形添加点击事件绑定 
-					LTEvent.addListener(polygon,"click",onClick);	
-					LTEvent.bind(polygon,"mouseover",polygon,onMouseOver);
-					LTEvent.bind(polygon,"mouseout",polygon,onMouseOut);
-					*/
+				polyLine1.setLineColor("red");	//设置折线颜色 
+				polyLine1.setLineStroke(2);	//设置折线线宽
+				
+				polyLine1.setLineArrow("Classic","Classic");
+				//将折线添加到地图
+				map.addOverLay( polyLine1 );
+
+				
+
+				setTimeout("drawLine();",speed);
 				
 			    control = new LTZoomSearchControl();
 			    control.setTop(10);
@@ -152,6 +168,26 @@
 				LTEvent.addListener(control,"mouseup",drawRectangle);
 			}
 
+			function drawLine(){
+				
+				var points1 = new Array();
+				points1.push( new LTPoint(  lat, lon ) );
+				points1.push( new LTPoint( lat+100 , lon+100) );
+
+				var polyLine1 = new LTPolyLine(points1);
+				map.addOverLay( polyLine1 );
+
+				lat = lat+100;
+				lon = lon +100;
+
+
+				map.removeOverLay(marker1);
+				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				map.addOverLay(marker1 );
+				
+				//setTimeout("drawLine();",speed);
+				
+			}
 
 			/**
 			  *  str  车辆ID集合
@@ -190,7 +226,28 @@
 			function onMouseOut(){
 				this.setLineColor("blue");
 				this.setLineStroke(3);
-			}		
+			}	
+
+			 
+			/*
+		     * 多边形
+		     * 
+				//生成多边形的点数组
+				var points = new Array();
+				points.push( new LTPoint( 11629376 , 3995776 ) );
+				points.push( new LTPoint( 11642688 , 3988608 ) );
+				points.push( new LTPoint( 11641152 , 3992640 ) );
+
+				//根据点数组创建一个多边形
+				var polygon = new LTPolygon( points );
+				//将多边形添加到地图
+				map.addOverLay( polygon );
+			
+				/*给多边形添加点击事件绑定 
+				LTEvent.addListener(polygon,"click",onClick);	
+				LTEvent.bind(polygon,"mouseover",polygon,onMouseOver);
+				LTEvent.bind(polygon,"mouseout",polygon,onMouseOut);
+				*/	
 		</script>
 	</body> 
 </html>
