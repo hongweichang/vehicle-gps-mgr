@@ -132,10 +132,15 @@ switch($act)
 					$vehicle = new Vehicle_group();
 
 					$result = $vehicle->add_vehicle_group_by_company($rtn,$_REQUEST["name"]);
-	
-					if($result)
+
+					if($result == 1)		//对应的公司已经有车辆组
 					{
-						//成功
+						//也要显示给用户添加成功。添加的只是公司数据
+						echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+					}
+					else if($result == 2)
+					{
+						//成功，添加的是公司和车辆组
 						echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
 					}
 					else

@@ -214,7 +214,7 @@ class Vehicle_group extends BASE
 		if($result = $GLOBALS['db']->query($this->sql))
 		{
 			$this->message = "This company was have vehicle_group!";
-			return false;
+			return 1;
 		}
 		
 		$parms['name'] = $GLOBALS['db']->prepare_value($name,"VARCHAR");
@@ -227,7 +227,7 @@ class Vehicle_group extends BASE
 		$r = $GLOBALS['db']->insert_row($this->tablename,$parms);
 		if(!$r)
 			return false;
-		return true;
+		return 2;
 	}
 
 	/**
