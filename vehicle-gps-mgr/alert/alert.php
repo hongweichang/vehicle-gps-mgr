@@ -15,13 +15,12 @@ $sidx = $_REQUEST ['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST ['sord']; // get the direction
 
 
-$advice = $_REQUEST ["advice"]; //接收到的告警处理意见
 $id = $_REQUEST ["id"]; //要增加处理意见的数据id
 
 //定义xml映射文件局对路径
-$comm_setting_path = $_SERVER ["DOCUMENT_ROOT"] . "/vehicle-gps-mgr/xml/comm_setting.xml"; 
+$comm_setting_path = $all["BASE"]."xml/comm_setting.xml"; 
 //定义xml映射文件局对路径
-$treatment_advice = $_SERVER ["DOCUMENT_ROOT"] . "/vehicle-gps-mgr/xml/treatment_advice.xml"; 
+$treatment_advice =$all["BASE"]."xml/treatment_advice.xml"; 
 
 
 $tableName = "alert_info";//解析xml文件中对应的表明
