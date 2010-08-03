@@ -14,4 +14,18 @@ $memcache_config = array(
 			)
 	);
 
+$mail_config = array(
+		"Host"		=> "smtp.gmail.com",		// 发送邮件的服务器
+		"Port"		=> 465,						// 设置SMTP的端口号
+		"SMTPAuth"	=> true,					// 打开SMTP	
+		"SMTPSecure"=> "ssl",					// 设置连接的前缀。
+		"Username"	=> "LiuHuanQYH@gmail.com",	// SMTP账户   
+		"Password"	=> "LIUHUAN528xuke",		// SMTP密码   
+		"From"		=> "LiuHuanQYH@gmail.com",  // 发件人E-mail地址	
+		"FromName"	=> "peng",             		// 发件人称呼
+		"WordWrap"	=> 50,						// 每行 50 个字  
+		"CharSet"	=> "UTF-8"					// 设置字符集编码   
+	);
+
+
 ?>
