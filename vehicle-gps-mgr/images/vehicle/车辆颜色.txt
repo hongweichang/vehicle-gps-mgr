@@ -1,0 +1,8 @@
+gray:#BEC0C2
+golden:#F89E20
+red:#9D1E23
+grayGreen:#A1A070
+purple:#392768
+green:#194721
+blue:#54C8EA
+yellow:#FFF200
