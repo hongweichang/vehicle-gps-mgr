@@ -12,7 +12,7 @@
 
 <!-- 加载 js 文件库 -->
 <script src="js/jquery.js" type="text/javascript"></script>
-<script src="js/i18n/grid.locale-en.js" type="text/javascript"></script>
+<script src="js/i18n/grid.locale-cn.js" type="text/javascript"></script>
 <script src="js/jquery.jqGrid.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui-1.8.1.custom.min.js" type="text/javascript"></script>
 <script src="js/jquery-ui-timepicker-addon-0.5.js" type="text/javascript"></script>
