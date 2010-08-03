@@ -3,18 +3,14 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<meta name="keywords" content=""/>
+	<link rel="stylesheet" href="http://192.168.1.103:3722/vehicle-gps-mgr/css/style.css" />
+	<link rel="stylesheet" href="http://192.168.1.103:3722/vehicle-gps-mgr/css/jquery.msgbox.css" />
 	
 	<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
-	<script src="http://192.168.1.120:3722/vehicle-gps-mgr/js/jquery.js" type="text/javascript"></script>
-	<link rel="stylesheet" href="http://192.168.1.120:3722/vehicle-gps-mgr/css/style.css" />
-	<style type="text/css">
-		.clear{clear:both;} 
-		#wrapper {
-			margin-top: 0px;
-			text-align: left;
-			width: 100%;
-		} 
-	</style>
+	<script language="javascript" src="http://192.168.1.103:3722/vehicle-gps-mgr/js/jquery.min.js" ></script>
+	<script language="javascript" src="http://192.168.1.103:3722/vehicle-gps-mgr/js/jquery.msgbox.js" ></script>
+	<script language="javascript" src="http://192.168.1.103:3722/vehicle-gps-mgr/js/jquery.dragndrop.js"></script>
+	 
 </head>
 <body>
 	<div id="header">
@@ -66,10 +62,9 @@
 		</div>
 	</div>
 	<script language="javascript">
-		  	var state = 0; //操作状态
-		  	  
-			$(document).ready(function() { 
-
+			var state = 0; //操作状态
+			
+			$(document).ready(function() {
 				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
 				 .each(function () {
 					$('span.hover').css('opacity', 0).hover(function () {
@@ -84,33 +79,74 @@
 				$("#statistic").append("<div class='button_font'>统计分析</div>");
 				$("#text_mode").append("<div class='button_font'>文字模式</div>");
 				$("#setting").append("<div class='button_font'>设置</div>");
-				
-				var speed = 500;//动画速度
 
-				//绑定事件处理 
-				$("#vehicle").click(function(event) {
-
-					if(state===1){
-						$("#vehicle_Pop").hide(speed);
-						state=0;
- 					    }else{
-						$("#vehicle_option").attr("src","http://192.168.1.120:3722/vehicle-gps-mgr/aa.html");
-						  
-						var offset = $(event.target).offset();//设置弹出层位置
-						//event.stopPropagation();//取消事件冒泡 
-						
-						$("#vehicle_Pop").css({ bottom:offset.top-500+$(event.target).height()+"px", left: offset.left+2 }); 
-						$("#vehicle_Pop").show(speed);//动画显示
-
-						state=1;
- 					    }
-				}); 
-			 	//单击弹出层则自身隐藏 
-				$("#close").click(function(event) {
-					$("#vehicle_Pop").hide(speed) 
-					state=0;
-				});
+				appearDiv("#vehicle");
+				appearDiv("#sendInfo");
+				appearDiv("#searchInfo");
+				appearDiv("#statistic");
+				appearDiv("#text_mode");
+				appearDiv("#setting");
 			});
+			 function appearDiv(function_Id){
+				    $(function_Id).click(function(){ 
+						if(function_Id=="#vehicle"){ 
+							$.msgbox({
+								closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+								height:500,
+								title:'车辆选择',
+								width:750,
+								content:{type:'iframe', content:'index.php?a=1'}
+							});
+						}
+						if(function_Id=="#sendInfo"){
+							 $.msgbox({
+										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+										height:500,
+										title:'发布信息',
+										width:750,
+										content:{type:'iframe', content:'index.php?a=201'}
+									});
+						}
+							if(function_Id=="#searchInfo"){
+							 $.msgbox({
+										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+										height:500,
+										title:'查询信息',
+										width:750,
+										content:{type:'iframe', content:'index.php?a=301'}
+									});
+						}
+						if(function_Id=="#statistic"){
+							 $.msgbox({
+										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+										height:500,
+										title:'统计分析',
+										width:750,
+										content:{type:'iframe', content:'index.php?a=401'}
+									});
+						}
+							if(function_Id=="#text_mode"){
+							 $.msgbox({
+										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+										height:500,
+										title:'文字模式',
+										width:750,
+										content:{type:'iframe', content:'index.php?a=501'}
+									});
+						}
+						if(function_Id=="#setting"){
+							 $.msgbox({
+										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+										height:500,
+										title:'设置',
+										width:750,
+										content:{type:'iframe', content:'http://www.google.com'}
+									});
+						}
+					});
+				} 
+
+		
 			onLoadMap();
 			
 			var map;  //声明51地图对象
@@ -127,10 +163,10 @@
 				map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
 
-				marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
-				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
-				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
-				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
+				marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
+				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
+				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
  	
 				 
 				map.addOverLay(marker1 );
@@ -182,7 +218,7 @@
 
 
 				map.removeOverLay(marker1);
-				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
 				map.addOverLay(marker1 );
 				
 				//setTimeout("drawLine();",speed);
