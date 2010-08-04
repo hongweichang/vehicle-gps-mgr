@@ -60,10 +60,7 @@ switch ($act) {
 		$vehicle = $vehicle_console->get_vehicles($vehicleIds);
 		//创建XML解析对象
 		$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
-		
-		//方向数组(八个方向:东、东南、南、西南、西、西北、北、东北)
-		$arr_direction =array("east","southeast","south","southwest","west","northwest","north","northeast");
-		
+	
 		//数组长度
 		$length = count($vehicle);
 
@@ -72,8 +69,8 @@ switch ($act) {
 			   $vehicle[$row][4] = str_ireplace("west.png","",$xml_handler->getTextData("color","#".$vehicle[$row][4])); 
 			   //获取当前车方向
 			   $cur_direction = $vehicle[$row][3];
-			   //求车方向
-			   $vehicle[$row][3] = $arr_direction[intval($cur_direction/45)+((($cur_direction%45)-(45/2))>=0?1:0)]; 
+			   //分解度数换为方向
+			   $vehicle[$row][3] = resolvingDirection($cur_direction); 
 		}
 	    echo json_encode($vehicle); 
 		break;

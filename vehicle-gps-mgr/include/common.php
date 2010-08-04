@@ -264,4 +264,17 @@
     }
     return $str;
 	}
+	
+	/**
+	 * 分解度数换为方向
+	 * @param unknown_type $cur_direction  角度
+	 */
+	function  resolvingDirection($cur_direction=-1){
+		
+		//方向数组(八个方向:东、东南、南、西南、西、西北、北、东北)
+		$arr_direction =array("east","southeast","south","southwest","west","northwest","north","northeast");
+		
+		//返回车方向
+		return $arr_direction[intval($cur_direction/45)+((($cur_direction%45)-(45/2))>=0?1:0)]; 
+	}
 ?>
