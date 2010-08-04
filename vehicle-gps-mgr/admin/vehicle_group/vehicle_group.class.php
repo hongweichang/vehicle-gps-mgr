@@ -140,7 +140,7 @@ class Vehicle_group extends BASE
 	*/
 	function get_vehicle_group_count()
 	{
-		$this->sql = "select count(*) from ".$this->tablename." and id > 0 and company_id = ".get_session("company_id");
+		$this->sql = "select count(*) from ".$this->tablename." where id > 0 and company_id = ".get_session("company_id");
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
 	}
@@ -152,7 +152,7 @@ class Vehicle_group extends BASE
 	*/
 	function get_all_vehicle_groups($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh."and id > 0 and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." ".$wh." and id > 0 and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	

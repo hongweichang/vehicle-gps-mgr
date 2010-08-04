@@ -46,7 +46,7 @@ switch($act)
 			{
 //				$type = $driver->get_type($searchfil);
 //				$searchstr = $db->prepare_value($searchstr,$type);
-				$wh = "where ".$searchfil." LIKE '%".$searchstr."%'";
+				$wh = " where ".$searchfil." LIKE '%".$searchstr."%'";
 			}
 
 			$rtn = $log->get_all_logs($wh,$sidx,$sord,$start,$limit);
