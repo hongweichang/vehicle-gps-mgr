@@ -17,7 +17,7 @@ switch($act)
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 	case "trace":
-		require_once 'include/traceInfo.php';
+		require_once 'traceInfo.php';
 	
 		$parser = new position_parser("D:\\Work\\vehicle-gps-mgr\\trunk\\file\\2010080312.log",35241,"13300920355");
 		$datalist = $parser->getDataList();
