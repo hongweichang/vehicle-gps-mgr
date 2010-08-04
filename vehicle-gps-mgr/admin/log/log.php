@@ -23,7 +23,7 @@ switch($act)
 {
 	case "list":		//模拟测试
 		//数据页面
-		include("include/templates.php");
+//		include("include/templates.php");
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 
