@@ -99,6 +99,16 @@ switch ($act) {
 			echo "fail";
 		}
 		break;
-
+	case "newest_alert"://查询24小时内的最新告警
+		
+		$alert = new Alert ();
+		$record=$alert->get_newest_alert();
+		
+		if($record!=null){
+			echo "在".$record[0]."时间点，车牌号为".$record[1]."，产生了告警：".$record[2];
+		}
+		else{
+			echo "没有最新告警";
+		}
 }
 ?>
