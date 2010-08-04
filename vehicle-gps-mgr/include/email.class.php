@@ -29,11 +29,10 @@
 			return $this->error_info;
 		}
 		//发邮件方法
-		public function sendMail($address,$title,$content,$fromName)
+		public function sendMail($address,$title,$content)
 		{
 			$this->title=$title;
 			$this->content=$content;
-			$this->fromName=$fromName;
 
 			if(is_string($address))
 			{
@@ -60,7 +59,6 @@
 			$this->mailer->CharSet=$this->mail_config['CharSet'];		// 设置字符集编码   
 			$this->mailer->SMTPSecure=$this->mail_config['SMTPSecure'];	// 设置连接的前缀。
 
-			$this->mailer->FromName = $this->fromName;					// 发件人称呼
 			$this->mailer->Subject = $this->title;						// 邮件标题
 			$this->mailer->Body = $this->content;						// 邮件内容
 
