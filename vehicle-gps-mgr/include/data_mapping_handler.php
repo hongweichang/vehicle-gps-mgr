@@ -13,7 +13,7 @@ class Data_mapping_handler {
 	 * 构造函数
 	 * @param $filepath xml文件全路径
 	 */
-	function Data_mapping_handler($filepath) {
+	function Data_mapping_handler($filepath) { 
 		$this->file_handler = new DOMDocument ();
 		$this->file_handler->load ( $filepath );
 	}
@@ -62,16 +62,35 @@ class Data_mapping_handler {
 	 * @param $lableName section名,对应的xml文件的本标签的名字
 	 * @return $dataList 对应的返回数组
 	 */
-	function getTextDataList($lableName) {
+	function getTextDataList($lableName) { 
 		$dataList = array ();
 		$XML_info = $this->file_handler->getElementsByTagName ( $lableName )->item ( 0 );
-		
+	 
 		foreach ( $XML_info->getElementsByTagName ( "item" ) as $items ) {
 			$val = $items->getAttribute ( "value" );
 			$text = $items->getAttribute ( "displayText" );
 			$dataList [$val] = $text;
 		}
 		return $dataList;
+	}
+	
+ 	/**
+ 	 * 使用 根标签 与标签名 获取 displayText值
+ 	 * @param $labelName   对应的xml文件的本标签的名字
+ 	 * @param $value  标签值   
+ 	 */
+	function getTextData($labelName,$value) {   
+		$dataList = array ();
+		$XML_info = $this->file_handler->getElementsByTagName ( $labelName)->item ( 0 );
+	 
+		foreach ( $XML_info->getElementsByTagName ( "item" ) as $items ) { 
+				$val = $items->getAttribute ( "value" );
+				$text = $items->getAttribute ( "displayText" );
+				 
+				if (strtolower($val) == strtolower($value)) {
+					return $text;
+				} 
+		} 
 	}
 }
 
