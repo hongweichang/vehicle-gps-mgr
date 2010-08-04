@@ -2,9 +2,34 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>统计分析</title>
+<title>统计信息</title>
+ 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<link type="text/css" href="js/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
 </head>
 <body>
-
+	<script type="text/javascript">
+		$(function() {
+			$("#tabs").tabs();
+		});
+		</script>
+	
+	<div class="inquireContainer">
+		<div id="tabs">
+			<ul>
+				<li><a href="#current">车辆统计</a></li>
+				<li><a href="#history">驾驶员统计</a></li>
+			</ul>
+			<div id="current">
+				<p>车辆统计</p>
+			</div>
+			<div id="history">
+				<p>驾驶员统计</p>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
