@@ -10,7 +10,7 @@
 	<script language="javascript" src="js/jquery.min.js" ></script>
 	<script language="javascript" src="js/jquery.msgbox.js" ></script>
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
-	 
+	
 </head>
 <body onload="alertInfo()">
 	<div id="header">
@@ -154,14 +154,39 @@
 				} 
 
 		
+			var state = 0; //操作状态
+		  	  
+			$(document).ready(function() { 
+
+				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
+				 .each(function () {
+					$('span.hover').css('opacity', 0).hover(function () {
+						$(this).stop().fadeTo(650, 1);
+					}, function () {
+						$(this).stop().fadeTo(650, 0);
+					});
+				});
+				$("#vehicle").append("<div class='button_font'>选择车辆</div>");
+				$("#sendInfo").append("<div class='button_font'>发布信息</div>");
+				$("#searchInfo").append("<div class='button_font'>查询信息</div>");
+				$("#statistic").append("<div class='button_font'>统计分析</div>");
+				$("#text_mode").append("<div class='button_font'>文字模式</div>");
+				$("#setting").append("<div class='button_font'>设置</div>");
+				
+				var speed = 500;//动画速度
+
+		  
+			});
 			onLoadMap();
 			
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
 			var lat = 11636160;  //纬度
 			var lon = 3991104;  // 经度
-			var speed = 1000;  //速度/ms
+			var speed = 10000;  //速度/ms
 			var marker1;
+			var info;
+			
 			//加载地图
 			function onLoadMap()
 			{
@@ -169,13 +194,16 @@
 				map=new LTMaps("map");
 				map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
+				map.addControl(new LTZoomInControl());
+				
+			/*										 
+				marker1 = new LTMarker( new LTPoint(   11633034 , 3991040 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
+				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
+				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
 
-				marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
-				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
-				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
-				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
- 	
-				 
+				
+				
 				map.addOverLay(marker1 );
 				map.addOverLay(marker2 );
 				map.addOverLay(marker3 );
@@ -197,9 +225,8 @@
 				polyLine1.setLineArrow("Classic","Classic");
 				//将折线添加到地图
 				map.addOverLay( polyLine1 );
-
-				
-
+				 
+				LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
 				setTimeout("drawLine();",speed);
 				
 			    control = new LTZoomSearchControl();
@@ -208,37 +235,75 @@
 				map.addControl( control );
 
 				//选中区域
-				LTEvent.addListener(control,"mouseup",drawRectangle);
+				LTEvent.addListener(control,"mouseup",drawRectangle); */
 			}
 
-			function drawLine(){
+			//打开信息
+			function openInfoWin()
+			{
+				 var win= this.openInfoWinHtml( "车辆1" );
+				 win.closeInfoWindowWithMouse();	//定义在鼠标移出时关闭信息浮窗
+			}
+
+
+			//历史轨迹画线
+			function drawHistoryTrack(data){
 				
 				var points1 = new Array();
 				points1.push( new LTPoint(  lat, lon ) );
 				points1.push( new LTPoint( lat+100 , lon+100) );
-
+				
+				
 				var polyLine1 = new LTPolyLine(points1);
 				map.addOverLay( polyLine1 );
 
 				lat = lat+100;
-				lon = lon +100;
-
+				lon = lon +100; 
 
 				map.removeOverLay(marker1);
-				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.103:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
 				map.addOverLay(marker1 );
-				
-				//setTimeout("drawLine();",speed);
+
+				LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
+				setTimeout("drawLine();",speed);
 				
 			}
 
 			/**
-			  *  str  车辆ID集合
-			  *  格式"ID1,ID2,ID3,"
+ 			  *  车辆请求定位	
+			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
 			function vehiclePosition(str){
- 				alert("正在开发");
+		 
+ 				 $.ajax({
+						type:"POST",
+						url:"index.php?a=2&vehicleIds="+str, 
+						dataType:"json",
+						success:function(data){ 
+							var length = data.length;
+
+							for(var i=0;i<length;i++){         
+								 
+								marker1 = new LTMarker( new LTPoint(round(data[i][1]),round(data[i][2])),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/"+data[i][4]+"/"+data[i][3]+".png"));
+								map.addOverLay(marker1);
+								LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
+								
+							}
+							map.centerAndZoom("beijing",12);
+						 }
+ 	 				});
 			}
+			
+			//经纬度五舍五入
+			function round(v,e){
+			v= v*100000;
+				var   t=1;   
+					for(;e>0;t*=10,e--);   
+					for(;e<0;t/=10,e++);   
+
+				return  Math.round(v*t)/t;   
+			  } 
+			
 			//手动画矩形
 			function drawRectangle(){
 				
