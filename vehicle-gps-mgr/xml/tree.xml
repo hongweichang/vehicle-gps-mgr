@@ -25,14 +25,15 @@
 
 	<!-- 日志管理 -->
 	<row><cell>11</cell><cell>日志管理</cell><cell></cell><cell>0</cell><cell>51</cell><cell>60</cell><cell>false</cell><cell>false</cell></row>
-    <row><cell>12</cell><cell>日志</cell><cell>index.php?a=5005</cell><cell>1</cell><cell>52</cell><cell>53</cell><cell>true</cell><cell>true</cell></row>
-    <row><cell>13</cell><cell>日志接口</cell><cell>index.php?a=5007</cell><cell>1</cell><cell>54</cell><cell>55</cell><cell>true</cell><cell>true</cell></row>
+    <row><cell>12</cell><cell>操作日志</cell><cell>index.php?a=5005</cell><cell>1</cell><cell>52</cell><cell>53</cell><cell>true</cell><cell>true</cell></row>
+    <row><cell>13</cell><cell>登录日志</cell><cell>index.php?a=1050</cell><cell>1</cell><cell>54</cell><cell>55</cell><cell>true</cell><cell>true</cell></row>
+    <row><cell>14</cell><cell>日志接口</cell><cell>index.php?a=5007</cell><cell>1</cell><cell>56</cell><cell>57</cell><cell>true</cell><cell>true</cell></row>
 
 	<!-- 信息管理 -->
-	<row><cell>14</cell><cell>信息管理</cell><cell></cell><cell>0</cell><cell>61</cell><cell>70</cell><cell>false</cell><cell>false</cell></row>
-    <row><cell>15</cell><cell>信息</cell><cell>index.php?a=5008</cell><cell>1</cell><cell>62</cell><cell>63</cell><cell>true</cell><cell>true</cell></row>
+	<row><cell>15</cell><cell>信息管理</cell><cell></cell><cell>0</cell><cell>61</cell><cell>70</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>16</cell><cell>信息</cell><cell>index.php?a=5008</cell><cell>1</cell><cell>62</cell><cell>63</cell><cell>true</cell><cell>true</cell></row>
 
 	<!-- 车辆类型管理 -->
-	<row><cell>16</cell><cell>车辆类型管理</cell><cell></cell><cell>0</cell><cell>71</cell><cell>80</cell><cell>false</cell><cell>false</cell></row>
-    <row><cell>17</cell><cell>车辆类型</cell><cell>index.php?a=1030</cell><cell>1</cell><cell>72</cell><cell>73</cell><cell>true</cell><cell>true</cell></row>
+	<row><cell>17</cell><cell>车辆类型管理</cell><cell></cell><cell>0</cell><cell>71</cell><cell>80</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>18</cell><cell>车辆类型</cell><cell>index.php?a=1030</cell><cell>1</cell><cell>72</cell><cell>73</cell><cell>true</cell><cell>true</cell></row>
 </rows>
