@@ -9,12 +9,22 @@
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
+	
 </head>
 <body>
 	<script type="text/javascript">
 		$(function() {
 			$("#tabs").tabs();
+
+			$("#trace").click(function(){
+				$.post("index.php?a=302", 
+						function(data){
+							parent.window.drawHistoryTrack(data);
+						},"json"
+					);
+			});
 		});
+
 		</script>
 	
 	<div class="inquireContainer">
@@ -28,6 +38,7 @@
 			</div>
 			<div id="history">
 				<p>查询历史信息</p>
+				<input type="button" id="trace" name="trace" value="查询历史轨迹"/>
 			</div>
 		</div>
 	</div>
