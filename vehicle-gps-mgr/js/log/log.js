@@ -1,4 +1,4 @@
-jQuery("#navgrid").jqGrid({
+jQuery("#navgrid_log").jqGrid({
    	url:'index.php?a=5006',
 	datatype: "json",
 	colNames:['ID','用户', '所属公司', '操作时间','操作描述'],
@@ -11,7 +11,7 @@ jQuery("#navgrid").jqGrid({
    	],
    	rowNum:10,
    	rowList:[10,20,30],
-   	pager: '#pagernav',
+   	pager: '#pagernav_log',
    	sortname: 'id',
     viewrecords: true,
     sortorder: "asc",
@@ -20,7 +20,7 @@ jQuery("#navgrid").jqGrid({
 	height:350,
 	width:750
 });
-jQuery("#navgrid").jqGrid('navGrid','#pagernav',
+jQuery("#navgrid_log").jqGrid('navGrid','#pagernav_log',
 {edit:false,add:false,del:false,view:true}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:false,alerttext:"请选择需要操作的数据行!"});

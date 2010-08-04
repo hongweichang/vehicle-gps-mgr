@@ -1,4 +1,4 @@
-jQuery("#navgrid1").jqGrid({
+jQuery("#navgrid_driver").jqGrid({
    	url:'index.php?a=5002',
 	datatype: "json",
 	colNames:['姓名', '驾驶证号', '性别','出生日期','参加工作时间','工号','驾照类型','手机','手机邮箱','家庭住址',"操作"],
@@ -60,7 +60,7 @@ jQuery("#navgrid1").jqGrid({
    	],
    	rowNum:10,
    	rowList:[10,20,30],
-   	pager: '#pagernav1',
+   	pager: '#pagernav_driver',
    	sortname: 'id',
     viewrecords: true,
     sortorder: "asc",
@@ -69,7 +69,7 @@ jQuery("#navgrid1").jqGrid({
 	height:"350",
 	width:"750"
 });
-jQuery("#navgrid1").jqGrid('navGrid','#pagernav1',
+jQuery("#navgrid_driver").jqGrid('navGrid','#pagernav_driver',
 {edit:true, add:true, del:true,view:true}, //options
 //edit:false,add:false,del:false
 {

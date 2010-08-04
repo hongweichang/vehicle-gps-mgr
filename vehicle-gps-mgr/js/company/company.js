@@ -1,4 +1,4 @@
-jQuery("#navgrid").jqGrid({
+jQuery("#navgrid_company").jqGrid({
    	url:'index.php?a=5004',
 	datatype: "json",
 	colNames:['ID','登录id', '公司名', '公司注册号','地区1(省)','地区2(市)','地区3(区、县)','描述','联系人名字','地址','邮编','电话','传真','移动电话','邮箱','网址','状态','服务开始时间','服务结束时间','收费标准','创建人','创建时间','更新人','更新时间'],
@@ -72,7 +72,7 @@ jQuery("#navgrid").jqGrid({
    	],
    	rowNum:10,
    	rowList:[10,20,30],
-   	pager: '#pagernav',
+   	pager: '#pagernav_company',
    	sortname: 'id',
     viewrecords: true,
     sortorder: "desc",
@@ -82,7 +82,7 @@ jQuery("#navgrid").jqGrid({
 	height:"350",
 	width:"750"
 });
-jQuery("#navgrid").jqGrid('navGrid','#pagernav',
+jQuery("#navgrid_company").jqGrid('navGrid','#pagernav_company',
 {edit:true, add:true, del:true,view:true}, //options
 //edit:false,add:false,del:false
 {

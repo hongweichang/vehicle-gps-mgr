@@ -215,7 +215,7 @@ switch($act)
 				$comp->delete_data($parms);
 				break;
 		}
-//		file_put_contents("d:\a.txt",$GLOBALS['db']->sql);
+		file_put_contents("d:\a.txt",$GLOBALS['db']->sql);
 		break;
 }
 ?>

@@ -14,7 +14,7 @@
 class Vehicle_group extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "Vehicle_group";
+	public $tablename = "vehicle_group";
 	public $data = false;                //数据
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
