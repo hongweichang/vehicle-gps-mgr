@@ -20,6 +20,8 @@ class vehicle_console extends BASE{
 	private $user_id = false;		//用户ID
 	private $tablename_vehicle_group = "vehicle_group";//车辆组
 	private $tablename_vehicle_manage = "vehicle_manage";//车辆
+	private $tablename_common_setting = "common_setting"; //系统内部参数表
+	private $tablename_speed_color = "speed_color"; //速度关联
 			 
 			/*
 			 * 查询车辆组数量
@@ -46,7 +48,39 @@ class vehicle_console extends BASE{
 				$this->sql = "select * from ".$this->tablename_vehicle_manage." ".$wh." order by length(number_plate)";
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
-
+			
+			/***
+			 * 查询车辆集合定位信息、速度颜色
+			 * $where 车辆ID集合(例：1,2,6,3,4)
+			 */
+			function  get_vehicles($where=-1){
+				
+				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,s.color ".
+									" FROM  ".
+									"	".$this->tablename_vehicle_manage." as v ". 
+									" INNER JOIN ".
+									"	speed_color as s ". 
+									" ON  ".
+									"	v.id in(".$where.") ".
+									"	AND ".
+									"		v.company_id = s.company_id ". 
+									"	AND ".
+									"		v.cur_direction>=min". 
+									" 	AND". 
+									"		v.cur_direction<max";    
+				return $this->data_list = $GLOBALS["db"]->query($this->sql);
+			}
+			
+			/**
+			 * 
+			 * @param $commpany_id
+			 */
+			function get_default_color($commpany_id=-1){
+				
+				$this->sql = "SELECT default_color FROM ".$this->tablename_common_setting." WHERE commpany_id=".commpany_id;
+				
+				return $GLOBALS["db"]->query_once($this->sql);
+			}
 }
 
 ?>

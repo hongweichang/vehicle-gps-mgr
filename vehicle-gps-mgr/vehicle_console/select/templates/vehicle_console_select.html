@@ -48,12 +48,14 @@
 		});
 
 		$("#commit").click(function(){
-            var vehicles = $("input:checked");
+            var vehicles = $(".vehicle:checked");
             var str="";
             vehicles.each(function(i){
-              str = str+$(this).attr("name")+",";
-               });
-            parent.window.vehiclePosition(str);
+                
+                	str = str+$(this).val()+",";
+                
+             });
+  				 parent.window.vehiclePosition(str.substr(0,str.length-1));
 			});
 	});
 	

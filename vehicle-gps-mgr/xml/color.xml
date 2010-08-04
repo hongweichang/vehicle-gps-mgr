@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <color>
-	<item displayText="images/vehicle/gray/west.png" value="#BEC0C2" />
+	<item displayText="images/vehicle/gray/west.png" value="#Bec0C2" />
 	<item displayText="images/vehicle/golden/west.png" value="#F89E20" />
 	<item displayText="images/vehicle/red/west.png" value="#9D1E23" />
 	<item displayText="images/vehicle/grayGreen/west.png" value="#A1A070" />
@@ -8,4 +8,4 @@
 	<item displayText="images/vehicle/green/west.png" value="#194721" />
 	<item displayText="images/vehicle/blue/west.png" value="#54C8EA" />
 	<item displayText="images/vehicle/yellow/west.png" value="#FFF200" /> 
-</color>
+</color> 
