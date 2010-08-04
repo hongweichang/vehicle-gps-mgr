@@ -11,8 +11,8 @@ class Alert extends BASE {
 	
 	public $mysel_table_name = "alert_info"; //	以下为每个类都必须有的变量
 	public $user_table_name = "user"; //FK 用户表名称
+	public $alert_table_name="alert_info";//告警记录表
 	public $vehicle_manage_table_name = "vehicle_manage"; // FK 车辆管理表名称
-	
 
 	public $data = false; //数据
 	public $data_list = false; //数据集合
@@ -100,5 +100,23 @@ class Alert extends BASE {
 		}
 		return true;
 	}
+	/**
+	 * 获得24小时内最新未处理告警记录
+	 */
+    function get_newest_alert(){
+    	date_default_timezone_set('Asia/Shanghai');//转换为现在的时区
+    	$nowTime=date("Y-m-d H:i:s");//获得当前时间
+    	$datetime=date("Y-m-d H:i:s",time()-24*60*60);//获得前一天的时间
+    	
+    	//格式化sql语句
+    	$sql ="select %s.alert_time, %s.number_plate, %s.description from %s inner join %s where  vehicle_manage.id=alert_info.vehicle_id and (alert_info.alert_time  between \""
+    	.$datetime."\" and \"".$nowTime."\") and (alert_info.dispose_opinion is null or alert_info.dispose_opinion=\"\")  order by alert_info.alert_time desc limit 0,1" ;
+    	
+    	$this->sql = sprintf($sql,"alert_info","vehicle_manage","alert_info","alert_info","vehicle_manage");
+    	
+    	$record = $GLOBALS ["db"]->query_once ( $this->sql );
+    	return $record;
+    }
+
 }
 ?>
