@@ -97,7 +97,7 @@ switch($act)
 		break;
 	case "login_success":		
 		$arr['url_manage'] = URL('user','user.php','manage_list');
-		$arr['url_setup'] = URL('user','user.php','setup');
+		$arr['url_setup'] = URL('setting','setting.php','get_setting');
 		$arr['url_logout'] = URL('user','user.php','logout');
 		echo $db->display($arr,"login_success");
 		break;
