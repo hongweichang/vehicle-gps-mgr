@@ -159,6 +159,7 @@ switch($act)
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
 		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");
 		$arr["gps_id"] = $db->prepare_value($_REQUEST['gps_id'],"VARCHAR");
+		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
 		$arr["vehicle_group_id"] = $db->prepare_value($_REQUEST['vehicle_group_id'],"INT");
 		$arr["driver_id"] = $db->prepare_value($_REQUEST['driver_id'],"INT");
 		$arr["type_id"] = $db->prepare_value($_REQUEST['type_id'],"INT");

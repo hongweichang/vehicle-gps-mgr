@@ -166,7 +166,8 @@ class Vehicle extends BASE
 	*/
 	function get_all_vehicles($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." and vehicle_group_id in(select id from ".$this->tablename_vehicle_group." where company_id = ".get_session("company_id").") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		//$this->sql = "select * from ".$this->tablename." ".$wh." and vehicle_group_id in(select id from ".$this->tablename_vehicle_group." where company_id = ".get_session("company_id").") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
