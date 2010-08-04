@@ -248,7 +248,7 @@ switch($act)
 			';
 		}
 
-		$html = "<table>";
+		$html = "<table><tr><td align='center'>最小速度</td><td align='center'></td><td align='center'>最大速度</td><td align='center'>颜色选择</td></tr>";
 
 		//剩余段数
 		$temp_array = array();
@@ -293,7 +293,7 @@ switch($act)
 				$va = "0";
 
 			$html .= "<tr>";
-			$html .= "<td><input type='text' size='5' name='speed_".(2*$key)."' readonly id='speed_".(2*$key)."' value='".$va."'></td><td> -- </td><td><input type='text' onblur='change_speed(this);' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'></td><td id='td".$key."' name='td_c[]'>".$a."</td>";
+			$html .= "<td align='center'><input type='text' size='5' name='speed_".(2*$key)."' readonly id='speed_".(2*$key)."' value='".$va."'></td><td align='center'> -- </td><td align='center'><input type='text' onblur='change_speed(this);' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'></td><td id='td".$key."' name='td_c[]'>".$a."</td>";
 			$html .= "</tr>";
 		}
 
