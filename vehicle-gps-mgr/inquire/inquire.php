@@ -19,7 +19,7 @@ switch($act)
 	case "trace":
 		require_once 'traceInfo.php';
 	
-		$parser = new position_parser("D:\\Work\\vehicle-gps-mgr\\trunk\\file\\2010080312.log",35241,"13300920355");
+		$parser = new position_parser("tracedata/2010080312.log",35241,"13300920355");
 		$datalist = $parser->getDataList();
 		
 		$trace_info = "";
