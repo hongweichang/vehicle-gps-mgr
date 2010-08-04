@@ -29,7 +29,7 @@ switch($act)
 
 	case "list_data":
 			$log	= new Log();	//模拟打印润色后的字符串值
-			$count = $log->get_all_count();
+			$count = $log->get_all_count(get_session("company_id"));
 
 			if( $count >0 ) {
 				$total_pages = ceil($count/$limit);
@@ -42,12 +42,12 @@ switch($act)
 
 			//得到字段类型
 			if(empty($searchfil) or empty($searchstr))
-				$wh = '';
+				$wh = ' where company_id = '.get_session("company_id");
 			else
 			{
 //				$type = $driver->get_type($searchfil);
 //				$searchstr = $db->prepare_value($searchstr,$type);
-				$wh = "where ".$searchfil." LIKE '%".$searchstr."%'";
+				$wh = "where company_id = ".get_session("company_id")." and ".$searchfil." LIKE '%".$searchstr."%'";
 			}
 
 			$rtn = $log->get_all_logs($wh,$sidx,$sord,$start,$limit);

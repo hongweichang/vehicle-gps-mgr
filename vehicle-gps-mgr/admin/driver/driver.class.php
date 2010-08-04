@@ -71,7 +71,7 @@ class Driver
 	*/
 	function get_all_count()
 	{
-		$this->sql = "select count(*) from ".$this->tablename;
+		$this->sql = "select count(*) from ".$this->tablename." where company_id =".get_session("company_id");
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
 	}
