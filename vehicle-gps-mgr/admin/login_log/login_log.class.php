@@ -33,7 +33,7 @@ class Login_log
 	*/
 	function get_all_logs($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data = $GLOBALS["db"]->query($this->sql);
 	}
 
@@ -44,7 +44,7 @@ class Login_log
 	*/
 	function get_all_count()
 	{
-		$this->sql = "select count(*) from ".$this->tablename;
+		$this->sql = "select count(*) from ".$this->tablename."and company_id = ".get_session("company_id");
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
 	}

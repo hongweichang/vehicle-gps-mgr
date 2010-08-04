@@ -41,7 +41,7 @@ switch($act)
 
 			//得到字段类型
 			if(empty($searchfil) or empty($searchstr))
-				$wh = '';
+				$wh = ' where 1=1 ';
 			else
 			{
 //				$type = $driver->get_type($searchfil);
@@ -50,7 +50,7 @@ switch($act)
 			}
 
 			$rtn = $log->get_all_logs($wh,$sidx,$sord,$start,$limit);
-
+			
 			$responce->page	= $page;
 			$responce->total = $total_pages;
 			$responce->records = $count;

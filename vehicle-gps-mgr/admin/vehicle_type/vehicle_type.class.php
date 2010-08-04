@@ -135,7 +135,7 @@ class Vehicle_type extends BASE
 	*/
 	function get_vehicle_type_count()
 	{
-		$this->sql = "select count(*) from ".$this->tablename;
+		$this->sql = "select count(*) from ".$this->tablename." and company_id = ".get_session("company_id");
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
 	}
