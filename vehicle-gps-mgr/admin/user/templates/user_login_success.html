@@ -1,4 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -12,7 +12,7 @@
 	<script language="javascript" src="http://192.168.1.103:3722/vehicle-gps-mgr/js/jquery.dragndrop.js"></script>
 	 
 </head>
-<body>
+<body onload="alertInfo()">
 	<div id="header">
 	<div class="header_content">
 	<div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
@@ -48,22 +48,29 @@
 			<div id="alertInfo">
 				<div id="newAlert">最新告警信息</div>
 				<div id="alert_info">
-					2010年7月21日13点21分25秒&nbsp;车牌号为XXXX的车超速&nbsp;<a href="#">处理</a>&nbsp;<a href="index.php?a=901">查看更多</a>
+					<span id="record"></span>&nbsp;&nbsp;&nbsp;<a href="#">处理</a>&nbsp;&nbsp;&nbsp;<a href="index.php?a=901">查看更多</a>
 				</div> <hr />
 			</div>
 		</div>
 	</div>
 	</div>
-	<!-- 弹出层 -->
-	<div id="vehicle_Pop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute; display: none; width: 40%; height: 50%; z-Index: 2">
-		<div id="close" style="text-align: right; cursor: pointer; font-size: 14px;">关闭</div>
-		<div style="border: 0px red solid; width: 100%; height: 90%;">
-			<iframe id="vehicle_option" style="width: 100%; height: 100%;" scrolling='no'frameborder='0'></iframe>
-		</div>
-	</div>
 	<script language="javascript">
 			var state = 0; //操作状态
+ 			/**获得24小时内未处理的告警记录**/
+ 			function alertInfo(){
+ 				$.post("index.php",{
+					 "a":921}
+					,function(data){
+						$("#record").html(data);
+					 }
+				);
+				
+				setTimeout(alertInfo,1000);
+ 			}
+
+
 			
+			/**弹出层jquery代码**/
 			$(document).ready(function() {
 				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
 				 .each(function () {
@@ -140,7 +147,7 @@
 										height:500,
 										title:'设置',
 										width:750,
-										content:{type:'iframe', content:'http://www.google.com'}
+										content:{type:'iframe', content:'index.php?a=5017'}
 									});
 						}
 					});
