@@ -66,8 +66,8 @@ class position_parser
 				$this->index = $data_list[0];
 				
 				$gpsInfo = new gpsInfo();
-				$gpsInfo->longitude = $data_list[3];
-				$gpsInfo->latitude = $data_list[4];
+				$gpsInfo->latitude = $data_list[3];
+				$gpsInfo->longitude = $data_list[4];
 				$gpsInfo->location_time = $data_list[5].$data_list[6];
 				$gpsInfo->speed = $data_list[11];
 				$gpsInfo->direction = $data_list[12];
