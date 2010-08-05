@@ -12,7 +12,6 @@
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
 </head>
 <body>
-<bgsound>
 	<div id="header">
 	<div class="header_content">
 	<div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
@@ -21,9 +20,7 @@
 	</div>
 	</div>
 	<div id="content">
-	
 		<div id="map"></div>
-		
 		<div class="button_content">
 			<ul id="nav">
 					<li class="jsbutton" id="vehicle">
@@ -37,9 +34,6 @@
 					</li>
 					<li class="jsbutton" id="statistic">
 						<div class="button_font">统计分析</div>
-					</li>
-					<li class="jsbutton" id="text_mode">
-						<div class="button_font">文字模式</div>
 					</li>
 					<li class="jsbutton" id="setting">
 						<div class="button_font">设置</div>
@@ -61,7 +55,8 @@
 	</div>
 	</div>
 	<script language="javascript">
-				var state = 0; //操作状态 
+				var state = 0; //操作状态  
+				
 				/**获得24小时内未处理的告警记录**/
 	 			function alertInfo(){
 	 				$.post("index.php",{
@@ -103,14 +98,12 @@
 					$("#sendInfo").append("<div class='button_font'>发布信息</div>");
 					$("#searchInfo").append("<div class='button_font'>查询信息</div>");
 					$("#statistic").append("<div class='button_font'>统计分析</div>");
-					$("#text_mode").append("<div class='button_font'>文字模式</div>");
 					$("#setting").append("<div class='button_font'>设置</div>");
 
 					appearDiv("#vehicle");
 					appearDiv("#sendInfo");
 					appearDiv("#searchInfo");
 					appearDiv("#statistic");
-					appearDiv("#text_mode");
 					appearDiv("#setting");
 
 					alertInfo();
@@ -151,15 +144,6 @@
 											title:'统计分析',
 											width:750,
 											content:{type:'iframe', content:'index.php?a=401'}
-										});
-							}
-								if(function_Id=="#text_mode"){
-								 $.msgbox({
-											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-											height:500,
-											title:'文字模式',
-											width:750,
-											content:{type:'iframe', content:'index.php?a=501'}
 										});
 							}
 							if(function_Id=="#setting"){
