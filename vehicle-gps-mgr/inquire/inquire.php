@@ -22,15 +22,18 @@ switch($act)
 		$parser = new position_parser("tracedata/2010080312.log",35241,"13300920355");
 		$datalist = $parser->getDataList();
 		
-		$trace_info = "";
+		$point_info = array();
+		$trace_info = array();
 		
 		foreach($datalist as $k=>$v)
 		{
-			$trace_info = $trace_info."{".$v->longitude.",".$v->latitude.",".resolvingDirection($v->direction).",".$v->speed."},";
+			$point_info[0]= $v->longitude;
+			$point_info[1]= $v->latitude;
+			$point_info[2]= resolvingDirection($v->direction); 
+			$point_info[3]= $v->speed;
+
+			array_push($trace_info,$point_info);
 		}
-		
-		$trace_info = trim($trace_info,',');
-		$trace_info = "{".$trace_info."}";
 		
 		echo json_encode($trace_info);
 		break;
