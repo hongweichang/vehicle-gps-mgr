@@ -4,8 +4,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>发布信息</title>
+
+<script type="text/javascript" src="js/jquery-1.4.2.js"></script> 
+<script type="text/javascript" src="js/jquery.form.js"></script> 
+
+<script type="text/javascript"> 
+    // wait for the DOM to be loaded 
+    $(document).ready(function() { 
+        // bind 'sendNews' and provide a simple callback function 
+        $('#sendNews').ajaxForm(function(){ 
+            $('#new').html("提交成功!").show();
+        }); 
+    }); 
+</script> 
 </head>
+
 <body>
-发布信息
+<h3>发布消息</h3>
+<form id="sendNews" name="sendNews" action="index.php?a=202" method="post">
+	请您输入收信人的邮箱地址:
+	<input type="text" size="30" name="address" id="address"/><br/>
+	请您输入要发送的邮件主题:
+	<input type="text" size="30" name="title" id="title"/><br />
+	请您输入要发送的邮件内容:
+	<textarea rows="5" cols="25" name="content" id="content"></textarea><br />
+	<input type="submit" value="发布消息"/>
+	<div align="center" id="new" style="display: none;"></div>
+</form>
 </body>
 </html>
