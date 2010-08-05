@@ -12,6 +12,7 @@
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
 </head>
 <body>
+<bgsound>
 	<div id="header">
 	<div class="header_content">
 	<div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
@@ -80,8 +81,8 @@
 								$("#record").html("");
 								$("#record").html(data);
 								$("#operate").html("");
-								$("#operate").html("<a href='#'>处理</a><a href='index.php?a=901' style='margin-left:5px;'>查看更多</a>");
-							}
+								$("#operate").html("<a href='#'>处理</a><a href='index.php?a=901' style='margin-left:5px;'>查看更多</a><bgsound balance='0' loop='-1' src='voice/sound.mp3' volume='10' />");
+								}
 						 }
 					);
 					
