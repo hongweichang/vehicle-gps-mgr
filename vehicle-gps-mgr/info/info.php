@@ -16,6 +16,15 @@ switch($act)
 	case "main":	//填写信息内容页面
 		echo $GLOBALS['db']->display(null,$act);
 		break;
+	case "sendmail":
+		require_once("include/email.class.php");
+		$address = $_POST["address"];
+		$title = $_POST["title"];
+		$content = $_POST["content"];
+		$sendMl = new Email($mail_config);
+		$sendMl->sendMail($address,$title,$content);
+		return $sendMl->getErrorInfo();
+		break;
 	break;
 }
 ?>
