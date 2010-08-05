@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
@@ -10,9 +10,16 @@
 	<script language="javascript" src="js/jquery.min.js" ></script>
 	<script language="javascript" src="js/jquery.msgbox.js" ></script>
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
-	
+	<style type="text/css">
+		.clear{clear:both;} 
+		#wrapper {
+			margin-top: 0px;
+			text-align: left;
+			width: 100%;
+		} 
+	</style>
 </head>
-<body onload="alertInfo()">
+<body>
 	<div id="header">
 	<div class="header_content">
 	<div class="marquee"><a href="{{URL_SETUP}}" target="_blank">系统设置</div>
@@ -44,7 +51,7 @@
 				<li class="jsbutton" id="setting">
 					<div class="button_font">设置</div>
 				</li>
-			</ul>
+						</ul>
 			<div id="alertInfo">
 				<div id="newAlert">最新告警信息</div>
 				<div id="alert_info">
@@ -55,137 +62,100 @@
 	</div>
 	</div>
 	<script language="javascript">
-			var state = 0; //操作状态
- 			/**获得24小时内未处理的告警记录**/
- 			function alertInfo(){
- 				$.post("index.php",{
-					 "a":921}
-					,function(data){
-						$("#record").html(data);
-					 }
-				);
+				var state = 0; //操作状态 
 				
-				setTimeout(alertInfo,1000);
- 			}
-
-
-			
-			/**弹出层jquery代码**/
-			$(document).ready(function() {
-				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
-				 .each(function () {
-					$('span.hover').css('opacity', 0).hover(function () {
-						$(this).stop().fadeTo(650, 1);
-					}, function () {
-						$(this).stop().fadeTo(650, 0);
+				/**弹出层jquery代码**/
+				$(document).ready(function() {
+					$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
+					 .each(function () {
+						$('span.hover').css('opacity', 0).hover(function () {
+							$(this).stop().fadeTo(650, 1);
+						}, function () {
+							$(this).stop().fadeTo(650, 0);
+						});
 					});
+					$("#vehicle").append("<div class='button_font'>选择车辆</div>");
+					$("#sendInfo").append("<div class='button_font'>发布信息</div>");
+					$("#searchInfo").append("<div class='button_font'>查询信息</div>");
+					$("#statistic").append("<div class='button_font'>统计分析</div>");
+					$("#text_mode").append("<div class='button_font'>文字模式</div>");
+					$("#setting").append("<div class='button_font'>设置</div>");
+
+					appearDiv("#vehicle");
+					appearDiv("#sendInfo");
+					appearDiv("#searchInfo");
+					appearDiv("#statistic");
+					appearDiv("#text_mode");
+					appearDiv("#setting");
 				});
-				$("#vehicle").append("<div class='button_font'>选择车辆</div>");
-				$("#sendInfo").append("<div class='button_font'>发布信息</div>");
-				$("#searchInfo").append("<div class='button_font'>查询信息</div>");
-				$("#statistic").append("<div class='button_font'>统计分析</div>");
-				$("#text_mode").append("<div class='button_font'>文字模式</div>");
-				$("#setting").append("<div class='button_font'>设置</div>");
+				 function appearDiv(function_Id){
+					    $(function_Id).click(function(){ 
+							if(function_Id=="#vehicle"){ 
+								$.msgbox({
+									closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+									height:500,
+									title:'车辆选择',
+									width:750,
+									content:{type:'iframe', content:'index.php?a=1'}
+								});
+							}
+							if(function_Id=="#sendInfo"){
+								 $.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'发布信息',
+											width:750,
+											content:{type:'iframe', content:'index.php?a=201'}
+										});
+							}
+								if(function_Id=="#searchInfo"){
+									$searchInfo =$.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'查询信息',
+											width:750,
+											content:{type:'iframe', content:'index.php?a=301'}
+										});
+							}
+							if(function_Id=="#statistic"){
+								 $.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'统计分析',
+											width:750,
+											content:{type:'iframe', content:'index.php?a=401'}
+										});
+							}
+								if(function_Id=="#text_mode"){
+								 $.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'文字模式',
+											width:750,
+											content:{type:'iframe', content:'index.php?a=501'}
+										});
+							}
+							if(function_Id=="#setting"){
+								 $.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'设置',
+											width:750,
+											content:{type:'iframe', content:'index.php?a=5017'}
+										});
+							}
+						});
+					} 
 
-				appearDiv("#vehicle");
-				appearDiv("#sendInfo");
-				appearDiv("#searchInfo");
-				appearDiv("#statistic");
-				appearDiv("#text_mode");
-				appearDiv("#setting");
-			});
-			 function appearDiv(function_Id){
-				    $(function_Id).click(function(){ 
-						if(function_Id=="#vehicle"){ 
-							$.msgbox({
-								closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-								height:500,
-								title:'车辆选择',
-								width:750,
-								content:{type:'iframe', content:'index.php?a=1'}
-							});
-						}
-						if(function_Id=="#sendInfo"){
-							 $.msgbox({
-										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-										height:500,
-										title:'发布信息',
-										width:750,
-										content:{type:'iframe', content:'index.php?a=201'}
-									});
-						}
-							if(function_Id=="#searchInfo"){
-							 $.msgbox({
-										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-										height:500,
-										title:'查询信息',
-										width:750,
-										content:{type:'iframe', content:'index.php?a=301'}
-									});
-						}
-						if(function_Id=="#statistic"){
-							 $.msgbox({
-										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-										height:500,
-										title:'统计分析',
-										width:750,
-										content:{type:'iframe', content:'index.php?a=401'}
-									});
-						}
-							if(function_Id=="#text_mode"){
-							 $.msgbox({
-										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-										height:500,
-										title:'文字模式',
-										width:750,
-										content:{type:'iframe', content:'index.php?a=501'}
-									});
-						}
-						if(function_Id=="#setting"){
-							 $.msgbox({
-										closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
-										height:500,
-										title:'设置',
-										width:750,
-										content:{type:'iframe', content:'index.php?a=5017'}
-									});
-						}
-					});
-				} 
-
-		
-			var state = 0; //操作状态
-		  	  
-			$(document).ready(function() { 
-
-				$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
-				 .each(function () {
-					$('span.hover').css('opacity', 0).hover(function () {
-						$(this).stop().fadeTo(650, 1);
-					}, function () {
-						$(this).stop().fadeTo(650, 0);
-					});
-				});
-				$("#vehicle").append("<div class='button_font'>选择车辆</div>");
-				$("#sendInfo").append("<div class='button_font'>发布信息</div>");
-				$("#searchInfo").append("<div class='button_font'>查询信息</div>");
-				$("#statistic").append("<div class='button_font'>统计分析</div>");
-				$("#text_mode").append("<div class='button_font'>文字模式</div>");
-				$("#setting").append("<div class='button_font'>设置</div>");
-				
-				var speed = 500;//动画速度
-
-		  
-			});
 			onLoadMap();
 			
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
 			var lat = 11636160;  //纬度
 			var lon = 3991104;  // 经度
-			var speed = 10000;  //速度/ms
+			var speed = 1000;  //速度/ms
 			var marker1;
-			var info;
+			var drawLine_arr;
 			
 			//加载地图
 			function onLoadMap()
@@ -194,16 +164,13 @@
 				map=new LTMaps("map");
 				map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
-				map.addControl(new LTZoomInControl());
-				
-			/*										 
-				marker1 = new LTMarker( new LTPoint(   11633034 , 3991040 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
+
+				/*marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
 				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/blue/northeast.png"));
 				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/green/northeast.png"));
 				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/grayGreen/northeast.png"));
-
-				
-				
+ 	
+				 
 				map.addOverLay(marker1 );
 				map.addOverLay(marker2 );
 				map.addOverLay(marker3 );
@@ -225,8 +192,9 @@
 				polyLine1.setLineArrow("Classic","Classic");
 				//将折线添加到地图
 				map.addOverLay( polyLine1 );
-				 
-				LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
+
+				
+
 				setTimeout("drawLine();",speed);
 				
 			    control = new LTZoomSearchControl();
@@ -235,47 +203,95 @@
 				map.addControl( control );
 
 				//选中区域
-				LTEvent.addListener(control,"mouseup",drawRectangle); */
+				LTEvent.addListener(control,"mouseup",drawRectangle);*/
 			}
 
-			//打开信息
-			function openInfoWin()
-			{
-				 var win= this.openInfoWinHtml( "车辆1" );
-				 win.closeInfoWindowWithMouse();	//定义在鼠标移出时关闭信息浮窗
+			function closeWindow(){
+				$searchInfo.close();
+			}
+			function drawHistoryTrack(data){ 
+				
+				drawLine_arr = data;
+				newDrawLine();
+			}
+			
+			function newDrawLine(){
+				 
+				var length = drawLine_arr.length; 
+				if(length>0){
+					 
+				 		var points1 = new Array();
+
+				 		var lon = drawLine_arr[0][0];
+				 		var lat = drawLine_arr[0][1];
+				 		var direction = drawLine_arr[0][2];
+
+				 		var newLon = -1;
+				 		var newLat = -1;
+
+						points1.push( new LTPoint(round(lon), round(lat)));
+					if(length>1){
+						newLon = drawLine_arr[1][0];
+						newLat = drawLine_arr[1][1];
+						points1.push( new LTPoint(round(newLon),round(newLat)));
+					}else{
+						newLon = lon;
+						newLat = lat;
+						points1.push( new LTPoint(round(lon), round(lat)));
+					} 
+					drawLine_arr.shift();
+					drawRunLine(points1,round(newLon),round(newLat),direction);
+				}
+			}
+			
+			function drawRunLine(points1,lon,lat,direction){  
+				
+				map.centerAndZoom(new LTPoint(lon,lat),4);
+				var polyLine1 = new LTPolyLine(points1);
+				polyLine1.setLineColor("red");	//设置折线颜色 
+				polyLine1.setLineStroke(2);	//设置折线线宽
+				
+				polyLine1.setLineArrow("None","None");
+				//将折线添加到地图
+				map.addOverLay( polyLine1 );
+ 
+				map.removeOverLay(marker1);
+				marker1 = new LTMarker( new LTPoint(lon,lat),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/"+direction+".png"));
+				map.addOverLay(marker1 );
+
+				setTimeout("newDrawLine();",speed);
 			}
 
-
-			//历史轨迹画线
-			function drawHistoryTrack(data){
+			
+			
+			function drawLine(){
 				
 				var points1 = new Array();
 				points1.push( new LTPoint(  lat, lon ) );
 				points1.push( new LTPoint( lat+100 , lon+100) );
-				
-				
+
 				var polyLine1 = new LTPolyLine(points1);
 				map.addOverLay( polyLine1 );
 
 				lat = lat+100;
-				lon = lon +100; 
+				lon = lon +100;
+
 
 				map.removeOverLay(marker1);
 				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("http://192.168.1.120:3722/vehicle-gps-mgr/images/vehicle/red/northeast.png"));
 				map.addOverLay(marker1 );
-
-				LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
-				setTimeout("drawLine();",speed);
+				
+				//setTimeout("drawLine();",speed);
 				
 			}
 
 			/**
- 			  *  车辆请求定位	
+			  *  车辆请求定位	
 			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
 			function vehiclePosition(str){
 		 
- 				 $.ajax({
+				 $.ajax({
 						type:"POST",
 						url:"index.php?a=2&vehicleIds="+str, 
 						dataType:"json",
@@ -291,19 +307,26 @@
 							}
 							map.centerAndZoom("beijing",12);
 						 }
- 	 				});
+	 				});
 			}
 			
 			//经纬度五舍五入
 			function round(v,e){
-			v= v*100000;
+				v= v*100000;
 				var   t=1;   
 					for(;e>0;t*=10,e--);   
 					for(;e<0;t/=10,e++);   
 
 				return  Math.round(v*t)/t;   
 			  } 
-			
+			//打开信息
+			function openInfoWin()
+			{
+				 var win= this.openInfoWinHtml( "车辆1" );
+				 win.closeInfoWindowWithMouse();	//定义在鼠标移出时关闭信息浮窗
+			}
+
+			  
 			//手动画矩形
 			function drawRectangle(){
 				

@@ -17,6 +17,7 @@
 			$("#tabs").tabs();
 
 			$("#trace").click(function(){
+				parent.window.closeWindow();
 				$.post("index.php?a=302", 
 						function(data){
 							parent.window.drawHistoryTrack(data);
