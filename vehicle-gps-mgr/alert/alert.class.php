@@ -109,10 +109,10 @@ class Alert extends BASE {
     	$datetime=date("Y-m-d H:i:s",time()-24*60*60);//获得前一天的时间
     	
     	//格式化sql语句
-    	$sql ="select %s.alert_time, %s.number_plate, %s.description from %s inner join %s where  vehicle_manage.id=alert_info.vehicle_id and (alert_info.alert_time  between \""
-    	.$datetime."\" and \"".$nowTime."\") and (alert_info.dispose_opinion is null or alert_info.dispose_opinion=\"\")  order by alert_info.alert_time desc limit 0,1" ;
+    	$sql ="select a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id and (a.alert_time  between \"%s\"
+    	    	 and \"%s\" ) and (a.dispose_opinion is null or a.dispose_opinion=\"\")  order by a.alert_time desc limit 0,1" ;
     	
-    	$this->sql = sprintf($sql,"alert_info","vehicle_manage","alert_info","alert_info","vehicle_manage");
+    	$this->sql = sprintf($sql,$datetime,$nowTime);
     	
     	$record = $GLOBALS ["db"]->query_once ( $this->sql );
     	return $record;
