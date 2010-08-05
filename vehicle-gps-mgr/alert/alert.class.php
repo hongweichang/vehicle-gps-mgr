@@ -137,15 +137,10 @@ class Alert extends BASE {
 	 * 获得24小时内最新未处理告警记录
 	 */
     function get_newest_alert(){
-    	date_default_timezone_set('Asia/Shanghai');//转换为现在的时区
-    	$nowTime=date("Y-m-d H:i:s");//获得当前时间
-    	$datetime=date("Y-m-d H:i:s",time()-24*60*60);//获得前一天的时间
-    	
     	//格式化sql语句
-    	$sql ="select a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id and (a.alert_time  between \"%s\"
-    	    	 and \"%s\" ) and (a.dispose_opinion is null or a.dispose_opinion=\"\")  order by a.alert_time desc limit 0,1" ;
+    	$sql ="select a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id  and (a.dispose_opinion is null or a.dispose_opinion=\"\")  order by a.alert_time desc limit 0,1" ;
     	
-    	$this->sql = sprintf($sql,$datetime,$nowTime);
+    	$this->sql = sprintf($sql);
     	
     	$record = $GLOBALS ["db"]->query_once ( $this->sql );
     	return $record;
