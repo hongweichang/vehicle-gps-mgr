@@ -10,14 +10,6 @@
 	<script language="javascript" src="js/jquery.min.js" ></script>
 	<script language="javascript" src="js/jquery.msgbox.js" ></script>
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
-	<style type="text/css">
-		.clear{clear:both;} 
-		#wrapper {
-			margin-top: 0px;
-			text-align: left;
-			width: 100%;
-		} 
-	</style>
 </head>
 <body>
 	<div id="header">
@@ -33,37 +25,69 @@
 		
 		<div class="button_content">
 			<ul id="nav">
-				<li class="jsbutton" id="vehicle">
-					<div class="button_font">选择车辆</div>
-				</li>
-				<li class="jsbutton" id="sendInfo">
-					<div class="button_font">发布信息</div>
-				</li>
-				<li class="jsbutton" id="searchInfo">
-					<div class="button_font">查询信息</div>
-				</li>
-				<li class="jsbutton" id="statistic">
-					<div class="button_font">统计分析</div>
-				</li>
-				<li class="jsbutton" id="text_mode">
-					<div class="button_font">文字模式</div>
-				</li>
-				<li class="jsbutton" id="setting">
-					<div class="button_font">设置</div>
-				</li>
-						</ul>
-			<div id="alertInfo">
-				<div id="newAlert">最新告警信息</div>
-				<div id="alert_info">
-					<span id="record"></span>&nbsp;&nbsp;&nbsp;<a href="#">处理</a>&nbsp;&nbsp;&nbsp;<a href="index.php?a=901">查看更多</a>
-				</div> <hr />
+					<li class="jsbutton" id="vehicle">
+						<div class="button_font">选择车辆</div>
+					</li>
+					<li class="jsbutton" id="sendInfo">
+						<div class="button_font">发布信息</div>
+					</li>
+					<li class="jsbutton" id="searchInfo">
+						<div class="button_font">查询信息</div>
+					</li>
+					<li class="jsbutton" id="statistic">
+						<div class="button_font">统计分析</div>
+					</li>
+					<li class="jsbutton" id="text_mode">
+						<div class="button_font">文字模式</div>
+					</li>
+					<li class="jsbutton" id="setting">
+						<div class="button_font">设置</div>
+					</li>
+			</ul>
+			<div id="alertInfo" >
+			    <div class="marquee" id="lamp">
+			    	
+			    </div>
+				<div class="marquee">
+				  <div id="lamp" class="marquee"></div>
+					<div id="newAlert">最新告警信息</div>
+					<div id="alert_info">
+						<div id="record" style="float:left; height:20px;"></div><div style="float:left; height:20px; margin-left:20px;" id="operate"></div>
+					</div> 
+				</div><br>
 			</div>
 		</div>
 	</div>
 	</div>
 	<script language="javascript">
 				var state = 0; //操作状态 
-				
+				/**获得24小时内未处理的告警记录**/
+	 			function alertInfo(){
+	 				$.post("index.php",{
+						 "a":921}
+						,function(data){
+							if(data=="没有最新告警"){
+								$("#lamp").html("");
+								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg'></img>");
+								$("#record").html("");
+								$("#record").html(data);
+								$("#operate").html("");
+								$("#operate").html("<a href='index?a=901'>查看更多</a>");
+							}else
+							{
+								$("#lamp").html("");
+								$("#lamp").html("<img alt='警灯' src='images/lamp.gif'></img>");
+								$("#record").html("");
+								$("#record").html(data);
+								$("#operate").html("");
+								$("#operate").html("<a href='#'>处理</a><a href='index?a=901' style='margin-left:5px;'>查看更多</a>");
+							}
+						 }
+					);
+					
+					setTimeout(alertInfo,1000);
+	 			}
+
 				/**弹出层jquery代码**/
 				$(document).ready(function() {
 					$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
@@ -87,6 +111,8 @@
 					appearDiv("#statistic");
 					appearDiv("#text_mode");
 					appearDiv("#setting");
+
+					alertInfo();
 				});
 				 function appearDiv(function_Id){
 					    $(function_Id).click(function(){ 
