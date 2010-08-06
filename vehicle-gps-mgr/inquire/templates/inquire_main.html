@@ -16,6 +16,8 @@
 		$(function() {
 			$("#tabs").tabs();
 
+            $("#current").load("index.php?a=501");
+			
 			$("#trace").click(function(){
 				parent.window.closeWindow();
 				$.post("index.php?a=302", 
@@ -35,7 +37,11 @@
 				<li><a href="#history">查询历史信息</a></li>
 			</ul>
 			<div id="current">
-				<p>查询当前状态</p>
+			   <table id="vehicle_status_list"></table>
+               <div id="pager"></div>
+
+              <!-- 加载用户 js 文件库 -->
+              <script src="js/vehicle/vehicle_status.js" type="text/javascript"></script>
 			</div>
 			<div id="history">
 				<p>查询历史信息</p>
