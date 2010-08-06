@@ -99,6 +99,7 @@ switch($act)
 		$arr['url_manage'] = URL('user','user.php','manage_list');
 		$arr['url_setup'] = URL('setting','setting.php','get_setting');
 		$arr['url_logout'] = URL('user','user.php','logout');
+		$arr['host']= "http://".$_SERVER ['HTTP_HOST'];
 		echo $db->display($arr,"login_success");
 		break;
 	case "logout":	//模拟退出
