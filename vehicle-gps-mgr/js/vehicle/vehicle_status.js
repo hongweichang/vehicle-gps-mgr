@@ -1,5 +1,3 @@
-$(document).ready(function(){
-	
  jQuery("#vehicle_status_list").jqGrid({
    	url:'index.php?a=502',
 		datatype: "json",
@@ -45,4 +43,3 @@ $(document).ready(function(){
 
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 {edit:false,add:false,del:false});
-});
