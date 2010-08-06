@@ -66,13 +66,16 @@
 											open : function(event, ui) {
 												var selHtml = "";
 												var arr = str.split("|");
-
+                                                var defaultStr="";
 												for ( var i = 0; i < length; i++) {
 													var a = arr[i].split(",");
 													selHtml = selHtml
 															+ "<option value="
 															+ a[0] + ">" + a[1]
 															+ "</option>";
+													if(i==0){
+														defaultStr=a[1];
+													}
 												}
 
 												jQuery('body').css('overflow',
@@ -86,7 +89,7 @@
 																		+ "<font style='font-weight:bold'>您的告警处理意见:</font><br>"
 																		+ "<textarea style='OVERFLOW:hidden;"
 																		+ "border-style:groove; height:160px; width:200px;' name='advice' id='advice' onFocus='clearText();' >"
-																		+ "--告警处理意见--</textarea> ");
+																		+  defaultStr+"</textarea> ");
 											}
 										});
 

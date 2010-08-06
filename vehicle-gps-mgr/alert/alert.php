@@ -6,7 +6,7 @@
  * @create date 　 2010.07.30
  */
 require_once ("include/data_mapping_handler.php");
-
+//require_once ("include/commmon.php");
 $act = $GLOBALS ["all"] ["operate"]; //取得功能名称
 
 
@@ -46,12 +46,13 @@ if (! $page)
 if (! $limit)
 	$limit = 10;
 
-$wh = " where dispose_opinion is null ";
-if (! empty ( $deal )) {//判断是否选中处理意见
-	$wh = "where 1=1 ";
+if (! empty ( $deal )) { //判断是否选中处理意见	
+	$wh = " where 1=1 ";
+} else {
+	$wh = " where dispose_opinion is null ";
 }
 
-if (! empty ( $vehicle_id )) {//判断是否选中全部车辆
+if (! empty ( $vehicle_id )) { //判断是否选中全部车辆
 	$count = strlen ( $vehicle_id ) - 1;
 	$str = substr ( $vehicle_id, 1, $count );
 	if (substr ( $vehicle_id, 0, 1 ) == "@") {
@@ -67,7 +68,11 @@ switch ($act) {
 		break;
 	
 	case "list_data" : //向jqgrid填充数据
+		
+
+		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
+		
 		$count = $alert->get_all_count ( $wh );
 		
 		if ($count > 0) {
@@ -104,14 +109,28 @@ switch ($act) {
 			$user_name = $alert->get_user_name ( $value ['dispose_id'] );
 			
 			$responce->rows [$key] ['id'] = $value ['id'];
-			$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='javascript:void(0)' onclick=adviceDialog(" . $value ['id'] . ",'" . count ( $data_list_advicer ) . "','" . $option . "'); style='text-decoration:none;color:#0099FF'>未处理</a>" );
+			if (! empty ( $value ['dispose_opinion'] )) {
+				
+				if (strlen($value ['dispose_opinion']) > $limit_length) {
+					$char = characteString( $value ['dispose_opinion'], $limit_length );
+				}else{
+					$char=$value ['dispose_opinion'];
+				}
+				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $char );
+			} else {
+				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='javascript:void(0)' onclick=adviceDialog(" . $value ['id'] . ",'" . count ( $data_list_advicer ) . "','" . $option . "'); style='text-decoration:none;color:#0099FF'>未处理</a>" );
+			}
+		
 		}
 		echo json_encode ( $responce ); //打印json格式的数据
 		break;
 	case "edit" : //给指定的数据添加处理意见
-		$alert = new Alert ( $id );
 		
-		$arr ["dispose_opinion"] = $advice;
+
+		$alert = new Alert ( $_REQUEST ['id'] );
+		
+		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );
+		
 		$boolean = $alert->edit_alert_advice ( $arr );
 		if ($boolean) {
 			echo "success";
@@ -153,15 +172,13 @@ switch ($act) {
 		}
 		echo $vehicle_data;
 		break;
-	case "newest_alert"://查询24小时内的最新告警
-		
+	case "newest_alert" : //查询24小时内的最新告警	
 		$alert = new Alert ();
-		$record=$alert->get_newest_alert();
+		$record = $alert->get_newest_alert ();
 		
-		if($record!=null){
-			echo "在".$record[0]."时间点，车牌号为".$record[1]."，产生了告警：".$record[2];
-		}
-		else{
+		if ($record != null) {
+			echo "在" . $record [0] . "时间点，车牌号为" . $record [1] . "，产生了告警：" . $record [2];
+		} else {
 			echo "没有最新告警";
 		}
 }
