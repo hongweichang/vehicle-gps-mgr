@@ -134,11 +134,11 @@ class Alert extends BASE {
 	}
 	
 	/**
-	 * 获得24小时内最新未处理告警记录
+	 * 获得最新未处理告警记录
 	 */
     function get_newest_alert(){
     	//格式化sql语句
-    	$sql ="select a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id  and (a.dispose_opinion is null or a.dispose_opinion=\"\")  order by a.alert_time desc limit 0,1" ;
+    	$sql ="select a.id,a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id  and (a.dispose_opinion is null or a.dispose_opinion=\"\")  order by a.alert_time desc limit 0,1" ;
     	
     	$this->sql = sprintf($sql);
     	
