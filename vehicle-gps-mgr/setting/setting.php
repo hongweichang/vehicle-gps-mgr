@@ -80,8 +80,9 @@ switch($act)
 
 		//显示当前已有的
 		if(!empty($set->data["default_color"]))
-		{
-			$dis_sp["default_color_selected"] = '<IMG  hspace=2   src="'.$data_list_color["#".$set->data["default_color"]].'"   align=absMiddle   border=0>';
+		{ 
+			$default_color = $dataMapping->getTextData("color","#".$set->data["default_color"]);
+			$dis_sp["default_color_selected"] = '<IMG  hspace=2   src="'.$default_color.'"   align=absMiddle   border=0>';
 			$dis_sp["d_value"] = "#".$set->data["default_color"];
 		}
 		else
