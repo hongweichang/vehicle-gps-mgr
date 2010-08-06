@@ -14,7 +14,8 @@
 class Vehicle_status extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "vehicle_manage";
+	public $tablename = "vehicle_manage"; 
+	public $tablename2 = "driver_manage";//驾驶员表
 	public $data = false;                //数据
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
@@ -149,8 +150,80 @@ class Vehicle_status extends BASE
 		$select .= '<select>';
 		return $select;
 	}
+
+
+     /**
+      *     根据驾驶员id查询驾驶员信息
+      *     @param $driver_id 驾驶员编号
+      */
+    function get_driver($driver_id){
+    	$this->sql = "select * from ".$this->tablename2." where id=".$driver_id;
+    	$driver = $GLOBALS['db']->query($this->sql);
+    	return $driver;
+    }
+    
+    /**
+     * 经纬度转换
+     * @param $v 经度或纬度在数据库中的值
+     */
+    function around($v,$e){
+				$v= $v*100000;
+				$t=1;   
+					for(;$e>0;$t*=10,$e--);   
+					for(;$e<0;$t/=10,$e++);   
+
+				return  round($v*$t)/$t;   
+			  } 
+    
+    
+    /**
+     *     确定当前位置
+     *     @param $cur_longitude 当前经度 $cur_latitude当前纬度
+     */
+    function get_cur_location($cur_longitude,$cur_latitude){
+           
+    	$longitude=$this->around($cur_longitude);
+    	$latitude=$this->around($cur_latitude);
+    	
+    	$positions = file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude.",".$latitude);
+    	
+    	$position = htmlspecialchars($positions,"gbk");
+    	$begin = stripos($position,"<msg>")+5;
+    	$end = stripos($position,"</msg>")+5;
+    	$length=$end-$begin;
+    	return substr($position,$begin,$length);
+    }
+    
+    /**
+     *      判断告警信息 0无告警，1超速，2疲劳
+     *      @param $alert_state告警状态
+     */
+    function alert_status($alert_state){
+    	
+    	if($alert_state==0 or $alert_state==null) return "无";
+    	if($alert_state==1) return "超速";
+    	if($alert_state==2) return "疲劳";
+    	
+    }
+    
+    /**
+     *     判断gps状态 ，0无，1有
+     *     @param $gps_status gsp状态
+     */
+    function gps_status_boolean($gps_status){
+    	
+    	if($gps_status==null or $gps_status==0) return "无";
+    	if($gps_status==1) return "有";
+    }
+    
+    /**
+     *     得到某辆车的所有驾驶员
+     *     @param $vehicle_id 车辆编号
+     */
+    function get_drivers($vehicle_id){
+    	$this->sql = "select * from driver_manage where id in(select driver_id from driver_vehicle where vehicle_id=".$vehicle_id.")";
+    	return $drivers = $GLOBALS['db']->query($this->sql);
+    }
+    
 }
-
-
-
 ?>

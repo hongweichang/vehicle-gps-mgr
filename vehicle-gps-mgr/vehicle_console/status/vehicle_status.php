@@ -52,22 +52,29 @@ switch($act)
 		
 		//得到所有车辆
 		$result = $vehicle_status->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
-
+ 
 		$response->page	= $page;
 		$response->total = $total_pages;
 		$response->records = $count;
 
 		foreach($result as	$key => $val)
-		{
+		{ 
 			//对指定字段进行翻译
 			$vehicle2	= new Vehicle_status($val['id']);
+			$cur_location = $vehicle2->get_cur_location($val['cur_longitude'],$val['cur_latitude']);
 			
-			$driver_name = $vehicle2->get_data("driver_name");
-
+			$driver = $vehicle2->get_driver($val['driver_id']);
+			$drivers = $vehicle2->get_drivers($val['id']);
+			
+			foreach ($drivers as $key1=>$value){
+				$driver_names[$key1]=$value[1];
+			}
+            
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
-												"可用","定位时间","当前位置","实速","限速",
-												$driver_name,"告警","轨迹","统计信息","信息发布","定位");
+												$vehicle2->gps_status_boolean($val['gprs_status']),"定位时间",$cur_location,$val['cur_speed'],"限速",
+												$driver[0]['name'],$driver_names,$vehicle2->alert_status($val['alert_state']),
+												"轨迹","统计信息","信息发布","定位",$val['cur_longitude'],$val['cur_latitude']);
 		}
 
 		//打印json格式的数据
