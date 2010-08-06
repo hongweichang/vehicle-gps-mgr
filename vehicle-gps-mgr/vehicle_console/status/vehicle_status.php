@@ -64,17 +64,12 @@ switch($act)
 			$cur_location = $vehicle2->get_cur_location($val['cur_longitude'],$val['cur_latitude']);
 			
 			$driver = $vehicle2->get_driver($val['driver_id']);
-			$drivers = $vehicle2->get_drivers($val['id']);
-			
-			foreach ($drivers as $key1=>$value){
-				$driver_names[$key1]=$value[1];
-			}
             
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
-												$vehicle2->gps_status_boolean($val['gprs_status']),"定位时间",$cur_location,$val['cur_speed'],"限速",
-												$driver[0]['name'],$driver_names,$vehicle2->alert_status($val['alert_state']),
-												"轨迹","统计信息","信息发布","定位",$val['cur_longitude'],$val['cur_latitude']);
+												$vehicle2->gps_status_boolean($val['gprs_status']),"定位时间",$val['cur_speed'],"限速",
+												$driver[0]['name'],$vehicle2->alert_status($val['alert_state']),
+												"轨迹","统计信息","信息发布","定位",$cur_location);
 		}
 
 		//打印json格式的数据

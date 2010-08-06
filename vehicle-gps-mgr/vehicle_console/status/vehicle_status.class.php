@@ -185,13 +185,14 @@ class Vehicle_status extends BASE
     	$longitude=$this->around($cur_longitude);
     	$latitude=$this->around($cur_latitude);
     	
-    	$positions = file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude.",".$latitude);
+        $location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude.",".$latitude));
+
     	
-    	$position = htmlspecialchars($positions,"gbk");
-    	$begin = stripos($position,"<msg>")+5;
-    	$end = stripos($position,"</msg>")+5;
+    	$begin = stripos($location,"<msg>")+5;
+    	$end = stripos($location,"</msg>");
     	$length=$end-$begin;
-    	return substr($position,$begin,$length);
+    	$location = substr($location,$begin,$length);
+    	return $location;
     }
     
     /**
@@ -214,15 +215,6 @@ class Vehicle_status extends BASE
     	
     	if($gps_status==null or $gps_status==0) return "无";
     	if($gps_status==1) return "有";
-    }
-    
-    /**
-     *     得到某辆车的所有驾驶员
-     *     @param $vehicle_id 车辆编号
-     */
-    function get_drivers($vehicle_id){
-    	$this->sql = "select * from driver_manage where id in(select driver_id from driver_vehicle where vehicle_id=".$vehicle_id.")";
-    	return $drivers = $GLOBALS['db']->query($this->sql);
     }
     
 }
