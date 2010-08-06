@@ -272,7 +272,7 @@
 	function  resolvingDirection($cur_direction=-1){
 		
 		//方向数组(八个方向:东、东南、南、西南、西、西北、北、东北)
-		$arr_direction =array("east","southeast","south","southwest","west","northwest","north","northeast");
+		$arr_direction =array("north","northwest","west","southwest","south","southeast","east","northeast");
 		
 		//返回车方向
 		return $arr_direction[intval($cur_direction/45)+((($cur_direction%45)-(45/2))>=0?1:0)]; 
