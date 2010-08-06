@@ -5,18 +5,18 @@
 <title>查询信息</title>
  	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 	<link type="text/css" href="js/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	
 	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
-	
 </head>
 <body>
 	<script type="text/javascript">
 		$(function() {
+			
 			$("#tabs").tabs();
-
-            $("#current").load("index.php?a=501");
+			$("#current").load("index.php?a=501");
 			
 			$("#trace").click(function(){
 				parent.window.closeWindow();
@@ -30,18 +30,13 @@
 
 		</script>
 	
-	<div class="inquireContainer">
-		<div id="tabs">
+	<div>
+		<div id="tabs" style="overflow:auto;overflow-y:hidden;width:720px;height:440px">
 			<ul>
 				<li><a href="#current">查询当前状态</a></li>
 				<li><a href="#history">查询历史信息</a></li>
 			</ul>
-			<div id="current">
-			   <table id="vehicle_status_list"></table>
-               <div id="pager"></div>
-
-              <!-- 加载用户 js 文件库 -->
-              <script src="js/vehicle/vehicle_status.js" type="text/javascript"></script>
+			<div id="current" >
 			</div>
 			<div id="history">
 				<p>查询历史信息</p>
