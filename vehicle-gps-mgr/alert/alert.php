@@ -172,14 +172,24 @@ switch ($act) {
 		}
 		echo $vehicle_data;
 		break;
-	case "newest_alert" : //查询24小时内的最新告警	
+	case "newest_alert" : //查询没有处理的最新告警	
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();
-		
+		if($record!=null){
+			$dataMapping = new Data_mapping_handler ( $treatment_advice ); //从xml配置信息中读取告警处理意见   
+			$data_list_advicer = $dataMapping->getTextDataList ( $lableName );
+			
+			foreach ( $data_list_advicer as $key => $value ) { //追加xml文件字符串
+				$option = $option . $key . "," . $value . "@";
+			}
+			$advice_count=count($data_list_advicer);	
+ 			echo $record[0]."|".$record[1]."|".$record[2]."|".$record[3]."|".$option."|".$advice_count;
+		}
+		else{
 		if ($record != null) {
 			echo "在" . $record [0] . "时间点，车牌号为" . $record [1] . "，产生了告警：" . $record [2];
 		} else {
-			echo "没有最新告警";
+			echo "没有告警记录";
 		}
 }
 ?>
