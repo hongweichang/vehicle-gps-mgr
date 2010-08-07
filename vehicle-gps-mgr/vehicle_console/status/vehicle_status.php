@@ -27,7 +27,6 @@ switch($act)
 		break;
 
 	case "list_data":
-		
 		$encoding = mb_detect_encoding($_REQUEST['number_plate']);
 		if($encoding=="UTF-8"){
 			$number_plate = $_REQUEST['number_plate'];
