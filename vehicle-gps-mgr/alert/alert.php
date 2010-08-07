@@ -49,7 +49,7 @@ if (! $limit)
 if (! empty ( $deal )) { //判断是否选中处理意见	
 	$wh = " where 1=1 ";
 } else {
-	$wh = " where dispose_opinion is null ";
+	$wh = " where (dispose_opinion is null or \"\" = dispose_opinion) ";
 }
 
 if (! empty ( $vehicle_id )) { //判断是否选中全部车辆
@@ -68,8 +68,6 @@ switch ($act) {
 		break;
 	
 	case "list_data" : //向jqgrid填充数据
-		
-
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
 		
@@ -92,30 +90,22 @@ switch ($act) {
 		$responce->total = $total_pages;
 		$responce->records = $count;
 		
-		$dataMapping = new Data_mapping_handler ( $treatment_advice ); //从xml配置信息中读取告警处理意见   
-		$data_list_advicer = $dataMapping->getTextDataList ( $lableName );
-		
-		foreach ( $data_list_advicer as $key => $value ) { //追加xml文件字符串
-			$option = $option . $key . "," . $value . "|";
-		}
-		
-		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
-
-			$dataMapping = new Data_mapping_handler ( $comm_setting_path );
+		foreach ( $dataList as $key => $value ) { 
+			$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
 			$alert_type_display = $dataMapping->getMappingText ( $tableName, $colName, $value ['alert_type'] );
 			
 			$vehicle_number = $alert->get_vehicle_manage_number ( $value ['vehicle_id'] );
 			$user_name = $alert->get_user_name ( $value ['dispose_id'] );
 			
 			$responce->rows [$key] ['id'] = $value ['id'];
-			if (! empty ( $value ['dispose_opinion'] )) {
+			if ( !empty($value['dispose_opinion'])) {
 				
 				if (strlen($value ['dispose_opinion']) > $limit_length) {
-					$char = characteString( $value ['dispose_opinion'], $limit_length );
+					$shortString = convertOverlongString( $value ['dispose_opinion'], $limit_length );
 				}else{
-					$char=$value ['dispose_opinion'];
+					$shortString=$value ['dispose_opinion'];
 				}
-				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $char );
+				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $shortString );
 			} else {
 				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
@@ -140,7 +130,6 @@ switch ($act) {
 		
 	case "add_opinion" : //给指定的数据添加处理意见
 		$alert = new Alert ( $_REQUEST ['id'] );
-		
 		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );
 		
 		$boolean = $alert->edit_alert_advice ( $arr );
