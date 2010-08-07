@@ -18,7 +18,7 @@
 	<div id="header">
 		<div class="header_content"> 
 			<div class="hearder_div"><a href="{{URL_MANAGE}}">管理中心</a></div>
-			<div class="hearder_div"><a href="{{URL_LOGOUT}}" target="_blank">退出</a></div>
+			<div class="hearder_div"><a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">退出</a></div>
 		</div>
 	</div>
 	<div id="content">
@@ -68,12 +68,7 @@
 		</div>
 	</div> 
 	<script language="javascript">
-	var state = 0; //操作状态  
-
-				
-
-			onLoadMap();
-			
+			var state = 0; //操作状态  
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
 			var lat = 11636160;  //纬度
@@ -81,6 +76,8 @@
 			var speed = 1000;  //速度/ms
 			var marker1;
 			var drawLine_arr;
+
+			onLoadMap();
 			
 			//加载地图
 			function onLoadMap()
