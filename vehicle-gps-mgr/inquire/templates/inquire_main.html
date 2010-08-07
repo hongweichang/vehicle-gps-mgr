@@ -12,11 +12,10 @@
 	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
 </head>
 <body>
-	<script type="text/javascript">
+	 <script type="text/javascript">
 		$(function() {
 			
 			$("#tabs").tabs();
-			$("#current").load("index.php?a=501");
 			
 			$("#trace").click(function(){
 				parent.window.closeWindow();
@@ -33,11 +32,9 @@
 	<div>
 		<div id="tabs" style="overflow:auto;overflow-y:hidden;width:720px;height:440px">
 			<ul>
-				<li><a href="#current">查询当前状态</a></li>
+				<li><a href="index.php?a=501">查询当前状态</a></li>
 				<li><a href="#history">查询历史信息</a></li>
 			</ul>
-			<div id="current" >
-			</div>
 			<div id="history">
 				<p>查询历史信息</p>
 				<input type="button" id="trace" name="trace" value="查询历史轨迹"/>

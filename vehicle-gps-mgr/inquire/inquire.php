@@ -37,6 +37,7 @@ switch($act)
 		
 		echo json_encode($trace_info);
 		break;
+		
 	break;
 }
 ?>
