@@ -95,13 +95,9 @@ switch($act)
 		$data["user_name"] = get_session("user_name");
 		echo $db->display($data,"manage_list");
 		break;
-	case "login_success":		
-		$arr['url_manage'] = URL('user','user.php','manage_list');
-		$arr['url_setup'] = URL('setting','setting.php','get_setting');
-		$arr['url_logout'] = URL('user','user.php','logout');
-		$arr['host']= "http://".$_SERVER ['HTTP_HOST'];
-		echo $db->display($arr,"login_success");
-		break;
+	case "login_success":	 
+		echo $db->display(null,"login_success");
+		break; 
 	case "logout":	//模拟退出
 		$user = new User();
 		if(!$user->logout())
