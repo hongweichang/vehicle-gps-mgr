@@ -100,7 +100,6 @@ switch ($act) {
 		}
 		
 		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
-			
 
 			$dataMapping = new Data_mapping_handler ( $comm_setting_path );
 			$alert_type_display = $dataMapping->getMappingText ( $tableName, $colName, $value ['alert_type'] );
@@ -118,24 +117,37 @@ switch ($act) {
 				}
 				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $char );
 			} else {
-				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='javascript:void(0)' onclick=adviceDialog(" . $value ['id'] . ",'" . count ( $data_list_advicer ) . "','" . $option . "'); style='text-decoration:none;color:#0099FF'>未处理</a>" );
+				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
 		
 		}
 		echo json_encode ( $responce ); //打印json格式的数据
 		break;
-	case "edit" : //给指定的数据添加处理意见
 		
-
+	case "write_opinion":
+		$dataMapping = new Data_mapping_handler ( $treatment_advice ); //从xml配置信息中读取告警处理意见   
+		$data_list_advicer = $dataMapping->getTextDataList ( $lableName );
+		$options_str = "";
+		foreach($data_list_advicer as $key => $value)
+		{
+			$options_str = $options_str."<option value=\"".$key."\">".$value."</option>";
+		}
+		
+		$options["option"] = $options_str;
+		$options["id"] = $_REQUEST ['id'];
+		echo $GLOBALS ['db']->display ( $options, $act );
+		break;
+		
+	case "add_opinion" : //给指定的数据添加处理意见
 		$alert = new Alert ( $_REQUEST ['id'] );
 		
 		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );
 		
 		$boolean = $alert->edit_alert_advice ( $arr );
 		if ($boolean) {
-			echo "success";
+			echo "意见添加成功";
 		} else {
-			echo "fail";
+			echo "意见添加失败";
 		}
 		break;
 	case "list_select_data" : //查询所有车辆组名称

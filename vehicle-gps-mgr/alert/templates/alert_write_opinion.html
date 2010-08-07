@@ -1,0 +1,29 @@
+<!--这是一个局部页面，被其他页面用ajax方式调入 -->
+<input id="alertId" type="hidden" value="{{ID}}"></input>
+<select id="preparedOpinion">{{OPTION}}</select>
+<br/>
+<textarea id="advice" style="height:160px; width:200px;" >
+</textarea>
+<br/>
+<input type="button" id="addOpinion" name="addOpinion" value="确定"/>
+<input type="button" id="return" name="return" value="退出"/>
+<br/>
+<label id="result"></label>
+
+<script type="text/javascript">
+		$("#preparedOpinion").change(function(){
+			var opinion = $("#preparedOpinion option:selected").text(); 
+			 $("#advice").html(opinion);
+		});
+
+		$("#addOpinion").click(function(){
+			var id = $("#alertId").val();
+			$.post("index.php?a=904&id="+id,function(data){
+				$("#result").text(data);
+			});
+		});
+
+		$("#return").click(function(){
+			$("#opinion").dialog("close");
+		});
+</script>
