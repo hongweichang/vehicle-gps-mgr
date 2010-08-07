@@ -2,8 +2,8 @@
 	background-image:url(../images/title.png);
 	margin:120px auto; 
 	background-repeat:no-repeat; 
-	width:56%; 
-	height:410px;
+	width:815px; 
+	height:418px;
 }
 body{
 	background-color:#CCCCCC;
@@ -21,7 +21,7 @@ body{
 	background-image:url(../images/login.jpg);
 	margin:18px auto;
 	background-repeat:no-repeat;
-	width:100%;
+	width:99%;
 	height:352px;
 	border:3px gray solid;
 }
