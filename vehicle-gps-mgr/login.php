@@ -40,7 +40,7 @@
 						</div>
 					</div>
 					<div class="input_div">
-						<div class="float_text">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div>
+						<div class="float_text">密</div><div class="text" >码：</div>
 						<div class="float_left">
 							<input type="password" name="password" class="text_password_input" />
 						</div>
