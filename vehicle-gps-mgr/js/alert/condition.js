@@ -2,7 +2,7 @@ function selVehicle() {// 车辆组联动车辆编号
 	var vehicle_group_id = $("#vehicle_group").val();
 	var vehicle_content = "";
 	jQuery.ajax( {
-		url : "index.php?a=905",// 读取车辆组的名称数据
+		url : "index.php?a=906",// 读取车辆组的名称数据
 		type : "post",
 		data : "vehicle_id=" + vehicle_group_id,
 		success : function(data) {
@@ -35,7 +35,7 @@ function condition() {
 	var vehicle_group_content = "<option select='selected'>--请选择车辆组--</option>";
 	var vehicle_content = "<option select='selected'>--请选择车辆编号--</option>";
 	jQuery.ajax( {
-		url : "index.php?a=904",// 读取车辆组的名称数据
+		url : "index.php?a=905",// 读取车辆组的名称数据
 		type : "post",
 		data : null,
 		success : function(data) {
