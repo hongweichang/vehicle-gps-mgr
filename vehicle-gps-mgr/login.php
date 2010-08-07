@@ -1,47 +1,56 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>首页</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="css/main.css" rel="stylesheet" type="text/css" />
-<form method="post" action="login_check.php" name='theForm'>
-<table border="0" align="center" cellpadding="0" cellspacing="4" bgcolor="#B9B9B9" class="alltable">
-      <tr>
-        <td><table width="500" border="0" align="center" cellpadding="0" cellspacing="1" bgcolor="#000000">
-            <tr>
-              <td height="50" colspan="2" align="center" bgcolor="#616161"><span class="style1"><font color="#FFFFFF">用户登录</font></span></td>
-            </tr>
-            <tr>
-              <td width="203" align="center" bgcolor="#FFFFFF">
-                  <img src="images/cat.jpg" width="203" height="149" /></td>
-              <td align="center" bgcolor="#FFFFFF"><table>
-              		<tr>
-                    <td>公司登录ID：</td>
-                    <td><input name="companyloginid" type="text" /></td>
-                  </tr>
-                  <tr>
-                    <td>用户名：</td>
-                    <td><input name="username" type="text" /></td>
-                  </tr>
-                  <tr>
-                    <td>用户密码：</td>
-                    <td><input name="password" type="password" /></td>
-                  </tr>
-                  <tr>
-                  	<td>&nbsp;</td>
-                  	
-                  </tr>
-                <tr>
-                  <td colspan="2" align="center"><input name="submit" type="submit" class="button  style2" value="登录" /></td>
-                </tr>
-              </table></td>
-            </tr>
-        </table></td>
-      </tr>
-    </table></td>
-          </tr>
-        </table>
-	  <input type="hidden" name="act" value="signin" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>GPS智能车辆监控调度系统-登录</title>
+<link href="css/login.css" rel="stylesheet" />
+<script type="text/javascript">
+	function mouseOver(){
+		document.getElementById("loginCar").src='images/car.png';
+		document.getElementById("loginCar").style.cursor='hand';
+	}
+	function mouseOut(){
+		document.getElementById("loginCar").src='images/ycar.png';
+	}
+
+	function login(){
+			document.getElementById("login_from").submit();
+
+		}
+</script>
+</head>
+
+<body>
+<form method="post" id="login_from" action="login_check.php" name='theForm'>
+   <div class="body_div">
+   		<input type="hidden" name="act" value="signin" />
+		<div class="title"></div>
+		<div class="content">
+				<div class="conetnt_div">
+					<div class="companyID">
+						<div class="float_text">公司ID：</div>
+						<div class="float_left">
+							<input type="text" name="companyloginid" class="text_password_input" />
+						</div>
+					</div>
+					<div class="input_div">
+						<div class="float_text">用户ID：</div>
+						<div class="float_left">
+							<input type="text" name="username"  class="text_password_input"/>
+						</div>
+					</div>
+					<div class="input_div">
+						<div class="float_text">密&nbsp;&nbsp;&nbsp;&nbsp;码：</div>
+						<div class="float_left">
+							<input type="password" name="password" class="text_password_input" />
+						</div>
+					</div>
+					<div class="submit_div">
+					<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
+					</div>
+				</div>
+		</div>
+	</div>
 </form>
 </body>
 </html>
