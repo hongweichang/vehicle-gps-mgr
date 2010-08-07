@@ -1,6 +1,6 @@
- jQuery("#vehicle_status_list").jqGrid({
-   	url:'index.php?a=502',
-		datatype: "json",
+jQuery("#vehicle_status_list").jqGrid({
+	url:'index.php?a=502&number_plate='+$("#number_plate").val(),
+	  datatype: "json",
    	colNames:['ID','车牌号', 'GPS状态', '定位时间','实速','限速','驾驶员','告警状态','轨迹','统计信息','信息发布','定位','当前位置'],
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
@@ -43,3 +43,8 @@
 
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 {edit:false,add:false,del:false});
+
+$("#commit").click(function(){
+	var url = 'index.php?a=502&number_plate='+$("#number_plate").val();
+	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+});
