@@ -5,7 +5,7 @@ $(document).ready(function() {
 function showOpinion(id){
 	$("#opinion").html("");
 	$.get("index.php?a=903&id="+id, function(data) {
-        $("#opinion").html(data);
+		$("#opinion").html(data);
     });
 	$("#opinion").dialog("open");
 }
