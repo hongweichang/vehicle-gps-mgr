@@ -94,8 +94,21 @@ class Vehicle_status extends BASE
 	*/
 	function get_vehicle_count()
 	{
-		$this->sql = "select count(*) from ".$this->tablename;
+		$company_id = get_session("company_id");
+		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id;
 		$count = $GLOBALS["db"]->query_once($this->sql);
+		return $count[0];
+	}
+	
+	/**
+	 *  模糊查询某类车牌号车辆数目
+	 *  @param 车牌号前缀
+	 * 
+	 */
+	function get_vehicle_count_plate($number_plate){
+		$company_id = get_session("company_id");
+		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." and number_plate like '".$number_plate."%'";
+		$count = $GLOBALS['db']->query_once($this->sql);
 		return $count[0];
 	}
 	
@@ -106,8 +119,20 @@ class Vehicle_status extends BASE
 	*/
 	function get_all_vehicles($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
+		//$company_id = get_session("company_id");
 		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
-		return $this->data_list = $GLOBALS["db"]->query($this->sql);
+		$this->data_list = $GLOBALS["db"]->query($this->sql);
+		return $this->data_list;
+	}
+	
+	/**
+	 *   模糊查询匹配车牌号的所有车辆
+	 *   @param $number_plate 车牌号前缀
+	 */
+	function get_all_vehicles_number($number_plate){
+		$company_id = get_session("company_id");
+		$this->sql = "select * from ".$this->tablename." where company_Id=".$company_id." and number_plate like '".$number_plate."%'";
+		return $this->data_list = $GLOBALS['db']->query($this->sql);
 	}
 	
 	/**
