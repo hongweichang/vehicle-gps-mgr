@@ -1,6 +1,4 @@
-/* CSS ���ع���ϵͳ */
-
-/* jQuery��̬���䰴ť */
+ 
 #nav {
 	margin:2px 0 0 0;
 }
@@ -100,7 +98,7 @@ body{
 	font-size:12px;
 	margin-left:5px;
 }
-img{
+.img{
 	height:56px;
 	width:46px;
 }
