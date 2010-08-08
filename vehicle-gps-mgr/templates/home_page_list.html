@@ -87,56 +87,28 @@
 				map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
 
-				/*marker1 = new LTMarker( new LTPoint( 11633034 , 3991040 ),new LTIcon("{{HOST}}/images/vehicle/red/northeast.png"));
-				var marker2 = new LTMarker( new LTPoint( 11636160 , 3991104 ),new LTIcon("{{HOST}}/images/vehicle/blue/northeast.png"));
-				var marker3 = new LTMarker( new LTPoint( 11642688 , 3988608 ),new LTIcon("{{HOST}}/images/vehicle/green/northeast.png"));
-				var marker4 = new LTMarker( new LTPoint( 11634688 , 3987136 ),new LTIcon("{{HOST}}/images/vehicle/grayGreen/northeast.png"));
- 	
-				 
-				map.addOverLay(marker1 );
-				map.addOverLay(marker2 );
-				map.addOverLay(marker3 );
-				map.addOverLay(marker4 );
-
-
-
-				var points1 = new Array();
-				points1.push( new LTPoint( 11641088 , 3992704 ) );
-				points1.push( new LTPoint( 11636160 , 3991104 ) );
-				 
-
-				//根据点数组创建一条折线
-				var polyLine1 = new LTPolyLine( points1 );
-				
-				polyLine1.setLineColor("red");	//设置折线颜色 
-				polyLine1.setLineStroke(2);	//设置折线线宽
-				
-				polyLine1.setLineArrow("Classic","Classic");
-				//将折线添加到地图
-				map.addOverLay( polyLine1 );
-
-				
-
-				setTimeout("drawLine();",speed);
-				
-			    control = new LTZoomSearchControl();
+				control = new LTZoomSearchControl();
 			    control.setTop(10);
 			    control.setLabel("选中矩形区域");
 				map.addControl( control );
 
 				//选中区域
-				LTEvent.addListener(control,"mouseup",drawRectangle);*/
+				LTEvent.addListener(control,"mouseup",drawRectangle);
 			}
 
+			//关闭提示窗口
 			function closeWindow(){
 				$searchInfo.close();
 			}
+
+			//画历史轨迹路径
 			function drawHistoryTrack(data){ 
 				
 				drawLine_arr = data;
 				newDrawLine();
 			}
-			
+
+			//画新线
 			function newDrawLine(){
 				 
 				var length = drawLine_arr.length; 
@@ -165,7 +137,7 @@
 					drawRunLine(points1,round(newLon),round(newLat),direction);
 				}
 			}
-			
+			//运行画线
 			function drawRunLine(points1,lon,lat,direction){  
 				
 				map.centerAndZoom(new LTPoint(lon,lat),4);
@@ -184,29 +156,23 @@
 				setTimeout("newDrawLine();",speed);
 			}
 
+			/**
+			  *车辆提示信息
+			  * obj 添加对象
+			  * context 添加内容
+			  */
+			function addInfoWin(obj,context){
+				
+				var info = new LTInfoWindow( obj );
+
+				function shwoInfo(){
+					info.setLabel(context);
+					info.closeInfoWindowWithMouse();
+					map.addOverLay(info);
+				}
+				LTEvent.addListener(obj,"click",shwoInfo); 
+			} 
 			
-			
-			function drawLine(){
-				
-				var points1 = new Array();
-				points1.push( new LTPoint(  lat, lon ) );
-				points1.push( new LTPoint( lat+100 , lon+100) );
-
-				var polyLine1 = new LTPolyLine(points1);
-				map.addOverLay( polyLine1 );
-
-				lat = lat+100;
-				lon = lon +100;
-
-
-				map.removeOverLay(marker1);
-				marker1 = new LTMarker( new LTPoint(lat , lon-1300 ),new LTIcon("{{HOST}}/images/vehicle/red/northeast.png"));
-				map.addOverLay(marker1 );
-				
-				//setTimeout("drawLine();",speed);
-				
-			}
-
 			/**
 			  *  车辆请求定位	
 			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
@@ -220,16 +186,28 @@
 						success:function(data){ 
 							var length = data.length;
 
-							for(var i=0;i<length;i++){          
-								marker1 = new LTMarker( new LTPoint(round(data[i][1]),round(data[i][2])),new LTIcon("{{HOST}}/"+data[i][4]+"/"+data[i][3]+".png"));
+							for(var i=0;i<length;i++){        
+								  
+								var point_longitude = data[i][1]; //点经度
+								var point_latitude =  data[i][2]; //点纬度
+								var file_path = data[i][4]; //文件目录
+								var img_name = data[i][3];  //图片名称
+
+								//创建点对象
+								marker1 =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+												 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
+
+								//点对象设置内容
+								addInfoWin(marker1,"经度："+point_longitude+"  纬度："+point_latitude);
+
+								//点添入地图中
 								map.addOverLay(marker1);
-								LTEvent.bind( marker1 , "mouseover" ,marker1,openInfoWin);
-								
 							}
 							map.centerAndZoom("beijing",12);
 						 }
 	 				});
 			}
+
 			
 			//经纬度五舍五入
 			function round(v,e){
@@ -240,17 +218,11 @@
 
 				return  Math.round(v*t)/t;   
 			  } 
-			//打开信息
-			function openInfoWin()
-			{
-				 var win= this.openInfoWinHtml( "车辆1" );
-				 win.closeInfoWindowWithMouse();	//定义在鼠标移出时关闭信息浮窗
-			}
-
-			  
+			 
+  
 			//手动画矩形
 			function drawRectangle(){
-				
+				map.clearOverLays();
 				//矩形地理区域的对象
 				var drawBounds = control.getBoundsLatLng();
 
@@ -266,40 +238,7 @@
 				map.addOverLay(new LTRect(rectangleBounds));
 			}
 
-	 		function onClick(){
-				alert('您点在多边形上');
-			}
-
-			function onMouseOver(){
-				this.setLineColor("red");
-				this.setLineStroke(5);
-			}
-			
-			function onMouseOut(){
-				this.setLineColor("blue");
-				this.setLineStroke(3);
-			}	
-
-			 
-			/*
-		     * 多边形
-		     * 
-				//生成多边形的点数组
-				var points = new Array();
-				points.push( new LTPoint( 11629376 , 3995776 ) );
-				points.push( new LTPoint( 11642688 , 3988608 ) );
-				points.push( new LTPoint( 11641152 , 3992640 ) );
-
-				//根据点数组创建一个多边形
-				var polygon = new LTPolygon( points );
-				//将多边形添加到地图
-				map.addOverLay( polygon );
-			
-				/*给多边形添加点击事件绑定 
-				LTEvent.addListener(polygon,"click",onClick);	
-				LTEvent.bind(polygon,"mouseover",polygon,onMouseOver);
-				LTEvent.bind(polygon,"mouseout",polygon,onMouseOut);
-				*/	
+	 		
 		</script>
 	</body> 
 </html>
