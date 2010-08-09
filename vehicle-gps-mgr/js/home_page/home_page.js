@@ -8,19 +8,20 @@
 							
 							var array=data.split("|");
 							if(array.length==0){
-								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg'></img>");
+								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
+								$("#record").html();
 								$("#record").html(data);
 								$("#operate").html("<a href='index?a=901'>查看更多</a>");
 							}else
 							{       
 								    id=array[0];
-									$("#lamp").html("<img alt='警灯' src='images/lamp.gif'></img>");
-								//	$("#record").html("在"+array[1]+"时间点内，车牌号为"+array[2]+"的告警记录为："+array[3]+"<bgsound balance='0' loop='2' src='voice/sound.mp3' volume='10' />");
+									$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
+									$("#record").html();
+								    $("#record").html("在"+array[1]+"时间点内，车牌号为"+array[2]+"的告警记录为："+array[3]);
 									document.getElementById("operate").style.display="block";
 						     }
 						 }
 					);
-					id=3;
 				  setTimeout(alertInfo,30000);
 	 			}
 	 			
@@ -47,9 +48,9 @@
 					appearDiv("#statistic");
 					appearDiv("#setting");
 					alertInfo();
-					appearDiv("#divice");
+					appearDiv("#addAdvice");
 					appearDiv("#lookMore");
-					
+					$("#record").html("正在加载数据，请稍后....");
 				});
 				 function appearDiv(function_Id){
 					    $(function_Id).click(function(){ 
@@ -58,7 +59,7 @@
 									closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 									height:500,
 									title:'车辆选择',
-									width:750,
+									width:1200,
 									content:{type:'iframe', content:'index.php?a=1'}
 								});
 							}
@@ -67,7 +68,7 @@
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'发布信息',
-											width:750,
+											width:1200,
 											content:{type:'iframe', content:'index.php?a=201'}
 										});
 							}
@@ -76,7 +77,7 @@
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'查询信息',
-											width:750,
+											width:1200,
 											content:{type:'iframe', content:'index.php?a=301'}
 										});
 							}
@@ -85,7 +86,7 @@
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'统计分析',
-											width:750,
+											width:1200,
 											content:{type:'iframe', content:'index.php?a=401'}
 										});
 							}
@@ -94,19 +95,25 @@
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'设置',
-											width:750,
+											width:1200,
 											content:{type:'iframe', content:'index.php?a=5017'}
 										});
 							}
-							if(function_Id=="#divice"){
-								 
+							if(function_Id=="#addAdvice"){
+								 $.msgbox({
+											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
+											height:500,
+											title:'设置',
+											width:1200,
+											content:{type:'iframe', content:'index.php?a=903&id=id'}
+										});
 							}
 							if(function_Id=="#lookMore"){
 								 $.msgbox({
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'告警列表',
-											width:750,
+											width:1200,
 											content:{type:'iframe', content:'index.php?a=901'}
 										});
 							}
