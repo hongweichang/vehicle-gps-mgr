@@ -50,10 +50,12 @@ switch($act)
 			$str=$_REQUEST["character"];
 			$info = new info();
 			$address = $info ->get_phone_email($str);
-			foreach($address as $value){
-				echo $value[0].",".$value[1].",".$value[2];
+			$email="";
+			for($i=0;$i<count($address);$i++){
+				$email=$email.$address[$i][0]."|";
 			}
+			echo $email;
 		break;
-	break;
+	
 }
 ?>

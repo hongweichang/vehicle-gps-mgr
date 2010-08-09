@@ -14,6 +14,7 @@
         // bind 'sendNews' and provide a simple callback function 
         $('#sendNews').ajaxForm(function(){ 
             $('#new').html("提交成功!").show();
+          
         }); 
     }); 
 </script>
@@ -24,13 +25,20 @@
  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
  */
 function vehiclePosition(str){
+	$("#divPop").remove();
 	
 	$.post("index.php?a=203&character="+str,function(data){
-		document.getElementById("address").value = data;
-		});
-	
-	//document.getElementById("address").value=str;
+		
+		var val=document.getElementById("email_list") ;
+		val.innerHTML="";
+		var array=data.split("|");
+		val.options.add(new Option("--驾驶员邮箱--",-1)); 
+		for(var i=0;i<array.length-1;i++){
+			val.options.add(new Option(array[i],i)); 
+		}
 
+		
+	});
 }
 
 $(document).ready(function() { 
@@ -48,17 +56,6 @@ $("#car").click(function(event) {
 	$("#close").click(function(event) {
 		$("#divPop").hide()});
 	}); 
-
-$("#area").click(function(event){
-	$("#area").attr("checked",'true');
-	event.stopPropagation();
-	var offset = $(event.target).offset();
-	$("#myMap").css({ bottom:offset.top+$(event.target).height()+"px"}); 
-	$("#divPop").hide();
-	$("#myMap").show(); 
-	$("#close").click(function(event) {
-		$("#myMap").hide()});
-	});
 });
 
 </script>
@@ -67,30 +64,24 @@ $("#area").click(function(event){
 
 <body>
 <h3>发布消息</h3>
+
+<div id="notification">
 <form id="sendNews" name="sendNews" action="index.php?a=202" method="post">
 	收信人的邮箱地址:
 	<input type="text" size="30" name="address" id="address" />
-	<input id="car" type="radio" name="radio" value="选择车辆"/>选择车辆&nbsp;&nbsp;<input id="area" type="radio"  name="radio" value="选择区域"/>选择区域<br/>
-	<div id="divPop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute;display:none; width: 700px; height: 370px;">
-		<iframe src="index.php?a=1" width="100%" height="350px"></iframe>
-		<div id="close" style="text-align:right;cursor:pointer">确认</div>
-	</div>
-	
-	<div id="myMap" style="position: absolute; width:700px; height:370px;display:none;z-Index:1;"></div>
-
-	要发送的邮件主题:<input type="text" size="30" name="title" id="title"/><br />
+	<input id="car" type="button" name="radio" value="选择车辆"/><br/>
 	要发送的邮件内容:
 	<textarea rows="5" cols="25" name="content" id="content"></textarea><br />
-	<p></p>
 	<input type="submit" name="send" value="发布消息"/>
-	<div align="center" id="new">发送邮件需要点时间，请谅解！</div>
+	<select id="email_list">
+	   <option>--驾驶员邮箱--</option>
+	</select>
 </form>
+</div>
 
-<script>
-var maps = new LTMaps("myMap");
-maps.cityNameAndZoom(new LTPoint( 11636224 , 3991040 ), 1 );				
-maps.addControl(new LTStandMapControl());
-</script>
+<div id="divPop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute;display:none; width: 700px; height: 370px;">
+<iframe id="iframeId" src="index.php?a=1" width="100%" height="370px"></iframe>
+</div>
 
 </body>
 </html>

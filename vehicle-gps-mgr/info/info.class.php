@@ -2,7 +2,7 @@
 	class info extends BASE{
 		public $tablename = "user";
 		public $data_list = false;			 //数据集合
-		public $sql;                         //SQL语句
+		public $sql="";                         //SQL语句
 
 		
 		/***
@@ -23,8 +23,10 @@
 		 * 查询车辆司机的邮箱
 		 */
 		function get_phone_email($str) {
-			$this->sql="SELECT phone_email FROM driver_manage WHERE id=(SELECT driver_id FROM vehicle_manage WHERE id in (".$str."))";
-			return $this->data_list = $GLOBALS["db"]->query($this->sql);
+			$sql="select phone_email FROM driver_manage WHERE ". 
+                  "id in (SELECT driver_id FROM vehicle_manage WHERE id in (".$str."))";
+
+			return $GLOBALS["db"]->query($sql);
 									
 		}
 		
