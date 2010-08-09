@@ -24,12 +24,38 @@
 						     }
 						 }
 					);
-				  setTimeout(alertInfo,30000);
+				 // setTimeout(alertInfo,30000);
 	 			}
 	 			
 	 			
 	 			/**弹出层jquery代码**/
 				$(document).ready(function() {
+					
+					$.post("index.php",{
+						 "a":5021}
+						,function(data){
+							
+							var array=data.split("|");
+							if(array.length==0){
+								alert("没有数据");
+							}else
+							{    
+								var image="";
+								for(var i=0;i<array.length-1;i++){
+									var data_list_min=array[i].split(",");
+									
+									image=image+"<div style='float:left;heigth:17px;'>" +
+											    "<img src="+data_list_min[0]+" style='height:17px'/>" +
+											    "速度:"+data_list_min[1]+"-"+data_list_min[2]+"公里/小时</div>";
+								}						
+								$("#carInfor").html(image);
+						    }
+						});
+			
+				
+					
+					
+					
 					$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
 					 .each(function () {
 						$('span.hover').css('opacity', 0).hover(function () {

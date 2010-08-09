@@ -346,5 +346,32 @@ switch($act)
 		}
 		echo $set_speed;
 		break;
+		
+		case "display_speed_color" :
+			
+	   
+		$data_text_color="";
+		$companyId = get_session ( "company_id" );
+		$setting = new Setting ();
+
+		$array = $setting->select_speed_color ( $companyId );
+		
+		//引入xml操作文件
+		require_once ("include/data_mapping_handler.php");
+		$color_xml = "xml/color.xml"; //定义xml映射文件局对路径
+		$dataMapping = new Data_mapping_handler ( $color_xml ); //从xml配置信息中读取颜色
+		for($i = 0; $i < count ( $array ); $i++) {
+			$a=$array [$i];//min,max,color
+			$val="#".$a["color"];
+			
+			$text_color =$dataMapping->getTextData ( 'color',  $val);
+		    $data_min=$a["min"];
+		    $data_max=$a["max"];
+		    
+		    $data_text_color=$data_text_color.$text_color.",".$data_min.",".$data_max."|";
+	 
+		}
+		echo $data_text_color;
+		break;
 }
 ?>
