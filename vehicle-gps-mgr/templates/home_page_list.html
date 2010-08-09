@@ -11,8 +11,7 @@
 	<script language="javascript" src="js/jquery.msgbox.js" ></script>
 	<script language="javascript" src="js/jquery.dragndrop.js"></script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
-	<script language="javascript" src="js/alert/advice.js"></script>
-
+	
 </head>
 <body>
 	<div id="header">
@@ -21,52 +20,42 @@
 			<div class="hearder_div"><a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">退出</a></div>
 		</div>
 	</div>
+	<div id="map"></div>
 	<div id="content">
-		<div id="map"></div>
-		<div class="button_content">
-			<ul id="nav">
-					<li class="jsbutton" id="vehicle">
-						<div class="button_font">选择车辆</div>
-					</li>
-					<li class="jsbutton" id="sendInfo">
-						<div class="button_font">发布信息</div>
-					</li>
-					<li class="jsbutton" id="searchInfo">
-						<div class="button_font">查询信息</div>
-					</li>
-					<li class="jsbutton" id="statistic">
-						<div class="button_font">统计分析</div>
-					</li>
-					<li class="jsbutton" id="setting">
-						<div class="button_font">设置</div>
-					</li>
-			</ul>
-			<div id="alertInfo" >
-			    <div class="marquee" id="lamp">
-			    	
-			    </div>
-				<div class="marquee">
-				  <div id="lamp" class="marquee"></div>
-					<div id="newAlert">最新告警信息</div>
-					<div id="alert_info">
-						<div id="record" style="float:left; height:20px;"></div>
-						<div style="float:left; height:20px; margin-left:20px;" >
-							<div style="float:left; height:20px; display: none;" id="operate">
-								<div style="float:left; height:19px;" id="divice">
-									<a href="#">处理</a>
-								</div>
-								<div style="float:left; height:19px;padding-top:1px;" id="lookMore">
-									<a href='#' style='margin-left:5px;'>查看更多</a>
-								</div>
-							</div>
-							
-						</div>
-						
-					</div> 
-				</div><br>
+		  <div class="button_content">
+				<ul id="nav">
+						<li class="jsbutton" id="vehicle">
+							<div class="button_font">选择车辆</div>
+						</li>
+						<li class="jsbutton" id="sendInfo">
+							<div class="button_font">发布信息</div>
+						</li>
+						<li class="jsbutton" id="searchInfo">
+							<div class="button_font">查询信息</div>
+						</li>
+						<li class="jsbutton" id="statistic">
+							<div class="button_font">统计分析</div>
+						</li>
+						<li class="jsbutton" id="setting">
+							<div class="button_font">设置</div>
+						</li>
+				 </ul>
 			</div>
-		</div>
-	</div> 
+			<div class="alertInfo">
+			    <div id="lamp" class="lamp"></div>
+			    <div class="alert_div">
+					<div id="newAlert" class="newAlert"></div>
+					<div  class="new_alert">
+							<div id="record" class="record"></div>
+							
+							<div class="operate" id="operate" >
+								<div class="addAdvice" id="addAdvice"><a href="#">处理</a></div>
+								<div class="lookMore" id="lookMore"><a href='#' style='margin-left:5px;'>查看更多</a></div>
+						   </div>
+				    </div>
+			    </div>
+		    </div>
+	</div>  
 	<script language="javascript">
 			var state = 0; //操作状态  
 			var map;  //声明51地图对象
@@ -91,11 +80,58 @@
 			    control.setTop(10);
 			    control.setLabel("选中矩形区域");
 				map.addControl( control );
-
+				map.handleMouseScroll();
+				LTEvent.addListener(map,"dblclick",onDblClick);//绑定事件注册
 				//选中区域
 				LTEvent.addListener(control,"mouseup",drawRectangle);
+
+				{{MAP_POINT}}
 			}
 
+			function loadCompanyVehicle(){
+				$.ajax({
+					type:"POST",
+					url:"index.php?a=2", 
+					dataType:"json",
+					success:function(data){ 
+						var length = data.length;
+					
+						for(var i=0;i<length;i++){        
+							  
+							var point_longitude = data[i][1]; //点经度
+							var point_latitude =  data[i][2]; //点纬度
+							var file_path = data[i][4]; //文件目录
+							var img_name = data[i][3];  //图片名称
+
+							//创建点对象
+							marker1 =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+											 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
+
+							//点对象设置内容
+							addInfoWin(marker1,"经度："+point_longitude+"  纬度："+point_latitude);
+
+							//点添入地图中
+							map.addOverLay(marker1);
+						}
+						map.resizeMapDiv();
+						map.centerAndZoom("beijing",12);
+					 }
+ 				});	
+
+			}
+			
+			var moveLsitener;
+			function onDblClick()//定义在双击的时候执行的函数
+			{
+				moveLsitener=LTEvent.addListener(map,"moveend",onMoveEnd);
+				//因为系统默认双击的时候会将地图定位到中心，因此，只需要定义地图在定位到中心完成之后放大地图即可
+			}
+			function onMoveEnd()//定义地图在定位到中心完成之后执行的函数
+			{
+				LTEvent.removeListener(moveLsitener);//删除事件注册
+				map.zoomIn();//放大地图
+			}
+			
 			//关闭提示窗口
 			function closeWindow(){
 				$searchInfo.close();
@@ -103,12 +139,14 @@
 
 			//画历史轨迹路径
 			function drawHistoryTrack(data){ 
-				
+				alert(data.length);
 				drawLine_arr = data; 
 				newDrawLine();
-				 
+				
+				Concurrent.Thread.create(newDrawLine, 1000); 
+				alert(data.length);
 			}
-
+	 
 			//画新线
 			function newDrawLine(){
 				 
@@ -139,6 +177,8 @@
 				}
 				
 			}
+			
+			
 			//运行画线
 			function drawRunLine(points1,lon,lat,direction){  
 				
@@ -179,8 +219,7 @@
 			  *  车辆请求定位	
 			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
-			function vehiclePosition(str){
-		 		//ygfi
+			function vehiclePosition(str){ 
 				 $.ajax({
 						type:"POST",
 						url:"index.php?a=2&vehicleIds="+str, 
@@ -205,6 +244,7 @@
 								//点添入地图中
 								map.addOverLay(marker1);
 							}
+							map.resizeMapDiv();
 							map.centerAndZoom("beijing",12);
 						 }
 	 				});
