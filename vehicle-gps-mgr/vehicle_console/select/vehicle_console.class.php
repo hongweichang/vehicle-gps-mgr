@@ -49,13 +49,18 @@ class vehicle_console extends BASE{
 			 * @param $company_id 公司ID
 			 */
 			function company_all_vehicle($company_id=-1){ 
-				 
-				$this->sql = "SELECT  v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name,s.color ".
-							 "			FROM ".$this->tablename_vehicle_manage." v ".
-							 "				inner join ".$this->tablename_speed_color." as s ".
-							 "					on s.company_id =".$company_id."  and v.company_id=s.company_id and v.cur_direction>=s.min and v.cur_direction<s.max ".
-							 "				left join  ".$this->tablename_vehicle_group." g on g.id=v.vehicle_group_id ".  
-							 "				left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ";
+			$this->sql = "SELECT  v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
+						 "			(case when s.color is null then c.default_color ".
+						 "			    else s.color end)as color ".
+						 "				FROM ".$this->tablename_vehicle_manage." v ".
+						 "					left join ".$this->tablename_speed_color." as s ".
+						 "						on s.company_id =".$company_id."  and v.company_id=s.company_id and (v.cur_speed>=s.min and v.cur_speed<s.max) ".
+						 "					left join  ".$this->tablename_vehicle_group." g on g.company_id=v.vehicle_group_id  ".
+						 "					left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ".
+						 "					left join ".$this->tablename_common_setting." c on c.company_id =".$company_id.
+						 "				where v.company_id =".$company_id.
+						 "				group by v.id";
+		 
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			
