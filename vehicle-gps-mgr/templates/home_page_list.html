@@ -127,6 +127,8 @@
 			var speed = 1000;  //速度/ms
 			var marker1;
 			var drawLine_arr;
+			var host = "{{HOST}}";
+			{{PAGE_REFRESH_TIME}}
 
 			onLoadMap();
 			
@@ -146,40 +148,64 @@
 				LTEvent.addListener(map,"dblclick",onDblClick);//绑定事件注册
 				//选中区域
 				LTEvent.addListener(control,"mouseup",drawRectangle);
-
-				{{MAP_POINT}}
+				
+				loadCompanyVehicle();
 			}
+			
 
 			function loadCompanyVehicle(){
+				
 				$.ajax({
 					type:"POST",
-					url:"index.php?a=2", 
+					url:"index.php?a=101", 
 					dataType:"json",
-					success:function(data){ 
-						var length = data.length;
-					
-						for(var i=0;i<length;i++){        
-							  
-							var point_longitude = data[i][1]; //点经度
-							var point_latitude =  data[i][2]; //点纬度
-							var file_path = data[i][4]; //文件目录
-							var img_name = data[i][3];  //图片名称
+					success:function(data){  
+						var length = data.length; 
 
+						if(length>0)
+							map.clearOverLays(); //清除所有标点，重新加载新数据
+							
+						var points = new Array();
+						 for(var i=0;i<length;i++){      
+							   
+							var number_plate = data[i]['number_plate']; //车牌号
+							var gps_id = data[i]['gps_id']; //GPS编号
+							var location_time = data[i]['location_time']; //当前定位时间 
+							var point_longitude =  data[i]['cur_longitude']; //当前经度
+							var point_latitude =  data[i]['cur_latitude']; //当前纬度 
+							var cur_speed =  data[i]['cur_speed'];//当前速度
+							var img_name =data[i]['cur_direction']; //图片名
+							var vehicle_group_name = data[i]['group_name'];  //车队
+							var driver_name = data[i]['driver_name']; //驾驶员
+							var file_path = data[i]['file_path']; //文件路径
+							var location_desc =  data[i]['location_desc']; //地址
+							   
 							//创建点对象
 							marker1 =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
-											 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
+											 	  new LTIcon(host+"/"+file_path+"/"+img_name+".png"));
 
+							points.push( new LTPoint(round(point_longitude),round(point_latitude)));
 							//点对象设置内容
-							addInfoWin(marker1,"经度："+point_longitude+"  纬度："+point_latitude);
+							var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
+										  "<br>车队："+vehicle_group_name+
+										  "<br>驾驶员："+driver_name+
+										  "<br>当前速度: "+cur_speed+"<br>当前定位时间:"+location_time+
+										  "<br>当前地址: "+location_desc+"<br><br>"+
+										  "<a href='#'>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
+							addInfoWin(marker1,context);
 
 							//点添入地图中
 							map.addOverLay(marker1);
-						}
-						map.resizeMapDiv();
-						map.centerAndZoom("beijing",12);
+
+							var text = new LTMapText( new LTPoint( round(point_longitude),round(point_latitude) ) );
+							text.setLabel(number_plate ); 
+							map.addOverLay( text ); 
+						}  
+						map.getBestMap(points);
+						 
 					 }
  				});	
-
+				setTimeout("loadCompanyVehicle();",page_refresh_time*1000);
 			}
 			
 			var moveLsitener;

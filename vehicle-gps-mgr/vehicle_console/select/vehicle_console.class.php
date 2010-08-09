@@ -50,7 +50,7 @@ class vehicle_console extends BASE{
 			 */
 			function company_all_vehicle($company_id=-1){ 
 				 
-				$this->sql = "SELECT  v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name,d.name,s.color ".
+				$this->sql = "SELECT  v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name,s.color ".
 							 "			FROM ".$this->tablename_vehicle_manage." v ".
 							 "				inner join ".$this->tablename_speed_color." as s ".
 							 "					on s.company_id =".$company_id."  and v.company_id=s.company_id and v.cur_direction>=s.min and v.cur_direction<s.max ".
@@ -80,17 +80,7 @@ class vehicle_console extends BASE{
 									"		v.cur_direction<max";    
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
-			
-			/**
-			 * 获取当前公司默认轨迹颜色
-			 * @param $commpany_id
-			 */
-			function get_default_color($commpany_id=-1){
-				
-				$this->sql = "SELECT default_color FROM ".$this->tablename_common_setting." WHERE commpany_id=".commpany_id;
-				
-				return $GLOBALS["db"]->query_once($this->sql);
-			}
+			 
 }
 
 ?>
