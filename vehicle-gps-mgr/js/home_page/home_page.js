@@ -86,7 +86,11 @@
 											closeIcon: '关闭', // closeIcon: {type:'image', content:'close.gif'}
 											height:500,
 											title:'统计分析',
+<<<<<<< .mine
+											width:920,
+=======
 											width:1200,
+>>>>>>> .r276
 											content:{type:'iframe', content:'index.php?a=401'}
 										});
 							}
