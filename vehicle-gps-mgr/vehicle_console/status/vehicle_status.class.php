@@ -247,8 +247,8 @@ class Vehicle_status extends BASE
      */
     function get_location_desc($cur_longitude,$cur_latitude)
     {
-    	$longitude_51ditu=$this->around($cur_longitude);
-    	$latitude_51ditu=$this->around($cur_latitude);
+    	$longitude_51ditu=$this->around($cur_longitude, 0);
+    	$latitude_51ditu=$this->around($cur_latitude, 0);
     	
     	//把经纬度值的后三位置0
     	$longitude = intval($longitude_51ditu /1000) * 1000; 
