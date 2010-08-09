@@ -107,9 +107,36 @@ class Vehicle_status extends BASE
 	 */
 	function get_vehicle_count_plate($number_plate){
 		$company_id = get_session("company_id");
-		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." and number_plate like '".$number_plate."%'";
+		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." and number_plate like '%".$number_plate."%'";
 		$count = $GLOBALS['db']->query_once($this->sql);
 		return $count[0];
+	}
+	
+	/**
+	 *   查询某个经纬度范围内的所有车辆数目
+	 *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度
+	 */
+	function get_lon_lat_count($lonMin,$lonMax,$latMin,$latMax){
+		$company_id = get_session("company_id");
+		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." 
+		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
+		              (cur_latitude between ".latMin." and ".latMax.")";
+		$count = $GLOBALS['db']->query_once($this->sql);
+		return $count[0];
+	}
+	
+	/**
+	 *   查询某个经纬度范围内的包含指定车牌号的所有车辆数目
+	 *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度 $number_plate车牌号
+	 */
+	function get_lon_lat_plate_count($lonMin,$lonMax,$latMin,$latMax,$number_plate){
+		$company_id = get_session("company_id");
+    	$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." 
+		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
+		              (cur_latitude between ".latMin." and ".latMax.") and number_plate like 
+		              '%".$number_plate."%'";
+    	$count = $GLOBALS['db']->query_once($this->sql);
+    	return $count[0];
 	}
 	
 	/**
@@ -131,7 +158,7 @@ class Vehicle_status extends BASE
 	 */
 	function get_all_vehicles_number($number_plate){
 		$company_id = get_session("company_id");
-		$this->sql = "select * from ".$this->tablename." where company_Id=".$company_id." and number_plate like '".$number_plate."%'";
+		$this->sql = "select * from ".$this->tablename." where company_Id=".$company_id." and number_plate like '%".$number_plate."%'";
 		return $this->data_list = $GLOBALS['db']->query($this->sql);
 	}
 	
@@ -284,5 +311,29 @@ class Vehicle_status extends BASE
     	if($gps_status==1) return "有";
     }
     
+    /**
+     *  查询某经纬度之间的所有车辆
+     *  @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度
+     */
+    function get_lon_lat_vehicle($lonMin,$lonMax,$latMin,$latMax){
+        $company_id = get_session("company_id");
+    	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
+		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
+		              (cur_latitude between ".latMin." and ".latMax.")";
+    	return $this->data_list = $GLOBALS['db']->query($this->sql);
+    }
+    
+    /**
+     *   查询某经纬度之间的包含指定车牌号的所有车辆
+     *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度 $number_plate模糊车牌号
+     */
+    function get_lon_lat_plate_vehicle($lonMin,$lonMax,$latMin,$latMax,$number_plate){
+    	$company_id = get_session("company_id");
+    	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
+		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
+		              (cur_latitude between ".latMin." and ".latMax.") and number_plate like 
+		              '%".$number_plate."%'";
+    	return $this->data_list = $GLOBALS['db']->query($this->sql);
+    }
 }
 ?>

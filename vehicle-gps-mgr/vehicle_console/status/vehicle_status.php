@@ -27,17 +27,28 @@ switch($act)
 		break;
 
 	case "list_data":
-		$encoding = mb_detect_encoding($_REQUEST['number_plate']);
-		if($encoding=="UTF-8"){
-			$number_plate = $_REQUEST['number_plate'];
-		}else{
-		    $number_plate = iconv("gb2312", "utf-8",$_REQUEST['number_plate']);	
-		}
 		$vehicle_status	= new Vehicle_status();
-		if($number_plate==null or $number_plate==""){
-		    $count = $vehicle_status->get_vehicle_count();
-		}else{
+		if($_REQUEST['number_plate']!=null or $_REQUEST['number_plate']!=""){
+			$encoding = mb_detect_encoding($_REQUEST['number_plate']);
+			if($encoding=="UTF-8"){
+			 $number_plate = $_REQUEST['number_plate'];
+			}else{
+		   	 $number_plate = iconv("gb2312", "utf-8",$_REQUEST['number_plate']);	
+			}
+		}
+		
+		if(($_REQUEST['number_plate']!=null or $_REQUEST['number_plate']!="") and ($_REQUEST['lonMin']==null or $_REQUEST['lonMin']=="")){
+			$encoding = mb_detect_encoding($_REQUEST['number_plate']);
 			$count = $vehicle_status->get_vehicle_count_plate($number_plate);
+		}else if(($_REQUEST['lonMin']!=null or $_REQUEST['number_plate']!="") and ($_REQUEST['number_plate']==null or $_REQUEST['number_plate']=="")){
+		    $count = $vehicle_status->get_lon_lat_count($_REQUEST['lonMin'],$_REQUEST['lonMax'],
+		             $_REQUEST['latMin'],$_REQUEST['latMax']);
+		}
+		else if(($_REQUEST['lonMin']==null or $_REQUEST['number_plate']=="") and ($_REQUEST['number_plate']==null or $_REQUEST['number_plate']=="")){
+		    $count = $vehicle_status->get_vehicle_count();
+		}else {
+			$count = $vehicle_status->get_lon_lat_plate_count($_REQUEST['lonMin'],$_REQUEST['lonMax'],
+		             $_REQUEST['latMin'],$_REQUEST['latMax'],$_REQUEST['number_plate']);
 		}
 
 		if( $count >0 ) {
@@ -60,12 +71,28 @@ switch($act)
 			$searchstr = $db->prepare_value($searchstr,$type);
 			$wh = "where ".$searchfil." = ".$searchstr." and company_id=".$company_id;
 		}
-		
-		if($number_plate==null or $number_plate==""){
-		//得到所有车辆
-		    $result = $vehicle_status->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
-		}else{
+
+	/*	if($number_plate!=null or $number_plate!=""){
 			$result = $vehicle_status->get_all_vehicles_number($number_plate);
+		}else if($_REQUEST['lonMin']!=null or $_REQUEST['lonMin']!=""){
+			$result = $vehicle_status->get_lon_lat_vehicle($_REQUEST['lonMin'],$_REQUEST['lonMax'],
+		             $_REQUEST['latMin'],$_REQUEST['latMax']);
+		}else{
+			//得到所有车辆
+		    $result = $vehicle_status->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
+		}*/
+		if(($_REQUEST['number_plate']!=null or $_REQUEST['number_plate']!="") and ($_REQUEST['lonMin']==null or $_REQUEST['lonMin']=="")){
+			$encoding = mb_detect_encoding($_REQUEST['number_plate']);
+			$result = $vehicle_status->get_all_vehicles_number($number_plate);
+		}else if(($_REQUEST['lonMin']!=null or $_REQUEST['number_plate']!="") and ($_REQUEST['number_plate']==null or $_REQUEST['number_plate']=="")){
+		    $result = $vehicle_status->get_lon_lat_vehicle($_REQUEST['lonMin'],$_REQUEST['lonMax'],
+		             $_REQUEST['latMin'],$_REQUEST['latMax']);
+		}
+		else if(($_REQUEST['lonMin']==null or $_REQUEST['number_plate']=="") and ($_REQUEST['number_plate']==null or $_REQUEST['number_plate']=="")){
+		    $result = $vehicle_status->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
+		}else {
+			$result = $vehicle_status->get_lon_lat_plate_vehicle($_REQUEST['lonMin'],$_REQUEST['lonMax'],
+		             $_REQUEST['latMin'],$_REQUEST['latMax'],$_REQUEST['number_plate']);
 		}
 		$response->page	= $page;
 		$response->total = $total_pages;
