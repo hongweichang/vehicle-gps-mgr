@@ -9,8 +9,8 @@
 			editable : false,
 			hidden : true
 		},{
-			name : 'login_name',
-			index : 'login_name',
+			name : 'name',
+			index : 'name',
 			width : 120,
 			align : "center",
 			editable : false

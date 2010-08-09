@@ -67,20 +67,21 @@ class Statistic extends BASE {
 	 */
 	function get_all_driver($wh = "", $sidx = "", $sord = "", $start = "", $limit = "") {
 		$this->sql =
-"select driver_id,login_name,distance,drive_time,stop_time,min_time,max_time from ".
+"select driver_id,name,distance,drive_time,stop_time,min_time,max_time from ".
 "(select ss_cs.driver_id, ss_cs.distance, ss_cs.drive_time, ss_cs.stop_time,ti.min_time,ti.max_time  from ".  
 "(select cs.driver_id,ss.distance,ss.drive_time,cs.stop_time from ".
 "(select driver_id,distance,drive_time from   continue_drive_statistic group by driver_id) as ss ".
 "inner join ".
-"(select driver_id,stop_time from   stop_statistic group by driver_id ) as  cs ". 
+"(select driver_id,stop_time from   stop_statistic group by driver_id ) as  cs  ".
 "on ss.driver_id=cs.driver_id) as ss_cs ".
 "inner join ".
-"(select driver_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by driver_id) ". 
+"(select driver_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by driver_id)  ".
 "as ti ".
-"on ti.driver_id=ss_cs.driver_id) as drive ". 
+"on ti.driver_id=ss_cs.driver_id) as drive  ".
 "inner join  ".
-"(select id,login_name from user) as usr ".
-"on  usr.id=drive.driver_id " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+"(select id,name from driver_manage) as d_m ".
+"on  d_m.id=drive.driver_id ".  $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+
 		
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}

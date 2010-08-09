@@ -98,7 +98,7 @@ switch ($act) {
 			$response->rows [$key] ['driver_id'] = $value ['driver_id'];
 			
 			$response->rows [$key] ['cell'] = array ($value ['driver_id'],
-			                                         $value ['login_name'], 
+			                                         $value ['name'], 
 			                                         $value ['distance'], 
 			                                         $value ['drive_time'],
 			                                         $value ['stop_time'],
