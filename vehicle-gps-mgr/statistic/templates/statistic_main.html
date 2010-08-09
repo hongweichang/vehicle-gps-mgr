@@ -11,6 +11,7 @@
 	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
 </head>
 <body>
+	{{top}}
 	<script type="text/javascript">
 		$(function() {
 			$("#tabs").tabs();
@@ -20,15 +21,9 @@
 	<div class="inquireContainer">
 		<div id="tabs">
 			<ul>
-				<li><a href="#current">车辆统计</a></li>
-				<li><a href="#history">驾驶员统计</a></li>
+				<li><a href="index.php?a=402"><span>车辆统计</span></a></li>
+				<li><a href="index.php?a=404"><span>驾驶员统计</span></a></li>
 			</ul>
-			<div id="current">
-				<p>车辆统计</p>
-			</div>
-			<div id="history">
-				<p>驾驶员统计</p>
-			</div>
 		</div>
 	</div>
 </body>
