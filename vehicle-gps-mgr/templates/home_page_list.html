@@ -35,7 +35,7 @@
 			var $this = $(this);
 			var horizontalPadding = 30;
 			var verticalPadding = 30;
-	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" />').dialog({
+	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" frameborder="0"/>').dialog({
 	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
 	            autoOpen: true,
 	            width: 1000,
@@ -55,7 +55,7 @@
 			var $this = $(this);
 			var horizontalPadding = 30;
 			var verticalPadding = 30;
-	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" />').dialog({
+	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" frameborder="0"/>').dialog({
 	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
 	            autoOpen: true,
 	            width: 1000,
