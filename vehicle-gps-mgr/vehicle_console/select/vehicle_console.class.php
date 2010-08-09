@@ -18,34 +18,44 @@ class vehicle_console extends BASE{
 	public $sql;                         //SQL语句
 	public $message;                     //消息
 	private $user_id = false;		//用户ID
-	private $tablename_vehicle_group = "vehicle_group";//车辆组
-	private $tablename_vehicle_manage = "vehicle_manage";//车辆
+	private $tablename_vehicle_group = "vehicle_group";//车辆组表
+	private $tablename_vehicle_manage = "vehicle_manage";//车辆管理表
 	private $tablename_common_setting = "common_setting"; //系统内部参数表
-	private $tablename_speed_color = "speed_color"; //速度关联
+	private $tablename_speed_color = "speed_color"; //速度关联表
+	private $tablename_driver_manage = "driver_manage"; //人员管理表
 			 
-			/*
-			 * 查询车辆组数量
-			 */
-			function get_vehicle_group_count(){
-				$this->sql="select count(*) from ".$this->tablename_vehicle_group;
-				$count = $GLOBALS["db"]->query_once($this->sql);
-				return $count[0];				
-			}
 			
 			/**
 			 * 查询所有车辆组
+			 * @param $company_id  公司ID
 			 */
-			function get_all_vehicle_group(){
-				$this->sql = "select * from ".$this->tablename_vehicle_group;
+			function get_all_vehicle_group($company_id=-1){
+				$this->sql = "select * from ".$this->tablename_vehicle_group ." where company_id=".$company_id;
+				return $this->data_list = $GLOBALS["db"]->query($this->sql);
+			} 
+			
+			/**
+			 * 查询每组的所有车辆
+			 * @param $wh @ $wh 条件
+			 * @param $company_id   公司ID
+			 */
+			function get_group_vehicle($wh="",$company_id=-1){
+				$this->sql = "select * from ".$this->tablename_vehicle_manage." ".$wh." and company_id=".$company_id." order by length(number_plate)";
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			
 			/**
-			 * 查询每组的所有车辆
-			 * @ $wh 条件
+			 * 获取当前公司所有车辆信息
+			 * @param $company_id 公司ID
 			 */
-			function get_group_vehicle($wh=""){
-				$this->sql = "select * from ".$this->tablename_vehicle_manage." ".$wh." order by length(number_plate)";
+			function company_all_vehicle($company_id=-1){ 
+				 
+				$this->sql = "SELECT  v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name,d.name,s.color ".
+							 "			FROM ".$this->tablename_vehicle_manage." v ".
+							 "				inner join ".$this->tablename_speed_color." as s ".
+							 "					on s.company_id =".$company_id."  and v.company_id=s.company_id and v.cur_direction>=s.min and v.cur_direction<s.max ".
+							 "				left join  ".$this->tablename_vehicle_group." g on g.id=v.vehicle_group_id ".  
+							 "				left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ";
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			
@@ -72,7 +82,7 @@ class vehicle_console extends BASE{
 			}
 			
 			/**
-			 * 
+			 * 获取当前公司默认轨迹颜色
 			 * @param $commpany_id
 			 */
 			function get_default_color($commpany_id=-1){

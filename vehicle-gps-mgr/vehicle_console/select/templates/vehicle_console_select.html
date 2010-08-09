@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head> 
  	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<link type="text/css" href="js/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<link type="text/css" href="js/themes/ui-lightness/jquery.ui.all.css" rel="stylesheet" />
 	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
@@ -11,10 +11,10 @@
 	<!-- 滚动条样式 -->
 	<style>
  		.scroll{
-			PADDING-RIGHT:10px;OVERFLOW-Y:auto;PADDING-LEFT:10px;
-			FONT-SIZE:11pt;PADDING-BOTTOM:0px;OVERFLOW:auto;WIDTH:510px;
-			LINE- HEIGHT:100%;PADDING-TOP:0px;FONT-FAMILY:宋体;LETTER-SPACING:1pt;
-			HEIGHT:150px;TEXT-ALIGN:left
+			padding-right:10px;overflow-y:auto;padding-left:10px;
+			font-size:11pt;padding-bottom:0px;overflow:auto;width:510px; 
+			line-height:100%;padding-top:0px;font-family:宋体;letter_spacing:1pt;
+			height:150px;text-align:left
 		}
  	</style>
 </head>
@@ -57,11 +57,8 @@
              });
   				 parent.window.vehiclePosition(str.substr(0,str.length-1));
 			});
-	});
-	
-	</script>
- 
-
+	}); 
+	</script> 
 <div>
 
 <div id="tabs">
@@ -69,8 +66,12 @@
 </div>
 <br/>
 <div>
-<span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input></span>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<span><input type="button" id="commit" value="地图显示"></input></span></div>
+	<div style="float:left">
+		<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input>
+	</div>
+	<div style="float:right">
+		<input type="button" id="commit" value="地图显示"></input></div>
+	</div>
 </div> 
 </body>
 </html>

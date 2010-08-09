@@ -15,6 +15,8 @@ $limit = $_REQUEST ['rows']; // get how many rows we want to have into the grid
 $sidx = $_REQUEST ['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST ['sord']; // get the direction
 $vehicleIds = $_REQUEST['vehicleIds'];  //获取车辆ID集合  
+
+$company_id = get_session("company_id");
 //$vehicleIds="1,2,3,4";
 if (! $sidx)
 	$sidx = 1;
@@ -25,7 +27,7 @@ switch ($act) {
 	case "select" ://选择车辆		
 		 
         /**获取所有车辆组*/
-		$vehicle_group = $vehicle_console->get_all_vehicle_group ();
+		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
 		/**生成车辆组标题*/
 		$str = "<div style='font-size:13px;'><ul>";
@@ -36,7 +38,7 @@ switch ($act) {
 		
 		/**在车辆组下显示所有的车辆*/
 		foreach ( $vehicle_group as $values ) {
-			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0] );
+			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
 			$str = $str . "<div id='tabs" . $values [0] . "'>".
 							"&nbsp<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 							"'>选择本组车辆</input><div class='scroll'>";
