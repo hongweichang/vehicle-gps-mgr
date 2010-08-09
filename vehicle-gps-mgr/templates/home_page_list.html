@@ -4,16 +4,77 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<meta name="keywords" content=""/>
 	<link rel="stylesheet" href="css/style.css" />
-	<link rel="stylesheet" href="css/jquery.msgbox.css" />
+	<link type="text/css" href="css/redmond/jquery-ui-1.8.1.custom.css" rel="stylesheet" />
 	
 	<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
-	<script language="javascript" src="js/jquery.msgbox.js" ></script>
-	<script language="javascript" src="js/jquery.dragndrop.js"></script>
+	<script language="javascript" src="js/jquery-ui-1.8.1.custom.min.js" ></script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
+	<script language="javascript" src="js/alert/opinion.js"></script>
+	
+	<script type="text/javascript">
+	function closeMe(){
+		$("#externalSite").dialog("close");
+		$("#externalSite").remove();
+	}
+		
+	$(function() {
+		$('#addAdvice').click(function(e) {
+			$.post("index.php?a=903&id="+id,function(data){
+				$("#opinion").html(data);
+				$("#opinion").dialog("open");
+			});
+		});
+
+		$( "#opinion" ).dialog({
+			   close: function(event, ui) { alertInfo(); }
+		});
+		
+		$('.button_font').click(function(e) {
+			e.preventDefault();
+			var $this = $(this);
+			var horizontalPadding = 30;
+			var verticalPadding = 30;
+	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" />').dialog({
+	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+	            autoOpen: true,
+	            width: 1000,
+	            height: 500,
+	            modal: true,
+	            resizable: true,
+				autoResize: true,
+	            overlay: {
+	                opacity: 0.5,
+	                background: "black"
+	            }
+	        }).width(1000 - horizontalPadding).height(500 - verticalPadding);	      
+		});
+
+		$('#lookMore').click(function(e) {
+			e.preventDefault();
+			var $this = $(this);
+			var horizontalPadding = 30;
+			var verticalPadding = 30;
+	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" />').dialog({
+	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+	            autoOpen: true,
+	            width: 1000,
+	            height: 500,
+	            modal: true,
+	            resizable: true,
+				autoResize: true,
+	            overlay: {
+	                opacity: 0.5,
+	                background: "black"
+	            }
+	        }).width(1000 - horizontalPadding).height(500 - verticalPadding);	      
+		});
+	});
+	</script>
 	
 </head>
 <body>
+	<div id="opinion"></div>
 	<div id="header">
 		<div class="header_content"> 
 			<div class="hearder_div"><a href="{{URL_MANAGE}}">管理中心</a></div>
@@ -24,21 +85,20 @@
 	<div id="content">
 		  <div class="button_content">
 				<ul id="nav">
-						<li class="jsbutton" id="vehicle">
-							<div class="button_font">选择车辆</div>
-						</li>
-						<li class="jsbutton" id="sendInfo">
-							<div class="button_font">发布信息</div>
-						</li>
-						<li class="jsbutton" id="searchInfo">
-							<div class="button_font">查询信息</div>
-						</li>
-						<li class="jsbutton" id="statistic">
-							<div class="button_font">统计分析</div>
-						</li>
-						<li class="jsbutton" id="setting">
-							<div class="button_font">设置</div>
-						</li>
+					<li class="jsbutton" id="vehicle">
+						<div class="button_font" url="index.php?a=1" title="选择车辆">选择车辆</div>
+					</li>
+					<li class="jsbutton" id="sendInfo">
+						<div class="button_font" url="index.php?a=201" title="发布信息">发布信息</div>
+					</li>
+					<li class="jsbutton" id="searchInfo">
+						<div class="button_font" url="index.php?a=301" title="查询信息">查询信息</div>
+					</li>
+					<li class="jsbutton" id="statistic">
+						<div class="button_font" url="index.php?a=401" title="统计分析">统计分析</div>
+					</li>
+					<li class="jsbutton" id="setting">
+						<div class="button_font" url="index.php?a=5017" title="设置">设置</div>
 				 </ul>
 			</div>
 			<div class="alertInfo">
@@ -50,7 +110,7 @@
 							
 							<div class="operate" id="operate" >
 								<div class="addAdvice" id="addAdvice"><a href="#">处理</a></div>
-								<div class="lookMore" id="lookMore"><a href='#' style='margin-left:5px;'>查看更多</a></div>
+								<div class="lookMore" id="lookMore" url="index.php?a=901" title="告警列表"><a href='#' style='margin-left:5px;'>查 看更多</a></div>
 						   </div>
 				    </div>
 			    </div>
