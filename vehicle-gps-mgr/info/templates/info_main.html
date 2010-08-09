@@ -3,8 +3,10 @@
 <head>
 <title>发布信息</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <script src="js/jquery-1.4.2.js" type="text/javascript"></script> 
 <script src="js/jquery.form.js" type="text/javascript"></script> 
+<script language="javascript" src="http://api.51ditu.com/js/maps.js "></script>
 
 <script type="text/javascript"> 
     // wait for the DOM to be loaded 
@@ -14,20 +16,68 @@
             $('#new').html("提交成功!").show();
         }); 
     }); 
-</script> 
+
+</script>
+
+<script type="text/javascript">
+$(document).ready(function() { 
+//绑定事件处理 
+$("#car").click(function(event) {
+	$("#car").attr("checked",'true');
+	//取消事件冒泡
+	event.stopPropagation(); 
+	//设置弹出层位置 
+	var offset = $(event.target).offset();
+	$("#divPop").css({ bottom:offset.top+$(event.target).height()+"px"}); 
+	$("#myMap").hide();
+	$("#divPop").show(); 
+	//单击弹出层则自身隐藏 
+	$("#close").click(function(event) {
+		$("#divPop").hide()});
+	}); 
+
+$("#area").click(function(event){
+	$("#area").attr("checked",'true');
+	event.stopPropagation();
+	var offset = $(event.target).offset();
+	$("#myMap").css({ bottom:offset.top+$(event.target).height()+"px"}); 
+	$("#divPop").hide();
+	$("#myMap").show(); 
+	$("#close").click(function(event) {
+		$("#myMap").hide()});
+	});
+});
+
+</script>
+
 </head>
 
 <body>
 <h3>发布消息</h3>
 <form id="sendNews" name="sendNews" action="index.php?a=202" method="post">
-	请您输入收信人的邮箱地址:
-	<input type="text" size="30" name="address" id="address"/><br/>
-	请您输入要发送的邮件主题:
-	<input type="text" size="30" name="title" id="title"/><br />
-	请您输入要发送的邮件内容:
+	收信人的邮箱地址:
+	<input type="text" size="30" name="address" id="address"/>
+	<input id="car" type="radio" name="radio" value="选择车辆"/>选择车辆&nbsp;&nbsp;<input id="area" type="radio"  name="radio" value="选择区域"/>选择区域<br/>
+	<div id="divPop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute;display:none; width: 700px; height: 370px;">
+		<iframe src="index.php?a=1" width="100%" height="350px"></iframe>
+		<div id="close" style="text-align:right;cursor:pointer">确认</div>
+	</div>
+	
+	<div id="myMap" style="position: absolute; width:700px; height:370px;display:none;z-Index:1;"></div>
+
+	要发送的邮件主题:<input type="text" size="30" name="title" id="title"/><br />
+	要发送的邮件内容:
 	<textarea rows="5" cols="25" name="content" id="content"></textarea><br />
-	<input type="submit" value="发布消息"/>
-	<div align="center" id="new" style="display: none;"></div>
+	<p></p>
+	<input type="submit" name="send" value="发布消息"/>
+	<div align="center" id="new">发送邮件需要点时间，请谅解！</div>
 </form>
+
+<script>
+var maps = new LTMaps("myMap");
+maps.cityNameAndZoom(new LTPoint( 11636224 , 3991040 ), 1 );				
+maps.addControl(new LTStandMapControl());
+</script>
+
 </body>
 </html>

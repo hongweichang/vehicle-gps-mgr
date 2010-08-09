@@ -18,12 +18,42 @@ switch($act)
 		break;
 	case "sendmail":
 		require_once("include/email.class.php");
+		require_once("info.class.php");
+		
 		$address = $_POST["address"];
 		$title = $_POST["title"];
 		$content = $_POST["content"];
+
+		if(is_string($address))
+		{
+			$addAddress = str_replace(",","~",$address);
+		}
+		
+		$filename = "D:/phpWork/vehicle-gps-mgr/user/local/joycomm/email_src/waiting/email_info.eml"; //声明变量保存文件名,在这个文件中保存mail信息
+		$writeMessage = new Message();
+
+		if(isset($_POST["send"])){     //判断是否提交
+				//接收 邮件地址~邮件标题~[[邮件内容]]~
+				$message = "~".$addAddress."~".$title."~"."["."[".$content."]"."]"."~";
+				$writeMessage->writeMessage($filename,$message);
+			}
+		/*
+		function writeMessage($filename,$message) { //自定义一个向文件写入数据的函数
+
+			$fp = fopen($filename,"a");
+			if (flock($fp,LOCK_EX)) {
+				fwrite($fp,$message);
+				flock($fp,LOCK_UN);
+			}else{
+				return 0;
+			}
+			fclose($fp);
+		}
+		*/
+
 		$sendMl = new Email($mail_config);
 		$sendMl->sendMail($address,$title,$content);
-		return $sendMl->getErrorInfo();
+		echo $sendMl->getErrorInfo();
 		break;
 	break;
 }
