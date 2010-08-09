@@ -18,8 +18,18 @@ switch($act)
 		break;
 	case "trace":
 		require_once 'traceInfo.php';
+		require_once 'color_mapper.php';
+		
+		$id = $_REQUEST['id'];
+		$company_id = $_REQUEST['companyId'];
+		$startTime = $_REQUEST['startTime'];
+		$endTime = $_REQUEST['endTime'];
+		$time = $_REQUEST['time'];
+		
+		$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
 	
-		$parser = new position_parser("tracedata/2010080312.log",35241,"13300920355");
+		parser = new Position_parser($company_id,$gps_info_path,$id);
+		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
 		$datalist = $parser->getDataList();
 		
 		$point_info = array();
