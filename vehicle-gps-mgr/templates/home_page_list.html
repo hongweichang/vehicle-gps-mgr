@@ -13,7 +13,7 @@
 	<script language="javascript" src="js/alert/opinion.js"></script>
 	
 	<script type="text/javascript">
-	function closeMe(){
+	function closeIframe(){
 		$("#externalSite").dialog("close");
 		$("#externalSite").remove();
 	}
@@ -306,6 +306,7 @@
 			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
 			function vehiclePosition(str){ 
+				closeIframe();
 				 $.ajax({
 						type:"POST",
 						url:"index.php?a=2&vehicleIds="+str, 
