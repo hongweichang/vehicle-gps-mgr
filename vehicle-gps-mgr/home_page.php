@@ -25,7 +25,11 @@ switch($act)
 		$arr['url_manage'] = URL('user','user.php','manage_list'); //管理中心链接
 		$arr['url_logout'] = URL('user','user.php','logout'); //退出链接
 		
-		$arr['page_refresh_time'] = "var page_refresh_time=". $common_setting->data["page_refresh_time"].";"; //页面刷新时间
+		$page_refresh_time = $common_setting->data["page_refresh_time"];
+		if(!isset($page_refresh_time)){
+				$page_refresh_time = 30;
+		}
+		$arr['page_refresh_time'] = "var page_refresh_time=".$page_refresh_time.";"; //页面刷新时间
 		
 		echo $db->display($arr,"list");
 		break;
