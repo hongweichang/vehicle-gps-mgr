@@ -25,7 +25,7 @@ jQuery("#vehicle_status_list").jqGrid({
     sortorder: "desc",
     caption:"车辆状态",
     editurl:"index.php?a=1012",
-	height:300,
+	height:290,
 	
 	gridComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
@@ -44,16 +44,39 @@ jQuery("#vehicle_status_list").jqGrid({
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 {edit:false,add:false,del:false});
 
+//根据车牌号查询
 $("#commit").click(function(){
-	
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val();
 	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+	$("#area_result").hide();
+	$("#commit").show();
+	$("#area_select").show();
 	$("#frame_map").hide();	
 	$("#select").show();
 });
 
-$("#area").click(function(){
+//区域查询
+$("#area_select").click(function(){
+	$("#area_select").hide();
+	$("#commit").hide();
+	$("#area_result").show();
     $("#select").hide();
 	$("#frame_map").show();
-	document.getElementById("frame_map").src="inquire/templates/51ditu.html";
+	$("#frame_map").attr("src","inquire/templates/51ditu.html");
+});
+
+//显示区域查询结果
+$("#area_result").click(function(){	
+	var lonMin = document.getElementById("frame_map").contentWindow.document.getElementById("lonMin").value;
+	var latMin = document.getElementById("frame_map").contentWindow.document.getElementById("latMin").value;
+	var lonMax = document.getElementById("frame_map").contentWindow.document.getElementById("lonMax").value;
+	var latMax = document.getElementById("frame_map").contentWindow.document.getElementById("latMax").value;
+	
+	var url = 'index.php?a=502&number_plate='+$("#number_plate").val()+'&lonMin='+lonMin+'&latMin='+latMin+'&lonMax='+lonMax+'&latMax='+latMax;
+	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+	$("#commit").show();
+	$("#area_result").hide();
+	$("#area_select").show();
+	$("#frame_map").hide();	
+	$("#select").show();
 });
