@@ -24,7 +24,8 @@
 						     }
 						 }
 					);
-				 // setTimeout(alertInfo,30000);
+
+				  setTimeout(alertInfo,30000);
 	 			}
 	 			
 	 			
