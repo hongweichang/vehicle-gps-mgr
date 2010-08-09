@@ -10,44 +10,11 @@
 	<script type="text/javascript" src="js/jquery-ui-1.8.1.custom.min.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
 	
-	
 </head>
 <body>
 	 <script type="text/javascript">
 		$(function() {
-			
 			$("#tabs").tabs();
-			
-			$("#trace").click(function(){
-				parent.window.closeMe();
-				parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val());
-			});
-			$("#startTime").datetimepicker({
-				 ampm: false,//上午下午是否显示  
-				 timeFormat: 'hh:mm:ss',//时间模式  
-				 stepHour: 1,//拖动时间时的间隔  
-				 stepMinute: 1,//拖动分钟时的间隔  
-				 stepSecond: 1,//拖动秒时的间隔
-				 dateFormat:"yy-mm-dd", //日期格式设定  
-				 showHour: true,//是否显示小时，默认是true  
-				 showMinute:true,
-				 showSecond:true,
-					 createButton:false
-			 });
-			$("#endTime").datetimepicker({
-				 ampm: false,//上午下午是否显示  
-				 timeFormat: 'hh:mm:ss',//时间模式  
-				 stepHour: 1,//拖动时间时的间隔  
-				 stepMinute: 1,//拖动分钟时的间隔  
-				 stepSecond: 1,//拖动秒时的间隔
-				 dateFormat:"yy-mm-dd", //日期格式设定  
-				 showHour: true,//是否显示小时，默认是true  
-				 showMinute:true,
-				 showSecond:true,
-					 createButton:false
-			 });
-			
-			 
 		});  
 		 
 
@@ -57,14 +24,9 @@
 		<div id="tabs" style="overflow:auto;overflow-y:hidden;width:1000px;height:440px">
 			<ul>
 				<li><a href="index.php?a=501">车辆当前状态</a></li> 
-				<li><a href="#history">查询历史信息</a></li>
+				<li><a href="index.php?a=352">查询历史信息</a></li>
 			</ul>
-			<div id="history">
-				<p>查询历史信息</p>
-				开始时间:<input type="text" id="startTime" size="30"/>&nbsp;&nbsp;&nbsp;
-				结束时间:<input type="text" id="endTime" size="30"/>
-				<input type="button" id="trace" name="trace" value="查询历史轨迹"/>
-			</div>
+			
 		</div>
 	</div>
 </body>

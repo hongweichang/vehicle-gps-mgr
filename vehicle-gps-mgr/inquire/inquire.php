@@ -17,6 +17,21 @@ switch($act)
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 	case "trace":
+		$inquire_info = new Inquire();
+		$vehicle_list = $inquire_info->get_all_vehicles();
+		
+		$options = "";
+		
+		foreach($vehicle_list as $value)
+		{
+			$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
+		}
+		
+		$data["VEHICLE_LIST"] = $options;
+		
+		echo $GLOBALS['db']->display($data,$act);
+		break;
+	case "get_trace_data":
 		require_once 'traceInfo.php';
 		require_once 'color_mapper.php';
 		
