@@ -102,7 +102,7 @@ switch($act)
 		{ 
 			//对指定字段进行翻译
 			$vehicle = new Vehicle_status($val['id']);
-			$cur_location = $vehicle->get_cur_location($val['cur_longitude'],$val['cur_latitude']);
+			$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude']);
 			
 			$driver = $vehicle->get_driver($val['driver_id']);
             

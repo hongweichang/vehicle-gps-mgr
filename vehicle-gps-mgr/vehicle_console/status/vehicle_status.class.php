@@ -240,25 +240,12 @@ class Vehicle_status extends BASE
     }
 			  
 			  
-    /**
-     *     确定当前位置
-     *     @param $cur_longitude 当前经度 $cur_latitude当前纬度
-     */
-    function get_cur_location1($cur_longitude,$cur_latitude){
-    	$longitude=$this->around($cur_longitude);
-    	$latitude=$this->around($cur_latitude);
-    	
-        $location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude.",".$latitude));
-    	return $this->parse_location_decs($location);
-    }
-    
-    
-    /**
+     /**
      * 根据经纬度信息得到地址描述信息
      * @param $cur_longitude
      * @param $cur_latitude
      */
-    function get_cur_location($cur_longitude,$cur_latitude)
+    function get_location_desc($cur_longitude,$cur_latitude)
     {
     	$longitude_51ditu=$this->around($cur_longitude);
     	$latitude_51ditu=$this->around($cur_latitude);
@@ -270,23 +257,23 @@ class Vehicle_status extends BASE
     	$sql = "select * from gis_pos_info where pos_longitude =".$longitude." and pos_latitude = ".$latitude." LIMIT 1";
  		$gis_info = $GLOBALS["db"]->query($sql);
  		
- 		$location_decs = "";
+ 		$location_desc = "";
  		if($gis_info)
  		{
- 			$location_decs = $gis_info[0]["pos_desc"];
+ 			$location_desc = $gis_info[0]["pos_desc"];
  		}
  		else
  		{
  			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude_51ditu.",".$latitude_51ditu));
- 		 	$location_decs = $this->parse_location_decs($location);
+ 		 	$location_desc = $this->parse_location_decs($location);
  		 	$parms["pos_longitude"] = $longitude;
  		 	$parms["pos_latitude"] = $latitude;
- 		 	$parms["pos_desc"] = "\"".$location_decs."\"";
+ 		 	$parms["pos_desc"] = "\"".$location_desc."\"";
  		 	$parms["getdate"] = "\"".date("Y-m-d")."\"";
  		 	$GLOBALS["db"]->insert_row("gis_pos_info",$parms);
  		}
  		
- 		return $location_decs;
+ 		return $location_desc;
     }
     
     /**
