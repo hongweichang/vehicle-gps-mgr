@@ -7,15 +7,9 @@
 	<link type="text/css" href="js/themes/ui-lightness/jquery.ui.all.css" rel="stylesheet" />
 	
 	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
-	<!--
-	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.widget.js"></script>
-	<script type="text/javascript" src="js/jquery.ui.tabs.js"></script>
-
--->
-
-
-<script type="text/javascript" src="js/jquery-ui-1.8.1.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-1.8.1.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
+	
 	
 </head>
 <body>
@@ -25,18 +19,35 @@
 			$("#tabs").tabs();
 			
 			$("#trace").click(function(){
-				
-				/*$.post("index.php?a=352", 
-						function(data){
-							
-						},"json"
-					);*/
-				
 				parent.window.closeMe();
 				parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val());
 			});
-			$("#startTime").datepicker({ dateFormat: 'yy-mm-dd' });
-			$("#endTime").datepicker({ dateFormat: 'yy-mm-dd' });
+			$("#startTime").datetimepicker({
+				 ampm: false,//上午下午是否显示  
+				 timeFormat: 'hh:mm:ss',//时间模式  
+				 stepHour: 1,//拖动时间时的间隔  
+				 stepMinute: 1,//拖动分钟时的间隔  
+				 stepSecond: 1,//拖动秒时的间隔
+				 dateFormat:"yy-mm-dd", //日期格式设定  
+				 showHour: true,//是否显示小时，默认是true  
+				 showMinute:true,
+				 showSecond:true,
+					 createButton:false
+			 });
+			$("#endTime").datetimepicker({
+				 ampm: false,//上午下午是否显示  
+				 timeFormat: 'hh:mm:ss',//时间模式  
+				 stepHour: 1,//拖动时间时的间隔  
+				 stepMinute: 1,//拖动分钟时的间隔  
+				 stepSecond: 1,//拖动秒时的间隔
+				 dateFormat:"yy-mm-dd", //日期格式设定  
+				 showHour: true,//是否显示小时，默认是true  
+				 showMinute:true,
+				 showSecond:true,
+					 createButton:false
+			 });
+			
+			 
 		});  
 		 
 
