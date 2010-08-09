@@ -16,10 +16,23 @@
             $('#new').html("提交成功!").show();
         }); 
     }); 
-
 </script>
 
 <script type="text/javascript">
+/**
+ *  车辆驾驶员邮箱信息	
+ *  str  车辆ID集合 格式"ID1,ID2,ID3,"
+ */
+function vehiclePosition(str){
+	
+	$.post("index.php?a=203&character="+str,function(data){
+		document.getElementById("address").value = data;
+		});
+	
+	//document.getElementById("address").value=str;
+
+}
+
 $(document).ready(function() { 
 //绑定事件处理 
 $("#car").click(function(event) {
@@ -56,7 +69,7 @@ $("#area").click(function(event){
 <h3>发布消息</h3>
 <form id="sendNews" name="sendNews" action="index.php?a=202" method="post">
 	收信人的邮箱地址:
-	<input type="text" size="30" name="address" id="address"/>
+	<input type="text" size="30" name="address" id="address" />
 	<input id="car" type="radio" name="radio" value="选择车辆"/>选择车辆&nbsp;&nbsp;<input id="area" type="radio"  name="radio" value="选择区域"/>选择区域<br/>
 	<div id="divPop" style="background-color: #f0f0f0; border: solid 1px #000000; position: absolute;display:none; width: 700px; height: 370px;">
 		<iframe src="index.php?a=1" width="100%" height="350px"></iframe>
