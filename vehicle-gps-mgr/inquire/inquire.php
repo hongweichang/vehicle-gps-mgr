@@ -28,7 +28,7 @@ switch($act)
 		
 		$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
 	
-		parser = new Position_parser($company_id,$gps_info_path,$id);
+		$parser = new Position_parser($company_id,$gps_info_path,$id);
 		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
 		$datalist = $parser->getDataList();
 		
