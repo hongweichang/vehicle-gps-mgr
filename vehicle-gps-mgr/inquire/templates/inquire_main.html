@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>查询信息</title>
  	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	<link type="text/css" href="js/themes/base/jquery.ui.all.css" rel="stylesheet" />
+	<link type="text/css" href="js/themes/ui-lightness/jquery.ui.all.css" rel="stylesheet" />
 	
 	<script type="text/javascript" src="js/jquery-1.4.2.js"></script>
 	<script type="text/javascript" src="js/jquery.ui.core.js"></script>
@@ -19,7 +19,7 @@
 			
 			$("#trace").click(function(){
 				parent.window.closeWindow();
-				$.post("index.php?a=302", 
+				$.post("index.php?a=352", 
 						function(data){
 							parent.window.drawHistoryTrack(data);
 						},"json"
@@ -32,7 +32,7 @@
 	<div>
 		<div id="tabs" style="overflow:auto;overflow-y:hidden;width:720px;height:440px">
 			<ul>
-				<li><a href="index.php?a=501">查询当前状态</a></li>
+				 
 				<li><a href="#history">查询历史信息</a></li>
 			</ul>
 			<div id="history">

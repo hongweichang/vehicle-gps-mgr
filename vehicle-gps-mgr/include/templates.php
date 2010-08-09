@@ -7,7 +7,7 @@
 <script type='text/javascript' src='js/jquery.js'></script>
 <!-- jqgrid -->
 <!-- 加载 css 文件库 -->
-<link rel="stylesheet" type="text/css" media="screen" href="css/redmond/jquery-ui-1.8.1.custom.css" />
+<link rel="stylesheet" type="text/css" media="screen" href="js/themes/ui-lightness/jquery.ui.all.css" />
 <link rel="stylesheet" type="text/css" media="screen" href="css/ui.jqgrid.css" />
 
 <!-- 加载 js 文件库 -->

@@ -104,8 +104,9 @@
 			//画历史轨迹路径
 			function drawHistoryTrack(data){ 
 				
-				drawLine_arr = data;
+				drawLine_arr = data; 
 				newDrawLine();
+				 
 			}
 
 			//画新线
@@ -136,13 +137,14 @@
 					drawLine_arr.shift();
 					drawRunLine(points1,round(newLon),round(newLat),direction);
 				}
+				
 			}
 			//运行画线
 			function drawRunLine(points1,lon,lat,direction){  
 				
 				map.centerAndZoom(new LTPoint(lon,lat),4);
 				var polyLine1 = new LTPolyLine(points1);
-				polyLine1.setLineColor("red");	//设置折线颜色 
+				polyLine1.setLineColor("#ff0000");	//设置折线颜色 
 				polyLine1.setLineStroke(2);	//设置折线线宽
 				
 				polyLine1.setLineArrow("None","None");
@@ -178,14 +180,14 @@
 			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
 			function vehiclePosition(str){
-		 
+		 		//ygfi
 				 $.ajax({
 						type:"POST",
 						url:"index.php?a=2&vehicleIds="+str, 
 						dataType:"json",
 						success:function(data){ 
 							var length = data.length;
-
+						
 							for(var i=0;i<length;i++){        
 								  
 								var point_longitude = data[i][1]; //点经度
