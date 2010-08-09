@@ -18,6 +18,7 @@ switch($act)
 {
 	case "list":		
 		$arr['url_manage'] = URL('user','user.php','manage_list'); 
+		$arr['url setup']=URL('setting','setting.php','get_setting');
 		$arr['url_logout'] = URL('user','user.php','logout');
 		$arr['host']= "http://".$_SERVER ['HTTP_HOST'];
 		
