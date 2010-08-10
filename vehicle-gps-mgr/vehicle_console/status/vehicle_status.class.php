@@ -20,7 +20,6 @@ class Vehicle_status extends BASE
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
 	public $message;                     //消息
-	
 	private $id = false;		//车辆管理表主键ID
 	
 	/**
@@ -119,8 +118,8 @@ class Vehicle_status extends BASE
 	function get_lon_lat_count($lonMin,$lonMax,$latMin,$latMax){
 		$company_id = get_session("company_id");
 		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." 
-		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
-		              (cur_latitude between ".latMin." and ".latMax.")";
+		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
+		              (cur_latitude between ".$latMin." and ".$latMax.")";
 		$count = $GLOBALS['db']->query_once($this->sql);
 		return $count[0];
 	}
@@ -225,6 +224,15 @@ class Vehicle_status extends BASE
 
 				return  round($v*$t)/$t;   
 			  } 
+			  
+	/**
+	 *  将经纬度转换成数据库中的值
+	 *  @param $经度或纬度值
+	 */
+	function e_around($v){
+		$v = $v/100000;
+		return $v;
+	}
     
    /**
      * 从xml文字格式中解析地址信息
@@ -305,8 +313,8 @@ class Vehicle_status extends BASE
     function get_lon_lat_vehicle($lonMin,$lonMax,$latMin,$latMax){
         $company_id = get_session("company_id");
     	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
-		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
-		              (cur_latitude between ".latMin." and ".latMax.")";
+		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
+		              (cur_latitude between ".$latMin." and ".$latMax.")";
     	return $this->data_list = $GLOBALS['db']->query($this->sql);
     }
     
@@ -317,10 +325,22 @@ class Vehicle_status extends BASE
     function get_lon_lat_plate_vehicle($lonMin,$lonMax,$latMin,$latMax,$number_plate){
     	$company_id = get_session("company_id");
     	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
-		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
-		              (cur_latitude between ".latMin." and ".latMax.") and number_plate like 
+		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
+		              (cur_latitude between ".$latMin." and ".$latMax.") and number_plate like 
 		              '%".$number_plate."%'";
-    	return $this->data_list = $GLOBALS['db']->query($this->sql);
+    	$this->data_list = $GLOBALS['db']->query($this->sql);
+    	return $this->data_list;
+    }
+    
+    /**
+     *   查询所有车辆的经纬度 
+     */
+    function get_lon_lat (){
+    	$company_id = get_session("company_id");
+    	$this->sql = "select cur_longitude,cur_latitude from ".$this->tablename.
+    	             " where company_id=".$company_id;
+    	$this->data_list = $GLOBALS['db']->query($this->sql);
+    	return $this->data_list;
     }
 }
 ?>
