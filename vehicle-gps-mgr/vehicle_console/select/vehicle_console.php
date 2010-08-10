@@ -44,7 +44,7 @@ switch ($act) {
 			
 			/**遍历每个车辆组，得到每组的所有车辆*/
 			foreach ( $vehicles as $vehicle ) {
-				$str = $str . "<div style='font-size:14px;'><input type='checkbox' class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input></div>";
+				$str = $str . "<input type='checkbox' style='font-size:13px;' class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
 			}
 			$str = $str . "</div></div>";
 		}
