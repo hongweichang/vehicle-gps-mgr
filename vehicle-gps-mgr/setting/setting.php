@@ -147,7 +147,7 @@ switch($act)
 			$parms["company_id"]			= $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
 			$parms["page_refresh_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["page_refresh_time"],"VARCHAR");
 			$parms["default_color"]		= $GLOBALS['db']->prepare_value(substr($_REQUEST["default_color"],1),"VARCHAR");
-			$parms["speed_limit"]		= $GLOBALS['db']->prepare_value($_REQUEST["speed_limit"],"FLOAT");
+			$parms["speed_astrict"]		= $GLOBALS['db']->prepare_value($_REQUEST["speed_limit"],"FLOAT");
 			$parms["fatigue_remind_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["fatigue_remind_time"],"FLOAT");
 
 			$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
