@@ -200,10 +200,10 @@
 			    control.setTop(10);
 			    control.setLabel("选中矩形区域");
 				map.addControl( control );
-				map.handleMouseScroll();
+				
 				//选中区域
 				LTEvent.addListener(control,"mouseup",drawRectangle);*/
-				
+				map.handleMouseScroll();
 				//绑定事件注册
 				LTEvent.addListener(map,"dblclick",onDblClick);
 				
@@ -354,13 +354,13 @@
 				 
 				var polyLine = new LTPolyLine(points);
 				polyLine.setLineColor("#"+color);	//设置折线颜色 
-				polyLine.setLineStroke(2);	//设置折线线宽
+				polyLine.setLineStroke(3);	//设置折线线宽
 				
 				polyLine.setLineArrow("None","None");
 				//将折线添加到地图
 				map.addOverLay( polyLine );
  
-				map.removeOverLay(marker);
+				map.removeOverLay(marker); 
 				marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(host+"/"+img_path));
 
 				//点对象设置内容

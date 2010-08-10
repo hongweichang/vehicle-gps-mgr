@@ -142,7 +142,8 @@ class Position_parser
 		//创建XML解析对象
 		$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
 		$img_path = str_ireplace("west.png","",$xml_handler->getTextData("color","#".$color)); //图片路径
-		$img_path = $img_path.resolvingDirection($direction).".png";
+		$img_path = $img_path.resolvingDirection($direction).".png"; 
+		
 		return $img_path;
 	}
 	/**

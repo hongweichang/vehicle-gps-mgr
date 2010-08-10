@@ -1,6 +1,7 @@
 <?php
 class Color_mapper
 {
+	private $tablename_common_setting = "common_setting";
 	private $speed_color_list = array();
 	
 	/**
@@ -14,7 +15,7 @@ class Color_mapper
 		if($_SESSION["speed_color"])
 		{
 			$speed_color_list = $_SESSION["speed_color"];
-			return $this->get_color_by_speed($speed, $speed_color_list);
+			return $this->get_color_by_speed($speed, $speed_color_list,$company_id);
 		}
 		else //如果没有，则从数据库中查询出来，然后设置到Session中
 		{
@@ -29,16 +30,17 @@ class Color_mapper
 			}
 			
 			//$_SESSION["speed_color"] = $speed_color_list;
-			return $this->get_color_by_speed($speed, $speed_color_list);
+			return $this->get_color_by_speed($speed, $speed_color_list,$company_id);
 		} 
 	}
 	
 	/**
 	 * 根据速度颜色映射表得到所需的颜色值
-	 * @param $speed
-	 * @param $speed_color_list
+	 * @param $speed 速度
+	 * @param $speed_color_list  速度颜色列表
+	 * @param $company_id  公司ID
 	 */
-	private function get_color_by_speed($speed, $speed_color_list)
+	private function get_color_by_speed($speed, $speed_color_list,$company_id)
 	{
 		foreach($speed_color_list as $key=>$value)
 		{
@@ -51,8 +53,24 @@ class Color_mapper
 				return $value;
 			}
 		}
+		return $this->get_default_color($company_id);
+	}
+	/**
+	 * 获取公司默认速度颜色
+	 * @param unknown_type $company_id
+	 */
+	private function get_default_color($company_id=-1){
 		
-		return "";
+			$sql = "select default_color from ".$this->tablename_common_setting." where company_id =".$company_id;
+			  $common_setting = $GLOBALS["db"]->query_once($sql);
+			  
+			  $color = null;
+			  if(!isset($common_setting['default_color'])) 
+			  	 	$color = "Bec0C2";
+			  else
+			  	    $color = $common_setting['default_color'];
+			  
+			  return $color;
 	}
 }
 ?>
