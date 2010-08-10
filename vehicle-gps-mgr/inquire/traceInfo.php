@@ -87,7 +87,7 @@ class Position_parser
 	
 	function __destruct()
 	{
-		fclose($this->$file);
+		fclose($this->file);
 	}
 	
 	/**
@@ -123,7 +123,7 @@ class Position_parser
 				/**地址描述*/
 				$trace_info->location_desc = $vehicle_status->get_location_desc($trace_info->longitude, $trace_info->latitude); 
 				/**图片路径*/
-				$trace_info->img_path = $this->get_img_path($trace_info->color, $trace_info->speed); 
+				$trace_info->img_path = $this->get_img_path($trace_info->color, $trace_info->direction); 
 				
 				//堆栈定位数据数组
 				array_push($this->info_list, $trace_info);
