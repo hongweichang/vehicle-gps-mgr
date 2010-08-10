@@ -342,5 +342,13 @@ class Vehicle_status extends BASE
     	$this->data_list = $GLOBALS['db']->query($this->sql);
     	return $this->data_list;
     }
+    
+    /**
+     *   精确定位经纬度
+     *   @param $long 经度 $lat 纬度
+     */
+    function exact_lon_lat($long,$lat){
+    	
+    }
 }
 ?>
