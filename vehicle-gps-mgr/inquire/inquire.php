@@ -35,15 +35,14 @@ switch($act)
 		require_once 'traceInfo.php';
 		require_once 'color_mapper.php';
 		
-		$id = $_REQUEST['id'];
-		$company_id = $_REQUEST['companyId'];
-		$startTime = $_REQUEST['startTime'];
-		$endTime = $_REQUEST['endTime'];
+		$id = $_REQUEST['vehicle_id']; //车辆ID
+		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
-	
-		$parser = new Position_parser($company_id,$gps_info_path,$id);
+		//$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
+		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+		
+		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
 		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
 		$datalist = $parser->getDataList();
 		
@@ -52,10 +51,14 @@ switch($act)
 		
 		foreach($datalist as $k=>$v)
 		{
-			$point_info[0]= $v->longitude;
-			$point_info[1]= $v->latitude;
-			$point_info[2]= resolvingDirection($v->direction); 
-			$point_info[3]= $v->speed;
+			$point_info[0]= $v->longitude; //经度
+			$point_info[1]= $v->latitude;  //纬度
+			$point_info[2]= resolvingDirection($v->direction); //方向 
+			$point_info[3]= $v->speed; //速度
+			$point_info[4]= $v->location_desc; //地址
+			$point_info[5]= $v->color; //颜色
+			$point_info[6]= $v->img_path; //图片路径
+			$point_info[7]= $v->location_time; //定位时间
 
 			array_push($trace_info,$point_info);
 		}
