@@ -43,29 +43,33 @@ switch($act)
 		 
 		//创建XML解析对象
 		$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
-		$arr_vehicle = array();
+		$arr_vehicle = array(); //车辆数据数组
 		
-		$length = count($vehicle);
-		$index = 0;
+		$index = 0; //下标索引
 		
 		$ve_status = new Vehicle_status(); 
 		
+		//获取车辆定位信息
 		foreach($vehicle as $value){
 		  
-			$arr_vehicle[$index]['number_plate']= $value['number_plate'];
-			$arr_vehicle[$index]['gps_id']	= $value['gps_id'];
-			$arr_vehicle[$index]['location_time']	= $value['location_time'];
-			$arr_vehicle[$index]['cur_longitude']	= $value['cur_longitude'];
-			$arr_vehicle[$index]['cur_latitude']	= $value['cur_latitude'];
-			$arr_vehicle[$index]['cur_speed']	= $value['cur_speed'];
-			$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']);
-			$arr_vehicle[$index]['group_name']	= $value['group_name'];
-			$arr_vehicle[$index]['driver_name']	= $value['driver_name'];
-			$arr_vehicle[$index]['file_path']	= str_ireplace("west.png","",$xml_handler->getTextData("color","#".$value['color'])); //图片路径  
-			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($value['cur_longitude'],$value['cur_latitude']);
+			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号
+			$arr_vehicle[$index]['gps_id']	= $value['gps_id']; //GPS id
+			$arr_vehicle[$index]['location_time']	= $value['location_time']; //定位时间
+			$arr_vehicle[$index]['cur_longitude']	= $value['cur_longitude']; //经度
+			$arr_vehicle[$index]['cur_latitude']	= $value['cur_latitude'];//纬度
+			$arr_vehicle[$index]['cur_speed']	= $value['cur_speed']; //速度
+			$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']); //方向 
+			$arr_vehicle[$index]['group_name']	= $value['group_name']; //车辆组
+			$arr_vehicle[$index]['driver_name']	= $value['driver_name']; //驾驶人员
+			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($value['cur_longitude'],$value['cur_latitude']); //地址
 			
-			$index++;
-		  
+			//图片路径
+			if(!isset($value['color'])) 
+				$arr_vehicle[$index]['file_path']	= "images/vehicle/gray"; //未设置、设置  默认车辆
+			 else 
+				$arr_vehicle[$index]['file_path']	= str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 	
+				
+			$index++; 
 		} 
 		echo json_encode($arr_vehicle); 
 		break;
