@@ -50,6 +50,12 @@
 			dataType:"json",
 			success:function(data){ 
 			 
+			if(data==0){ //请求失败，转入下一个请求时间点
+				if(arr_history.length>0){
+					runHistoryTrack();
+				}
+			}
+			
 			if(data!=null){
 
 				var points = new Array();
@@ -57,7 +63,7 @@
 					points.push( new LTPoint(data[i][0],data[i][1]));
 				}
 				map.getBestMap(points);
-			}
+			} 
 			drawLine_arr = data; 
 			
 			newDrawLine();
@@ -68,15 +74,17 @@
 		}); 
 		 
 	}
-	
+	//等待线程
 	function wait(){
 		
 		setTimeout(function(){
+			if(drawLine_arr!=null){
 				if(drawLine_arr.length<=0){
 					runHistoryTrack();
 				}else{
 					wait();
 				} 
+			}
 			},1000);
 	}
 
@@ -323,43 +331,44 @@
 			 */
 			function newDrawLine(){
 				state =0; //不可操作其它
-				var length = drawLine_arr.length; 
-				if(length>0){
-					 	
-				 		var points = new Array();
-
-				 		var longitude = drawLine_arr[0][0];  //经度
-				 		var latitude = drawLine_arr[0][1];  //纬度
-				 		var direction = drawLine_arr[0][2]; //方向
-				 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
-				 		var color = drawLine_arr[0][5]; //颜色
-						var img_path =  drawLine_arr[0][6]; //图片路径
-				 		var newLongitude = -1; //新线点经度
-				 		var newLatitude = -1; //新线点纬度
-
-						//线的起始点
-						points.push( new LTPoint(longitude,latitude));
-					if(length>1){
-						//线的终点
-						newLongitude = drawLine_arr[1][0];
-						newLatitude = drawLine_arr[1][1];
-						points.push( new LTPoint(newLongitude,newLatitude));
-					}else{
-						//当前起始点为终点
-						newLongitude = longitude;
-						newLatitude = latitude;
-						points.push( new LTPoint(newLongitude,newLatitude));
-					} 
+				if(drawLine_arr!=null){
+					var length = drawLine_arr.length; 
+					if(length>0){
+						 	
+					 		var points = new Array();
+	
+					 		var longitude = drawLine_arr[0][0];  //经度
+					 		var latitude = drawLine_arr[0][1];  //纬度
+					 		var direction = drawLine_arr[0][2]; //方向
+					 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
+					 		var color = drawLine_arr[0][5]; //颜色
+							var img_path =  drawLine_arr[0][6]; //图片路径
+					 		var newLongitude = -1; //新线点经度
+					 		var newLatitude = -1; //新线点纬度
+	
+							//线的起始点
+							points.push( new LTPoint(longitude,latitude));
+						if(length>1){
+							//线的终点
+							newLongitude = drawLine_arr[1][0];
+							newLatitude = drawLine_arr[1][1];
+							points.push( new LTPoint(newLongitude,newLatitude));
+						}else{
+							//当前起始点为终点
+							newLongitude = longitude;
+							newLatitude = latitude;
+							points.push( new LTPoint(newLongitude,newLatitude));
+						} 
+						
+						//删除并返回数组的第一个元素
+						drawLine_arr.shift();
+	
+						//调用画线函数 
+						drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path);
+					}
 					
-					//删除并返回数组的第一个元素
-					drawLine_arr.shift();
-
-					//调用画线函数 
-					drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path);
 				}
-				
-			}
-			
+		}
 			
 			/**
 			 * 运行画线函数
@@ -435,18 +444,37 @@
 								var point_latitude =  data[i][2]; //点纬度
 								var file_path = data[i][4]; //文件目录
 								var img_name = data[i][3];  //图片名称
+								var number_plate = data[i][5]; //车牌号
+								var gps_id = data[i][6]; //GPS编号 
+								var location_time = data[i][7];//定位时间
+								var vehcile_group_name = data[i][8];//车组名
+								var driver_name = data[i][9]; //驾驶员
+								var cur_speed = data[i][10];//速度
+								var location_desc = data[i][11];//地址
 	
 								points.push( new LTPoint(point_longitude,point_latitude));
-							 
+
+							 	
 								//创建点对象
 								marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 												 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
 
 								//点对象设置内容
-								addInfoWin(marker,"经度："+point_longitude+"  纬度："+point_latitude);
+								var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
+											  "<br>车队："+vehcile_group_name+
+											  "<br>驾驶员："+driver_name+
+											  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
+											  "<br>地址: "+location_desc+"<br><br>"+
+											  "<a href='#'>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
+								//点对象设置内容
+								addInfoWin(marker,context);
 
 								//点添入地图中
 								map.addOverLay(marker);
+
+								var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
+								text.setLabel(number_plate ); 
+								map.addOverLay( text ); 
 							}
 							map.getBestMap(points);
 						 }
