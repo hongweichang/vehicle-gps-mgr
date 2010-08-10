@@ -344,11 +344,25 @@ class Vehicle_status extends BASE
     }
     
     /**
-     *   精确定位经纬度
-     *   @param $long 经度 $lat 纬度
+     *   精确定位经度
+     *   @param $long 经度 
      */
-    function exact_lon_lat($long,$lat){
-    	
+    function exact_lon($long){
+		$this->sql = "select longdisp from lingtu_map_info where minlong <".$long." and maxlong>".$long;
+		$longs = $GLOBALS['db']->query($this->sql);
+		$long = $longs[0][0]+$long;  	
+		return $long;
+    }
+    
+/**
+     *   精确定位纬度
+     *   @param $lat 纬度 
+     */
+    function exact_lat($lat){
+		$this->sql = "select latdisp from lingtu_map_info where minlat <".$lat." and maxlat>".$lat;
+		$lats = $GLOBALS['db']->query($this->sql);
+		$lat = $lats[0][0]+$lat;  	
+		return $lat;
     }
 }
 ?>
