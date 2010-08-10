@@ -180,7 +180,7 @@ switch ($act) {
 			echo $record[0]."|".$record[1]."|".$record[2]."|".$record[3];
 		}
 		else{
-			echo "没有告警记录";
+			echo "-1";
 		}
 }		
 ?>
