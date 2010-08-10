@@ -27,5 +27,9 @@ $mail_config = array(
 		"CharSet"	=> "UTF-8"					// 设置字符集编码   
 	);
 
+$server_path_config = array(
+		"gps_info_path"		=> "/usr/local/joycomm/sos_file/", //gpsx信息文件在服务器上的路径
+		"mail_save_path"	=> "：/usr/local/joycomm/email_src/waiting/", //gpsx信息文件在服务器上的路径
+	);
 
 ?>
