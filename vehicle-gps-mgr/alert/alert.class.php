@@ -139,9 +139,7 @@ class Alert extends BASE {
     function get_newest_alert(){
     	$company_id = get_session("company_id");
     	//格式化sql语句
-    	$sql ="select a.id,a.alert_time, v.number_plate, a.description from alert_info a left join vehicle_manage v on v.id=a.vehicle_id left join company c on a.vehicle_id=c.id
-    	where  (a.dispose_opinion is null or a.dispose_opinion=\"\") and c.id=%s  order by a.alert_time desc limit 0,1" ;
-    	
+    	$sql ="select a.id,a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id   and v.company_id=%s  and (a.dispose_opinion is null or a.dispose_opinion=\"\") order by a.alert_time desc limit 0,1" ;
     	$this->sql = sprintf($sql,$company_id);
     	
     	$record = $GLOBALS ["db"]->query_once ( $this->sql );
