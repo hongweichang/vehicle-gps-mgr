@@ -15,6 +15,7 @@
 	<script type="text/javascript"> 
 		var arr_history = null;
 		var vehicle_id = null;
+		var state = 1; //操作状态    '0' 不能操作   '1' 可操作
 	/**
 	 * 关闭窗口
 	 */
@@ -43,7 +44,7 @@
 	 */
 	function drawHistoryTrack(time,vehicle_id){  
 	 	 //var time = '2010081017';
-
+		state =0; //不可操作其它 
 		$.ajax({
 			type:"POST",
 			url:"index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
@@ -200,7 +201,6 @@
 	</div>  
 	<script language="javascript">
 		
-			var state = 1; //操作状态    '0' 不能操作   '1' 可操作
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
 			var longitude = 3991104;  // 经度
@@ -302,11 +302,13 @@
 						map.getBestMap(points); 
 					 }
  				});	
- 				/*if(state==1){//alert(state);
+ 				
 				//自动刷新页面当前公司所有车辆最新定位信息。
-				setTimeout("loadCompanyVehicle();",page_refresh_time*1000);
- 				}*/
-			}
+				setTimeout(function(){
+					 if(state==1) loadCompanyVehicle();
+					},page_refresh_time*1000);
+ 				} 
+			
 			
 			
 			var moveLsitener;
@@ -330,7 +332,7 @@
 			 * 画新线
 			 */
 			function newDrawLine(){
-				state =0; //不可操作其它
+				
 				if(drawLine_arr!=null){
 					var length = drawLine_arr.length; 
 					if(length>0){
@@ -341,8 +343,10 @@
 					 		var latitude = drawLine_arr[0][1];  //纬度
 					 		var direction = drawLine_arr[0][2]; //方向
 					 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
+					 		var location_desc = drawLine_arr[0][4]; //地址
 					 		var color = drawLine_arr[0][5]; //颜色
 							var img_path =  drawLine_arr[0][6]; //图片路径
+							var location_time = drawLine_arr[0][7]; //定位时间
 					 		var newLongitude = -1; //新线点经度
 					 		var newLatitude = -1; //新线点纬度
 	
@@ -364,7 +368,7 @@
 						drawLine_arr.shift();
 	
 						//调用画线函数 
-						drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path);
+						drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_desc,location_time);
 					}
 					
 				}
@@ -379,8 +383,10 @@
 			 * @param {Object} color 颜色
 			 * @param {Object} vehicle_speed 车辆速度 
 			 * @param {Object} img_path 图片路径
+			 * @param {Object} location_desc 地址
+			 * @param {Object} location_time 定位时间
 			 */
-			function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path){  
+			function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path,location_desc,location_time){  
 				 
 				 
 				var polyLine = new LTPolyLine(points);
@@ -395,7 +401,9 @@
 				marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(host+"/"+img_path));
 
 				//点对象设置内容
-				var context = "速度:"+vehicle_speed+"  颜色: "+color;
+				var context = "<br>速度: "+vehicle_speed+"<br>定位时间:"+location_time+
+							  "<br>方向:"+direction+
+							  "<br>地址: "+location_desc;
 				addInfoWin(marker,context);
 
 				//点添入地图中
