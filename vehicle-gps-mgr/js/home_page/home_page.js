@@ -18,7 +18,7 @@
 									$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
 									$("#record").html();
 									$("#newAlert").html("最新告警记录："+"在"+array[1]+"时间点内");
-								    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]+"<bgsound balance='0' loop='2' src='voice/sound.mp3' volume='10' />");
+								    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]);
 									document.getElementById("operate").style.display="block";
 						     }
 						 }
