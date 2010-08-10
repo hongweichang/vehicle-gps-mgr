@@ -216,7 +216,7 @@ class Vehicle_status extends BASE
      * 经纬度转换
      * @param $v 经度或纬度在数据库中的值
      */
-    function around($v,$e){
+    function around($v=-1,$e=0){
 				$v= $v*100000;
 				$t=1;   
 					for(;$e>0;$t*=10,$e--);   

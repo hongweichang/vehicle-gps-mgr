@@ -75,8 +75,8 @@ switch ($act) {
 					$vehicle[$row][4] = str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$vehicle[$row][4]));	
 				} 
 				
-				$vehicle[$row][1] = $ve_status->exact_lon($ve_status->around($vehicle[$row][1])); //经度
-				$vehicle[$row][2] = $ve_status->exact_lat($ve_status->around($vehicle[$row][2]));//纬度
+				$vehicle[$row][1] = $ve_status->exact_lon($ve_status->around($vehicle[$row][1],0)); //经度
+				$vehicle[$row][2] = $ve_status->exact_lat($ve_status->around($vehicle[$row][2],0));//纬度
 				 
 			   //获取当前车方向
 			   $cur_direction = $vehicle[$row][3];

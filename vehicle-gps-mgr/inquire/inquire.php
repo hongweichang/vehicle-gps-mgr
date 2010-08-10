@@ -39,7 +39,7 @@ switch($act)
 		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
+		$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
 		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
 		
 		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
@@ -53,8 +53,8 @@ switch($act)
 		
 		foreach($datalist as $k=>$v)
 		{
-			$long = $ve_status->exact_lon($ve_status->around($v->longitude)); //经度
-			$lat = $ve_status->exact_lat($ve_status->around($v->latitude));//纬度
+			$long = $ve_status->exact_lon($ve_status->around($v->longitude,0)); //经度
+			$lat = $ve_status->exact_lat($ve_status->around($v->latitude,0));//纬度
 			
 			$point_info[0]= $long; //经度
 			$point_info[1]= $lat;  //纬度
