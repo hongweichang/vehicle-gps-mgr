@@ -1,58 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<link href="css/select.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" media="screen" href="css/redmond/jquery-ui-1.8.1.custom.css" /> 
+	
+	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
+	<script src="js/jquery-ui-1.8.1.custom.min.js" type="text/javascript"></script>
+	<script src="js/select.js" language="javascript"></script>
 
-
-<link rel="stylesheet" type="text/css" media="screen" href="css/redmond/jquery-ui-1.8.1.custom.css" /> 
-<script language="javascript" src="js/jquery-1.4.2.js" ></script>
-<script src="js/jquery-ui-1.8.1.custom.min.js" type="text/javascript"></script>
-
-
-<script src="js/select.js" language="javascript"></script>
-<link href="css/select.css" rel="stylesheet" type="text/css" />
-
-<style>
-html, body {
-	margin: 0;			/* Remove body margin/padding */
-	padding: 0;
-	overflow: hidden;	/* Remove scroll bars on browser window */	
-    font-size: 85%;
-}
-/*Splitter style */
-</style>
-<!-- 刷新时间 -->
-刷新时间：{{page_refresh_time}}
-<br>
-<br>
-<!-- 超速限制 -->
-超速限制：<input type='text' name = 'speed_limit' id = 'speed_limit' value='{{speed_limit}}'> 公里/h
-
-<br>
-<br>
-<!-- 疲劳驾驶限制 -->
-疲劳驾驶限制：<input type='text' name = 'fatigue_remind_time' id = 'fatigue_remind_time' value='{{fatigue_remind_time}}'> 小时
-
-<br>
-<br>
-<!-- 默认颜色 -->
-默认轨迹颜色：
-
-{{default_color}}   
-
-
-<br>
-<br>
-<!-- 修改按钮 -->
-<a href='javascript:void(0);' onclick='update_set();'>确认修改</a>
-
-
-<br>
-<br>
-速度颜色映射设置 <a href='javascript:void(0);' onclick='adviceDialog();'>设置</a>
-<br>
-<div id='speeds'>{{speeds}}</div>
-
-<div style="padding: 20px; background-color: #fff; display: none" id="dialog">
-		<div id="canAdviceSelectDiv"></div>
-</div>
-
+	<style>
+		html, body {
+			margin: 0;			/* Remove body margin/padding */
+			padding: 0;
+			overflow: hidden;	/* Remove scroll bars on browser window */	
+		    font-size: 85%;
+		}
+	</style>
+</head>
+<body style=" width:99%; height:99%;">
+	<div style="border:2px gray solid; width:400px; height:300px; text-align:cneter;padding:5px 30px 5px 30px; margin-top:20px;">
+	<!-- 超速限制 -->
+		<div style="width:360px; height:22px; margin-top:10px;">
+			<div style="width:120px; height:21px; float:left; text-align:right;">超速限制：</div>
+			<div style="width:160px; height:21px; float:left;margin-left:13px;">
+				<input type='text' name = 'speed_limit' id = 'speed_limit' value='{{speed_limit}}'>
+			</div>
+			<div style="width:50px; height:21px; float:left;">公里/h</div>
+		</div>
+		 
+	
+		<!-- 疲劳驾驶限制 -->
+		<div style=" width:360px; height:22px;margin-top:10px;">
+			<div style="width:120px; height:21px; float:left; text-align:right;">疲劳驾驶限制：</div>
+			<div style="width:160px; height:21px; float:left;margin-left:13px;">
+				<input type='text' name = 'fatigue_remind_time' id = 'fatigue_remind_time' value='{{fatigue_remind_time}}'>
+			</div>
+			<div style="width:50px; height:21px; float:left;"> 小时</div>
+		</div>
+		
+		<!-- 刷新时间 -->
+		<div style="width:300px; height:22px;margin-top:10px;">
+			<div style="width:120px; height:21px; float:left; text-align:right;">刷新时间：</div>
+			<div style="width:120px; height:21px; float:left;margin-left:13px;">{{page_refresh_time}}</div>
+		</div>
+		
+		<!-- 默认颜色 -->
+		<div style="width:300px; height:30px;margin-top:10px;">
+			<div style="width:120px; height:22px; float:left; text-align:right; margin-top:5px;">默认轨迹颜色：</div>
+			<div style="width:120px; height:29px; float:left;margin-left:13px;">{{default_color}}</div>
+		</div>
+		
+			<!-- 速度颜色映射设置 -->
+		<div style="width:400px; height:75px;margin-top:10px;">
+			<div style="width:120px; height:33px; float:left; text-align:right;margin-top:20px;">速度颜色映射设置 :</div>
+			<div style="width:200px; height:74px; float:left;margin-left:13px;">
+				<div id='speeds'>{{speeds}}</div>
+			</div>
+			<div style="width:50px; height:33px; float:left;margin-top:20px;">
+				<a href='javascript:void(0);' onclick='adviceDialog();'>设置</a>
+			</div>
+		</div>
+		
+		<!-- 修改按钮 -->
+		<div style="width:80px; height:30px; margin:30px auto; text-align:center;">
+			<input type="submit" value="确认修改" onclick="update_set();"/>
+		</div>
+		
+		
+		
+		<!-- 弹出设置颜色的模式窗口 -->
+		<div style="padding: 20px; background-color: #fff; display: none" id="dialog">
+				<div id="canAdviceSelectDiv"></div>
+		</div>
+	</div>
+</body>
+</html>
 <SCRIPT LANGUAGE="JavaScript">
 <!--
 	//速度时间映射
