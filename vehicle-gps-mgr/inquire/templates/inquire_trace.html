@@ -12,33 +12,76 @@
 
 <script type="text/javascript">
 							
-			$("#trace").click(function(){
-				parent.window.closeIframe();
-				//parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val());
-			});
+		$("#trace").click(function(){
+			getHourList();
+			//parent.window.closeIframe();
+			//parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val());
+		});
 			
-			$("#startTime").datetimepicker({
-				 ampm: false,//上午下午是否显示  
-				 timeFormat: 'hh:mm:ss',//时间模式  
-				 stepHour: 1,//拖动时间时的间隔  
-				 stepMinute: 1,//拖动分钟时的间隔  
-				 stepSecond: 1,//拖动秒时的间隔
-				 dateFormat:"yy-mm-dd", //日期格式设定  
-				 showHour: true,//是否显示小时，默认是true  
-				 showMinute:true,
-				 showSecond:true,
-					 createButton:false
-			 });
-			$("#endTime").datetimepicker({
-				 ampm: false,//上午下午是否显示  
-				 timeFormat: 'hh:mm:ss',//时间模式  
-				 stepHour: 1,//拖动时间时的间隔  
-				 stepMinute: 1,//拖动分钟时的间隔  
-				 stepSecond: 1,//拖动秒时的间隔
-				 dateFormat:"yy-mm-dd", //日期格式设定  
-				 showHour: true,//是否显示小时，默认是true  
-				 showMinute:true,
-				 showSecond:true,
-					 createButton:false
-			 });
-			 </script>
+		$("#startTime").datetimepicker({
+			 ampm: false,//上午下午是否显示  
+			 timeFormat: 'hh:mm:ss',//时间模式  
+			 stepHour: 1,//拖动时间时的间隔  
+			 //stepMinute: 1,//拖动分钟时的间隔  
+			 //stepSecond: 1,//拖动秒时的间隔
+			 dateFormat:"yy/mm/dd", //日期格式设定  
+			 showHour: true,//是否显示小时，默认是true  
+			 showMinute:false,
+			 showSecond:false,
+			 createButton:false
+		 });
+
+		$("#endTime").datetimepicker({
+			 ampm: false,//上午下午是否显示  
+			 timeFormat: 'hh:mm:ss',//时间模式  
+			 stepHour: 1,//拖动时间时的间隔  
+			 //stepMinute: 1,//拖动分钟时的间隔  
+			 //stepSecond: 1,//拖动秒时的间隔
+			 dateFormat:"yy/mm/dd", //日期格式设定  
+			 showHour: true,//是否显示小时，默认是true  
+			 showMinute:false,
+			 showSecond:false,
+			 createButton:false
+		 });
+
+		function getHourList(){
+			var startTime = $("#startTime").attr("value");
+			var endTime = $("#endTime").attr("value");
+
+			var startdt0 = new Date(Date.parse(startTime));
+			var enddt0 = new Date(Date.parse(endTime));
+
+			startdt = startdt0.getTime();
+			enddt = enddt0.getTime();
+
+			var hourList = new Array();
+			
+			while(startdt <  enddt){
+				var date = new Date();
+				date.setTime(startdt);
+
+				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + date.getDate() + "" + padLeft("" + date.getHours(),2);
+				hourList.push(hourStr);
+				
+				startdt += 60*60*1000; //起始时间增加1小时
+			}
+			
+			return hourList;
+		}
+
+		function padLeft(str,lenght){ 
+			if(str.length >= lenght){
+				return str;
+			}
+			else{ 
+				return padLeft("0" +str,lenght); 
+			}
+		} 
+					
+
+	
+
+
+
+
+</script>
