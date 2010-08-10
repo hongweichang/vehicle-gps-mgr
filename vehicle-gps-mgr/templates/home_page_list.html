@@ -35,19 +35,23 @@
 			var $this = $(this);
 			var horizontalPadding = 30;
 			var verticalPadding = 30;
+
+			var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
+			var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '500';
+			
 	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" frameborder="0"/>').dialog({
 	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
 	            autoOpen: true,
-	            width: 1000,
-	            height: 500,
+	            width: showWidth,
+	            height: showHeight,
 	            modal: true,
 	            resizable: true,
 				autoResize: true,
 	            overlay: {
-	                opacity: 0.5,
-	                background: "black"
+                opacity: 0.5,
+                background: "black"
 	            }
-	        }).width(1000 - horizontalPadding).height(500 - verticalPadding);	      
+	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);	      
 		});
 
 		$('#lookMore').click(function(e) {
@@ -55,11 +59,16 @@
 			var $this = $(this);
 			var horizontalPadding = 30;
 			var verticalPadding = 30;
+
+			var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
+			var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '500';
+
+			
 	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" frameborder="0"/>').dialog({
 	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
 	            autoOpen: true,
-	            width: ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000',
-	            height: 500,
+	            width: showWidth,
+	            height: showHeight,
 	            modal: true,
 	            resizable: true,
 				autoResize: true,
@@ -67,7 +76,7 @@
 	                opacity: 0.5,
 	                background: "black"
 	            }
-	        }).width(1000 - horizontalPadding).height(500 - verticalPadding);	      
+	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);	      
 		});
 	});
 	</script>
@@ -100,7 +109,7 @@
 						<div class="button_font" url="index.php?a=401" title="统计分析">统计分析</div>
 					</li>
 					<li class="jsbutton" id="setting">
-						<div class="button_font" url="index.php?a=5017" title="设置">设置</div>
+						<div class="button_font" url="index.php?a=5017" title="设置" showWidth="500" showHeight="380">设置</div>
 				 </ul>
 			</div>
 			<div class="alertInfo">
@@ -112,7 +121,7 @@
 							
 							<div class="operate" id="operate" >
 								<div class="addAdvice" id="addAdvice"><a href="#">处理</a></div>
-								<div class="lookMore" id="lookMore" url="index.php?a=901" title="告警列表"><a href='#' style='margin-left:5px;'>查 看更多</a></div>
+								<div class="lookMore" id="lookMore" url="index.php?a=901" title="告警列表"><a href='#' style='margin-left:5px;'>查看更多</a></div>
 						   </div>
 				    </div>
 			    </div>
