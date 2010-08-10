@@ -196,7 +196,7 @@ switch($act)
 				if(!empty($p_temp_arr[1]) && !empty($p_temp_arr[2]))
 				{
 					//插入操作
-					$parms["company_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+					$parms["company_id"]		= $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
 					$parms["min"]				= $GLOBALS['db']->prepare_value($p_temp_arr[0],"INT");
 					$parms["max"]				= $GLOBALS['db']->prepare_value($p_temp_arr[1],"INT");
 					$parms["color"]				= $GLOBALS['db']->prepare_value(substr($p_temp_arr[2],1),"VARCHAR");
@@ -361,7 +361,7 @@ switch($act)
 		$color_xml = "xml/color.xml"; //定义xml映射文件局对路径
 		$dataMapping = new Data_mapping_handler ( $color_xml ); //从xml配置信息中读取颜色
 		for($i = 0; $i < count ( $array ); $i++) {
-			$a=$array [$i];//min,max,color
+			$a=$array [$i];
 			$val="#".$a["color"];
 			
 			$text_color =$dataMapping->getTextData ( 'color',  $val);
