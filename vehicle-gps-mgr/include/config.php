@@ -28,8 +28,8 @@ $mail_config = array(
 	);
 
 $server_path_config = array(
-		"gps_info_path"		=> "/usr/local/joycomm/sos_file/", //gpsx信息文件在服务器上的路径
-		"mail_save_path"	=> "email_data", //gpsx信息文件在服务器上的路径
+		"gps_info_path"		=> "/usr/local/joycomm/sos_file", //gpsx信息文件在服务器上的路径
+		"mail_save_path"	=> "/usr/local/joycomm/email_src/waiting", //gpsx信息文件在服务器上的路径
 	);
 
 ?>
