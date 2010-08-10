@@ -5,15 +5,16 @@
 	 				$.post("index.php",{
 						 "a":921}
 						,function(data){
-							var array=data.split("|");
-							if(array.length==0){
+							
+							if("-1" == data){
 								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
 								$("#record").html();
 								$("#newAlert").html("最新告警记录");
-								$("#record").html(data);
+								$("#record").html("没有未处理的告警记录");
 								$("#operate").html("<a href='index?a=901'>查看更多</a>");
 							}else
-							{       
+							{   
+									var array=data.split("|");
 								    id=array[0];
 									$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
 									$("#record").html();
