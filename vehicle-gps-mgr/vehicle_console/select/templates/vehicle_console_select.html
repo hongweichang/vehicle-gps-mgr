@@ -1,4 +1,4 @@
- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
  <head> 
  	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
@@ -18,7 +18,20 @@
 		}
  	</style>
 </head>
-<body>	
+<body style="border:1px black solid; width:99%; height:99%;">	
+	<div>
+		<div id="tabs">
+		     {{VEHICLE_GROUP_DATA}}
+		</div>
+		<div>
+			<div style="float:left;font-size:14px;">
+				<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input>
+			</div>
+			<div style="float:right">
+				<input type="button" id="commit" value="地图显示"></input>
+			</div>
+	    </div>
+	</div> 
 	<script type="text/javascript">
 	$(function() {
 		$("#tabs").tabs({}); //加载JQUERY UI
@@ -60,19 +73,5 @@
 			});
 	}); 
 	</script> 
-<div>
-
-<div id="tabs">
-     {{VEHICLE_GROUP_DATA}}
-</div>
-<br/>
-<div>
-	<div style="float:left">
-		<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input>
-	</div>
-	<div style="float:right">
-		<input type="button" id="commit" value="确定"></input></div>
-	</div>
-</div> 
 </body>
 </html>
