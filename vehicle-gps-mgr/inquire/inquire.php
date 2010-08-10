@@ -39,7 +39,7 @@ switch($act)
 		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		//$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
+		//$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
 		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
 		
 		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
