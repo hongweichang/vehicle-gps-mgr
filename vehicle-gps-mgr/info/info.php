@@ -1,61 +1,38 @@
 <?php
 /** 
-* 人员管理
-* @copyright		秦运恒, 2010
-* @author			郭英涛
-* @create date		2010.08.02
-* @modify			修改人
-* @modify date		修改日期
-* @modify describe	修改内容
-*/
+ * 人员管理
+ * @copyright		秦运恒, 2010
+ * @author			郭英涛
+ * @create date		2010.08.02
+ * @modify			修改人
+ * @modify date		修改日期
+ * @modify describe	修改内容
+ */
 
-$act = $GLOBALS["all"]["operate"];
+$act = $GLOBALS ["all"] ["operate"];
 
-switch($act)
-{
-	case "main":	//填写信息内容页面
-		echo $GLOBALS['db']->display(null,$act);
+switch ($act) {
+	case "main" : //填写信息内容页面
+		echo $GLOBALS ['db']->display ( null, $act );
 		break;
-	/**
-	case "sendmail":
-		$info = new info();
-		
-		require_once("include/email.class.php");
-		require_once("info.class.php");
-		
-		$address = $_POST["address"];
-		$title = $_POST["title"];
-		$content = $_POST["content"];
 	
-		if(is_string($address))
-		{
-			$addAddress = str_replace(",","~",$address);
+	case "get_mail" :
+		$str = $_REQUEST ["character"];
+		$info = new info ();
+		$address = $info->get_phone_email ( $str );
+		$email = "";
+		for($i = 0; $i < count ( $address ); $i ++) {
+			$email = $email . $address [$i] [0] . "|";
 		}
-		
-		$filename = "../email_info.eml"; //声明变量保存文件名,在这个文件中保存mail信息
-		$writeMessage = $info ->writeMessage();
-		
-		if(isset($_POST["send"])){     //判断是否提交
-				//~ 邮件地址~邮件标题~[[邮件内容]]~
-				$message = "~".$addAddress."~".$title."~"."["."[".$content."]"."]"."~";
-				$writeMessage->writeMessage($filename,$message);
-			}
-
-		$sendMl = new Email($mail_config);
-		$sendMl->sendMail($address,$title,$content);
-		echo $sendMl->getErrorInfo();
-		break;
-		**/
-	case "get_mail":
-			$str=$_REQUEST["character"];
-			$info = new info();
-			$address = $info ->get_phone_email($str);
-			$email="";
-			for($i=0;$i<count($address);$i++){
-				$email=$email.$address[$i][0]."|";
-			}
-			echo $email;
+		echo $email;
 		break;
 	
+	case "sendmail" :
+		$path=$server_path_config["mail_save_path"];
+		$company_id=get_session("company_id");
+		$str = mb_convert_encoding ( $_REQUEST ['email_data'], "UTF-8", "gb2312" );	
+		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' , $str);
+		echo "success";
+
 }
 ?>
