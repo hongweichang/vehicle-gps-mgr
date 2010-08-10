@@ -49,40 +49,42 @@ class vehicle_console extends BASE{
 			 * @param $company_id 公司ID
 			 */
 			function company_all_vehicle($company_id=-1){ 
-			$this->sql = "SELECT  v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
-						 "			(case when s.color is null then c.default_color ".
-						 "			    else s.color end)as color ".
-						 "				FROM ".$this->tablename_vehicle_manage." v ".
-						 "					left join ".$this->tablename_speed_color." as s ".
-						 "						on s.company_id =".$company_id."  and v.company_id=s.company_id and (v.cur_speed>=s.min and v.cur_speed<s.max) ".
-						 "					left join  ".$this->tablename_vehicle_group." g on g.company_id=v.vehicle_group_id  ".
-						 "					left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ".
-						 "					left join ".$this->tablename_common_setting." c on c.company_id =".$company_id.
-						 "				where v.company_id =".$company_id.
-						 "				group by v.id";
+				
+				$this->sql = "SELECT  v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
+							 "			(case when s.color is null then c.default_color ".
+							 "			    else s.color end)as color ".
+							 "				FROM ".$this->tablename_vehicle_manage." v ".
+							 "					left join ".$this->tablename_speed_color." as s ".
+							 "						on s.company_id =".$company_id."  and v.company_id=s.company_id and (v.cur_speed>=s.min and v.cur_speed<s.max) ".
+							 "					left join  ".$this->tablename_vehicle_group." g on g.company_id=v.vehicle_group_id  ".
+							 "					left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ".
+							 "					left join ".$this->tablename_common_setting." c on c.company_id =".$company_id.
+							 "				where v.company_id =".$company_id.
+							 "				group by v.id";
 		 
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
-			
-			/***
+			 
+			/**
 			 * 查询车辆集合定位信息、速度颜色
-			 * $where 车辆ID集合(例：1,2,6,3,4)
+			 * @param $where 车辆ID集合(例：1,2,6,3,4)
+			 * @param $company 公司ID
 			 */
-			function  get_vehicles($where=-1){
+			function  get_vehicles($where=-1,$company=-1){
 				
-				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,s.color ".
-									" FROM  ".
-									"	".$this->tablename_vehicle_manage." as v ". 
-									" INNER JOIN ".
-									"	speed_color as s ". 
-									" ON  ".
-									"	v.id in(".$where.") ".
-									"	AND ".
-									"		v.company_id = s.company_id ". 
-									"	AND ".
-									"		v.cur_direction>=min". 
-									" 	AND". 
-									"		v.cur_direction<max";    
+				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,(case when s.color is null then c.default_color  else s.color end)as color ".
+						   "			FROM  ".
+						   "				".$this->tablename_vehicle_manage." as v ".  
+						   "			LEFT JOIN 	". 
+						   "				".$this->tablename_speed_color." as s ".  
+						   "			ON   ".
+						   "				s.company_id = ".$company."  AND  v.company_id = s.company_id 	AND v.cur_direction>=min AND v.cur_direction<max ".
+						   "			LEFT JOIN  ".
+						   "				".$this->tablename_common_setting." c ". 
+						   "			ON ".
+						   "				c.company_id =".$company.
+						   "		 WHERE v.id in(".$where.") "; 
+				
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			 

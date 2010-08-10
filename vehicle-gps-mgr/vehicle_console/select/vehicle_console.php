@@ -16,8 +16,7 @@ $sidx = $_REQUEST ['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST ['sord']; // get the direction
 $vehicleIds = $_REQUEST['vehicleIds'];  //获取车辆ID集合  
 
-$company_id = get_session("company_id");
-//$vehicleIds="1,2,3,4";
+$company_id = get_session("company_id"); 
 if (! $sidx)
 	$sidx = 1;
 
@@ -59,7 +58,7 @@ switch ($act) {
 		require_once("include/data_mapping_handler.php");
 		
 		//查询车辆集合定位信息、速度颜色返回数据
-		$vehicle = $vehicle_console->get_vehicles($vehicleIds);
+		$vehicle = $vehicle_console->get_vehicles($vehicleIds,$company_id);
 		//创建XML解析对象
 		$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
 	
@@ -67,8 +66,14 @@ switch ($act) {
 		$length = count($vehicle);
 
 		for($row=0;$row<$length;$row++){   
-			   //获取车图标路径
-			   $vehicle[$row][4] = str_ireplace("west.png","",$xml_handler->getTextData("color","#".$vehicle[$row][4])); 
+				
+				//获取车图标路径
+				if(!isset($vehicle[$row][4])){
+					$vehicle[$row][4] = "images/vehicle/gray";
+				}else{
+					$vehicle[$row][4] = str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$vehicle[$row][4]));	
+				} 
+				 
 			   //获取当前车方向
 			   $cur_direction = $vehicle[$row][3];
 			   //分解度数换为方向
