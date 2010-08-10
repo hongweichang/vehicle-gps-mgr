@@ -5,7 +5,6 @@
 	 				$.post("index.php",{
 						 "a":921}
 						,function(data){
-							
 							var array=data.split("|");
 							if(array.length==0){
 								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
@@ -24,8 +23,7 @@
 						     }
 						 }
 					);
-
-				  setTimeout(alertInfo,30000);
+				  setTimeout("alertInfo()",30000);
 	 			}
 	 			
 	 			
