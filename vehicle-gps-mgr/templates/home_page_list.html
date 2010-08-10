@@ -13,10 +13,47 @@
 	<script language="javascript" src="js/alert/opinion.js"></script>
 	
 	<script type="text/javascript">
+ 
+	/**
+	 * 画历史轨迹路径
+	 * @param {Object} startTime 开始时间
+	 * @param {Object} endTime  结束时间 
+	 * @param {Object} vehicle 车辆ID
+	 */
+	function drawHistoryTrack(startTime,endTime,vehicle_id){  
+	 
+	 	var time = '2010080320';
+		$.ajax({
+			type:"POST",
+			url:"index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
+			dataType:"json",
+			success:function(data){ 
+			
+			if(data.length>0){
+				clearOverLay();
+				
+				var points = new Array();
+				for(var i=0;i<data.length;i++){
+					points.push( new LTPoint(round(data[i][0]),round(data[i][1])));
+				}
+				map.getBestMap(points);
+			}
+			drawLine_arr = data; 
+			
+			newDrawLine();
+		 }
+		}); 
+		 
+	}
+	
+	/**
+	 * 关闭窗口
+	 */
 	function closeIframe(){
 		$("#externalSite").dialog("close");
 		$("#externalSite").remove();
 	}
+
 		
 	$(function() {
 		$('#addAdvice').click(function(e) {
@@ -128,25 +165,30 @@
 		    </div>
 	</div>  
 	<script language="javascript">
+		
 			var state = 0; //操作状态  
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
-			var lat = 11636160;  //纬度
-			var lon = 3991104;  // 经度
+			var longitude = 3991104;  // 经度
+			var latitude = 11636160;  //纬度
 			var speed = 1000;  //速度/ms
-			var marker1;
-			var drawLine_arr;
-			var host = "{{HOST}}";
+			var marker;   //地图标记对象
+			var drawLine_arr;  //画线队列
+			var host = "{{HOST}}"; //主机
 			{{PAGE_REFRESH_TIME}}
+
 
 			onLoadMap();
 			
-			//加载地图
+			/**
+			 * 加载地图
+			 */
 			function onLoadMap()
-			{
-				window._LT_map_disableProgressBar=true;	//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
+			{	
+				//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
+				window._LT_map_disableProgressBar=true;	
 				map=new LTMaps("map");
-				map.centerAndZoom(new LTPoint(11640969,3994940),6);
+				//map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
 
 				control = new LTZoomSearchControl();
@@ -154,14 +196,26 @@
 			    control.setLabel("选中矩形区域");
 				map.addControl( control );
 				map.handleMouseScroll();
-				LTEvent.addListener(map,"dblclick",onDblClick);//绑定事件注册
+				
+				//绑定事件注册
+				LTEvent.addListener(map,"dblclick",onDblClick);
 				//选中区域
 				LTEvent.addListener(control,"mouseup",drawRectangle);
 				
+				//初始化车辆定位
 				loadCompanyVehicle();
 			}
 			
-			//初始化定位
+			/**
+			 * 清除所有标点，重新加载新数据
+			 */
+			function clearOverLay(){
+				map.clearOverLays(); 
+			}
+			
+			/**
+			 * 初始化当前公司所有车辆定位信息
+			 */
 			function loadCompanyVehicle(){
 				
 				$.ajax({
@@ -172,7 +226,7 @@
 						var length = data.length; 
 
 						if(length>0)
-							map.clearOverLays(); //清除所有标点，重新加载新数据
+							clearOverLay();
 							
 						var points = new Array();
 						 for(var i=0;i<length;i++){      
@@ -190,7 +244,7 @@
 							var location_desc =  data[i]['location_desc']; //地址
 							   
 							//创建点对象
-							marker1 =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+							marker =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
 											 	  new LTIcon(host+"/"+file_path+"/"+img_name+".png"));
 
 							points.push( new LTPoint(round(point_longitude),round(point_latitude)));
@@ -201,103 +255,122 @@
 										  "<br>当前速度: "+cur_speed+"<br>当前定位时间:"+location_time+
 										  "<br>当前地址: "+location_desc+"<br><br>"+
 										  "<a href='#'>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
-							addInfoWin(marker1,context);
+							addInfoWin(marker,context);
 
 							//点添入地图中
-							map.addOverLay(marker1);
+							map.addOverLay(marker);
 
 							var text = new LTMapText( new LTPoint( round(point_longitude),round(point_latitude) ) );
 							text.setLabel(number_plate ); 
 							map.addOverLay( text ); 
 						}  
-						map.getBestMap(points);
-						 
+						map.getBestMap(points); 
 					 }
  				});	
+				//自动刷新页面当前公司所有车辆最新定位信息。
 				setTimeout("loadCompanyVehicle();",page_refresh_time*1000);
 			}
 			
+			
 			var moveLsitener;
-			function onDblClick()//定义在双击的时候执行的函数
-			{
-				moveLsitener=LTEvent.addListener(map,"moveend",onMoveEnd);
+			
+			/**
+			 * 定义在双击的时候执行的函数
+			 */
+			function onDblClick(){
 				//因为系统默认双击的时候会将地图定位到中心，因此，只需要定义地图在定位到中心完成之后放大地图即可
+				moveLsitener=LTEvent.addListener(map,"moveend",onMoveEnd);
 			}
-			function onMoveEnd()//定义地图在定位到中心完成之后执行的函数
-			{
+			/**
+			 * 定义地图在定位到中心完成之后执行的函数
+			 */
+			function onMoveEnd(){
 				LTEvent.removeListener(moveLsitener);//删除事件注册
 				map.zoomIn();//放大地图
 			}
-			
-			//关闭提示窗口
-			function closeWindow(){
-				$searchInfo.close();
-			}
-
-			//画历史轨迹路径
-			function drawHistoryTrack(startTime,endTime){ 
-				
-				drawLine_arr = data; 
-				newDrawLine();
-				 
-			}
-	 
-			//画新线
+			 
+			/**
+			 * 画新线
+			 */
 			function newDrawLine(){
 				 
 				var length = drawLine_arr.length; 
 				if(length>0){
-					 
-				 		var points1 = new Array();
+					 	
+				 		var points = new Array();
 
-				 		var lon = drawLine_arr[0][0];
-				 		var lat = drawLine_arr[0][1];
-				 		var direction = drawLine_arr[0][2];
+				 		var longitude = drawLine_arr[0][0];  //经度
+				 		var latitude = drawLine_arr[0][1];  //纬度
+				 		var direction = drawLine_arr[0][2]; //方向
+				 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
+				 		var color = drawLine_arr[0][5]; //颜色
+						var img_path =  drawLine_arr[0][6]; //图片路径
+				 		var newLongitude = -1; //新线点经度
+				 		var newLatitude = -1; //新线点纬度
 
-				 		var newLon = -1;
-				 		var newLat = -1;
-
-						points1.push( new LTPoint(round(lon), round(lat)));
+						//线的起始点
+						points.push( new LTPoint(round(longitude), round(latitude)));
 					if(length>1){
-						newLon = drawLine_arr[1][0];
-						newLat = drawLine_arr[1][1];
-						points1.push( new LTPoint(round(newLon),round(newLat)));
+						//线的终点
+						newLongitude = drawLine_arr[1][0];
+						newLatitude = drawLine_arr[1][1];
+						points.push( new LTPoint(round(newLongitude),round(newLatitude)));
 					}else{
-						newLon = lon;
-						newLat = lat;
-						points1.push( new LTPoint(round(lon), round(lat)));
+						//当前起始点为终点
+						newLongitude = longitude;
+						newLatitude = latitude;
+						points.push( new LTPoint(round(newLongitude), round(newLatitude)));
 					} 
+					
+					//删除并返回数组的第一个元素
 					drawLine_arr.shift();
-					drawRunLine(points1,round(newLon),round(newLat),direction);
+
+					//调用画线函数 
+					drawRunLine(points,round(newLongitude),round(newLatitude),direction,color,vehicle_speed,img_path);
 				}
 				
 			}
 			
 			
-			//运行画线
-			function drawRunLine(points1,lon,lat,direction){  
+			/**
+			 * 运行画线函数
+			 * @param {Object} points 画线点
+			 * @param {Object} lon 经度
+			 * @param {Object} lat 纬度
+			 * @param {Object} direction 方向
+			 * @param {Object} color 颜色
+			 * @param {Object} vehicle_speed 车辆速度 
+			 * @param {Object} img_path 图片路径
+			 */
+			function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path){  
+				 
+				 
+				var polyLine = new LTPolyLine(points);
+				polyLine.setLineColor("#"+color);	//设置折线颜色 
+				polyLine.setLineStroke(2);	//设置折线线宽
 				
-				map.centerAndZoom(new LTPoint(lon,lat),4);
-				var polyLine1 = new LTPolyLine(points1);
-				polyLine1.setLineColor("#ff0000");	//设置折线颜色 
-				polyLine1.setLineStroke(2);	//设置折线线宽
-				
-				polyLine1.setLineArrow("None","None");
+				polyLine.setLineArrow("None","None");
 				//将折线添加到地图
-				map.addOverLay( polyLine1 );
+				map.addOverLay( polyLine );
  
-				map.removeOverLay(marker1);
-				marker1 = new LTMarker( new LTPoint(lon,lat),new LTIcon("{{HOST}}/images/vehicle/red/"+direction+".png"));
-				map.addOverLay(marker1 );
+				map.removeOverLay(marker);
+				marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(host+"/"+img_path));
+
+				//点对象设置内容
+				var context = "速度:"+vehicle_speed;
+				addInfoWin(marker,context);
+
+				//点添入地图中
+				map.addOverLay(marker); 
 
 				setTimeout("newDrawLine();",speed);
 			}
 
 			/**
-			  *车辆提示信息
-			  * obj 添加对象
-			  * context 添加内容
-			  */
+			 * 车辆提示信息
+			 * @param {Object} obj  点对象
+			 * @param {Object} context 对象提示内容
+			 */
 			function addInfoWin(obj,context){
 				
 				var info = new LTInfoWindow( obj );
@@ -309,45 +382,54 @@
 				}
 				LTEvent.addListener(obj,"click",shwoInfo); 
 			} 
-			
-			/**
-			  *  车辆请求定位	
-			  *  str  车辆ID集合 格式"ID1,ID2,ID3,"
+			 
+			 /**
+			  * 车辆请求定位
+			  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 			  */
 			function vehiclePosition(str){ 
-				closeIframe();
+			 
 				 $.ajax({
 						type:"POST",
 						url:"index.php?a=2&vehicleIds="+str, 
 						dataType:"json",
 						success:function(data){ 
-							var length = data.length;
 						
+							var length = data.length;
+							var points = new Array();
+							 
+							if(length>0)clearOverLay();
+							
 							for(var i=0;i<length;i++){        
 								  
 								var point_longitude = data[i][1]; //点经度
 								var point_latitude =  data[i][2]; //点纬度
 								var file_path = data[i][4]; //文件目录
 								var img_name = data[i][3];  //图片名称
-
+	
+								points.push( new LTPoint(round(point_longitude),round(point_latitude)));
+							 
 								//创建点对象
-								marker1 =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+								marker =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
 												 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
 
 								//点对象设置内容
-								addInfoWin(marker1,"经度："+point_longitude+"  纬度："+point_latitude);
+								addInfoWin(marker,"经度："+point_longitude+"  纬度："+point_latitude);
 
 								//点添入地图中
-								map.addOverLay(marker1);
+								map.addOverLay(marker);
 							}
-							map.resizeMapDiv();
-							map.centerAndZoom("beijing",12);
+							map.getBestMap(points);
 						 }
 	 				});
 			}
 
 			
-			//经纬度五舍五入
+			/**
+			 * 经纬度五舍五入
+			 * @param {Object} v 经纬度数值
+			 * @param {Object} e 保留小数点位数
+			 */
 			function round(v,e){
 				v= v*100000;
 				var   t=1;   
@@ -358,9 +440,11 @@
 			  } 
 			 
   
-			//手动画矩形
+			/**
+			 * 手动画矩形
+			 */
 			function drawRectangle(){
-				map.clearOverLays();
+				clearOverLay();
 				//矩形地理区域的对象
 				var drawBounds = control.getBoundsLatLng();
 
