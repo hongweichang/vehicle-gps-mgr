@@ -109,7 +109,7 @@ switch($act)
             
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
-												$vehicle->gps_status_boolean($val['gprs_status']),"定位时间",$cur_location,$val['cur_speed'],"限速",
+												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],"限速",
 												$driver[0]['name'],$vehicle->alert_status($val['alert_state']),
 												"轨迹","统计信息","信息发布","定位");
 		}
