@@ -51,17 +51,21 @@ switch($act)
 		
 		//获取车辆定位信息
 		foreach($vehicle as $value){
-		  
+			
+			$long = $ve_status->exact_lon($ve_status->around($value['cur_longitude'])); //经度
+			$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude']));//纬度
+			
 			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号
 			$arr_vehicle[$index]['gps_id']	= $value['gps_id']; //GPS id
-			$arr_vehicle[$index]['location_time']	= $value['location_time']; //定位时间
-			$arr_vehicle[$index]['cur_longitude']	= $value['cur_longitude']; //经度
-			$arr_vehicle[$index]['cur_latitude']	= $value['cur_latitude'];//纬度
+			$arr_vehicle[$index]['location_time']	= $value['location_time']; //定位时间			
+			$arr_vehicle[$index]['cur_longitude']	= $long;
+			$arr_vehicle[$index]['cur_latitude']	= $lat;			
 			$arr_vehicle[$index]['cur_speed']	= $value['cur_speed']; //速度
 			$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']); //方向 
 			$arr_vehicle[$index]['group_name']	= $value['group_name']; //车辆组
 			$arr_vehicle[$index]['driver_name']	= $value['driver_name']; //驾驶人员
-			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($value['cur_longitude'],$value['cur_latitude']); //地址
+			
+			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($long,$lat); //地址
 			
 			//图片路径
 			if(!isset($value['color'])) 
