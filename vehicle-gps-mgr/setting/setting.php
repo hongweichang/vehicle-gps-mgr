@@ -39,7 +39,7 @@ switch($act)
 		$dis["page_refresh_time"] = $sel_html;
 
 		// 超速
-		$dis["speed_limit"] = $set->data["speed_limit"];
+		$dis["speed_limit"] = $set->data["speed_astrict"];
 
 		// 疲劳
 		$dis["fatigue_remind_time"] = $set->data["fatigue_remind_time"];
