@@ -13,7 +13,21 @@
 <script type="text/javascript">
 							 
 			$("#trace").click(function(){ 
-				 parent.window.closeIframe();
+				var startTime = $("#startTime").attr("value");
+				 
+				if(startTime == ""){
+					alert("开始时间不能为空!");
+					$("#startTime").focus();
+					return false;
+				}
+				var endTime = $("#endTime").attr("value");
+				if(endTime == ""){
+					alert("结束时间不能为空!");
+					$("#endTime").focus();
+					return false;
+				}
+				
+				 //parent.window.closeIframe();
 				 parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val(),$("#vehicle option:selected").val());
 			});
  

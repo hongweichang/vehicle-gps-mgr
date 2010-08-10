@@ -49,10 +49,15 @@ switch($act)
 		$point_info = array();
 		$trace_info = array();
 		
+		$ve_status = new Vehicle_status(); 
+		
 		foreach($datalist as $k=>$v)
 		{
-			$point_info[0]= $v->longitude; //经度
-			$point_info[1]= $v->latitude;  //纬度
+			$long = $ve_status->exact_lon($ve_status->around($v->longitude)); //经度
+			$lat = $ve_status->exact_lat($ve_status->around($v->latitude));//纬度
+			
+			$point_info[0]= $long; //经度
+			$point_info[1]= $lat;  //纬度
 			$point_info[2]= resolvingDirection($v->direction); //方向 
 			$point_info[3]= $v->speed; //速度
 			$point_info[4]= $v->location_desc; //地址

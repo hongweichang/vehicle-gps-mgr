@@ -65,7 +65,7 @@ switch($act)
 			$arr_vehicle[$index]['group_name']	= $value['group_name']; //车辆组
 			$arr_vehicle[$index]['driver_name']	= $value['driver_name']; //驾驶人员
 			
-			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($long,$lat); //地址
+			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($long/100000,$lat/100000); //地址
 			
 			//图片路径
 			if(!isset($value['color'])) 

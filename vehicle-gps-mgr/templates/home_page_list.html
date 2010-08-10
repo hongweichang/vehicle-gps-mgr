@@ -16,25 +16,28 @@
  
 	/**
 	 * 画历史轨迹路径
+	 * @param {Object} hourList  小时集合列表 
 	 * @param {Object} startTime 开始时间
 	 * @param {Object} endTime  结束时间 
 	 * @param {Object} vehicle 车辆ID
 	 */
 	function drawHistoryTrack(startTime,endTime,vehicle_id){  
 	 
-	 	var time = '2010080320';
+	 	var time = '2010081017';
+
 		$.ajax({
 			type:"POST",
 			url:"index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
 			success:function(data){ 
 			
-			if(data.length>0){
+			if(data!=null){
+				
 				clearOverLay();
 				
 				var points = new Array();
 				for(var i=0;i<data.length;i++){
-					points.push( new LTPoint(round(data[i][0]),round(data[i][1])));
+					points.push( new LTPoint(data[i][0],data[i][1]));
 				}
 				map.getBestMap(points);
 			}
@@ -166,7 +169,7 @@
 	</div>  
 	<script language="javascript">
 		
-			var state = 0; //操作状态  
+			var state = 1; //操作状态    '0' 不能操作   '1' 可操作
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
 			var longitude = 3991104;  // 经度
@@ -244,31 +247,33 @@
 							var location_desc =  data[i]['location_desc']; //地址
 							   
 							//创建点对象
-							marker =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+							marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 											 	  new LTIcon(host+"/"+file_path+"/"+img_name+".png"));
 
-							points.push( new LTPoint(round(point_longitude),round(point_latitude)));
+							points.push( new LTPoint(point_longitude,point_latitude));
 							//点对象设置内容
 							var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
 										  "<br>车队："+vehicle_group_name+
 										  "<br>驾驶员："+driver_name+
-										  "<br>当前速度: "+cur_speed+"<br>当前定位时间:"+location_time+
-										  "<br>当前地址: "+location_desc+"<br><br>"+
+										  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
+										  "<br>地址: "+location_desc+"<br><br>"+
 										  "<a href='#'>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
 							addInfoWin(marker,context);
 
 							//点添入地图中
 							map.addOverLay(marker);
 
-							var text = new LTMapText( new LTPoint( round(point_longitude),round(point_latitude) ) );
+							var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 							text.setLabel(number_plate ); 
 							map.addOverLay( text ); 
 						}  
 						map.getBestMap(points); 
 					 }
  				});	
+ 				if(state==1){alert(state);
 				//自动刷新页面当前公司所有车辆最新定位信息。
 				setTimeout("loadCompanyVehicle();",page_refresh_time*1000);
+ 				}
 			}
 			
 			
@@ -293,7 +298,7 @@
 			 * 画新线
 			 */
 			function newDrawLine(){
-				 
+				state =0; //不可操作其它
 				var length = drawLine_arr.length; 
 				if(length>0){
 					 	
@@ -309,24 +314,24 @@
 				 		var newLatitude = -1; //新线点纬度
 
 						//线的起始点
-						points.push( new LTPoint(round(longitude), round(latitude)));
+						points.push( new LTPoint(longitude,latitude));
 					if(length>1){
 						//线的终点
 						newLongitude = drawLine_arr[1][0];
 						newLatitude = drawLine_arr[1][1];
-						points.push( new LTPoint(round(newLongitude),round(newLatitude)));
+						points.push( new LTPoint(newLongitude,newLatitude));
 					}else{
 						//当前起始点为终点
 						newLongitude = longitude;
 						newLatitude = latitude;
-						points.push( new LTPoint(round(newLongitude), round(newLatitude)));
+						points.push( new LTPoint(newLongitude,newLatitude));
 					} 
 					
 					//删除并返回数组的第一个元素
 					drawLine_arr.shift();
 
 					//调用画线函数 
-					drawRunLine(points,round(newLongitude),round(newLatitude),direction,color,vehicle_speed,img_path);
+					drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path);
 				}
 				
 			}
@@ -407,10 +412,10 @@
 								var file_path = data[i][4]; //文件目录
 								var img_name = data[i][3];  //图片名称
 	
-								points.push( new LTPoint(round(point_longitude),round(point_latitude)));
+								points.push( new LTPoint(point_longitude,point_latitude));
 							 
 								//创建点对象
-								marker =new LTMarker(new LTPoint(round(point_longitude),round(point_latitude)),
+								marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 												 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
 
 								//点对象设置内容
@@ -425,19 +430,6 @@
 			}
 
 			
-			/**
-			 * 经纬度五舍五入
-			 * @param {Object} v 经纬度数值
-			 * @param {Object} e 保留小数点位数
-			 */
-			function round(v,e){
-				v= v*100000;
-				var   t=1;   
-					for(;e>0;t*=10,e--);   
-					for(;e<0;t/=10,e++);   
-
-				return  Math.round(v*t)/t;   
-			  } 
 			 
   
 			/**
