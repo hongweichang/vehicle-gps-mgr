@@ -26,9 +26,8 @@
 					$("#endTime").focus();
 					return false;
 				}
-				
-				 //parent.window.closeIframe();
 				 parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val(),$("#vehicle option:selected").val());
+				 parent.window.closeIframe();
 			});
  
 			

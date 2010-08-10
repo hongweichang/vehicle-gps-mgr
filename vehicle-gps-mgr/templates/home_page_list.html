@@ -13,7 +13,14 @@
 	<script language="javascript" src="js/alert/opinion.js"></script>
 	
 	<script type="text/javascript">
- 
+	/**
+	 * 关闭窗口
+	 */
+	function closeIframe(){
+		$("#externalSite").dialog("close");
+		$("#externalSite").remove();
+	}
+	
 	/**
 	 * 画历史轨迹路径
 	 * @param {Object} hourList  小时集合列表 
@@ -49,13 +56,7 @@
 		 
 	}
 	
-	/**
-	 * 关闭窗口
-	 */
-	function closeIframe(){
-		$("#externalSite").dialog("close");
-		$("#externalSite").remove();
-	}
+	
 
 		
 	$(function() {
@@ -194,16 +195,17 @@
 				//map.centerAndZoom(new LTPoint(11640969,3994940),6);
 				map.addControl(new LTStandMapControl());
 
+				/*
 				control = new LTZoomSearchControl();
 			    control.setTop(10);
 			    control.setLabel("选中矩形区域");
 				map.addControl( control );
 				map.handleMouseScroll();
+				//选中区域
+				LTEvent.addListener(control,"mouseup",drawRectangle);*/
 				
 				//绑定事件注册
 				LTEvent.addListener(map,"dblclick",onDblClick);
-				//选中区域
-				LTEvent.addListener(control,"mouseup",drawRectangle);
 				
 				//初始化车辆定位
 				loadCompanyVehicle();
@@ -270,10 +272,10 @@
 						map.getBestMap(points); 
 					 }
  				});	
- 				if(state==1){alert(state);
+ 				/*if(state==1){//alert(state);
 				//自动刷新页面当前公司所有车辆最新定位信息。
 				setTimeout("loadCompanyVehicle();",page_refresh_time*1000);
- 				}
+ 				}*/
 			}
 			
 			
@@ -362,7 +364,7 @@
 				marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(host+"/"+img_path));
 
 				//点对象设置内容
-				var context = "速度:"+vehicle_speed;
+				var context = "速度:"+vehicle_speed+"  颜色: "+color;
 				addInfoWin(marker,context);
 
 				//点添入地图中

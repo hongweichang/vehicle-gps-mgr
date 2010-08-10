@@ -68,7 +68,7 @@ switch($act)
 			array_push($trace_info,$point_info);
 		}
 		
-		echo json_encode($trace_info);
+		echo json_encode(array_reverse($trace_info));
 		break;
 		
 	break;

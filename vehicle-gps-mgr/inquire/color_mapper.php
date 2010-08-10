@@ -28,7 +28,7 @@ class Color_mapper
 				$speed_color_list[$speedStr] = $value['color'];		
 			}
 			
-			$_SESSION["speed_color"] = $speed_color_list;
+			//$_SESSION["speed_color"] = $speed_color_list;
 			return $this->get_color_by_speed($speed, $speed_color_list);
 		} 
 	}
