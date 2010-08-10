@@ -6,7 +6,7 @@ jQuery("#vehicle_status_list").jqGrid({
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80},
    		{name:'gps_status',index:'gps_status', width:70},
-   		{name:'location_time',index:'location_time', width:70, align:"left"},   
+   		{name:'location_time',index:'location_time', width:120, align:"left"},   
    		{name:'cur_location',index:'cur_location', width:600, align:"left"},
    		{name:'real_speed',index:'real_speed', width:60, align:"left"},
    		{name:'speed_limit',index:'speed_limit', width:50, align:"left"},
