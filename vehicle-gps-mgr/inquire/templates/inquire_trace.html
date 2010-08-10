@@ -104,7 +104,10 @@ function getTodayFormatDate()
 					$("#endTime").focus();
 					return false;
 				}
-				 parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val(),$("#vehicle option:selected").val());
+				 parent.window.arr_history = getHourList();
+				 parent.window.clearOverLay();
+				 parent.window.vehicle_id = $("#vehicle option:selected").val();
+				 parent.window.runHistoryTrack();
 				 parent.window.closeIframe();
 			});
  

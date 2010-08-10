@@ -41,6 +41,8 @@ switch($act)
 		
 		//$gps_info_path = $server_path_config["gps_info_path"].$time.".log";
 		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+		if(!file_exists($gps_info_path))
+			echo "fail";
 		
 		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
 		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
