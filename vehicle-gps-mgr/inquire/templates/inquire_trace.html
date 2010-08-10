@@ -11,12 +11,12 @@
 
 
 <script type="text/javascript">
-							
-		$("#trace").click(function(){
-			getHourList();
-			//parent.window.closeIframe();
-			//parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val());
-		});
+							 
+			$("#trace").click(function(){ 
+				 parent.window.closeIframe();
+				 parent.window.drawHistoryTrack($("#startTime").val(),$("#endTime").val(),$("#vehicle option:selected").val());
+			});
+ 
 			
 		$("#startTime").datetimepicker({
 			 ampm: false,//上午下午是否显示  
