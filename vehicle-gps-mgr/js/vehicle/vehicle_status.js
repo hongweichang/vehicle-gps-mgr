@@ -27,7 +27,7 @@ jQuery("#vehicle_status_list").jqGrid({
     editurl:"index.php?a=1012",
 	height:290,
 	
-	gridComplete:function(){
+	loadComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
 	for(var i = 1;i<=ids.length;i++){
 		var value = $("#vehicle_status_list").jqGrid('getCell',i,7);
@@ -50,6 +50,13 @@ $("#commit").click(function(){
 	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
 	$("#area_result").hide();
 	$("#commit").show();
+	$("#area_select").show();
+	$("#frame_map").hide();	
+	$("#select").show();
+	
+	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+	$("#commit").show();
+	$("#area_result").hide();
 	$("#area_select").show();
 	$("#frame_map").hide();	
 	$("#select").show();
