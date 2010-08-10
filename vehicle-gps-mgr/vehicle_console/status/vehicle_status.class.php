@@ -302,8 +302,8 @@ class Vehicle_status extends BASE
      */
     function gps_status_boolean($gps_status){
     	
-    	if($gps_status==null or $gps_status==0) return "无";
-    	if($gps_status==1) return "有";
+    	if($gps_status==null or $gps_status==0) return "离线";
+    	if($gps_status==1) return "在线";
     }
     
     /**
