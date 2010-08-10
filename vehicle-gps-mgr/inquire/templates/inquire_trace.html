@@ -11,7 +11,85 @@
 
 
 <script type="text/javascript">
-							 
+
+$(document).ready(function(){
+	var myDate = new Date();
+	$("#startTime").val(getTodayFormatDate());
+	$("#endTime").val(getNowFormatDate());
+});
+
+//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
+function getNowFormatDate()
+{
+   	var day = new Date();
+
+   	var Year = 0;
+   	var Month = 0;
+   	var Day = 0;
+	var CurrentDate = "";
+   //初始化时间
+   	Year= day.getFullYear();
+   	Month= day.getMonth()+1;
+   	Day = day.getDate();
+   	Hour = day.getHours();
+ 	Minute = day.getMinutes();
+	Second = day.getSeconds();
+   	CurrentDate += Year + "/";
+   	if (Month >= 10){
+    	CurrentDate += Month + "/";
+   	}else{
+    	CurrentDate += "0" + Month + "/";
+   	}
+   	if (Day >= 10 ){
+    	CurrentDate += Day +" ";
+   	}else{
+    	CurrentDate += "0" + Day+" " ;
+   	}
+   	if(Hour>=10){
+		CurrentDate+=Hour+":";
+	}else{
+		CurrentDate+="0"+Hour+":";
+   	}if (Minute >= 10 ){
+    	CurrentDate += Minute +":";
+   	}else{
+    	CurrentDate += "0" + Minute+":" ;
+   	}
+   	if(Second>=10){
+		CurrentDate+=Second;
+	}else{
+		CurrentDate+="0"+Second;
+   	}
+   	return CurrentDate;
+}
+
+//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
+function getTodayFormatDate()
+{
+   	var day = new Date();
+
+   	var Year = 0;
+   	var Month = 0;
+   	var Day = 0;
+	var CurrentDate = "";
+   //初始化时间
+   	Year= day.getFullYear();
+   	Month= day.getMonth()+1;
+   	Day = day.getDate();
+   	CurrentDate += Year + "/";
+   	if (Month >= 10){
+    	CurrentDate += Month + "/";
+   	}else{
+    	CurrentDate += "0" + Month + "/";
+   	}
+   	if (Day >= 10 ){
+    	CurrentDate += Day +" ";
+   	}else{
+    	CurrentDate += "0" + Day+" " ;
+   	}
+   	CurrentDate+="00:00:00";
+   	return CurrentDate;
+}
+
 			$("#trace").click(function(){ 
 				var startTime = $("#startTime").attr("value");
 				 
@@ -43,7 +121,7 @@
 			 showSecond:false,
 			 createButton:false
 		 });
-
+	     
 		$("#endTime").datetimepicker({
 			 ampm: false,//上午下午是否显示  
 			 timeFormat: 'hh:mm:ss',//时间模式  
@@ -54,7 +132,7 @@
 			 showHour: true,//是否显示小时，默认是true  
 			 showMinute:false,
 			 showSecond:false,
-			 createButton:false
+			 createButton:false,
 		 });
 
 		function getHourList(){
