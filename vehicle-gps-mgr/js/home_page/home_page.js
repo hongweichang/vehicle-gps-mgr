@@ -15,20 +15,18 @@
 							}else
 							{   
 									var array=data.split("|");
-								    id=array[0];
-									$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-									$("#record").html();
-									$("#newAlert").html("最新告警记录："+"在"+array[1]+"时间点内");
-								    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]+"<bgsound balance='0' loop='2' src='voice/sound.mp3' volume='10' />");
-									document.getElementById("operate").style.display="block";
+							    id=array[0];
+								$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
+								$("#record").html();
+								$("#newAlert").html("最新告警记录："+"在"+array[1]+"时间点内");
+							    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]);
+								document.getElementById("operate").style.display="block";
 						     }
 						 }
 					);
 				  setTimeout("alertInfo()",30000);
 	 			}
-	 			
-	 			
-	 			/**弹出层jquery代码**/
+	 			/**动态生成车辆代表的速度**/
 				$(document).ready(function() {
 					
 					$.post("index.php",{
@@ -45,8 +43,8 @@
 									var data_list_min=array[i].split(",");
 									
 									image=image+"<div style='float:left;heigth:17px;'>" +
-											    "<img src="+data_list_min[0]+" style='height:17px'/>" +
-											    "速度:"+data_list_min[1]+"-"+data_list_min[2]+"公里/小时</div>";
+											    "<img src="+data_list_min[0]+" style='height:17px'/>" 
+											    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
 								}						
 								$("#carInfor").html(image);
 						    }
