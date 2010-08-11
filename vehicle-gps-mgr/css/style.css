@@ -149,13 +149,12 @@ body{
 }
 .addAdvice{
 	float:left;
-	height:19px;
+	height:13px;
+	margin-top:2px;
 	widht:80px;
-	padding-top:1px;
 }
 .lookMore{
 	float:left;
 	height:19px;
-	padding-top:1px;
 	widht:80px;
 }
