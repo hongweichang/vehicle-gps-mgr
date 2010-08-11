@@ -43,7 +43,7 @@
 									var data_list_min=array[i].split(",");
 									
 									image=image+"<div style='float:left;heigth:17px;'>" +
-											    "<img src="+data_list_min[0]+" style='height:17px'/>" 
+											    "&nbsp;&nbsp;&nbsp;<img src="+data_list_min[0]+" style='height:17px;'/>&nbsp;" 
 											    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
 								}						
 								$("#carInfor").html(image);
