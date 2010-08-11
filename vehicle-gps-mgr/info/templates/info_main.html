@@ -79,13 +79,15 @@ function subInfo(){
 	    }
 	  
 	  str=str+content+"~[["+content+"]]~";
-	  $.post("index.php?a=202&email_data="+str,function(data){
+	  $.post("index.php",
+			  {"a":202,"email_data":str},
+		function(data){
 		  if(data="success"){
 			alert("信息已发出");
 		  }else{
 			alert("信息发出失败");
 		  }
-	  });
+	  },"text");
 }
 </script>
 
