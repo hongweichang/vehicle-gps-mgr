@@ -1,6 +1,5 @@
 .body_div{
-	background-image:url(../images/title.png);
-	margin:120px auto; 
+	margin:50px auto; 
 	background-repeat:no-repeat; 
 	width:815px; 
 	height:418px;
@@ -18,11 +17,10 @@ body{
 	height:41px;
 }
 .content{
-	background-image:url(../images/login.jpg);
 	margin:18px auto;
 	background-repeat:no-repeat;
 	width:99%;
-	height:352px;
+	height:351px;
 	border:3px gray solid;
 }
 .conetnt_div{
@@ -31,7 +29,7 @@ body{
 	width:215px;
 	background-repeat:no-repeat;
 	height:155px;
-	margin-top:190px;
+	margin-top:-170px;
 	float:right;
 	font-size:14px;
 	color:#489FD8;
