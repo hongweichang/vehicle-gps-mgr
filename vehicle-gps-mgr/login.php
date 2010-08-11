@@ -26,29 +26,45 @@
    		<input type="hidden" name="act" value="signin" />
 		<div class="title"></div>
 		<div class="content">
-				<div class="conetnt_div">
-					<div class="companyID">
-						<div class="float_text">公司ID：</div>
-						<div class="float_left">
-							<input type="text" name="companyloginid" class="text_password_input" />
-						</div>
-					</div>
-					<div class="input_div">
-						<div class="float_text">用户ID：</div>
-						<div class="float_left">
-							<input type="text" name="username"  class="text_password_input"/>
-						</div>
-					</div>
-					<div class="input_div">
-						<div class="float_text">密</div><div class="text" >码：</div>
-						<div class="float_left">
-							<input type="password" name="password" class="text_password_input" />
-						</div>
-					</div>
-					<div class="submit_div">
-					<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
+		    <div style="width:100%; height:7px;">
+		  		<div style="background-image:url(images/login_r1_c1.jpg);width:156px; height:171px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r1_c2.jpg);width:149px; height:171px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r1_c3.jpg);width:168px; height:171px; float:left;"></div>
+		  		<div style="background-image:url(images/login_r1_c4.jpg);width:184px; height:171px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r1_c5.jpg);width:148px; height:171px; float:left;"></div>
+		   		<div style="background-image:url(images/spacer.gif);width:1px; height:171px; float:left;"></div>
+		   </div>
+	       <div>
+		 		<div style="background-image:url(images/login_r2_c1.jpg);width:156px; height:180px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r2_c2.jpg);width:149px; height:180px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r2_c3.jpg);width:168px; height:180px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r2_c4.jpg);width:184px; height:180px; float:left;"></div>
+		   		<div style="background-image:url(images/login_r2_c5.jpg);width:148px; height:180px; float:left;"></div>
+		   		<div style="background-image:url(images/spacer.gif);width:1px; height:180px; float:left;"></div>
+	       </div>
+			<div class="conetnt_div">
+				<div class="companyID">
+					<div class="float_text">公司ID：</div>
+					<div class="float_left">
+						<input type="text" name="companyloginid" class="text_password_input" />
 					</div>
 				</div>
+				<div class="input_div">
+					<div class="float_text">用户ID：</div>
+					<div class="float_left">
+						<input type="text" name="username"  class="text_password_input"/>
+					</div>
+				</div>
+				<div class="input_div">
+					<div class="float_text">密</div><div class="text" >码：</div>
+					<div class="float_left">
+						<input type="password" name="password" class="text_password_input" />
+					</div>
+				</div>
+				<div class="submit_div">
+				<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
+				</div>
+			</div>
 		</div>
 	</div>
 </form>
