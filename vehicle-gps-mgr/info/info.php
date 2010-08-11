@@ -29,7 +29,7 @@ switch ($act) {
 	
 	case "sendmail" :
 		$path=$server_path_config["mail_save_path"];
-		$company_id=get_session("company_id");	
+		$company_id=get_session("company_id");
 		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' , $_REQUEST ['email_data']);
 		echo "success";
 
