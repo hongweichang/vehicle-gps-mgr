@@ -17,14 +17,6 @@ jQuery("#navgrid_vehicle").jqGrid({
    		{name:'alert_state',index:'alert_state', width:60, align:"center",editable:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1013&p=alert_state'}},
    		{name:'color',index:'color', width:60, align:"center",editable:true,editoptions:{size:10}},
    		{name:'running_time',index:'running_time', width:80,align:"center",editable:true,editoptions:{size:30}}
-//   		{name:'backup1',index:'backup1', width:60,align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'backup2',index:'backup2', width:60,align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'backup3',index:'backup3', width:60,align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'backup4',index:'backup4', width:60,align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'create_id',index:'create_id', width:60,align:"right",editable:true,editoptions:{size:10}},
-//		{name:'create_time',index:'create_time',width:55,align:'center',editable:true,editoptions:{size:30}},
-//		{name:'update_id',index:'update_id',width:70, editable: true,editoptions:{size:10}},
-//   		{name:'update_time',index:'update_time', width:100, sortable:false,editable: true, editoptions:{size:30}}
    	],
    	width:750,
    	rowNum:10,
@@ -37,12 +29,8 @@ jQuery("#navgrid_vehicle").jqGrid({
     editurl:"index.php?a=1012",
 	height:350
 });
+
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
 {edit:true,add:true,del:true}, //options
-//edit:false,add:false,del:false
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
-/*{height:200,reloadAfterSubmit:false}, // edit options
-{height:280,reloadAfterSubmit:false}, // add options
-{reloadAfterSubmit:false}, // del options
-{} // search options 
-);*/
+
