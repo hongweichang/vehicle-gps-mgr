@@ -3,9 +3,9 @@
 <input type="radio" name='history' id="history_post">查询历史发布信息</input>
 </div>
 开始时间:
-<input type="text" id="startTime" size="30" />
+<input type="text" id="inquire_startTime" size="30" />
 &nbsp;&nbsp;&nbsp; 结束时间:
-<input type="text" id="endTime" size="30" />
+<input type="text" id="inquire_endTime" size="30" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id='select_vehicle'>选择车辆：</span>
 <select id="vehicle_info">
 {{vehicle_list}}
@@ -14,13 +14,14 @@
 <input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 <div id='his_infoes'>
 <table id='infoes'></table>
+<div id="pagernav_infoes"></div>
 </div>
 <script type="text/javascript">
 	$("#his_info").hide();
 	$("#history_trace").attr("checked","checked");
 	var myDate = new Date();
-	$("#startTime").val(getTodayFormatDate());
-	$("#endTime").val(getNowFormatDate());
+	$("#inquire_startTime").val(getTodayFormatDate());
+	$("#inquire_endTime").val(getNowFormatDate());
 
 
 $("#history_post").click(function(){
@@ -110,14 +111,14 @@ function getNowFormatDate()
 
 			$("#trace").click(function(){ 
 				
-				var startTime = $("#startTime").attr("value");
+				var startTime = $("#inquire_startTime").attr("value");
 				 
 				if(startTime == ""){
 					alert("开始时间不能为空!");
 					$("#startTime").focus();
 					return false;
 				}
-				var endTime = $("#endTime").attr("value");
+				var endTime = $("#inquire_endTime").attr("value");
 				if(endTime == ""){
 					alert("结束时间不能为空!");
 					$("#endTime").focus();
@@ -130,23 +131,24 @@ function getNowFormatDate()
 				 parent.window.closeIframe();
 			});
 
+
 			$("#his_info").click(function(){
-				var startTime = $("#startTime").attr("value");
+				var startTime = $("#inquire_startTime").attr("value");
 				 
 				if(startTime == ""){
 					alert("开始时间不能为空!");
-					$("#startTime").focus();
+					$("#inquire_startTime").focus();
 					return false;
 				}
-				var endTime = $("#endTime").attr("value");
+				var endTime = $("#inquire_endTime").attr("value");
 				if(endTime == ""){
 					alert("结束时间不能为空!");
-					$("#endTime").focus();
+					$("#inquire_endTime").focus();
 					return false;
 				}
 
 				jQuery("#infoes").jqGrid({
-					url:'index.php?a=354&begin_date='+$("#startTime").val()+'&end_date='+$("#endTime").val(),
+					url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()+'&end_date='+$("#inquire_endTime").val(),
 					  datatype: "json",
 				   	colNames:['ID','发布人', '类型', '发布时间','生效时间','失效时间','信息内容'],
 				   	colModel:[
@@ -161,41 +163,36 @@ function getNowFormatDate()
 				   	],
 				   	rowNum:10,
 				   	rowList:[10,20,30],
-				   	pager: '#pager',
+				   	pager: '#pagernav_infoes',
 				   	sortname: 'id',
 				    viewrecords: true,
 				    sortorder: "desc",
 				    caption:"历史信息",
-					height:290,
-
+					height:290
 				});
 
-				jQuery("#infoes").jqGrid('navGrid','#pager',
+				jQuery("#infoes").jqGrid('navGrid_infoes','#pagernav_infoes',
 				{edit:false,add:false,del:false});
 				
 			});
- 
-			
-		$("#startTime").datetimepicker({
+
+
+		$("#inquire_startTime").datetimepicker({
 			 ampm: false,//上午下午是否显示  
 			 timeFormat: 'hh:mm:ss',//时间模式  
 			 stepHour: 1,//拖动时间时的间隔  
-			 //stepMinute: 1,//拖动分钟时的间隔  
-			 //stepSecond: 1,//拖动秒时的间隔
 			 dateFormat:"yy/mm/dd", //日期格式设定  
 			 showHour: true,//是否显示小时，默认是true  
 			 showMinute:false,
 			 showSecond:false,
 			 createButton:false
-		 });
+		 });	
 	     
 
-		$("#endTime").datetimepicker({
+		$("#inquire_endTime").datetimepicker({
 			 ampm: false,//上午下午是否显示  
 			 timeFormat: 'hh:mm:ss',//时间模式  
 			 stepHour: 1,//拖动时间时的间隔  
-			 //stepMinute: 1,//拖动分钟时的间隔  
-			 //stepSecond: 1,//拖动秒时的间隔
 			 dateFormat:"yy/mm/dd", //日期格式设定  
 			 showHour: true,//是否显示小时，默认是true  
 			 showMinute:false,
