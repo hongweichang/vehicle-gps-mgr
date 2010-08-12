@@ -35,17 +35,18 @@
 							
 							var array=data.split("|");
 							if(array.length==0){
+								$("#header").unmask();
 								alert("没有数据");
 							}else
 							{    
 								var image="";
 								for(var i=0;i<array.length-1;i++){
 									var data_list_min=array[i].split(",");
-									
 									image=image+"<div style='float:left;heigth:17px;'>" +
 											    "&nbsp;&nbsp;&nbsp;<img src="+data_list_min[0]+" style='height:17px;'/>&nbsp;" 
 											    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
-								}						
+								}		
+								$("#header").unmask();
 								$("#carInfor").html(image);
 						    }
 						});
@@ -70,5 +71,6 @@
 
 					alertInfo();
 					$("#alertInfo").mask("告警正在查询中,请耐心等候...");
+					$("#header").mask("车辆速度正在查询中,请耐心等候...");
 				});
 				 
