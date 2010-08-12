@@ -11,6 +11,8 @@
 
 $act = $GLOBALS["all"]["operate"];
 
+$page = $_REQUEST['page'];
+
 switch($act)
 {
 	case "main":	//填写信息内容页面
@@ -74,6 +76,26 @@ switch($act)
 		}
 		
 		echo json_encode($trace_info);
+		break;
+		
+	case "get_history_info":
+		$inquire = new Inquire();
+		$infoes = $inquire->get_history_info($_REQUEST['begin_date'],$_REQUEST['end_date']);
+		
+		$response->page	= $page;
+		
+		foreach($infoes as	$key => $val)
+		{ 
+            
+			$response->rows[$key]['id']=$val['id'];
+			$response->rows[$key]['cell']=array($val['id'],$val['login_name'],
+												$val['type'],$val['issue_time'],$val['begin_time'],$val['end_time'],
+												$val['content']);
+		}
+
+		//打印json格式的数据
+		echo json_encode($response);
+		
 		break;
 		
 	break;
