@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>GPS车辆定位服务系统 - 管理中心</title>
 
-<script type='text/javascript' src='js/jquery.js'></script>
 <!-- jqgrid -->
 <!-- 加载 css 文件库 -->
 <link rel="stylesheet" type="text/css" media="screen" href="js/themes/ui-lightness/jquery.ui.all.css" />
