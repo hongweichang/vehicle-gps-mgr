@@ -69,6 +69,6 @@
 					$("#setting").append("<div class='button_font'>设置</div>");
 
 					alertInfo();
-					$("#alertInfo").mask("处理中,请耐心等候...");
+					$("#alertInfo").mask("告警正在查询中,请耐心等候...");
 				});
 				 
