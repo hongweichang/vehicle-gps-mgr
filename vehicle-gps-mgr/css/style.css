@@ -36,17 +36,17 @@
 body{
 	 height:99%;
 	 width:99%;
-	 border:2px gray solid; 
+	 border:2px #FF9900 solid; 
 	 margin:0 auto;
  }
 #header{
-	height:19px; 
+	height:25px; 
 	padding-top:1px;
 	width:100%;
 	text-align:center; 
 	margin-top:0 auto; 
 	font-size:12px;
-	background-color:#FFFFCC;
+	background:url(./../images/hearder.png) right repeat;
 }
 .carInfo{
 	float:left;
@@ -71,6 +71,7 @@ body{
 .hearder_div{
 	float:left;
 	margin-left:10px;
+	margin-top:4px;
 	height:100%;
 }
 .marquee{
@@ -85,7 +86,7 @@ body{
 }
 #map{
 	text-align:center;
-	height:88%;
+	height:87%;
 	width:100%;
 	margin:0 auto;
 	border-bottom:2px gray solid;
