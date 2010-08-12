@@ -7,7 +7,7 @@
 &nbsp;&nbsp;&nbsp; 结束时间:
 <input type="text" id="endTime" size="30" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id='select_vehicle'>选择车辆：</span>
-<select id="vehicle">
+<select id="vehicle_info">
 {{vehicle_list}}
 </select>
 <input type="button" id="trace" name="trace" value="查询历史轨迹" />
@@ -24,7 +24,7 @@
 
 
 $("#history_post").click(function(){
-	$("#vehicle").hide();
+	$("#vehicle_info").hide();
 	$("#select_vehicle").hide();
 	$("#trace").hide();
 	$("#his_info").show();
@@ -32,7 +32,7 @@ $("#history_post").click(function(){
 $("#history_trace").click(function(){
 	$("#his_info").hide();
 	$("#select_vehicle").show();
-	$("#vehicle").show();
+	$("#vehicle_info").show();
 	$("#trace").show();
 });
 
@@ -200,7 +200,7 @@ function getNowFormatDate()
 			 showHour: true,//是否显示小时，默认是true  
 			 showMinute:false,
 			 showSecond:false,
-			 createButton:false,
+			 createButton:false
 		 });
 
 		function getHourList(){
