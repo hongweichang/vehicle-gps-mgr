@@ -26,10 +26,10 @@ body{
 .conetnt_div{
 	background-image:url(../images/bg.png);
 	margin:0px auto;
-	width:215px;
+	width:235px;
 	background-repeat:no-repeat;
-	height:155px;
-	margin-top:-170px;
+	height:170px;
+	margin-top:-175px;
 	float:right;
 	font-size:14px;
 	color:#489FD8;
@@ -37,7 +37,7 @@ body{
 }
 .companyID{
 	height:24px;
-	margin:16px 20px 0px 20px;
+	margin:20px 10px 0px 10px;
 }
 .float_left{
 	float:left;
@@ -55,20 +55,41 @@ body{
 	margin-top:3px;
 }
 .text_password_input{
-	width:100px;
+	width:80px;
 	height:14px;
 }
 .input_div{
 	height:24px;
-	margin:10px 20px 0px 20px;
+	margin:12px 10px 0px 10px;
 }
 .submit_div{
 	height:40px;
 	text-align:center;
-	margin-top:5 auto;
+	margin:5px auto;
 	width:100%;
 }
 .submit{
-	width:78px;
-	height:40px; 
-} 
+	width:88px;
+	height:42px; 
+}
+.common{
+	height:21px;
+	width:81px;
+	float:left;
+}
+.Recheck{
+	height:21px;
+	width:60px;
+	float:left;
+	margin-left:8px;
+}
+span{
+	font-size:12px;
+	color:blue;
+}
+.commonCheck{
+	height:21px;
+	width:60px;
+	float:left;
+	margin-left:8px;
+}
