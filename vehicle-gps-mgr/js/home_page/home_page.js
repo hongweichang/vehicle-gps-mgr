@@ -8,16 +8,16 @@
 							
 							if("-1" == data){
 								$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
-								$("#record").html();
+								$("#alertInfo").unmask();
 								$("#newAlert").html("最新告警记录");
 								$("#record").html("没有未处理的告警记录");
 								$("#operate").html("<a href='index?a=901'>查看更多</a>");
 							}else
 							{   
-									var array=data.split("|");
+								var array=data.split("|");
 							    id=array[0];
 								$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-								$("#record").html();
+								$("#alertInfo").unmask();
 								$("#newAlert").html("最新告警记录："+"在"+array[1]+"时间点内");
 							    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]);
 								document.getElementById("operate").style.display="block";
@@ -69,6 +69,6 @@
 					$("#setting").append("<div class='button_font'>设置</div>");
 
 					alertInfo();
-					$("#record").html("正在加载数据，请稍后....");
+					$("#alertInfo").mask("处理中,请耐心等候...");
 				});
 				 
