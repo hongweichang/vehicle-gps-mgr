@@ -45,32 +45,44 @@
 		   		<div style="background-image:url(images/spacer.gif);width:1px; height:180px; float:left;"></div>
 	       </div>
 			<div class="conetnt_div">
-				<div class="companyID" style="border:1px red solid;">
-					<div class="float_text" style="border:1px red solid;">公司ID：</div>
-					<div class="float_left" style="border:1px red solid;">
-						<input type="text" name="companyloginid" id="companyId" class="text_password_input" />
-						<input id="saveCompanyId" type="checkbox" checked="checked" value="" />
-						<span style="font-size:12px; color:blue;">记住</span>
+				<div class="companyID">
+					<div class="float_text">公司ID：</div>
+					<div class="float_left">
+						<div class="common">
+							<input type="text" name="companyloginid" id="companyId" class="text_password_input" />
+						</div>
+						<div class="Recheck">
+							<input id="saveCompanyId" type="checkbox" checked="checked" value="" />
+							<span>记住</span>
+						</div>
 					</div>
 				</div>
-				<div class="input_div" style="border:1px red solid;">
-					<div class="float_text" style="border:1px red solid;">用户ID：</div>
-					<div class="float_left" style="border:1px red solid;">
-						<input type="text" name="username" id="userName"  class="text_password_input"/>
-						<input id="saveUserName" type="checkbox" checked="checked" value="" />
-						<span style="font-size:12px; color:blue;">记住</span>
+				<div class="input_div">
+					<div class="float_text" >用户ID：</div>
+					<div class="float_left" >
+						<div style="height:21px; width:81px;float:left;">
+							<input type="text" name="username" id="userName"  class="text_password_input"/>
+						</div>
+						<div class="commonCheck">
+							<input id="saveUserName" type="checkbox" checked="checked" value="" />
+							<span>记住</span>
+						</div>
 					</div>
 				</div>
-				<div class="input_div" style="border:1px red solid;">
-					<div class="float_text" style="border:1px red solid;">密</div><div class="text" style="border:1px red solid;">码：</div>
-					<div class="float_left" style="border:1px red solid;">
-						<input type="password" name="password" id="password" class="text_password_input" />
-						<input id="savePassWord" type="checkbox" value="" />
-						<span style="font-size:12px; color:blue;">记住</span>
+				<div class="input_div">
+					<div class="float_text">密</div><div class="text">码：</div>
+					<div class="float_left">
+					    <div class="common">
+							<input type="password" name="password" id="password" class="text_password_input" />
+						</div>
+						<div class="commonCheck">
+							<input id="savePassWord" type="checkbox" value="" />
+							<span>记住</span>
+						</div>
 					</div>
 				</div>
-				<div class="submit_div">
-				<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
+				<div class="submit_div" >
+					<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
 				</div>
 			</div>
 		</div>
