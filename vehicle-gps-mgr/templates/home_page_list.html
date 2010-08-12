@@ -4,13 +4,17 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<link type="text/css" href="css/style.css" rel="stylesheet" />
 	<link type="text/css" href="css/redmond/jquery-ui-1.8.1.custom.css" rel="stylesheet" />
+	<link type="text/css" media="screen" href="css/ui.jqgrid.css" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css" rel="stylesheet" />
 	
 	<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
+	<script src="js/i18n/grid.locale-cn.js" type="text/javascript"></script>
+	<script language="javascript" src="js/jquery.jqGrid.min.js" ></script>
 	<script language="javascript" src="js/jquery-ui-1.8.1.custom.min.js" ></script>
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
+	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
 	<script language="javascript" src="js/alert/opinion.js"></script>
 	
 	<script type="text/javascript"> 
@@ -91,7 +95,6 @@
 
 		
 	$(function() {
-
 		$('#addAdvice').click(function(e) {
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
