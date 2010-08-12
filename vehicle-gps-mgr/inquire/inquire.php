@@ -19,6 +19,8 @@ switch($act)
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 	case "trace":
+		
+		$id = $_REQUEST['vehicle_id']; //车辆ID
 		$inquire_info = new Inquire();
 		$vehicle_list = $inquire_info->get_all_vehicles();
 		
@@ -26,7 +28,15 @@ switch($act)
 		
 		foreach($vehicle_list as $value)
 		{
-			$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
+			if($id && $value["id"] == $id)
+			{
+				$options = $options."<option value=".$value["id"]." selected>".$value["number_plate"]."</option>";
+			}
+			else
+			{
+				$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
+			}
+			
 		}
 		
 		$data["VEHICLE_LIST"] = $options;
