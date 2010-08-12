@@ -2,6 +2,9 @@
 <input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
 <input type="radio" name='history' id="history_post">查询历史发布信息</input>
 </div>
+<div>
+<input type="button" id="trace" name="trace" value="查询历史轨迹" />
+<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 开始时间:
 <input type="text" id="inquire_startTime" size="30" />
 &nbsp;&nbsp;&nbsp; 结束时间:
@@ -10,8 +13,8 @@
 <select id="vehicle_info">
 {{vehicle_list}}
 </select>
-<input type="button" id="trace" name="trace" value="查询历史轨迹" />
-<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
+
+</div>
 <div id='his_infoes'>
 <table id='infoes'></table>
 <div id="pagernav_infoes"></div>
@@ -109,6 +112,7 @@ function getNowFormatDate()
 	   	return CurrentDate;
 	}
 
+	
 			$("#trace").click(function(){ 
 				
 				var startTime = $("#inquire_startTime").attr("value");
