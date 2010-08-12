@@ -5,7 +5,6 @@
 <input type="text" id="endTime" size="30" />
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 选择车辆：
 <select id="vehicle">
-	{{vehicle_list}}
 </select>
 <input type="button" id="trace" name="trace" value="查询历史轨迹" />
 
@@ -125,6 +124,7 @@ function getTodayFormatDate()
 			 createButton:false
 		 });
 	     
+
 		$("#endTime").datetimepicker({
 			 ampm: false,//上午下午是否显示  
 			 timeFormat: 'hh:mm:ss',//时间模式  
@@ -171,11 +171,4 @@ function getTodayFormatDate()
 				return padLeft("0" +str,lenght); 
 			}
 		} 
-					
-
-	
-
-
-
-
 </script>

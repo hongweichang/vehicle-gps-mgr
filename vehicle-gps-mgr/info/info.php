@@ -13,7 +13,18 @@ $act = $GLOBALS ["all"] ["operate"];
 
 switch ($act) {
 	case "main" : //填写信息内容页面
-		echo $GLOBALS ['db']->display ( null, $act );
+		$vehicle_id = $_REQUEST ["vehicle_id"];
+		if($vehicle_id)
+		{
+			$info = new info();
+			$address = $info->get_phone_email ( $vehicle_id );
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表1--</option><option selected>".$address[0][0]."</option>";
+		}
+		else
+		{
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表1--</option>";
+		}	
+		echo $GLOBALS ['db']->display ( $param, $act );
 		break;
 	
 	case "get_mail" :
