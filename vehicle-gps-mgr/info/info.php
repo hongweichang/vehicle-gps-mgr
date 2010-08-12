@@ -43,6 +43,23 @@ switch ($act) {
 		$company_id=get_session("company_id");
 		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' , $_REQUEST ['email_data']);
 		echo "success";
-
+		
+	case "save_email":
+		$info = new info();
+		
+		$parms["is_area_info"]			= $GLOBALS['db']->prepare_value(0,"TINYINT");
+		$parms["issuer_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+		$parms["type"]		= $GLOBALS['db']->prepare_value(0,"TINYINT");
+		$parms["issue_time"]		= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+		$parms["content"]		= $GLOBALS['db']->prepare_value($_REQUEST["content"],"TEXT");
+		
+        $result = $info->save_info($parms);
+        if($result>1){
+        	echo "ok";
+        }else{
+        	echo "fail";
+        }
+        
+        break;
 }
 ?>

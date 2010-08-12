@@ -30,4 +30,13 @@
 									
 		}
 		
+		/**
+		 *  将发布的信息存入到数据库中
+		 *  @param $params 要插入的信息
+		 */
+		function save_info($params){
+			$result = $GLOBALS ["db"]->insert_row ( "info_issue", $params);
+			return $result;
+		}
+		
 	}

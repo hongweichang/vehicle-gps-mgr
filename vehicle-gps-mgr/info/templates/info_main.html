@@ -65,14 +65,22 @@ function subInfo(){
 	  
 	  str=str+content+"~[["+content+"]]~";
 	  $.post("index.php",
-			  {"a":202,"email_data":str},
+			  {"a":202,"email_data":str,"content":content},
 		function(data){
 		  if(data="success"){
 			alert("信息已发出");
 		  }else{
 			alert("信息发出失败");
+			return;
 		  }
 	  },"text");
+
+	  $.post("index.php",{"a":204},function(history){
+           if(history="ok"){
+           }else{
+			alert("保存失败");
+           }
+		  },"text");
 }
 </script>
 
