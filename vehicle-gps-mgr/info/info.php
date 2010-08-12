@@ -18,11 +18,11 @@ switch ($act) {
 		{
 			$info = new info();
 			$address = $info->get_phone_email ( $vehicle_id );
-			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表1--</option><option selected>".$address[0][0]."</option>";
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option><option selected>".$address[0][0]."</option>";
 		}
 		else
 		{
-			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表1--</option>";
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
 		}	
 		echo $GLOBALS ['db']->display ( $param, $act );
 		break;
