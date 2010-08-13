@@ -30,7 +30,7 @@ switch($act)
 		{
 			if($id && $value["id"] == $id)
 			{
-				$options = $options."<option value=".$value["id"]." selected>".$value["number_plate"]."</option>";
+				$options = $options."<option name='have' value=".$value["id"]." selected>".$value["number_plate"]."</option>";
 			}
 			else
 			{
