@@ -187,8 +187,29 @@ function update_set(){
 		url: "index.php?a=5019&part=1",
 		data: "page_refresh_time="+page_refresh_time+"&default_color="+de_color+"&speed_limit="+speed_limit+"&fatigue_remind_time="+fatigue_remind_time,
 		success: function(msg){
-		
 			alert("配置更新成功！");
+			
+			$.post("index.php",{
+				 "a":5021}
+				,function(data){
+					
+					var array=data.split("|");
+					if(array.length==0){
+						$("#header").unmask();
+						alert("没有数据");
+					}else
+					{    
+						var image="";
+						for(var i=0;i<array.length-1;i++){
+							var data_list_min=array[i].split(",");
+							image=image+"<div style='float:left;heigth:17px;'>" +
+									    "&nbsp;&nbsp;&nbsp;<img src="+data_list_min[0]+" style='height:17px;'/>&nbsp;" 
+									    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
+						}		
+						$("#header").unmask();
+						$("#carInfor").html(image);
+				    }
+				});
 		}
 	 });
 
