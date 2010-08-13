@@ -278,7 +278,11 @@ class Vehicle_status extends BASE
  		 	$parms["pos_latitude"] = $latitude;
  		 	$parms["pos_desc"] = "\"".$location_desc."\"";
  		 	$parms["getdate"] = "\"".date("Y-m-d")."\"";
- 		 	$GLOBALS["db"]->insert_row("gis_pos_info",$parms);
+ 		 	
+ 		 	if($location_desc != "")
+ 		 	{
+ 		 		$GLOBALS["db"]->insert_row("gis_pos_info",$parms);
+ 		 	}
  		}
  		
  		return $location_desc;
