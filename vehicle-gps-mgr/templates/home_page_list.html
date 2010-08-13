@@ -57,6 +57,7 @@
 	
 </head>
 <body>
+	<div style="width:100%;height:30px; position: absolute;z-index:100;top:92%;background-color:#ffffff;border-top:2px gray solid; "></div>
 	<div class="toggler" id="location_info">
 		<div id="effect" class="ui-widget-content ui-corner-all">
 			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息</h3>
@@ -127,8 +128,8 @@
 			<div class="hearder_div"><a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">退出</a></div>
 		</div>
 	</div>
-	<div id="map"></div>
-	<div id="content">
+	<div id="map" class="map"></div>
+	<div id="content" class="content">
 		  <div class="button_content">
 				<ul id="nav">
 					<li class="jsbutton" id="vehicle">

@@ -87,19 +87,20 @@ body{
 .marquee{
 	float:left;
 }
-#content{
+.content{
 	height:60px;
 	float:left; 
 	margin-top:0 auto;
 	text-align:left;
 	width:100%;
+	 position: absolute;z-index:100;top:92%;
 }
-#map{
+.map{
 	text-align:center;
-	height:87%;
+	height:90%;
 	width:100%;
 	margin:0 auto;
-	border-bottom:2px gray solid; 
+	
   }
 .button_content{
 	height:56px;;
