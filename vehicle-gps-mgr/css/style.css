@@ -74,15 +74,14 @@ body{
 	height:18px;
 }
 .header_content{
-	width:12%;
+	width:18%;
 	float:right;
 	height:28px;
 }
 .hearder_div{
 	float:left;
 	margin-left:10px;
-	margin-top:10px;
-	height:15px;
+	height:25px;
 }
 .marquee{
 	float:left;
@@ -172,13 +171,13 @@ body{
 .addAdvice{
 	float:left;
 	height:13px;
-	margin-top:2px;
 	widht:80px;
 }
 .lookMore{
 	float:left;
 	height:19px;
 	widht:80px;
+	margin-left:5px;
 }
 a{
 	text-decoration:none;
