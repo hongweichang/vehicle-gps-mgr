@@ -55,6 +55,7 @@ switch($act)
 			$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
 			$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
 			
+			$arr_vehicle[$index]['id']= $value['id'];//车id
 			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号
 			$arr_vehicle[$index]['gps_id']	= $value['gps_id']; //GPS id
 			$arr_vehicle[$index]['location_time']	= $value['location_time']; //定位时间			
