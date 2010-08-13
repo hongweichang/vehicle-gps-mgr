@@ -11,7 +11,7 @@
 								$("#alertInfo").unmask();
 								$("#newAlert").html("最新告警记录");
 								$("#record").html("没有未处理的告警记录");
-								$("#operate").html("<a href='index?a=901'>查看更多</a>");
+								$("#operate").html("<a href='index?a=901'><img alt='查看更多' src='images/lookMore.jpg' style='width:20px; height:19px;margin-left:5px;'></a>");
 							}else
 							{   
 								var array=data.split("|");
