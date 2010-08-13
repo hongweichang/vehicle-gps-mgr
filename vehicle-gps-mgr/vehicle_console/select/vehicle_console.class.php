@@ -50,7 +50,7 @@ class vehicle_console extends BASE{
 			 */
 			function company_all_vehicle($company_id=-1){ 
 				
-				$this->sql = "SELECT  v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
+				$this->sql = "SELECT  v.id, v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
 							 "			(case when s.color is null then c.default_color ".
 							 "			    else s.color end)as color ".
 							 "				FROM ".$this->tablename_vehicle_manage." v ".
