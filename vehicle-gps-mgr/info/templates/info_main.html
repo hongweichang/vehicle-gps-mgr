@@ -5,7 +5,7 @@
 </head>
 <body style="border:1px green solid; width:90%; height:90%;">
 <form id="sendNews" name="sendNews" method="post">
-	   <div style="float:left; border:1px black solid; width:330px; height:280px; margin:5px auto; text-align:center;">
+	   <div style="float:left;  width:330px; height:280px; margin:5px auto; text-align:center;">
 		   <div style="width:326px; height:102px;">
 				<div style="font-weight:700; font-size:12px; float:left;width:100px; height:30px;text-align:right; margin-top:30px;">写信息:</div>
 				<div style="font-size:12px; float:left;width:216px; height:100px; text-align:left;">
@@ -21,7 +21,7 @@
 		   
 			<div style=" width:250px; height:34px; text-align:center; margin:20px auto;display:block;" >
 				<div style="float:left; font-size:13px; width:100px; height:32px;">
-					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize()" value="选择车辆" />
+					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(1000,660)" value="选择车辆" />
 				</div>
 				<div style="float:left; font-size:13px; width:100px; height:32px;">
 					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
@@ -29,7 +29,7 @@
 			</div>
 			
 		</div>
-		<div id="sel_vehicle_cotainer" style="width:622px;font-size:12px; margin:5px auto; margin-left:3px;height:285px; float:left; display:none;"></div>
+		<div id="sel_vehicle_cotainer" style="width:622px;font-size:12px; margin:5px auto; margin-left:3px;height:285px; float:left;"></div>
  </form>
 </body>
 </html>	
@@ -51,12 +51,10 @@ str = str.substr(0,str.length-1);
 		});
   	}
 }
-function resetDialogSize(){
-	document.getElementById("sel_vehicle_cotainer").style.display="inline";
-	$( "#operation" ).dialog( "option", "width", 1000 );
-	$( "#operation" ).dialog( "option", "height", 660 );
+function resetDialogSize(width,height){
+	$( "#operation" ).dialog( "option", "width", width );
+	$( "#operation" ).dialog( "option", "height", height );
 }
-
 //绑定事件处理 
 $("#car").click(function(event) {
 	$( "#operation" ).mask("载入中...");
@@ -64,16 +62,18 @@ $("#car").click(function(event) {
 	$.post("index.php?a=1",function(data){
 		$( "#operation" ).unmask();
 		$("#sel_vehicle_cotainer").html(data);
-		$( "#operation" ).unmask();
 		$("#sel_vehicle_commit").click(function(){
 				 	var vehicles = $(".vehicle:checked");
 			     	var str="";
 			     	vehicles.each(function(i){
 			         	str = str+$(this).val()+",";
 			      	});
-
-					$("#sel_vehicle_cotainer").hide();
+			     	
 			      	fillMailList(str);
+			      	$("#sel_vehicle_cotainer").html("");
+			      	$("#sel_vehicle_cotainer").css("height","1");
+			      	
+			     	resetDialogSize(430,340);
 		});
 	});
 });
