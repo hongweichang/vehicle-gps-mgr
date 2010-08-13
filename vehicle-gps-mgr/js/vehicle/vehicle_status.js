@@ -27,7 +27,7 @@ jQuery("#vehicle_status_list").jqGrid({
     caption:"车辆状态",
     editurl:"index.php?a=1012",
 	height:290,
-	
+
 	loadComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
 	for(var i = 1;i<=ids.length;i++){
