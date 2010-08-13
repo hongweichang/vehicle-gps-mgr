@@ -1,3 +1,6 @@
+body{
+	overflow:hidden;
+}
 #nav {
     text-align:left;
 	margin-top:0px;
@@ -96,7 +99,7 @@ body{
 	height:87%;
 	width:100%;
 	margin:0 auto;
-	border-bottom:2px gray solid;
+	border-bottom:2px gray solid; 
   }
 .button_content{
 	height:56px;;

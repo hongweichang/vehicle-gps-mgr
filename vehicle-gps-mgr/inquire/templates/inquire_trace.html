@@ -128,11 +128,11 @@ function getNowFormatDate()
 					$("#endTime").focus();
 					return false;
 				}
-				 parent.window.arr_history = getHourList();
-				 parent.window.clearOverLay();
-				 parent.window.vehicle_id = $("#vehicle option:selected").val();
-				 parent.window.runHistoryTrack();
-				 parent.window.closeIframe();
+				arr_history = getHourList();
+				clearOverLay();
+				vehicle_id = $("#vehicle_info option:selected").val();
+				runHistoryTrack();
+				closeDialog();
 			});
 
 

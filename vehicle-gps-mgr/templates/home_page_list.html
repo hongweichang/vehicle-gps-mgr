@@ -17,68 +17,14 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
 	<script language="javascript" src="js/alert/opinion.js"></script>
 	
+	<style type="text/css">
+			.toggler {width:200px;position: relative; position: absolute;z-index:100;left:85%;top:5%;display:none} 
+			#effect {  padding: 0.4em; position: relative;}
+			#effect h3 { margin: 0; padding: 0.4em; text-align: center; } 
+			.cursor_style{cursor:pointer}
+	</style>
 	<script type="text/javascript"> 
-		var arr_history = null;
-		var vehicle_id = null;
-		var state = 1; //操作状态    '0' 不能操作   '1' 可操作
-	/**
-	 * 关闭窗口
-	 */
-	function closeDialog(){
-		$("#operation").dialog("close");
-	}
-	
-	/**
-	 * 运行历史轨迹
-	 */
-	function runHistoryTrack(){ 
-		if(arr_history.length>0){
-			 
-			var time = arr_history[0];  
-			arr_history.shift();
-			
-			drawHistoryTrack(time,vehicle_id);
-		}
-	}
-
-	/**
-	 * 画历史轨迹路径
-	 * @param {Object} time  画数据时间点
-	 * @param {Object} vehicle_id 车辆编号
-	 */
-	function drawHistoryTrack(time,vehicle_id){  
-	 	 //var time = '2010081017';
-		state =0; //不可操作其它 
-		$.ajax({
-			type:"POST",
-			url:"index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
-			dataType:"json",
-			success:function(data){ 
-			 
-			if(data==0){ //请求失败，转入下一个请求时间点
-				if(arr_history.length>0){
-					runHistoryTrack();
-				}
-			}
-			
-			if(data!=null){
-
-				var points = new Array();
-				for(var i=0;i<data.length;i++){
-					points.push( new LTPoint(data[i][0],data[i][1]));
-				}
-				map.getBestMap(points);
-			} 
-			drawLine_arr = data; 
-			
-			newDrawLine();
-			
-			wait();
-			
-		 }
-		}); 
-		 
-	}
+		
 	//等待线程
 	function wait(){
 		
@@ -95,6 +41,8 @@
 
 		
 	$(function() {
+		$("#location_info").draggable();
+		
 		$('#addAdvice').click(function(e) {
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
@@ -122,6 +70,62 @@
 	
 </head>
 <body>
+	<div class="toggler" id="location_info">
+		<div id="effect" class="ui-widget-content ui-corner-all">
+			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息</h3>
+			<table style="font-size:12px" border="1">
+				<tr>
+					<td width="60">车牌号:</td>
+					<td width="140">
+						<div id="vehicle_id">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">GPS编号:</td>
+					<td width="140">
+						<div id="gps_id">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">方向:</td>
+					<td width="140">
+						<div id="direction">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">速度:</td>
+					<td width="140">
+						<div id="speed">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">经度:</td>
+					<td width="140">
+						<div id="longitude">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">纬度:</td>
+					<td width="140">
+						<div id="latitude">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">定位时间:</td>
+					<td width="140">
+						<div id="location_time">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">地址:</td>
+					<td width="140">
+						<div id="address">&nbsp;</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
 	<div id="opinion"></div>
 	<div id="operation"></div>
 	<div id="header">
@@ -229,6 +233,9 @@
 			var marker;   //地图标记对象
 			var drawLine_arr;  //画线队列
 			var host = "{{HOST}}"; //主机
+			var arr_history = null;
+			var vehicle_id = null;
+			var state = 1; //操作状态    '0' 不能操作   '1' 可操作
 			{{PAGE_REFRESH_TIME}}
 
 
@@ -260,7 +267,65 @@
 				//初始化车辆定位
 				loadCompanyVehicle();
 			}
+				
+			/**
+			 * 关闭窗口
+			 */
+			function closeDialog(){
+				$("#operation").dialog("close");
+			}
 			
+			/**
+			 * 运行历史轨迹
+			 */
+			function runHistoryTrack(){  
+				if(arr_history.length>0){
+					 
+					var time = arr_history[0];  
+					arr_history.shift();
+					
+					drawHistoryTrack(time,vehicle_id);
+				}
+			}
+	
+			/**
+			 * 画历史轨迹路径
+			 * @param {Object} time  画数据时间点
+			 * @param {Object} vehicle_id 车辆编号
+			 */
+			function drawHistoryTrack(time,vehicle_id){  
+			 	 //var time = '2010081017';
+				state =0; //不可操作其它 
+				$.ajax({
+					type:"POST",
+					url:"index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
+					dataType:"json",
+					success:function(data){ 
+					 
+					if(data==0){ //请求失败，转入下一个请求时间点
+						if(arr_history.length>0){
+							runHistoryTrack();
+						}
+					}
+					
+					if(data!=null){
+	
+						var points = new Array();
+						for(var i=0;i<data.length;i++){
+							points.push( new LTPoint(data[i][0],data[i][1]));
+						}
+						map.getBestMap(points);
+					} 
+					drawLine_arr = data; 
+					
+					newDrawLine();
+					
+					wait();
+					
+				 }
+				}); 
+				 
+			}
 			/**
 			 * 清除所有标点，重新加载新数据
 			 */
@@ -459,6 +524,14 @@
 							  "<br>方向:"+direction+
 							  "<br>地址: "+location_desc;
 				addInfoWin(marker,context);
+
+				$("#location_info").css("display","inline");
+				
+				$("#speed").html(vehicle_speed);
+				$("#longitude").html(longitude);
+				$("#latitude").html(latitude);
+				$("#location_time").html(location_time);
+				$("#address").html(location_desc);
 
 				//点添入地图中
 				map.addOverLay(marker); 
