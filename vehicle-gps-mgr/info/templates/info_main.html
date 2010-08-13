@@ -1,22 +1,41 @@
-	<div id="notification" style="float:left">
-		<form id="sendNews" name="sendNews" method="post">
-			<font style="font-weight:bold; font-size:15px;">写信息</font><br>
-			<textarea id="info_content" name="info_content" rows="4" cols="20"   ></textarea><br/>
-		    <div style="margin: 0px 0px  30px 0px;"></div>
-			发送对象列表：<br/>
-			<div>
-			<select id="email_list" name="email_list" size="4" multiple>
-			{{mail_list}}
-			</select>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+</head>
+<body style="border:1px green solid; width:90%; height:90%;">
+<form id="sendNews" name="sendNews" method="post">
+	   <div style="float:left; border:1px black solid; width:330px; height:280px; margin:5px auto; text-align:center;">
+		   <div style="width:326px; height:102px;">
+				<div style="font-weight:700; font-size:12px; float:left;width:100px; height:30px;text-align:right; margin-top:30px;">写信息:</div>
+				<div style="font-size:12px; float:left;width:216px; height:100px; text-align:left;">
+					<textarea id="info_content" name="info_content" rows="4" cols="30"></textarea>
+				</div>
+		   </div>
+		   <div style="width:326px; height:90px; margin-top:10px;">
+				<div style="font-weight:700; font-size:12px; float:left; width:100px; height:30px;text-align:right;margin-top:30px;">发送对象列表：</div>
+				<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">
+					<select id="email_list" name="email_list" size="4" multiple style="width:200px; height:85px;">{{mail_list}}</select>
+				</div>
+	   	   </div>
+		   
+			<div style=" width:250px; height:34px; text-align:center; margin:20px auto;display:block;" >
+				<div style="float:left; font-size:13px; width:100px; height:32px;">
+					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize()" value="选择车辆" />
+				</div>
+				<div style="float:left; font-size:13px; width:100px; height:32px;">
+					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
+				</div>
 			</div>
-			<div style="margin: 30px 0px  30px 0px;" >
-				<input id="car" type="button" name="sel_vehicle" value="选择车辆" />
-				<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
-			</div>
-		</form>
-	</div>
+			
+		</div>
+		<div id="sel_vehicle_cotainer" style="width:622px;font-size:12px; margin:5px auto; margin-left:3px;height:285px; float:left; display:none;"></div>
+ </form>
+</body>
+</html>	
 
-	<div id="sel_vehicle_cotainer" style="float:left; margin: 0px 30px  0px 0px;"></div>
+
+
 	
 <script type="text/javascript">
 function fillMailList(str){
@@ -32,6 +51,11 @@ str = str.substr(0,str.length-1);
 		});
   	}
 }
+function resetDialogSize(){
+	document.getElementById("sel_vehicle_cotainer").style.display="inline";
+	$( "#operation" ).dialog( "option", "width", 1000 );
+	$( "#operation" ).dialog( "option", "height", 660 );
+}
 
 //绑定事件处理 
 $("#car").click(function(event) {
@@ -40,7 +64,7 @@ $("#car").click(function(event) {
 	$.post("index.php?a=1",function(data){
 		$( "#operation" ).unmask();
 		$("#sel_vehicle_cotainer").html(data);
-
+		$( "#operation" ).unmask();
 		$("#sel_vehicle_commit").click(function(){
 				 	var vehicles = $(".vehicle:checked");
 			     	var str="";
