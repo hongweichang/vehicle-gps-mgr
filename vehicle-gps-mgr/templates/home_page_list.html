@@ -376,6 +376,7 @@
 					url:"index.php?a=101", 
 					dataType:"json",
 					success:function(data){  
+					 if(data != null){
 						var length = data.length; 
 
 						if(length>0)
@@ -421,6 +422,7 @@
 						}  
 						map.getBestMap(points); 
 					 }
+				   }
  				});	
 
  				
@@ -595,7 +597,7 @@
 							 	
 								//创建点对象
 								marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
-												 	  new LTIcon("{{HOST}}/"+file_path+"/"+img_name+".png"));
+												 	  new LTIcon(host+"/"+file_path+"/"+img_name+".png"));
 
 								//点对象设置内容
 								var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
