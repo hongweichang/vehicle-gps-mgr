@@ -24,17 +24,16 @@
 			.cursor_style{cursor:pointer}
 	</style>
 	<script type="text/javascript"> 
-		
-	
-
-		
 	$(function() {
 		$("#location_info").draggable();
 		
 		$('#addAdvice').click(function(e) {
+			$("#opinion").html("");
+			$("#opinion").dialog("open");
+			$("#opinion").mask("处理中...");
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
-				$("#opinion").dialog("open");
+				$("#opinion").unmank();
 			});
 		});
 
@@ -133,13 +132,13 @@
 		  <div class="button_content">
 				<ul id="nav">
 					<li class="jsbutton" id="vehicle">
-						<div id="sel_vehicle_btn" class="button_font" url="index.php?a=1" title="选择车辆" showWidth="800" showHeight="400">选择车辆</div>
+						<div id="sel_vehicle_btn" class="button_font" url="index.php?a=1" title="选择车辆" showWidth="800">选择车辆</div>
 					</li>
 					<li class="jsbutton" id="sendInfo">
 						<div class="button_font" url="index.php?a=201" title="发布信息">发布信息</div>
 					</li>
 					<li class="jsbutton" id="searchInfo">
-						<div class="button_font" url="index.php?a=301" title="查询信息" showWidth="1100">查询信息</div>
+						<div class="button_font" url="index.php?a=301" title="查询信息">查询信息</div>
 					</li>
 					<li class="jsbutton" id="statistic">
 						<div class="button_font" url="index.php?a=401" title="统计分析">统计分析</div>
@@ -191,7 +190,6 @@
 			   close: function(event, ui) { $("#operation").html(""); }
 		});
 	
-
 		$( "#operation" ).mask("载入中...");
 
 		$.post(url,function(data){
