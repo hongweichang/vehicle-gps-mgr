@@ -1,4 +1,4 @@
-<div>
+<div id='his'>
 <input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
 <input type="radio" name='history' id="history_post">查询历史发布信息</input>
 </div>
@@ -20,6 +20,10 @@
 <div id="pagernav_infoes"></div>
 </div>
 <script type="text/javascript">
+  
+    if($("#vehicle_info option:selected").attr("name")=="have"){
+		$("#his").hide();
+        }
 	$("#his_info").hide();
 	$("#history_trace").attr("checked","checked");
 	var myDate = new Date();
@@ -27,6 +31,10 @@
 	$("#inquire_endTime").val(getNowFormatDate());
 
 
+function kobe(){
+	alert(44);
+}
+	
 $("#history_post").click(function(){
 	$("#vehicle_info").hide();
 	$("#info_select_vehicle").hide();
