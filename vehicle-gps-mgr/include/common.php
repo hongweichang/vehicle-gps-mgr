@@ -289,7 +289,7 @@
      * @param unknown_type $cutlength
      */
 
-	function characteString($sourcestr, $cutlength) {
+	function convertOverlongString($sourcestr, $cutlength) {
 		$returnstr = "";
 		$i = 0;
 		$n = 0;
