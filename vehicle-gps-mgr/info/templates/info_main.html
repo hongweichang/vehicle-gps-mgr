@@ -33,10 +33,12 @@ str = str.substr(0,str.length-1);
   	}
 }
 
-
 //绑定事件处理 
 $("#car").click(function(event) {
+	$( "#operation" ).mask("载入中...");
+	
 	$.post("index.php?a=1",function(data){
+		$( "#operation" ).unmask();
 		$("#sel_vehicle_cotainer").html(data);
 
 		$("#sel_vehicle_commit").click(function(){
