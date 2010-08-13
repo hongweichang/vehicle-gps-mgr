@@ -106,78 +106,16 @@
 			   close: function(event, ui) { alertInfo(); }
 		});
 
+
 		
 		$('.button_font').click(function(e) {
 			e.preventDefault();
-			var $this = $(this);
-			var horizontalPadding = 0;
-			var verticalPadding = 0;
-
-			var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
-			var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
-		
-
-			$.post($this.attr("url"),function(data){
-				$("#operation").html(data);
-
-				$("#operation").dialog({
-		            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-		    	            autoOpen: true,
-		    	            width: showWidth,
-		    	            height: showHeight,
-		    	            modal: true,
-		    	            resizable: true,
-		    				autoResize: true,
-		    	            overlay: {
-		                    opacity: 0.5,
-		                    background: "black"
-		    	            }
-		    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-
-				$( "#operation" ).dialog({
-					   close: function(event, ui) { $("#operation").html(""); }
-				});
-
-				if($this.attr('id') == "sel_vehicle_btn"){
-						$("#sel_vehicle_commit").click(function(){
-				            var vehicles = $(".vehicle:checked");
-				            var str="";
-				            vehicles.each(function(i){
-				                
-				                	str = str+$(this).val()+",";
-				                
-				             });
-	
-							vehiclePosition(str.substr(0,str.length-1));
-					   		closeDialog();
-							});
-						}
-			});
+			showOperationDialog(this, $this.attr('url'));
 		});
 
 		$('.showMeInDialog').click(function(e) {
 			e.preventDefault();
-			var $this = $(this);
-			var horizontalPadding = 30;
-			var verticalPadding = 30;
-
-			var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
-			var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '500';
-
-			
-	        $('<iframe id="externalSite" class="externalSite"  src="' + $this.attr("url")+ '" frameborder="0"/>').dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	            autoOpen: true,
-	            width: showWidth,
-	            height: showHeight,
-	            modal: true,
-	            resizable: true,
-				autoResize: true,
-	            overlay: {
-	                opacity: 0.5,
-	                background: "black"
-	            }
-	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);	      
+			showOperationDialog(this, $this.attr('url'));   
 		});
 	});
 	</script>
@@ -234,6 +172,54 @@
 		    </div>
 	</div>  
 	<script language="javascript">
+
+	function showOperationDialog(htmlObj, url){
+		var $this = $(htmlObj);
+		var horizontalPadding = 0;
+		var verticalPadding = 0;
+
+		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
+		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
+	
+
+		$.post(url,function(data){
+			$("#operation").html(data);
+
+			$("#operation").dialog({
+	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+	    	            autoOpen: true,
+	    	            width: showWidth,
+	    	            height: showHeight,
+	    	            modal: true,
+	    	            resizable: true,
+	    				autoResize: true,
+	    	            overlay: {
+	                    opacity: 0.5,
+	                    background: "black"
+	    	            }
+	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
+
+			$( "#operation" ).dialog({
+				   close: function(event, ui) { $("#operation").html(""); }
+			});
+
+			if($this.attr('id') == "sel_vehicle_btn"){
+					$("#sel_vehicle_commit").click(function(){
+			            var vehicles = $(".vehicle:checked");
+			            var str="";
+			            vehicles.each(function(i){
+			                
+			                	str = str+$(this).val()+",";
+			                
+			             });
+
+						vehiclePosition(str.substr(0,str.length-1));
+				   		closeDialog();
+						});
+					}
+		});
+	}
+
 		
 			var map;  //声明51地图对象
 			var control; //声明51地图控件
@@ -281,6 +267,36 @@
 			function clearOverLay(){
 				map.clearOverLays(); 
 			}
+
+			function getSendInfoDialog(obj, url){
+				var $this = obj;
+				var horizontalPadding = 0;
+				var verticalPadding = 0;
+
+				var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
+				var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
+				$.post(url,function(data){
+					$("#operation").html(data);
+
+					$("#operation").dialog({
+			            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+			    	            autoOpen: true,
+			    	            width: showWidth,
+			    	            height: showHeight,
+			    	            modal: true,
+			    	            resizable: true,
+			    				autoResize: true,
+			    	            overlay: {
+			                    opacity: 0.5,
+			                    background: "black"
+			    	            }
+			    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
+
+					$( "#operation" ).dialog({
+						   close: function(event, ui) { $("#operation").html(""); }
+					});
+				});
+			}
 			
 			/**
 			 * 初始化当前公司所有车辆定位信息
@@ -299,7 +315,8 @@
 							
 						var points = new Array();
 						 for(var i=0;i<length;i++){      
-							   
+
+							var vehicle_id = data[i]['id']; //车辆id
 							var number_plate = data[i]['number_plate']; //车牌号
 							var gps_id = data[i]['gps_id']; //GPS编号
 							var location_time = data[i]['location_time']; //当前定位时间 
@@ -323,7 +340,8 @@
 										  "<br>驾驶员："+driver_name+
 										  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
 										  "<br>地址: "+location_desc+"<br><br>"+
-										  "<a href='index.php?a=201&vehicle_id="+data[i]['id']+"' target=_blank>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
+										  "<div url='index.php?a=201' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id="+vehicle_id+"\")'><a href='#'>发布信息</a></div>"+
+										  "&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id="+vehicle_id+"\")'><a href='#'>查看历史信息</a></div>";
 							addInfoWin(marker,context);
 
 							//点添入地图中
@@ -336,6 +354,8 @@
 						map.getBestMap(points); 
 					 }
  				});	
+
+ 				
  				
 				//自动刷新页面当前公司所有车辆最新定位信息。
 				setTimeout(function(){
