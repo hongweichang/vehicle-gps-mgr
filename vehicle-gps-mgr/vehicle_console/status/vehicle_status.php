@@ -1,6 +1,6 @@
 <?php
 /** 
-* 人员管理
+* 车辆状态
 * @copyright		秦运恒, 2010
 * @author			郭英涛
 * @create date		2010.07.31

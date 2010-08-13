@@ -128,7 +128,7 @@ function getNowFormatDate()
 					$("#endTime").focus();
 					return false;
 				}
-				arr_history = getHourList();
+				arr_history = getHourList(); 
 				clearOverLay();
 				vehicle_id = $("#vehicle_info option:selected").val();
 				runHistoryTrack();
@@ -205,8 +205,8 @@ function getNowFormatDate()
 		 });
 
 		function getHourList(){
-			var startTime = $("#startTime").attr("value");
-			var endTime = $("#endTime").attr("value");
+			var startTime = $("#inquire_startTime").attr("value");
+			var endTime = $("#inquire_endTime").attr("value");
 
 			var startdt0 = new Date(Date.parse(startTime));
 			var enddt0 = new Date(Date.parse(endTime));

@@ -25,19 +25,7 @@
 	</style>
 	<script type="text/javascript"> 
 		
-	//等待线程
-	function wait(){
-		
-		setTimeout(function(){
-			if(drawLine_arr!=null){
-				if(drawLine_arr.length<=0){
-					runHistoryTrack();
-				}else{
-					wait();
-				} 
-			}
-			},1000);
-	}
+	
 
 		
 	$(function() {
@@ -278,7 +266,7 @@
 			/**
 			 * 运行历史轨迹
 			 */
-			function runHistoryTrack(){  
+			function runHistoryTrack(){   
 				if(arr_history.length>0){
 					 
 					var time = arr_history[0];  
@@ -287,7 +275,19 @@
 					drawHistoryTrack(time,vehicle_id);
 				}
 			}
-	
+			//等待线程
+			function wait(){
+				
+				setTimeout(function(){
+					if(drawLine_arr!=null){
+						if(drawLine_arr.length<=0){
+							runHistoryTrack();
+						}else{
+							wait();
+						} 
+					}
+					},1000);
+			}
 			/**
 			 * 画历史轨迹路径
 			 * @param {Object} time  画数据时间点
