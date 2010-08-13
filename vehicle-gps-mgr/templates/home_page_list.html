@@ -172,28 +172,32 @@
 
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
+
+		$("#operation").dialog({
+            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+    	            autoOpen: true,
+    	            width: showWidth,
+    	            height: showHeight,
+    	            modal: true,
+    	            resizable: true,
+    				autoResize: true,
+    	            overlay: {
+                    opacity: 0.5,
+                    background: "black"
+    	            }
+    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
+
+		$( "#operation" ).dialog({
+			   close: function(event, ui) { $("#operation").html(""); }
+		});
 	
+
+		$( "#operation" ).mask("载入中...");
 
 		$.post(url,function(data){
 			$("#operation").html(data);
 
-			$("#operation").dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	    	            autoOpen: true,
-	    	            width: showWidth,
-	    	            height: showHeight,
-	    	            modal: true,
-	    	            resizable: true,
-	    				autoResize: true,
-	    	            overlay: {
-	                    opacity: 0.5,
-	                    background: "black"
-	    	            }
-	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-
-			$( "#operation" ).dialog({
-				   close: function(event, ui) { $("#operation").html(""); }
-			});
+			$( "#operation" ).unmask();
 
 			if($this.attr('id') == "sel_vehicle_btn"){
 					$("#sel_vehicle_commit").click(function(){
