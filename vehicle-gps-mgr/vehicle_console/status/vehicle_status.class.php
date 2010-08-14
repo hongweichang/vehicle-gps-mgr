@@ -368,5 +368,44 @@ class Vehicle_status extends BASE
 		$lat = $lats[0][0]+$lat;  	
 		return $lat;
     }
+    
+    
+    /**
+     *  根据经纬度查询地址 
+     * @param $cur_longitude 经度
+     * @param $cur_latitude 纬度
+     */
+ function get_location($cur_longitude,$cur_latitude)
+    {
+    	
+    	//把经纬度值的后三位置0
+    	$longitude = intval($cur_longitude /1000) * 1000; 
+    	$latitude = intval($cur_latitude / 1000) * 1000;
+    	
+    	$sql = "select * from gis_pos_info where pos_longitude =".$longitude." and pos_latitude = ".$latitude." LIMIT 1";
+ 		$gis_info = $GLOBALS["db"]->query($sql);
+ 		
+ 		$location_desc = "";
+ 		if($gis_info)
+ 		{
+ 			$location_desc = $gis_info[0]["pos_desc"];
+ 		}
+ 		else
+ 		{
+ 			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$cur_longitude.",".$cur_latitude));
+ 		 	$location_desc = $this->parse_location_decs($location);
+ 		 	$parms["pos_longitude"] = $longitude;
+ 		 	$parms["pos_latitude"] = $latitude;
+ 		 	$parms["pos_desc"] = "\"".$location_desc."\"";
+ 		 	$parms["getdate"] = "\"".date("Y-m-d")."\"";
+ 		 	
+ 		 	if($location_desc != "")
+ 		 	{
+ 		 		$GLOBALS["db"]->insert_row("gis_pos_info",$parms);
+ 		 	}
+ 		}
+ 		
+ 		return $location_desc;
+    }
 }
 ?>

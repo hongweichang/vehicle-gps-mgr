@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /** 
 * 车辆状态
 * @copyright		秦运恒, 2010
@@ -117,5 +117,10 @@ switch($act)
 
 		//打印json格式的数据
 		echo json_encode($response);
+
+	case "address":
+		$vehicle_status	= new Vehicle_status();
+		$location = $vehicle_status->get_location($_REQUEST['longitude'],$_REQUEST['latitude']);
+		echo $location;
 }
 ?>
