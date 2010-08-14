@@ -59,7 +59,6 @@
 		pager : '#pagernav1',
 		viewrecords : true,
 		sortorder : "asc",
-		caption : "告警信息",
 		height : 230,
 		width : 800
 		
