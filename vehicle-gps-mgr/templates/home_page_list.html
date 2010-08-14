@@ -15,14 +15,7 @@
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
-	<script language="javascript" src="js/alert/opinion.js"></script>
-	
-	<style type="text/css">
-			.toggler {width:200px;position: relative; position: absolute;z-index:100;left:85%;top:5%;display:none} 
-			#effect {  padding: 0.4em; position: relative;}
-			#effect h3 { margin: 0; padding: 0.4em; text-align: center; } 
-			.cursor_style{cursor:pointer}
-	</style>
+	<script language="javascript" src="js/alert/opinion.js"></script> 
 	<script type="text/javascript"> 
 	$(function() {
 		$("#location_info").draggable();
@@ -123,7 +116,9 @@
 			<div class="kmile">（公里/小时）</div>
 		</div>
 		<div class="header_content"> 
-		    
+		    <div class="location_refresh">
+		    	<input type="checkbox" checked>定位刷新</input>
+		    </div>
 			<div class="hearder_div">
 				<img alt="管理" src="images/manager.png" style="width:17px; height:20px;">
 				<a href="{{URL_MANAGE}}" target="_blank">管理中心</a>
@@ -169,10 +164,10 @@
 								<div class="showMeInDialog" id="lookMore" url="index.php?a=901" title="告警列表">
 									<img alt="查看更多" src="images/lookMore.png" style="width:20px; height:19px;">
 								 	<a href="#">查看更多</a>
-								</div>`
-						   </div>
+								</div>
+							</div>
 				    </div>
-			    </div>
+				</div>
 		    </div>
 	</div>  
 	<script language="javascript">
@@ -602,6 +597,7 @@
 					if(direction == "northwest") return "西北";
 					if(direction == "southeast") return "东南";
 					if(direction == "southwest") return "西南";
+					
 				}
 			 
 			/**
