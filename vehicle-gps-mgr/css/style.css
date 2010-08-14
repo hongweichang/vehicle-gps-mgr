@@ -50,6 +50,10 @@ body{
     border-bottom:2px #2BB7FF solid;
 	background:url(./../images/hearder.png) right repeat;
 }
+/**定位刷新*/
+.location_refresh{
+	float:left;margin-top:2px
+}
 .carInfo{
 	float:left;
 	width:80%;
