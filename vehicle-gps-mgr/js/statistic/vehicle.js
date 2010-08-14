@@ -6,18 +6,21 @@
 			name : 'driver_id',
 			index : 'driver_id',
 			width : 0,
+			resizable:true,
 			editable : false,
 			hidden : true
 		},{
 			name : 'number_plate',
 			index : 'number_plate',
 			width : 120,
+			resizable:true,
 			align : "center",
 			editable : false
 		},{
 			name : 'distance',
 			index : 'distance',
 			width : 120,
+			resizable:true,
 			align : "center",
 			editable : false
 		}, {

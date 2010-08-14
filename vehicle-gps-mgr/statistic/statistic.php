@@ -59,7 +59,7 @@ switch ($act) {
 
 			$response->rows [$key] ['vehicle_id'] = $value ['vehicle_id'];
 			
-			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF'>详细内容</a>" );
+			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据		
 		break;
@@ -99,7 +99,7 @@ switch ($act) {
 
 			$response->rows [$key] ['driver_id'] = $value ['driver_id'];
 			
-			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF'>详细内容</a>" );
+			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据
 		break;
@@ -135,7 +135,7 @@ switch ($act) {
 
 			$response->rows [$key] ['driver_id'] = $value ['driver_id'];
 			
-			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF'>详细内容</a>" );
+			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据
 		break;
@@ -169,7 +169,7 @@ switch ($act) {
 		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
 			
 			$response->rows [$key] ['vehicle_id'] = $value ['vehicle_id'];	
-			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF'>详细内容</a>" );
+			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据	
 		break;
