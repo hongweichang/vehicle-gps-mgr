@@ -184,5 +184,8 @@ $vehicle_group = "";
 		else{
 			echo "-1";
 		}
-}		
+		break;
+	
+     
+}	
 ?>
