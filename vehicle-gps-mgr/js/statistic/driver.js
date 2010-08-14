@@ -53,14 +53,10 @@
 		}],
 		rowNum : 10,// 初始化每页10条数据
 		rowList : [ 10, 20, 30 ],// 设置每页多少条数据
-		mtype : "GET",
-		rownumbers : true,
-		rownumWidth : 60,
 		gridview : true,
 		pager : '#pagernav_driver',
 		viewrecords : true,
 		sortorder : "asc",
-		caption : "驾驶员信息",
 		height : "230"
 	});
 	

@@ -1,10 +1,10 @@
 	jQuery("#navgrid_vehicle").jqGrid( {
 		url : 'index.php?a=403',
 		datatype : "json",
-		colNames : ['vehicle_id','车牌号', '累计行驶距离', '累计行驶时间', '累计停驶时间', '最早启用时间', '最后停用时间','详细说明' ],
+		colNames : ['vehicle_id','车牌号1', '累计行驶距离', '累计行驶时间', '累计停驶时间', '最早启用时间', '最后停用时间','详细说明' ],
 		colModel : [ {
-			name : 'driver_id',
-			index : 'driver_id',
+			name : 'vehicle_id',
+			index : 'vehicle_id',
 			width : 0,
 			resizable:true,
 			editable : false,
@@ -56,14 +56,10 @@
 		}],
 		rowNum : 10,// 初始化每页10条数据
 		rowList : [ 10, 20, 30 ],// 设置每页多少条数据
-		mtype : "GET",
-		rownumbers : true,
-		rownumWidth : 60,
 		gridview : true,
 		pager : '#pagernav_vehicle',
 		viewrecords : true,
 		sortorder : "asc",
-		caption : "车辆信息",
 		height : "230"
 	});
 	
