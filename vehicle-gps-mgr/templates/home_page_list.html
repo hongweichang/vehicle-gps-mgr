@@ -479,10 +479,10 @@
 					 		var latitude = drawLine_arr[0][1];  //纬度
 					 		var direction = drawLine_arr[0][2]; //方向
 					 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
-					 		var location_desc = drawLine_arr[0][4]; //地址
-					 		var color = drawLine_arr[0][5]; //颜色
-							var img_path =  drawLine_arr[0][6]; //图片路径
-							var location_time = drawLine_arr[0][7]; //定位时间
+					 		//var location_desc = drawLine_arr[0][4]; //地址
+					 		var color = drawLine_arr[0][4]; //颜色
+							var img_path =  drawLine_arr[0][5]; //图片路径
+							var location_time = drawLine_arr[0][6]; //定位时间
 					 		var newLongitude = -1; //新线点经度
 					 		var newLatitude = -1; //新线点纬度
 	
@@ -504,7 +504,7 @@
 						drawLine_arr.shift();
 	
 						//调用画线函数 
-						drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_desc,location_time);
+						drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time);
 					}
 					
 				}
@@ -519,10 +519,9 @@
 			 * @param {Object} color 颜色
 			 * @param {Object} vehicle_speed 车辆速度 
 			 * @param {Object} img_path 图片路径
-			 * @param {Object} location_desc 地址
 			 * @param {Object} location_time 定位时间
 			 */
-			function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path,location_desc,location_time){  
+			function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path,location_time){  
 				 
 				 
 				var polyLine = new LTPolyLine(points);
@@ -538,8 +537,7 @@
 
 				//点对象设置内容
 				var context = "<br>速度: "+vehicle_speed+"<br>定位时间:"+location_time+
-							  "<br>方向:"+direction+
-							  "<br>地址: "+location_desc;
+							  "<br>方向:"+direction;
 				addInfoWin(marker,context);
 
 				$("#location_info").css("display","inline");
@@ -548,13 +546,21 @@
 				$("#longitude").html(longitude);
 				$("#latitude").html(latitude);
 				$("#location_time").html(location_time);
-				$("#address").html(location_desc);
+				$("#address").html("<a id='more' name="+longitude+" rel="+latitude+" href='javascript:details();'>查看详情</a>")
 
 				//点添入地图中
 				map.addOverLay(marker); 
 
 				setTimeout("newDrawLine();",speed);
 			}
+
+			function details(){
+				var long = $("#more").attr("name");
+				var lat = $("#more").attr("rel");
+				$.get("index.php?a=503",{"longitude":long,"latitude":lat},function(data){
+					$("#address").html(data);
+					});
+				}
 
 			/**
 			 * 车辆提示信息
