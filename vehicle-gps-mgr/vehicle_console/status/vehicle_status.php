@@ -117,6 +117,8 @@ switch($act)
 
 		//打印json格式的数据
 		echo json_encode($response);
+		
+		break;
 
 	case "address":
 		$vehicle_status	= new Vehicle_status();
