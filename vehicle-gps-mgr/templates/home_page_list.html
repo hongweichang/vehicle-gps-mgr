@@ -535,16 +535,16 @@
 				marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(host+"/"+img_path));
 
 				//点对象设置内容
-				var context = "<br>速度: "+vehicle_speed+"<br>定位时间:"+location_time+
-							  "<br>方向:"+direction;
+				var context = "<br>速度: "+vehicle_speed+"<br>定位时间:"+format_time(location_time)+
+							  "<br>方向:"+direction_change(direction);
 				addInfoWin(marker,context);
 
 				$("#location_info").css("display","inline");
-				
+
+				$("#direction").html(direction_change(direction));
 				$("#speed").html(vehicle_speed);
-				$("#longitude").html(longitude);
-				$("#latitude").html(latitude);
-				//$("#location_time").html(location_time);
+				$("#longitude").html(around(longitude));
+				$("#latitude").html(around(latitude));
 				$("#location_time").html(format_time(location_time));
 				$("#address").html("<a id='more' name="+longitude+" rel="+latitude+" href='javascript:details();'>查看详情</a>")
 
@@ -555,8 +555,8 @@
 			}
 
 			/**
-			 *根据经纬度查看具体地址	
-			*/
+			 *  根据经纬度查看具体地址	
+			 */
 			function details(){
 				var long = $("#more").attr("name");
 				var lat = $("#more").attr("rel");
@@ -580,6 +580,30 @@
 				return time;
 				 }
 
+			 /**
+			  *  将51地图经纬度转换成真正的经纬度	
+			  *  @param v 经度或纬度
+			  */
+			 function around(v){
+					v = v/100000;
+					return v;
+				}
+
+			 /**
+			  *  将51地图经纬度转换成真正的经纬度	
+			  *  @param direction 经度或纬度
+			  */
+			 function direction_change(direction){
+					if(direction == "north") return "北";
+					if(direction == "east") return "东";
+					if(direction == "west") return "西";
+					if(direction == "south") return "南";
+					if(direction == "northeast") return "东北";
+					if(direction == "northwest") return "西北";
+					if(direction == "southeast") return "东南";
+					if(direction == "southwest") return "西南";
+				}
+			 
 			/**
 			 * 车辆提示信息
 			 * @param {Object} obj  点对象
