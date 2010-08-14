@@ -10,6 +10,7 @@
 	<link type="text/css" href="css/css.css"  media="screen" rel="stylesheet" />
 		
 	<script language="javascript" src="http://api.51ditu.com/js/maps.js"></script>
+	<script language="javascript" src="http://api.51ditu.com/js/ezmarker.js"></script>  
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
 	<script src="js/i18n/grid.locale-cn.js" type="text/javascript"></script>
 	<script language="javascript" src="js/jquery.jqGrid.min.js" ></script>
@@ -18,40 +19,106 @@
 	<script language="javascript" src="js/home_page/home_page.js"></script>
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
 	<script language="javascript" src="js/alert/opinion.js"></script> 
+	<script language="javascript" src="js/alert/common.js"></script> 
 	<script type="text/javascript"> 
-	$(function() {
-		$("#location_info").draggable();
+	
+			$(document).ready(function() {
+				$("#location_info").draggable();
+				
+				$('#addAdvice').click(function(e) {
+					$("#opinion").html("");
+					$("#opinion").dialog("open");
+					$("#opinion").mask("处理中...");
+					$.post("index.php?a=903&id="+id,function(data){
+						$("#opinion").html(data);
+						$("#opinion").unmank();
+					});
+				});
+		 
+				$( "#opinion" ).dialog({
+					   close: function(event, ui) { alertInfo(); }
+				});
 		
+				$('.button_font').click(function(e) {
+					e.preventDefault();
+					showOperationDialog(this, $(this).attr('url'));
+				});
+		
+				$('.showMeInDialog').click(function(e) {
+					e.preventDefault();
+					showOperationDialog(this, $(this).attr('url'));   
+				});
+		
+				//播放时间调整				
+				$("#cur_run_time").slider();
+				$("#cur_run_time").slider({ min:0,max:1000,step:10,animate:true}); 
+				$("#cur_run_time").slider({ range: 'min' });
+				 
+				get_cur_run_time();
+				
+				$( "#cur_run_time" ).slider({
+					slide: function(event, ui) {
+							get_cur_run_time();
+					   }
+					});
+				
+				 
+				$("#start_time").datetimepicker({
+					ampm: false,//上午下午是否显示  
+					timeFormat: 'hh:mm:ss',//时间模式  
+					stepHour: 1,//拖动时间时的间隔  
+					dateFormat: "yy/mm/dd", //日期格式设定  
+					showHour: true,//是否显示小时，默认是true  
+					showMinute: false,
+					showSecond: false,
+					createButton: false
+				});
+				
+				$("#end_time").datetimepicker({
+					ampm: false,//上午下午是否显示  
+					timeFormat: 'hh:mm:ss',//时间模式  
+					stepHour: 1,//拖动时间时的间隔  
+					dateFormat: "yy/mm/dd", //日期格式设定  
+					showHour: true,//是否显示小时，默认是true  
+					showMinute: false,
+					showSecond: false,
+					createButton: false
+				});
+				
+ 
 		$('#addAdvice').click(function(e) {
 			$("#opinion").html("");
 			$("#opinion").dialog("open");
 			$("#opinion").mask("处理中...");
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
-				$("#opinion").unmask();
+				$("#opinion").unmask(); 
 			});
-		});
 
-		$( "#opinion" ).dialog({
-			   close: function(event, ui) { alertInfo(); }
-		});
-
-
-		
-		$('.button_font').click(function(e) {
-			e.preventDefault();
-			showOperationDialog(this, $(this).attr('url'));
-		});
-
-		$('.showMeInDialog').click(function(e) {
-			e.preventDefault();
-			showOperationDialog(this, $(this).attr('url'));   
-		});
-	});
+			function get_cur_run_time(){
+				$("#show_time").html( $( "#cur_run_time" ).slider("option","value"));
+			}
+	
 	</script>
 	
 </head>
 <body>
+	<div style="display:none;width:100%;height:30x;position:absolute;z-index:100000;top:30px;background-color:#80ffff;text-align:center;filter:alpha(Opacity=96);">
+		<div style="width:85%;height:20px;border:0px solid">
+			 <div style="float:left;">开始时间:<input type="text" id="start_time"></input></div>
+			 <div style="float:left;">结束时间:<input type="text" id="end_time"></input></div>
+			 <div style="float:left;width:80px;margin-top:9px;">播放速度</div>
+			 <div id="cur_run_time" style="width:100px;height:10px;float:left;margin-top:9px"></div>
+			 <div style="float:left;width:40px;margin-left:2px;margin-top:9px;font-weight:700;" id="show_time"></div>
+			 <div style="float:left;width:100px;margin-top:9px;">轨迹控制 0/0</div>
+			 <div style="float:left;width:40px;margin-left:10px;">
+			 	<input type="button" id="play_history" value="播放"></input>
+			 </div>
+			 <div style="float:left;width:40px;margin-left:10px;">
+			 	<input type="button" id="stop_history" value="暂停"></input>
+			 </div>
+		</div>
+	</div>
 	<div class="shield_advertise"></div>
 	<div class="toggler" id="location_info">
 		<div id="effect" class="ui-widget-content ui-corner-all">
@@ -131,7 +198,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="map" class="map"></div>
+	<div id="map"></div>
 	<div class="button_content">
 			<ul id="nav">
 				<li class="jsbutton" id="vehicle">
@@ -173,7 +240,8 @@
 		    </div>
 	</div>  
 	<script language="javascript">
-	 
+		
+	$("#map").css({ "width": screen.width+"px", "height": screen.height*0.82+"px" });
 	
 	function showOperationDialog(htmlObj, url){
 		var $this = $(htmlObj);
@@ -247,11 +315,13 @@
 			 */
 			function onLoadMap()
 			{	
+				
 				//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 				window._LT_map_disableProgressBar=true;	
 				map=new LTMaps("map");
-				//map.centerAndZoom(new LTPoint(11640969,3994940),6);
-				map.addControl(new LTStandMapControl());
+				var standControl = new LTStandMapControl();
+				standControl.setTop(40);
+				map.addControl(standControl);
 
 				/*
 				control = new LTZoomSearchControl();
@@ -457,9 +527,7 @@
 					}, page_refresh_time * 1000);
 				}	
  			} 
-			
-			
-			
+			 
 			var moveLsitener;
 			
 			/**
