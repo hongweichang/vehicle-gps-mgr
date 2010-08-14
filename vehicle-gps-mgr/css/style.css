@@ -106,14 +106,14 @@ body{
 }
 .map{
 	text-align:center;
-	height:90%;
+	height:80%;
 	width:100%;
 	margin:0 auto;
 	
   }
 .button_content{
 	height:56px;;
-	width:580px; 
+	width:560px; 
 	float:left;
 	font-size:14px;
     margin:2px auto;
@@ -123,7 +123,6 @@ body{
 .alertInfo{
 	float:left;
 	height:55px;
-    width:400px;
     margin:2px auto;
  }
 .newAlert{
@@ -145,14 +144,12 @@ body{
 }
 .alert_div{
 	height:50px;
-	width:340px;
 	font-size:12px;
 	float:left;
 	margin:0 auto;
 }
 .new_alert{
 	height:23px;
-	width:330px;
 	margin-left:5px;
 	margin-top:10px;
 	font-size:12px;
@@ -160,24 +157,24 @@ body{
 .record{
 	float:left;
 	height:20px;
-	width:210px;
 }
 .operate{
 	float:left;
 	height:20px;
 	display: none;
-	widht:100px;
+	margin-left:10px;
 }
 .addAdvice{
 	float:left;
 	height:13px;
 	widht:80px;
+	margin-left:10px;
 }
-.lookMore{
+.showMeInDialog{
 	float:left;
 	height:19px;
 	widht:80px;
-	margin-left:5px;
+	margin-left:10px;
 }
 a{
 	text-decoration:none;
