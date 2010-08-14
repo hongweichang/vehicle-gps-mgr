@@ -29,11 +29,6 @@
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate());
 	$("#inquire_endTime").val(getNowFormatDate());
-
-
-function kobe(){
-	alert(44);
-}
 	
 $("#history_post").click(function(){
 	$("#vehicle_info").hide();
@@ -136,9 +131,18 @@ function getNowFormatDate()
 					$("#endTime").focus();
 					return false;
 				}
+				
 				arr_history = getHourList(); 
 				clearOverLay();
 				vehicle_id = $("#vehicle_info option:selected").val();
+
+				$.get("index.php?a=504&vehicle_id="+vehicle_id,function(data){
+	
+					var gps_plate = eval('(' + data + ')');  
+					$("#vehicle_id").html(gps_plate[0]);
+					$("#gps_id").html(gps_plate[1]);
+					});
+				
 				runHistoryTrack();
 				closeDialog();
 			});
