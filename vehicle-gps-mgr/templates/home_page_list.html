@@ -117,7 +117,7 @@
 		</div>
 		<div class="header_content"> 
 		    <div class="location_refresh">
-		    	<input type="checkbox" checked>定位刷新</input>
+		    	<input type="checkbox" id="location_refresh" checked>定位刷新</input>
 		    </div>
 			<div class="hearder_div">
 				<img alt="管理" src="images/manager.png" style="width:17px; height:20px;">
@@ -171,7 +171,12 @@
 		    </div>
 	</div>  
 	<script language="javascript">
-
+	
+	
+	$("#location_refresh").click(function(){
+		
+	});
+	
 	function showOperationDialog(htmlObj, url){
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;
@@ -372,6 +377,8 @@
 					});
 				});
 			}
+			
+			
 			
 			/**
 			 * 初始化当前公司所有车辆定位信息
