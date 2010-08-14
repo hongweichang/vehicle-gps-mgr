@@ -92,7 +92,7 @@ switch($act)
 		else if(($lonMin==null or $number_plate=="") and ($number_plate==null or $number_plate=="")){
 		   $result = $vehicle_status->get_all_vehicles($wh,$sidx,$sord,$start,$limit);
 		}else {
-		   $result = $vehicle_status->get_lon_lat_plate_vehicle($lonMin,$lonMax,
+		   $result = $vehicle_status->get_lon_lat_plate_vehicle($lonMin,$lonMax, 
 		             $latMin,$latMax,$number_plate);
 		}
 		$response->page	= $page;
@@ -122,5 +122,11 @@ switch($act)
 		$vehicle_status	= new Vehicle_status();
 		$location = $vehicle_status->get_location($_REQUEST['longitude'],$_REQUEST['latitude']);
 		echo $location;
+		
+	case "gps_plate":
+		$vehicle_status = new Vehicle_status($_REQUEST['vehicle_id']);
+		$attr[0]=$vehicle_status->data['number_plate'];
+		$attr[1]=$vehicle_status->data['gps_id'];
+		echo json_encode($attr);
 }
 ?>

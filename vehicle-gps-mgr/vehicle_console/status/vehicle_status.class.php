@@ -50,7 +50,10 @@ class Vehicle_status extends BASE
 			return false;
 	}
 	
-	
+	/**
+	 *  
+	 * 
+	 */
 	
 	
 	/**
