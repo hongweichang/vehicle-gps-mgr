@@ -58,6 +58,10 @@ switch($act)
 			break;
 		}
 			
+		if(!session_is_registered("readfile_finished"))
+		{
+			$_SESSION["readfile_finished"] = 1;
+		}
 		
 		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
 		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
