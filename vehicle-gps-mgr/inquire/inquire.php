@@ -12,6 +12,11 @@
 $act = $GLOBALS["all"]["operate"];
 
 $page = $_REQUEST['page'];
+$limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
+$sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
+$sord = $_REQUEST['sord']; // get the direction
+$searchfil = $_REQUEST['searchField']; // get the direction
+$searchstr = $_REQUEST['searchString']; // get the direction
 
 switch($act)
 {
@@ -94,9 +99,32 @@ switch($act)
 		
 	case "get_history_info":
 		$inquire = new Inquire();
-		$infoes = $inquire->get_history_info($_REQUEST['begin_date'],$_REQUEST['end_date']);
+		
+		$count = $inquire->get_history_info_count($_REQUEST['begin_date'],$_REQUEST['end_date']);
+		if( $count >0 ) {
+			$total_pages = ceil($count/$limit);
+		} else {
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		if ($start<0) $start = 0;
+		
+		if(empty($searchfil) or empty($searchstr))
+			$wh = "";
+		else
+		{
+			$type = $inquire->get_type($searchfil);
+			$searchstr = $db->prepare_value($searchstr,$type);
+			$wh = "where ".$searchfil." = ".$searchstr;
+		}
+
+		$infoes = $inquire->get_history_info($wh,$sidx,$sord,$start,$limit,$_REQUEST['begin_date'],$_REQUEST['end_date']);
 		
 		$response->page	= $page;
+		$response->total = $total_pages;
+		$response->records = $count;
 		
 		foreach($infoes as	$key => $val)
 		{ 

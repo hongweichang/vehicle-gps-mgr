@@ -148,7 +148,10 @@ function getNowFormatDate()
 			});
 
 
+			var step_info = 0;
+			
 			$("#his_info").click(function(){
+				
 				var startTime = $("#inquire_startTime").attr("value");
 				 
 				if(startTime == ""){
@@ -163,6 +166,8 @@ function getNowFormatDate()
 					return false;
 				}
 
+				
+				if(step_info==0){
 				jQuery("#infoes").jqGrid({
 					url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()+'&end_date='+$("#inquire_endTime").val(),
 					  datatype: "json",
@@ -187,9 +192,14 @@ function getNowFormatDate()
 					height:290
 				});
 
-				jQuery("#infoes").jqGrid('navGrid_infoes','#pagernav_infoes',
-				{edit:false,add:false,del:false});
-				
+					jQuery("#infoes").jqGrid('navGrid','#pagernav_infoes',
+					{edit:false,add:false,del:false});
+					step_info++;
+				}else{
+					var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()+'&end_date='+$("#inquire_endTime").val();
+					jQuery("#infoes").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+					}
+			
 			});
 
 
