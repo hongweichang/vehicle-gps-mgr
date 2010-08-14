@@ -29,18 +29,18 @@ switch ($act) {
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
 		/**生成车辆组标题*/
-		$str = "<div style='font-size:13px;'><ul>";
+		$str = "<div style='font-size:12px;'><ul>";
 		foreach ( $vehicle_group as $value ) {
-			$str = $str . "<li><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
+			$str = $str . "<li style='font-size:12px;'><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
 		}
 		$str = $str."</ul></div>";
 		
 		/**在车辆组下显示所有的车辆*/
 		foreach ( $vehicle_group as $values ) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
-			$str = $str . "<div style='font-size:14px;' id='tabs" . $values [0] . "'>".
-							"&nbsp<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
-							"'>选择本组车辆</input><div class='scroll'>";
+			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
+							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
+							"'>选择本组车辆</input><div class='scroll' style='font-size:12px;' >";
 			
 			/**遍历每个车辆组，得到每组的所有车辆*/
 			foreach ( $vehicles as $vehicle ) {
