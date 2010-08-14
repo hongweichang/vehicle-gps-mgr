@@ -231,7 +231,8 @@ function getNowFormatDate()
 				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + date.getDate() + "" + padLeft("" + date.getHours(),2);
 				hourList.push(hourStr);
 				
-				startdt += 60*60*1000; //起始时间增加1小时
+				//startdt += 60*60*1000; //起始时间增加1小时
+				startdt += 30*60*1000; //起始时间增加半小时
 			}
 			
 			return hourList;
