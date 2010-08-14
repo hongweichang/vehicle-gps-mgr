@@ -1,15 +1,15 @@
-
+<link type="text/css" href="css/tabs.bottom.css" rel="stylesheet" />
 	
-	<div style="font-size:12px;">
-		<div id="inquire_tabs" style="overflow:auto;overflow-y:hidden;width:1030px;height:460px;">
-			<ul>
-				<li><a href="index.php?a=501">车辆当前状态</a></li> 
-				<li><a href="index.php?a=352">查询历史信息</a></li>
-			</ul>
-			
-		</div>
-	</div>
+<div id="inquire_tabs" style="overflow:auto;overflow-y:hidden;width:1030px;height:460px;">
+	<ul>
+		<li><a href="index.php?a=501">车辆当前状态</a></li> 
+		<li><a href="index.php?a=352">查询历史信息</a></li>
+	</ul>
+</div>
 	
 <script type="text/javascript">
 			$("#inquire_tabs").tabs();
+			$(".tabs-bottom .ui-tabs-nav, .tabs-bottom .ui-tabs-nav > *")
+			.removeClass("ui-corner-all ui-corner-top")
+			.addClass("ui-corner-bottom");
 </script>
