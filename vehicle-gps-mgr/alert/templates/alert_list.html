@@ -1,17 +1,24 @@
 <div class="selCondition">
    <div class="sel_vehicle_group">
-  	 	<select id="vehicle_group" OnChange='selVehicle()' style="width: 150px; "></select>
+  	 	<select id="vehicle_group" OnChange='selVehicle()' style="width: 150px; ">
+  	 	{{group_option}}
+  	 	</select>
    </div>
    
    <div class="sel_vehicle_group"> 
-   		<select id="vehicle" style="width: 150px"></select> 
+   		<select id="vehicle" style="width: 150px">
+   		{{vehicle_option}}
+   		</select> 
    </div>
   <div class="sel_vehicle_group">
-   		<input type="button" value="查询" style="width:80px" onclick="conditionSel();" /> 
+  <script type="text/javascript">
+ 
+  </script>
+   		<input onclick="selectMethod();"  type="button" value="查询" style="width:80px" /> 
   </div>
   <div  class="deal">
 	   <font color="black" size="2px">处理意见：</font>
-	   <input type="checkbox" name="deal" id="deal" />
+	   <input type="checkbox" name="deal_condition" id="data_condition" />
 	   <font color="black" size="2px">(包含已处理)</font>
   </div>
   
