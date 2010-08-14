@@ -184,7 +184,7 @@
 
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
-
+		$('#operation').css('overflow','hidden');//隐藏滚动条
 		$("#operation").dialog({
             title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
