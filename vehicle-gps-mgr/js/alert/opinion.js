@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	$("#opinion").dialog({ title:"处理意见", autoOpen: false, modal: true, overlay: { color: '#006' }, width: 240, height: 280 });
+	$("#opinion").dialog({ title:"处理意见", autoOpen: false, modal: false, width: 240, height: 280 });
 });
 
 function showOpinion(id){
