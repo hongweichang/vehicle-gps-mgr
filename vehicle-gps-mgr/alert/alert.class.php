@@ -43,8 +43,23 @@ class Alert extends BASE {
 	 * @param $limit
 	 * @return 查询记录
 	 */
-	function get_all_alerts($wh = "", $sidx = "", $sord = "", $start = "", $limit = "") {
-		$this->sql = "select * from " . $this->mysel_table_name . "  " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+	function get_all_alerts($group_id="",$vehicle_id="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = "") {
+		 if($group_id==-1){
+		 	$this->sql = "select * from " . $this->mysel_table_name . "  " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+		 }else if($vehicle_id==-1){
+		 	$this->sql ="select a_i.id,a_i.alert_time,a_i.alert_type,a_i.vehicle_id,a_i.dispose_id,a_i.dispose_opinion,a_i.description from ".
+                    "((select * from alert_info) as a_i ".
+                    "inner join ".
+                    "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
+                    "on v_m.id=a_i.vehicle_id)  " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 	
+		 }else{
+		 	$this->sql ="select a_i.id,a_i.alert_time,a_i.alert_type,a_i.vehicle_id,a_i.dispose_id,a_i.dispose_opinion,a_i.description from ".
+                    "((select * from alert_info) as a_i ".
+                    "inner join ".
+                    "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
+                    "on v_m.id=a_i.vehicle_id) where a_i.vehicle_id=".$vehicle_id ." ". $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 
+
+		 }
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
 	
@@ -54,10 +69,25 @@ class Alert extends BASE {
 	 * @return 总记录数
 	 * 
 	 */
-	function get_all_count($condition) {
-		$this->sql = "select count(*) from " . $this->mysel_table_name.$condition;
-		$count = $GLOBALS ["db"]->query_once ( $this->sql );
-		return $count [0];
+	function get_all_count($group_id,$vehicle_id,$condition) {
+	 if($group_id==-1){
+		 	$this->sql = "select count(*) from " . $this->mysel_table_name;
+		 }else if($vehicle_id==-1){
+		 	$this->sql ="select count(*) from ".
+                    "((select * from alert_info) as a_i ".
+                    "inner join ".
+                    "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
+                    "on v_m.id=a_i.vehicle_id)"; 	
+		 }else{
+		 	$this->sql ="select count(*) from ".
+                    "((select * from alert_info) as a_i ".
+                    "inner join ".
+                    "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
+                    "on v_m.id=a_i.vehicle_id) where a_i.vehicle_id=".$vehicle_id; 
+
+		 }
+		 $count = $GLOBALS ["db"]->query_once ( $this->sql );
+		 return $count [0];
 	}
 	/**
 	 * @param $id
@@ -73,6 +103,7 @@ class Alert extends BASE {
 	 * @param $id
 	 * 根据dispose_id（处理人id）
 	 * 得到user(用户表)的用户姓名
+	 * user
 	 */
 	function get_user_name($id = "") {
 		$this->sql = "select name from " . $this->user_table_name . " where id=" . $id;

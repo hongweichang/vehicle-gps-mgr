@@ -1,10 +1,13 @@
 $(document).ready(function() {
+
 	$( "#opinion" ).dialog({
 		   close: function(event, ui) { location.href = "index.php?a=901"; }
 	});
 	
+
+
 	jQuery("#navgrid1").jqGrid( {
-		url : 'index.php?a=902',
+		url : "index.php?a=902&group_id="+$("#vehicle_group").val()+"&vehicle_id="+$("#vehicle").val()+"&deal="+$("#data_condition").attr("checked"),
 		datatype : "json",
 		colNames : [ 'id', '告警时间', '告警类型', '车牌号码', '处理人姓名', '描述', '处理状态' ],
 		colModel : [ {
@@ -33,8 +36,8 @@ $(document).ready(function() {
 			align : "center",
 			editable : false
 		}, {
-			name : 'dispose_id',
-			index : 'dispose_id',
+			name : 'name',
+			index : 'name',
 			width : 50,
 			align : "center",
 			editable : false
@@ -63,6 +66,7 @@ $(document).ready(function() {
 		caption : "告警信息",
 		height : 230,
 		width : 800
+		
 	});
 	jQuery("#navgrid1").jqGrid('navGrid', '#pagernav1', {
 		del : false,

@@ -86,7 +86,7 @@ class Statistic extends BASE {
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
 	
-	/***
+/***
 	 * 
 	 * 得到驾驶员总记录数
 	 * @return 总记录数
@@ -96,6 +96,98 @@ class Statistic extends BASE {
 		
 		$this->sql = "select count(*) from " . " ( select cs.driver_id,ss.distance,ss.drive_time,cs.stop_time from " . " ( select driver_id,distance,drive_time from   continue_drive_statistic group by driver_id) as ss " . " inner join " . " ( select driver_id,stop_time from   stop_statistic group by driver_id ) as cs" . " on ss.driver_id=cs.driver_id) as ss_cs " . " inner join" . " ( select driver_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by driver_id) as ti" . " on ti.driver_id=ss_cs.driver_id ";
 		
+		$count = $GLOBALS ["db"]->query_once ( $this->sql );
+		return $count [0];
+	}
+	/**
+	 * 条件查询:在一段时间内
+	 * 驾驶员信息
+	 */
+	function get_driver_time($sel_start_time="",$sel_end_time="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		$this->sql =
+
+				"select driver_id,name,distance,drive_time,stop_time,min_time,max_time from 
+				((select ss_cs.driver_id, ss_cs.distance, ss_cs.drive_time, ss_cs.stop_time,ti.min_time,ti.max_time  from 
+				(select cs.driver_id,ss.distance,ss.drive_time,cs.stop_time from 
+				(select driver_id,distance,drive_time from   continue_drive_statistic group by driver_id) as ss 
+				inner join 
+				(select driver_id,stop_time from   stop_statistic group by driver_id ) as  cs  
+				on ss.driver_id=cs.driver_id) as ss_cs 
+				inner join 
+				(select driver_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by driver_id)  
+				as ti 
+				on ti.driver_id=ss_cs.driver_id) as drive 
+				inner join 
+				(select id,name from driver_manage) as d_m 
+				on  d_m.id=drive.driver_id)
+				where Concat(min_time)>'".$sel_start_time."'
+				and Concat(min_time)<'".$sel_end_time."'  order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;		
+		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
+	}
+	
+	/**
+	 * 条件查询:在一段时间内
+	 * 车辆信息
+	 * 
+	 */
+	function get_vehicle_time($sel_start_time="",$sel_end_time="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		$this->sql =
+			"select vehicle_id,number_plate,distance,drive_time,stop_time,min_time,max_time from ".
+			"(((select ss_cs.vehicle_id, ss_cs.distance, ss_cs.drive_time, ss_cs.stop_time,ti.min_time,ti.max_time  from ".
+			"(select cs.vehicle_id,ss.distance,ss.drive_time,cs.stop_time from ".
+			"(select vehicle_id,distance,drive_time from   continue_drive_statistic group by vehicle_id) as ss ".
+			"inner join ".
+			"(select vehicle_id,stop_time from   stop_statistic group by vehicle_id ) as  cs ".
+			"on ss.vehicle_id=cs.vehicle_id) as ss_cs ".
+			"inner join ". 
+			"(select vehicle_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by vehicle_id) as ti ".
+			"on ti.vehicle_id=ss_cs.vehicle_id)) as vehi ".
+			"inner join ".
+			"(select id,number_plate from vehicle_manage) as manage ".
+			"on manage.id=vehi.vehicle_id)
+			where Concat(min_time)>'".$sel_start_time."'
+			and Concat(min_time)<'".$sel_end_time."'  order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
+	}
+	
+	
+	
+	function sel_driver_count ($begin_data,$end_data){
+			$this->sql ="select count(*) from 
+			((select ss_cs.driver_id, ss_cs.distance, ss_cs.drive_time, ss_cs.stop_time,ti.min_time,ti.max_time  from 
+			(select cs.driver_id,ss.distance,ss.drive_time,cs.stop_time from 
+			(select driver_id,distance,drive_time from   continue_drive_statistic group by driver_id) as ss 
+			inner join 
+			(select driver_id,stop_time from   stop_statistic group by driver_id ) as  cs  
+			on ss.driver_id=cs.driver_id) as ss_cs 
+			inner join 
+			(select driver_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by driver_id)  
+			as ti 
+			on ti.driver_id=ss_cs.driver_id) as drive 
+			inner join 
+			(select id,name from driver_manage) as d_m 
+			on  d_m.id=drive.driver_id)
+			where Concat(min_time)>'".$begin_data."'
+			and Concat(min_time)<'".$end_data."'";	
+		$count = $GLOBALS ["db"]->query_once ( $this->sql );
+		return $count [0];	
+}
+	
+	
+
+	function sel_vehicle_count ($begin_data,$end_data){
+			$this->sql =		
+					"select count(*) from 
+					((select cs.vehicle_id,ss.distance,ss.drive_time,cs.stop_time from 
+					(select vehicle_id,distance,drive_time from   continue_drive_statistic group by vehicle_id) as ss 
+					inner join 
+					(select vehicle_id,stop_time from   stop_statistic group by vehicle_id ) as  cs 
+					on ss.vehicle_id=cs.vehicle_id) as ss_cs 
+					inner join 
+					(select vehicle_id ,min(start_time) as min_time ,max(end_time) as max_time from continue_drive_statistic group by vehicle_id) as ti 
+					on ti.vehicle_id=ss_cs.vehicle_id)
+					where Concat(min_time)>'".$begin_data."'
+					and Concat(min_time)<'".$end_data."'";
 		$count = $GLOBALS ["db"]->query_once ( $this->sql );
 		return $count [0];
 	}

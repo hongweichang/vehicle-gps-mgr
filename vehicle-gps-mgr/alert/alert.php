@@ -5,37 +5,35 @@
  * @author 　　段贵山
  * @create date 　 2010.07.30
  */
+
+session_start();//开启session 
+
 require_once ("include/data_mapping_handler.php");
 //require_once ("include/commmon.php");
 $act = $GLOBALS ["all"] ["operate"]; //取得功能名称
-
 
 $page = $_REQUEST ['page']; // 得到当前页数
 $limit = $_REQUEST ['rows']; // 得到一页的行数
 $sidx = $_REQUEST ['sidx']; // 得第一列
 $sord = $_REQUEST ['sord']; // 得到排序
-
-
 $id = $_REQUEST ["id"]; //要增加处理意见的数据id
-
-
 //定义xml映射文件局对路径
 $comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
 //定义xml映射文件局对路径
 $treatment_advice = $all ["BASE"] . "xml/treatment_advice.xml";
-
 $tableName = "alert_info"; //解析xml文件中对应的表明
 $colName = "alert_type"; //解析xml文件中对应的列名
-
-
 $lableName = "advice"; //解析xml文件中标签名称
 
+/**
+ * 
+ * @var unknown_type
+ */
+ 
 
-$vehicle_id = $_REQUEST ['vehicle_id']; //车辆组id
-
-
-$deal = $_REQUEST ['deal']; //是否是已处理
-
+$group_id=$_REQUEST ['group_id'];//车辆组id
+$vehicle_id=$_REQUEST ['vehicle_id'];//车辆id
+$deal=$_REQUEST ['deal'];//是否处理
 
 if (! $sidx)
 	$sidx = 1;
@@ -46,32 +44,36 @@ if (! $page)
 if (! $limit)
 	$limit = 10;
 
-if (! empty ( $deal )) { //判断是否选中处理意见	
+if ($deal=='true') { //1为显示全部数据 0为显示为处理数据
 	$wh = " where 1=1 ";
 } else {
 	$wh = " where (dispose_opinion is null or \"\" = dispose_opinion) ";
 }
 
-if (! empty ( $vehicle_id )) { //判断是否选中全部车辆
-	$count = strlen ( $vehicle_id ) - 1;
-	$str = substr ( $vehicle_id, 1, $count );
-	if (substr ( $vehicle_id, 0, 1 ) == "@") {
-		$wh = $wh . " and vehicle_id in(select vm.id  from vehicle_manage as vm inner join  vehicle_group as vg" . " on vg.id=vm.vehicle_group_id and vm.vehicle_group_id=" . $str . ")";
-	} else {
-		$wh = $wh . " and vehicle_id=" . $vehicle_id; //取得dispose_opinion为null的数据
-	}
-}
+
 
 switch ($act) {
 	case "list" : //模拟测试
-		echo $GLOBALS ['db']->display ( null, $act );
+$vehicle_group = "";
+
+		$vehicle_group_options = "<option value=-1 selected>全部车辆组</option>";
+		$alert = new Alert ();
+		$vehicle_group_data = $alert->get_vehicle_group ();
+		foreach ( $vehicle_group_data as $key => $value ) {
+			$vehicle_group_options = $vehicle_group_options."<option value=\"".$value['id']."\" >".$value['name']."</option>"; 
+		}
+		
+		$param["GROUP_OPTION"] = $vehicle_group_options;
+		$param["VEHICLE_OPTION"] = "<option value=-1 selected>全部车辆</option>";
+		
+		echo $GLOBALS ['db']->display ( $param, $act );
 		break;
 	
 	case "list_data" : //向jqgrid填充数据
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
 		
-		$count = $alert->get_all_count ( $wh );
+		$count = $alert->get_all_count ($group_id,$vehicle_id, $wh );
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -84,11 +86,11 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $alert->get_all_alerts ( $wh, $sidx, $sord, $start, $limit );
+		$dataList = $alert->get_all_alerts ( $group_id,$vehicle_id,$wh, $sidx, $sord, $start, $limit );
 		
-		$responce->page = $page; //分别赋值当前页,总页数，总数据条数
-		$responce->total = $total_pages;
-		$responce->records = $count;
+		$response->page = $page; //分别赋值当前页,总页数，总数据条数
+		$response->total = $total_pages;
+		$response->records = $count;
 		
 		foreach ( $dataList as $key => $value ) { 
 			$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
@@ -97,21 +99,21 @@ switch ($act) {
 			$vehicle_number = $alert->get_vehicle_manage_number ( $value ['vehicle_id'] );
 			$user_name = $alert->get_user_name ( $value ['dispose_id'] );
 			
-			$responce->rows [$key] ['id'] = $value ['id'];
-			if ( !empty($value['dispose_opinion'])) {
+			$response->rows [$key] ['id'] = $value ['id'];
+			if ( !empty($value['dispose_opinion'])||strlen($value['dispose_opinion'])!=0) {
 				
 				if (strlen($value ['dispose_opinion']) > $limit_length) {
 					$shortString = convertOverlongString( $value ['dispose_opinion'], $limit_length );
 				}else{
 					$shortString=$value ['dispose_opinion'];
 				}
-				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $shortString );
+			   $response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $shortString );
 			} else {
-				$responce->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
+				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
 		
 		}
-		echo json_encode ( $responce ); //打印json格式的数据
+		echo json_encode ( $response ); //打印json格式的数据
 		break;
 		
 	case "write_opinion":

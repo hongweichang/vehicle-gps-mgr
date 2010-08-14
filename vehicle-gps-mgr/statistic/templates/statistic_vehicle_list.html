@@ -1,7 +1,70 @@
 <div
-	style="margin: 20px 0px  0px 0px;  border: 0px red solid; height: 310px; width: 56%;">
+	style="margin: 20px 0px 0px 0px; border: 1px red solid; height: 100%; width: 100%;">
+<div
+	style="height: 27px; width: 900px; margin-bottom: 30px; border: 1px green solid;">
+<div
+	style="font-weight: 600; font-size: 15px; float: left; height: 18px; width: 100px; border: 1px red solid; margin-top: 3px;">
+查询开始时间:</div>
+<div
+	style="float: left; height: 25px; width: 140px; border: 1px red solid; margin-left: 5px;">
+<input type="text" name="vehicle_begin_data" id="vehicle_begin_data" size="20px" /></div>
+<div
+	style="font-weight: 600; font-size: 15px; float: left; height: 18px; width: 100px; border: 1px red solid; margin-top: 3px; margin-left: 40px;">
+查询结束时间:</div>
+<div
+	style="float: left; height: 25px; width: 140px; border: 1px red solid; margin-left: 5px;">
+<input type="text" name="vehicle_end_data" id="vehicle_end_data" size="20px" /></div>
+<div
+	style="float: left; height: 25px; width: 60px; border: 1px red solid; margin-left: 15px;">
+<input type="button" value="查询" onclick="condition_vehicle_data()"  width="140px" /></div>
+</div>
 <table id="navgrid_vehicle"></table>
 <div id="pagernav_vehicle"></div>
 </div>
 
-<script src="js/statistic/vehicle.js" type="text/javascript"></script>
+<script src="js/statistic/vehicle.js" type="text/javascript"></script> <script>
+	$("#vehicle_begin_data").datetimepicker( {
+		ampm : false,//上午下午是否显示  
+		timeFormat : 'hh:mm:ss',//时间模式  
+		stepHour : 1,//拖动时间时的间隔  
+		stepMinute : 1,//拖动分钟时的间隔  
+		//stepSecond: 1,//拖动秒时的间隔
+		dateFormat : "yy/mm/dd", //日期格式设定  
+		showHour : true,//是否显示小时，默认是true  
+		showMinute : true,
+		showSecond : false,
+		createButton : false
+	});
+
+	$("#vehicle_end_data").datetimepicker( {
+		ampm : false,//上午下午是否显示  
+		timeFormat : 'hh:mm:ss',//时间模式  
+		stepHour : 1,//拖动时间时的间隔  
+		stepMinute : 1,//拖动分钟时的间隔  
+		//stepSecond: 1,//拖动秒时的间隔
+		dateFormat : "yy/mm/dd", //日期格式设定  
+		showHour : true,//是否显示小时，默认是true  
+		showMinute : true,
+		showSecond : false,
+		createButton : false
+	});
+
+	function condition_vehicle_data() {
+
+		var begin_data = $("#vehicle_begin_data").val();
+		var end_data = $("#vehicle_end_data").val();
+
+		$("#navgrid_vehicle").clearGridData();
+
+		var mygrid = jQuery("#navgrid_vehicle")[0];
+
+		var str = "index.php?a=409&"+
+			      "page=1&rows=10&sidx=1&sord=asc"+
+			      "&begin_data=" + begin_data + "&end_data="
+				  + end_data;
+
+		$.post(str, function(json) {
+			mygrid.addJSONData(json);
+		}, "json");
+	}
+</script>
