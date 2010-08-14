@@ -80,7 +80,10 @@
 					showSecond: false,
 					createButton: false
 				});
- 
+		 $(document).bind("contextmenu",function(e){
+		        return false;
+		    });
+				 		
 		$('#addAdvice').click(function(e) {
 			$("#opinion").html("");
 			$("#opinion").dialog("open");
@@ -246,7 +249,7 @@
 
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
-		$('#operation').css('overflow','hidden');//隐藏滚动条
+		$('#operation').css('overflow','hidden');//隐藏滚动条 
 		$("#operation").dialog({
             title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
@@ -332,8 +335,9 @@
 				
 				//初始化车辆定位
 				loadCompanyVehicle();
-			}
-				
+
+				 
+			} 
 			/**
 			 * 关闭窗口
 			 */
