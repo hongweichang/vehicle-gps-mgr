@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
 	<link type="text/css" href="css/style.css" rel="stylesheet" />
-	<link type="text/css" href="css/redmond/jquery-ui-1.8.1.custom.css" rel="stylesheet" />
+	<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
 	<link type="text/css" href="css/ui.jqgrid.css" media="screen" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 		
@@ -254,13 +254,10 @@
         	        hide:'blind',
     	            width: showWidth,
     	            height: showHeight,
-    	            modal: true,
+    	            modal: false,
     	            resizable: true,
     				autoResize: true,
-    	            overlay: {
-                    opacity: 0.5,
-                    background: "black"
-    	            }
+    	            
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
 
 		$( "#operation" ).dialog({
