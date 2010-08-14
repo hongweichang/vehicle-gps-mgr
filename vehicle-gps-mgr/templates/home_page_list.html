@@ -171,11 +171,7 @@
 		    </div>
 	</div>  
 	<script language="javascript">
-	
-	
-	$("#location_refresh").click(function(){
-		
-	});
+	 
 	
 	function showOperationDialog(htmlObj, url){
 		var $this = $(htmlObj);
@@ -378,74 +374,87 @@
 				});
 			}
 			
-			
+			$("#location_refresh").click(function(){
+				if($(this).attr('checked')){
+					loadCompanyVehicle();
+				}
+			});
 			
 			/**
 			 * 初始化当前公司所有车辆定位信息
 			 */
 			function loadCompanyVehicle(){
-				
-				$.ajax({
-					type:"POST",
-					url:"index.php?a=101", 
-					dataType:"json",
-					success:function(data){  
-					 if(data != null){
-						var length = data.length; 
-
-						if(length>0)
-							clearOverLay();
-							
-						var points = new Array();
-						 for(var i=0;i<length;i++){      
-
-							var vehicle_id = data[i]['id']; //车辆id
-							var number_plate = data[i]['number_plate']; //车牌号
-							var gps_id = data[i]['gps_id']; //GPS编号
-							var location_time = data[i]['location_time']; //当前定位时间 
-							var point_longitude =  data[i]['cur_longitude']; //当前经度
-							var point_latitude =  data[i]['cur_latitude']; //当前纬度 
-							var cur_speed =  data[i]['cur_speed'];//当前速度
-							var img_name =data[i]['cur_direction']; //图片名
-							var vehicle_group_name = data[i]['group_name'];  //车队
-							var driver_name = data[i]['driver_name']; //驾驶员
-							var file_path = data[i]['file_path']; //文件路径
-							var location_desc =  data[i]['location_desc']; //地址
-							   
-							//创建点对象
-							marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
-											 	  new LTIcon(host+"/"+file_path+"/"+img_name+".png"));
-
-							points.push( new LTPoint(point_longitude,point_latitude));
-							//点对象设置内容
-							var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
-										  "<br>车队："+vehicle_group_name+
-										  "<br>驾驶员："+driver_name+
-										  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
-										  "<br>地址: "+location_desc+"<br><br>"+
-										  "<div url='index.php?a=201' showWidth=\"430\" showHeight=\"340\" title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id="+vehicle_id+"\")'><a href='#'>发布信息</a></div>"+
-										  "&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id="+vehicle_id+"\")'><a href='#'>查看历史信息</a></div>";
-							addInfoWin(marker,context);
-
-							//点添入地图中
-							map.addOverLay(marker);
-
-							var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
-							text.setLabel(number_plate ); 
-							map.addOverLay( text ); 
-						}  
-						map.getBestMap(points); 
-					 }
-				   }
- 				});	
-
- 				
- 				
-				//自动刷新页面当前公司所有车辆最新定位信息。
-				setTimeout(function(){
-					 if(state==1) loadCompanyVehicle();
-					},page_refresh_time*1000);
- 				} 
+				if ($("#location_refresh").attr('checked')) {
+					$.ajax({
+						type: "POST",
+						url: "index.php?a=101",
+						dataType: "json",
+						success: function(data){
+							if (data != null) {
+								var length = data.length;
+								
+								if (length > 0) 
+									clearOverLay();
+								
+								var points = new Array();
+								for (var i = 0; i < length; i++) {
+								
+									var vehicle_id = data[i]['id']; //车辆id
+									var number_plate = data[i]['number_plate']; //车牌号
+									var gps_id = data[i]['gps_id']; //GPS编号
+									var location_time = data[i]['location_time']; //当前定位时间 
+									var point_longitude = data[i]['cur_longitude']; //当前经度
+									var point_latitude = data[i]['cur_latitude']; //当前纬度 
+									var cur_speed = data[i]['cur_speed'];//当前速度
+									var img_name = data[i]['cur_direction']; //图片名
+									var vehicle_group_name = data[i]['group_name']; //车队
+									var driver_name = data[i]['driver_name']; //驾驶员
+									var file_path = data[i]['file_path']; //文件路径
+									var location_desc = data[i]['location_desc']; //地址
+									//创建点对象
+									marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(host + "/" + file_path + "/" + img_name + ".png"));
+									
+									points.push(new LTPoint(point_longitude, point_latitude));
+									//点对象设置内容
+									var context = "车牌号：" + number_plate + "<br>GPS编号：" + gps_id +
+									"<br>车队：" +
+									vehicle_group_name +
+									"<br>驾驶员：" +
+									driver_name +
+									"<br>速度: " +
+									cur_speed +
+									"<br>定位时间:" +
+									location_time +
+									"<br>地址: " +
+									location_desc +
+									"<br><br>" +
+									"<div url='index.php?a=201' showWidth=\"430\" showHeight=\"340\" title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+									vehicle_id +
+									"\")'><a href='#'>发布信息</a></div>" +
+									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
+									vehicle_id +
+									"\")'><a href='#'>查看历史信息</a></div>";
+									addInfoWin(marker, context);
+									
+									//点添入地图中
+									map.addOverLay(marker);
+									
+									var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
+									text.setLabel(number_plate);
+									map.addOverLay(text);
+								}
+								map.getBestMap(points);
+							}
+						}
+					});
+					
+					//自动刷新页面当前公司所有车辆最新定位信息。
+					setTimeout(function(){
+						if (state == 1) 
+							loadCompanyVehicle();
+					}, page_refresh_time * 1000);
+				}	
+ 			} 
 			
 			
 			
