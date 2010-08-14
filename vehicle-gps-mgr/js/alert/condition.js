@@ -1,8 +1,8 @@
 function selVehicle() {// 车辆组联动车辆编号
 	var vehicle_group_id = $("#vehicle_group").val();
 	if(-1 == vehicle_group_id){
-		$("#vehicle").empty();
-		$("#vehicle").append(
+		$("#vehicle_sel").empty();
+		$("#vehicle_sel").append(
 		"<option select='selected' value=-1>全部车辆 </option>");
 	}
 	else{
@@ -14,13 +14,13 @@ function selVehicle() {// 车辆组联动车辆编号
 			success : function(data) {
 				
 				if (data == 0) {
-					$("#vehicle").empty();
-					$("#vehicle").append(
+					$("#vehicle_sel").empty();
+					$("#vehicle_sel").append(
 							"<option select='selected' value=-2>无对应车辆编号</option>");
 				} else {
-					$("#vehicle").empty();
+					$("#vehicle_sel").empty();
 
-					$("#vehicle").append(
+					$("#vehicle_sel").append(
 					"<option select='selected' value=-1>全部车辆 </option>");
 					
 					var arry = data.split("|");
@@ -32,7 +32,7 @@ function selVehicle() {// 车辆组联动车辆编号
 								+ "</option>";
 					}
 					
-					$("#vehicle").append(vehicle_content);
+					$("#vehicle_sel").append(vehicle_content);
 				}
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {
@@ -42,14 +42,15 @@ function selVehicle() {// 车辆组联动车辆编号
 	}	
 }
 
-function condition() {
+/*function condition() {
 	jQuery.ajax( {
 		url : "index.php?a=905",// 读取车辆组的名称数据
 		type : "post",
 		data : null,
 		success : function(data) {
+		    var vehicle_group_content="";
 			var arry_vel = data.split("@");
-
+         
 			var arry = arry_vel[0].split("|");
 			for ( var i = 0; i < arry.length - 1; i++) {
 				var vehicle_group_value = arry[i].split(",");
@@ -66,13 +67,14 @@ function condition() {
 			alert("Errors: " + errorThrown);
 		}
 	});
-}
+}*/
 
 
 
 
 function reloadGrid() {
+
 	$("#navgrid1").jqGrid().setGridParam({url : "index.php?a=902&group_id="+$("#vehicle_group")
-		.val()+"&vehicle_id="+$("#vehicle").val()+"&deal="+$("#data_condition").attr("checked"),page:1}).trigger("reloadGrid")
+		.val()+"&vehicle_id="+$("#vehicle_sel").val()+"&deal="+$("#data_condition").attr("checked"),page:1}).trigger("reloadGrid");
 
 }
