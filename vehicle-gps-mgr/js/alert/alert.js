@@ -1,4 +1,6 @@
-
+	$( "#opinion" ).dialog({
+		   close: function(event, ui) { reloadGrid(); }
+	});
 	
 	jQuery("#navgrid1").jqGrid( {
 		url : "index.php?a=902&group_id="+$("#vehicle_group").val()+"&vehicle_id="+$("#vehicle_sel").val()+"&deal="+$("#data_condition").attr("checked"),
