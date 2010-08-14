@@ -77,10 +77,10 @@ switch($act)
 			$point_info[1]= $lat;  //纬度
 			$point_info[2]= resolvingDirection($v->direction); //方向 
 			$point_info[3]= $v->speed; //速度
-			$point_info[4]= $v->location_desc; //地址
-			$point_info[5]= $v->color; //颜色
-			$point_info[6]= $v->img_path; //图片路径
-			$point_info[7]= $v->location_time; //定位时间
+			//$point_info[4]= $v->location_desc; //地址
+			$point_info[4]= $v->color; //颜色
+			$point_info[5]= $v->img_path; //图片路径
+			$point_info[6]= $v->location_time; //定位时间
 
 			array_push($trace_info,$point_info);
 		}
