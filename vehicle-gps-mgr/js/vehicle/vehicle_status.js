@@ -24,7 +24,6 @@ jQuery("#vehicle_status_list").jqGrid({
    	sortname: 'id',
     viewrecords: true,
     sortorder: "desc",
-    caption:"车辆状态",
     editurl:"index.php?a=1012",
 	height:290,
 
