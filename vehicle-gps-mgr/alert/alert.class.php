@@ -57,7 +57,7 @@ class Alert extends BASE {
                     "((select * from alert_info) as a_i ".
                     "inner join ".
                     "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
-                    "on v_m.id=a_i.vehicle_id) where a_i.vehicle_id=".$vehicle_id ." ". $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 
+                    "on v_m.id=a_i.vehicle_id) ". $wh ." and a_i.vehicle_id=".$vehicle_id ." order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 
 
 		 }
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
