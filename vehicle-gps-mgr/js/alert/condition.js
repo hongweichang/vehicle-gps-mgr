@@ -71,7 +71,7 @@ function condition() {
 
 
 
-function selectMethod() {
+function reloadGrid() {
 	$("#navgrid1").jqGrid().setGridParam({url : "index.php?a=902&group_id="+$("#vehicle_group")
 		.val()+"&vehicle_id="+$("#vehicle").val()+"&deal="+$("#data_condition").attr("checked"),page:1}).trigger("reloadGrid")
 

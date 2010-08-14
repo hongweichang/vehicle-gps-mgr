@@ -1,11 +1,7 @@
-$(document).ready(function() {
-
 	$( "#opinion" ).dialog({
-		   close: function(event, ui) { location.href = "index.php?a=901"; }
+		   close: function(event, ui) { reloadGrid(); }
 	});
 	
-
-
 	jQuery("#navgrid1").jqGrid( {
 		url : "index.php?a=902&group_id="+$("#vehicle_group").val()+"&vehicle_id="+$("#vehicle").val()+"&deal="+$("#data_condition").attr("checked"),
 		datatype : "json",
@@ -74,4 +70,3 @@ $(document).ready(function() {
 		edit : false,
 		alerttext : "请选择需要操作的数据行!"
 	});
-});
