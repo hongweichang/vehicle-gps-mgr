@@ -585,18 +585,21 @@
 				}
 
 			 /**
-			  *  将51地图经纬度转换成真正的经纬度	
-			  *  @param direction 经度或纬度
+			  *  转换方向
+			  *  @param direction 方向
 			  */
 			 function direction_change(direction){
-					if(direction == "north") return "北";
-					if(direction == "east") return "东";
-					if(direction == "west") return "西";
-					if(direction == "south") return "南";
-					if(direction == "northeast") return "东北";
-					if(direction == "northwest") return "西北";
-					if(direction == "southeast") return "东南";
-					if(direction == "southwest") return "西南";
+				 var directions = new Array(8);
+				 directions['north']="北";
+				 directions['east']="东";
+				 directions['west']="西";
+				 directions['south']="南";
+				 directions['northeast']="东北";
+				 directions['northwest']="西北";
+				 directions['southeast']="东南";
+				 directions['southwest']="西南";
+				 
+				return directions[direction];
 					
 				}
 			 
