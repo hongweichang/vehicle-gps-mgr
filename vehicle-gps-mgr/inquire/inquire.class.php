@@ -1,6 +1,8 @@
 <?php
 class Inquire extends BASE
 {
+	
+	
 	/**
 	*		查询所有车辆
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
@@ -39,5 +41,16 @@ class Inquire extends BASE
 		 $count = $GLOBALS['db']->query_once($this->sql);
 		 return $count[0];
 		}
+		
+	/**
+	 *  信息类型解析
+	 *  $type 信息类型
+	 */
+	function change_type($type){
+		$comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
+		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
+		$test = $dataMapping->getMappingText("info_issue","type",$type);
+		return $test;
+	}
 }
 ?>

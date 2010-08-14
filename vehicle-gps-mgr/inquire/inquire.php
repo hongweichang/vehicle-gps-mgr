@@ -10,6 +10,8 @@
 */
 
 $act = $GLOBALS["all"]["operate"];
+require_once ("include/data_mapping_handler.php");
+$comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
 
 $page = $_REQUEST['page'];
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
@@ -126,12 +128,15 @@ switch($act)
 		$response->total = $total_pages;
 		$response->records = $count;
 		
+		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
+		
 		foreach($infoes as	$key => $val)
 		{ 
-            
+			
+			$info_type= $dataMapping->getMappingText ( "info_issue", "type", $val ['type'] );
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['login_name'],
-												$val['type'],$val['issue_time'],$val['begin_time'],$val['end_time'],
+												$info_type,$val['issue_time'],$val['begin_time'],$val['end_time'],
 												$val['content']);
 		}
 
