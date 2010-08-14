@@ -42,33 +42,6 @@ function selVehicle() {// 车辆组联动车辆编号
 	}	
 }
 
-/*function condition() {
-	jQuery.ajax( {
-		url : "index.php?a=905",// 读取车辆组的名称数据
-		type : "post",
-		data : null,
-		success : function(data) {
-		    var vehicle_group_content="";
-			var arry_vel = data.split("@");
-         
-			var arry = arry_vel[0].split("|");
-			for ( var i = 0; i < arry.length - 1; i++) {
-				var vehicle_group_value = arry[i].split(",");
-				vehicle_group_content = vehicle_group_content
-						+ "<option value=" + vehicle_group_value[0] + ">"
-						+ vehicle_group_value[1] + "</option>";
-
-			}
-
-			$("#vehicle_group").append(vehicle_group_content);
-			$("#vehicle").append(vehicle_content);
-		},
-		error : function(XMLHttpRequest, textStatus, errorThrown) {
-			alert("Errors: " + errorThrown);
-		}
-	});
-}*/
-
 
 
 
