@@ -93,7 +93,8 @@
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
 				$("#opinion").unmask(); 
-			});
+			}
+		});
 
 			function get_cur_run_time(){
 				$("#show_time").html( $( "#cur_run_time" ).slider("option","value"));
