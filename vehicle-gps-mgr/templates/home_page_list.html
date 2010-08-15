@@ -259,8 +259,7 @@
     	            height: showHeight,
     	            modal: false,
     	            resizable: true,
-    				autoResize: true,
-    	            
+    				autoResize: true
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
 
 		$( "#operation" ).dialog({
@@ -502,9 +501,9 @@
 									"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
 									vehicle_id +
 									"\")'><a href='#'>发布信息</a></div>" +
-									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
+									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"720\" showHeight=\"30\" title='查看历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
 									vehicle_id +
-									"\")'><a href='#'>查看历史信息</a></div>";
+									"\")'><a href='#'>查看历史轨迹</a></div>";
 									addInfoWin(marker, context);
 									
 									//点添入地图中
