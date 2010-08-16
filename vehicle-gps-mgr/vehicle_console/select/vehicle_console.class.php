@@ -82,14 +82,14 @@ class vehicle_console extends BASE{
 						   "					    ON  s.company_id = ".$company."  AND  v.company_id = s.company_id 	AND v.cur_direction>=min AND v.cur_direction<max ". 
 						   "					LEFT JOIN ". 				
 						   "						".$this->tablename_common_setting." c ". 			
-						   "					    ON  c.company_id =".$company.		 
+						   "					    ON  c.company_id = s.company_id".		 
 						   "					LEFT JOIN ".
 						   "						".$this->tablename_vehicle_group." g ". 
-						   "					    ON g.company_id=v.vehicle_group_id ".  
+						   "					    ON g.company_id=c.company_id and g.id=v.vehicle_group_id".  
 						   "					LEFT JOIN ".
 						   "						".$this->tablename_driver_manage." d ". 
 						   "					   ON d.id= v.driver_id ".	 
-						   "			WHERE v.id in(".$where.") ";
+						   "			WHERE v.id in(".$where.") group by v.id";
 				  
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}

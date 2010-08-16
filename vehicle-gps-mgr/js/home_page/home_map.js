@@ -1,4 +1,11 @@
- 
+/**
+ * commpany  秦运恒  
+ * date  2010-08-16 11:56
+ * function 首页地图脚本函数库
+ * author 叶稳
+ * update 
+ * modifier
+ */
 	var map;  //声明51地图对象
 	var control; //声明51地图控件
 	var longitude = 3991104;  // 经度
@@ -18,10 +25,13 @@
 	 */
 	function onLoadMap()
 	{	
-		
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
+		
+		//初始化车辆定位
+		loadCompanyVehicle();
+		
 		var standControl = new LTStandMapControl();
 		standControl.setTop(40);
 		map.addControl(standControl);
@@ -37,11 +47,6 @@
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
-		
-		//初始化车辆定位
-		loadCompanyVehicle();
-	
-		 
 	} 
 
 	/**
@@ -114,8 +119,10 @@
 	function clearOverLay(){
 		map.clearOverLays(); 
 	}
- 
-	 $("#location_refresh",window.parent.document).click(function(){
+	/**
+	 * 定位刷新操作
+	 */
+	$("#location_refresh",window.parent.document).click(function(){
 		if($(this).attr('checked')){
 			loadCompanyVehicle();
 		}
@@ -169,10 +176,10 @@
 							"<br>地址: " +
 							location_desc +
 							"<br><br>" +
-							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>发布信息</a></div>" +
-							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"720\" showHeight=\"30\" title='查看历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
+							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"720\" showHeight=\"30\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>查看历史轨迹</a></div>";
 							addInfoWin(marker, context);
@@ -383,11 +390,11 @@
 	 
 		 $.ajax({
 				type:"POST",
-				url:"index.php?a=2&vehicleIds="+str, 
+				url:window.parent.host+"/index.php?a=2&vehicleIds="+str, 
 				dataType:"json",
 				success:function(data){ 
 				
-					var length = data.length;
+					var length = data.length; 
 					var points = new Array();
 					 
 					if(length>0)clearOverLay();
@@ -434,10 +441,7 @@
 				 }
 				});
 	}
-
-	
-	 
-
+ 
 	/**
 	 * 手动画矩形
 	 */

@@ -8,6 +8,9 @@
  */
 
 
+//子页面对象   iframe
+var home_map =  document.getElementById("home_map_frame").contentWindow;
+
 //初始化
 $(document).ready(function() {
 		$("#location_info").draggable();
@@ -231,9 +234,14 @@ $(document).ready(function() {
 		                	str = str+$(this).val()+",";
 		                
 		             });
-
-					vehiclePosition(str.substr(0,str.length-1));
-			   		closeDialog();
+		            if(str === null || str=== ""){
+		            	alert("请选择您所需要定位的车辆!");
+		            	return false;
+		            }else{
+		            	home_map.vehiclePosition(str.substr(0,str.length-1));
+				   		closeDialog();
+		            }
+		            
 					});
 			 }
 		});
