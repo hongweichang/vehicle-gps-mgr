@@ -161,31 +161,7 @@ $(document).ready(function() {
 					);
 				  setTimeout("alertInfo()",30000);
 	 			}
-	 			/**动态生成车辆代表的速度**/
-				$(document).ready(function() {
-					
-					$.post("index.php",{
-						 "a":5021}
-						,function(data){
-							
-							var array=data.split("|");
-							if(array.length==0){
-								$("#header").unmask();
-								alert("没有数据");
-							}else
-							{    
-								var image="";
-								for(var i=0;i<array.length-1;i++){
-									var data_list_min=array[i].split(",");
-									image=image+"<div style='float:left;heigth:17px;'>" +
-											    "&nbsp;&nbsp;&nbsp;<img src="+data_list_min[0]+" style='height:17px;'/>&nbsp;" 
-											    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
-								}		
-								$("#header").unmask();
-								$("#carInfor").html(image);
-						    }
-						});
- 
+	 			 
 			
 	var id=0;
 	/**获得24小时内未处理的告警记录**/
@@ -298,5 +274,4 @@ $(document).ready(function() {
 				   close: function(event, ui) { $("#operation").html(""); }
 			});
 		});
-	} 
-				 
+	}  
