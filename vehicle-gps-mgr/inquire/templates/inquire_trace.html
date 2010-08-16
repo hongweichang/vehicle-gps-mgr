@@ -130,19 +130,24 @@ function getNowFormatDate()
 					$("#endTime").focus();
 					return false;
 				}
-				
+
+				//获取时间数组
 				arr_history = getHourList(); 
+				//清除地图标签 
 				clearOverLay();
 				vehicle_id = $("#vehicle_info option:selected").val();
 
+				//获取车牌号、GPS编号
 				$.get("index.php?a=504&vehicle_id="+vehicle_id,function(data){
 	
 					var gps_plate = eval('(' + data + ')');  
 					$("#vehicle_id").html(gps_plate[0]);
 					$("#gps_id").html(gps_plate[1]);
 					});
-				
+
+				//运行历史轨迹
 				runHistoryTrack();
+				//关闭对话框
 				closeDialog();
 			});
 
