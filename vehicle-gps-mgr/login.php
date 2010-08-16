@@ -51,10 +51,6 @@
 						<div class="common">
 							<input type="text" name="companyloginid" id="companyId" class="text_password_input" />
 						</div>
-						<div class="Recheck">
-							<input id="saveCompanyId" type="checkbox" checked="checked" value="" />
-							<span>记住</span>
-						</div>
 					</div>
 				</div>
 				<div class="input_div">
@@ -62,10 +58,6 @@
 					<div class="float_left" >
 						<div style="height:21px; width:81px;float:left;">
 							<input type="text" name="username" id="userName"  class="text_password_input"/>
-						</div>
-						<div class="commonCheck">
-							<input id="saveUserName" type="checkbox" checked="checked" value="" />
-							<span>记住</span>
 						</div>
 					</div>
 				</div>
@@ -76,7 +68,7 @@
 							<input type="password" name="password" id="password" class="text_password_input" />
 						</div>
 						<div class="commonCheck">
-							<input id="savePassWord" type="checkbox" value="" />
+							<input id="saveall" type="checkbox" value="" />
 							<span>记住</span>
 						</div>
 					</div>

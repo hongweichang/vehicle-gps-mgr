@@ -8,24 +8,24 @@ window.onload = function(){
      $("userName").value = userNameValue;
 	 
     var passwordValue = getCookieValue("password");
-     $("password").value = passwordValue;    
+     $("password").value = passwordValue;
 	 
+     var checkValue = getCookieValue("saveall");
+     $("saveall").checked = checkValue;
+     
     //写入点击事件
      $("loginCar").onclick = function()
      {
-	 	var companyIdValue = $("companyId").value;
-        var userNameValue = $("userName").value;
-        var passwordValue = $("password").value;
-	 	
-            if( $("saveCompanyId").checked){  
-				 setCookie("companyId",$("companyId").value,24,"/");  
-             } 
-			 if($("saveUserName").checked){
-			 	setCookie("userName",$("userName").value,24,"/"); 
-			 }
-			  if($("savePassWord").checked) 
-			 {
-			 	setCookie("password",$("password").value,24,"/");
-			 } 
-		}  
+        if( $("saveall").checked){  
+			setCookie("companyId",$("companyId").value,24*30,"/");  
+		 	setCookie("userName",$("userName").value,24*30,"/"); 
+		 	setCookie("password",$("password").value,24*30,"/");
+		 	setCookie("saveall",$("saveall").checked,24*30,"/");
+		 } else{
+			 deleteCookie("companyId","/");  
+			 deleteCookie("userName","/"); 
+			 deleteCookie("password","/");
+			 deleteCookie("saveall","/");
+		 }
+	}  
 }
