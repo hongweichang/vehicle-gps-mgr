@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>JavaScript Maps API</title>
+<script language="javascript" src=" http://api.51ditu.com/js/maps.js"></script>
+</head>
+<body>
+<div id="myMap" style="position:relative; width:580px; height:300px;"></div>
+
+<script language="javascript">
+var maps = new LTMaps( "myMap" );
+/*
+var lon_lat = window.parent.document.getElementsByName('lonlat');
+var points = new Array();
+for(var i = 0 ; i <lon_lat.length;i++){
+	points.push(new LTPoint(lon_lat[i].title,lon_lat[i].value));
+}
+
+maps.getBestMap( points );
+
+for(var i=0 ; i<points.length ; i++)
+{
+var marker = new LTMarker( points[i] );
+maps.addOverLay( marker );
+}*/
+maps.cityNameAndZoom( "beijing" , 5 ); 
+
+
+maps.addControl(new LTStandMapControl());
+control = new LTZoomSearchControl();
+control.setTop(10);
+control.setLabel("选中矩形区域查询");
+maps.addControl( control );
+
+//选中区域
+LTEvent.addListener(control,"mouseup",drawRectangle);
+
+var over_lay;
+
+//手动画矩形
+function drawRectangle(){
+
+	maps.removeOverLay(over_lay,false);
+	//矩形地理区域的对象
+	var drawBounds = control.getBoundsLatLng();
+	
+	var lonMin = drawBounds.getXmin();//最小经度
+	var latMin = drawBounds.getYmin();//最小纬度
+	var lonMax = drawBounds.getXmax();//最大经度
+	var latMax = drawBounds.getYmax();//最大纬度
+	
+	
+	//生成矩形地理区域
+	var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
+	
+	//在地图画出矩形图 
+	over_lay = new LTRect(rectangleBounds);
+	maps.addOverLay(over_lay);
+	
+	document.getElementById("lonMin").value=lonMin;
+	document.getElementById("latMin").value=latMin;
+	document.getElementById("lonMax").value=lonMax;
+	document.getElementById("latMax").value=latMax;
+}
+
+</script>
+<div id='lat_long'>
+   <input type="hidden" id='lonMin'></input>
+   <input type='hidden' id='latMin'></input>
+   <input type='hidden' id='lonMax'></input>
+   <input type='hidden' id='latMax'></input>
+</div>
+</body>
+</html>
