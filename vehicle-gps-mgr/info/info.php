@@ -47,22 +47,66 @@ switch ($act) {
 		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' ,$eamil_data);
 		echo "success";
 		
-	case "save_email":
+		break;
+		
+	case "save_info":
 		$info = new info();
 		
-		$parms["is_area_info"]			= $GLOBALS['db']->prepare_value(0,"TINYINT");
+		$parms["is_area_info"]			= $GLOBALS['db']->prepare_value($_REQUEST["is_area_info"],"TINYINT");
 		$parms["issuer_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 		$parms["type"]		= $GLOBALS['db']->prepare_value(0,"TINYINT");
 		$parms["issue_time"]		= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
 		$parms["content"]		= $GLOBALS['db']->prepare_value($_REQUEST["content"],"TEXT");
-		
+		if($_REQUEST['begin_time']!="" or $_REQUEST['begin_time']!=null){
+			$parms["begin_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["begin_time"],"VARCHAR");
+			$parms["end_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["end_time"],"VARCHAR");
+		}
         $result = $info->save_info($parms);
         if($result>1){
-        	echo "ok";
+        	echo $result;
+        }else{
+        	echo "fial";
+        }
+        break;
+        
+	case "save_area_info_one":
+        $info = new info();
+        
+        $params["info_id"] = $GLOBALS['db']->prepare_value($_REQUEST['info_id'],"INT");
+        $params["type"] = $GLOBALS['db']->prepare_value(0,"TINYINT");
+        $params["log"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lon']),"INT");
+        $params["lat"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lat']),"INT");
+        $params["radius"] = $GLOBALS['db']->prepare_value(null,"INT");
+        $params["next_id"] = $GLOBALS['db']->prepare_value(null,"INT");
+        
+        $result = $info->save_area_info_one($params);
+ 		if($result>1){
+        	echo $result;
         }else{
         	echo "fail";
         }
         
+    	break;
+        
+	case "save_area_info_two":
+		$info = new info();
+        
+        $params["info_id"] = $GLOBALS['db']->prepare_value($_REQUEST['info_id'],"INT");
+        $params["type"] = $GLOBALS['db']->prepare_value(0,"TINYINT");
+        $params["log"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lon']),"INT");
+        $params["lat"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lat']),"INT");
+        $params["radius"] = $GLOBALS['db']->prepare_value(null,"INT");
+        $params["next_id"] = $GLOBALS['db']->prepare_value($_REQUEST['next_id'],"INT");
+        
+        $result = $info->save_area_info_two($params);
+ 		if($result>1){
+        	echo "ok";
+        }else{
+        	echo "fail";
+        }
+    
         break;
+        
+     break;
 }
 ?>

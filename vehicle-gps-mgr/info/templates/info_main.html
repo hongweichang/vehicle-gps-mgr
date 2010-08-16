@@ -10,23 +10,54 @@
 			<div style="font-size:12px;width:216px; height:100px; text-align:left;">
 				<textarea id="info_content" name="info_content" rows="4" cols="30"></textarea>
 			</div>
-		   
-			<div>发送对象列表：</div>
-			<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">
-				<select id="email_list" name="email_list" size="4" multiple style="width:200px; height:85px;">{{mail_list}}</select>
+		    <div id="list_user">
+				<div>发送对象列表：</div>
+				<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">
+					<select id="email_list" name="email_list" size="4" multiple style="width:200px; height:85px;">{{mail_list}}</select>
+				</div>
 			</div>
-	   	   
+			<div id="area_message" style="display:none">
+			<div>区域信息：</div>
+				<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">	
+					<textarea id='message' style="width:200px; height:85px;"></textarea>				
+				</div>
+	   	    </div>
 			<div style=" width:250px; height:34px; margin:10px auto;display:block;" >
-				<div style="float:left; width:100px; height:32px;">
+				<span style="float:left; width:100px; height:32px;">
 					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(900,400)" value="选择车辆" />
-				</div>
-				<div style="float:left; width:100px; height:32px;">
+				</span>
+				<span style="float:left; width:100px; height:32px;">
+					<input id="area_issue" type="button" name="issue_area" onclick="resetDialogSize(900,400)" value="区域发布" />
+				</span>
+				<span id="area_begin_time" style="float:left; width:150px; height:32px;">
+					生效时间：<input id="begin_time_area" type="text"/>
+				</span>
+				<span id="area_end_time" style="float:left; width:150px; height:32px;">
+					失效时间：<input id="end_time_area" type="text"/>
+					         <select id="issue_day">
+					         	<option>5天</option>
+					         	<option>10天</option>
+					         	<option>15天</option>
+					         	<option>20天</option>
+					         	<option>30天</option>
+					         </select>
+				</span>
+				<span id='info_Commit' style="float:left; width:100px; height:32px;">
 					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
-				</div>
+				</span>
+				<span id='area_Commit' style="float:left; width:100px; height:32px;">
+					<input id="areaCommit" type="button" onclick="subArea();" value="提交信息"/>
+				</span>
 			</div>
 			
 		</div>
-		<div id="sel_vehicle_cotainer" style="width:622px;font-size:12px; margin:0px auto; margin-left:3px;height:285px; float:left;"></div>
+		<div id="sel_vehicle_cotainer" style="width:622px;font-size:12px; margin:0px auto; margin-left:3px;height:285px; float:left;">
+			<div id='infodiv'></div>
+			<div id="issue_map">
+		      <iframe id="issue_frame" height="285px" width="622px"></iframe>
+		    </div>
+		 </div>
+	
  </form>
 </body>
 </html>	
@@ -35,6 +66,11 @@
 
 	
 <script type="text/javascript">
+$("#area_Commit").hide();
+$("#area_begin_time").hide();
+$("#area_end_time").hide();
+$("#issue_map").hide();
+
 function fillMailList(str){
 str = str.substr(0,str.length-1);
 	if(str.length!=0){
@@ -54,11 +90,19 @@ function resetDialogSize(width,height){
 }
 //绑定事件处理 
 $("#car").click(function(event) {
-	$( "#operation" ).mask("载入中...");
+	$("#info_Commit").show();
+	$("#area_Commit").hide();
+	$("#issue_map").hide();
+	$("#infodiv").show();
+	$("#area_message").hide();
+	$("#list_user").show();
+	$("#area_begin_time").hide();
+	$("#area_end_time").hide();
+	$("#operation" ).mask("载入中...");
 	
 	$.post("index.php?a=1",function(data){
 		$( "#operation" ).unmask();
-		$("#sel_vehicle_cotainer").html(data);
+		$("#infodiv").html(data);
 		$("#sel_vehicle_commit").click(function(){
 				 	var vehicles = $(".vehicle:checked");
 			     	var str="";
@@ -67,14 +111,27 @@ $("#car").click(function(event) {
 			      	});
 			     	
 			      	fillMailList(str);
-			      	$("#sel_vehicle_cotainer").html("");
-			      	$("#sel_vehicle_cotainer").css("height","1");
+			      	$("#infodiv").html("");
+			      	$("#infodiv").css("height","1");
 			      	
 			     	resetDialogSize(230,300);
 		});
 	});
 });
 
+$("#area_issue").click(function() {
+	$("#info_Commit").hide();
+	$("#area_Commit").show();
+	$("#infodiv").hide();
+	$("#issue_map").show();
+	$("#list_user").hide();
+	$("#area_message").show();
+	$("#area_begin_time").show();
+	$("#area_end_time").show();
+	$("#begin_time_area").val(getNowFormatDate());
+	$("#end_time_area").val($("#issue_day option:selected").val());
+	$("#issue_frame").attr("src","info/templates/51map.html");
+});
 
 function subInfo(){	
 	  var content=document.getElementById("info_content").value;
@@ -88,9 +145,9 @@ function subInfo(){
 	  
 	  str=str+content+"~[["+content+"]]~";
 	  $.post("index.php",
-			  {"a":202,"email_data":str,"content":content},
+			  {"a":202,"email_data":str,"content":content,"is_area_info":0},
 		function(data){
-		  if(data="success"){
+		  if("success"==data){
 			alert("信息已发出");
 		  }else{
 			alert("信息发出失败");
@@ -98,12 +155,107 @@ function subInfo(){
 		  }
 	  },"text");
 
-	  $.post("index.php",{"a":204},function(history){
-           if(history="ok"){
-           }else{
-			alert("保存失败");
-           }
-		  },"text");
+	  $.post("index.php",{"a":204,"is_area_info":0,"content":content},function(data){
+	  },"text");
 }
+
+function subArea(){	
+	$("#operation" ).mask("载入中...");
+	var content=document.getElementById("info_content").value;
+	var begin = document.getElementById("begin_time_area").value;
+	var end = document.getElementById("end_time_area").value;
+	
+	var lonMin = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMin").value;
+	var latMin = document.getElementById("issue_frame").contentWindow.document.getElementById("latMin").value;
+	var lonMax = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMax").value;
+	var latMax = document.getElementById("issue_frame").contentWindow.document.getElementById("latMax").value;
+
+	$("#message").val("最小经度:"+lonMin+"                         "
+			         +"最小纬度:"+latMin+"                         "
+			         +"最大经度:"+lonMax+"                         "
+			         +"最大纬度:"+latMax+"                         ");
+	$.post("index.php",{"a":204,"content":content,"is_area_info":1,"begin_time":begin,"end_time":end},function(data){
+		 $.post("index.php",{"a":205,"info_id":data,"lon":lonMax,"lat":latMax},function(data_one){
+				$.post("index.php",{"a":206,"info_id":data,"lon":lonMin,"lat":latMin,"next_id":data_one},function(data_two){
+					if("ok"==data_two){
+						$("#operation").unmask();
+						alert("发布成功");
+						}
+					});
+		        });
+	});
+}
+
+$("#begin_time_area").datetimepicker({
+	 ampm: false,//上午下午是否显示  
+	 timeFormat: 'hh:mm:ss',//时间模式  
+	 stepHour: 1,//拖动时间时的间隔  
+	 dateFormat:"yy/mm/dd", //日期格式设定  
+	 showHour: true,//是否显示小时，默认是true  
+	 showMinute:false,
+	 showSecond:false,
+	 createButton:false
+});	
+
+
+$("#end_time_area").datetimepicker({
+	 ampm: false,//上午下午是否显示  
+	 timeFormat: 'hh:mm:ss',//时间模式  
+	 stepHour: 1,//拖动时间时的间隔  
+	 dateFormat:"yy/mm/dd", //日期格式设定  
+	 showHour: true,//是否显示小时，默认是true  
+	 showMinute:false,
+	 showSecond:false,
+	 createButton:false
+});
+
+//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
+function getNowFormatDate()
+{
+   	var day = new Date();
+
+   	var Year = 0;
+   	var Month = 0;
+   	var Day = 0;
+	var CurrentDate = "";
+   //初始化时间
+   	Year= day.getFullYear();
+   	Month= day.getMonth()+1;
+   	Day = day.getDate();
+   	Hour = day.getHours();
+ 	Minute = day.getMinutes();
+	Second = day.getSeconds();
+   	CurrentDate += Year + "/";
+   	if (Month >= 10){
+    	CurrentDate += Month + "/";
+   	}else{
+    	CurrentDate += "0" + Month + "/";
+   	}
+   	if (Day >= 10 ){
+    	CurrentDate += Day +" ";
+   	}else{
+    	CurrentDate += "0" + Day+" " ;
+   	}
+   	if(Hour>=10){
+		CurrentDate+=Hour+":";
+	}else{
+		CurrentDate+="0"+Hour+":";
+   	}if (Minute >= 10 ){
+    	CurrentDate += Minute +":";
+   	}else{
+    	CurrentDate += "0" + Minute+":" ;
+   	}
+   	if(Second>=10){
+		CurrentDate+=Second;
+	}else{
+		CurrentDate+="0"+Second;
+   	}
+   	return CurrentDate;
+}
+
+	$("#issue_day").change(function(){
+		var time = $("#issue_day option:selected").val();
+		$("#end_time_area").val(time);
+		});
 </script>
 
