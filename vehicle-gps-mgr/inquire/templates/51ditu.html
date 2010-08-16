@@ -34,32 +34,36 @@ maps.addControl( control );
 //选中区域
 LTEvent.addListener(control,"mouseup",drawRectangle);
 
+var over_lay;
 
 //手动画矩形
 function drawRectangle(){
-//矩形地理区域的对象
-var drawBounds = control.getBoundsLatLng();
 
-var lonMin = drawBounds.getXmin();//最小经度
-var latMin = drawBounds.getYmin();//最小纬度
-var lonMax = drawBounds.getXmax();//最大经度
-var latMax = drawBounds.getYmax();//最大纬度
-
-
-//生成矩形地理区域
-var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
-
-//在地图画出矩形图 
-maps.addOverLay(new LTRect(rectangleBounds));
-
-document.getElementById("lonMin").value=lonMin;
-document.getElementById("latMin").value=latMin;
-document.getElementById("lonMax").value=lonMax;
-document.getElementById("latMax").value=latMax;
+	maps.removeOverLay(over_lay,false);
+	//矩形地理区域的对象
+	var drawBounds = control.getBoundsLatLng();
+	
+	var lonMin = drawBounds.getXmin();//最小经度
+	var latMin = drawBounds.getYmin();//最小纬度
+	var lonMax = drawBounds.getXmax();//最大经度
+	var latMax = drawBounds.getYmax();//最大纬度
+	
+	
+	//生成矩形地理区域
+	var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
+	
+	//在地图画出矩形图 
+	over_lay = new LTRect(rectangleBounds);
+	maps.addOverLay(over_lay);
+	
+	document.getElementById("lonMin").value=lonMin;
+	document.getElementById("latMin").value=latMin;
+	document.getElementById("lonMax").value=lonMax;
+	document.getElementById("latMax").value=latMax;
 }
 
 </script>
-<div id='kobe'>
+<div id='lat_long'>
    <input type="hidden" id='lonMin'></input>
    <input type='hidden' id='latMin'></input>
    <input type='hidden' id='lonMax'></input>
