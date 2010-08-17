@@ -119,7 +119,7 @@ $(document).ready(function() {
 				for(var i=0;i<array.length-1;i++){
 					var data_list_min=array[i].split(",");
 					image=image+"<div style='float:left;heigth:17px;'>" +
-							    "&nbsp;&nbsp;&nbsp;<img src="+data_list_min[0]+" style='height:17px;'/>&nbsp;" 
+							    "&nbsp;<img src="+data_list_min[0]+" style='width:25px;height:12px;margin-top:6px;'/>&nbsp;" 
 							    +data_list_min[1]+"-"+data_list_min[2]+"</div>";
 				}		
 				$("#header").unmask();
