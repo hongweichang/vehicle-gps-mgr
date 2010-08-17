@@ -87,6 +87,7 @@ str = str.substr(0,str.length-1);
 function resetDialogSize(width,height){
 	$( "#operation" ).dialog( "option", "width", width );
 	$( "#operation" ).dialog( "option", "height", height );
+	$( "#operation" ).dialog({ position : "center" });
 }
 //绑定事件处理 
 $("#car").click(function(event) {
