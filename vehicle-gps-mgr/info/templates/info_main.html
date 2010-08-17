@@ -16,12 +16,7 @@
 					<select id="email_list" name="email_list" size="4" multiple style="width:200px; height:85px;">{{mail_list}}</select>
 				</div>
 			</div>
-			<div id="area_message" style="display:none">
-			<div>区域信息：</div>
-				<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">	
-					<textarea id='message' style="width:200px; height:85px;"></textarea>				
-				</div>
-	   	    </div>
+
 			<div style=" width:250px; height:34px; margin:10px auto;display:block;" >
 				<div style="float:left; width:100px; height:32px;">
 					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(900,400)" value="选择车辆" />
@@ -29,18 +24,17 @@
 				<div style="float:left; width:100px; height:32px;">
 					<input id="area_issue" type="button" name="issue_area" onclick="resetDialogSize(900,400)" value="区域发布" />
 				</div>
-				<div id="area_begin_time" style="float:left; width:150px; height:32px;">
-					生效时间：<input id="begin_time_area" type="text"/>
+				<div id="area_begin_time" style="float:left; width:120px; height:32px;">
+					生效时间:<div style="float:left;width:90px;height:30px;"><input id="begin_time_area" type="text"/></div>
 				</div>
-				<div id="area_end_time" style="float:left; width:150px; height:32px;">
-					失效时间：<input id="end_time_area" type="text"/>
-					         <select id="issue_day">
-					         	<option>5天</option>
-					         	<option>10天</option>
-					         	<option>15天</option>
-					         	<option>20天</option>
-					         	<option>30天</option>
+				<div id="area_end_time" style="float:left; width:200px; height:32px;">
+					失效时间:<div style="float:left; width:120px; height:30px;">
+								<input id="end_time_area" type="text" style="width:120px;"/>
+							</div>
+					<div style="float:left; width:50px; height:30px;">        					<select id="issue_day" style="width:50px;">
+		 					     {{day_list}}
 					         </select>
+					 </div>
 				</div>
 				<div id='add_user' style="float:left; width:100px; height:32px;">
 					<input id="addUser" type="button" value="添加对象"/>
@@ -107,7 +101,6 @@ $("#car").click(function(event) {
 	$("#area_Commit").hide();
 	$("#issue_map").hide();
 	$("#infodiv").show();
-	$("#area_message").hide();
 	$("#list_user").show();
 	$("#add_user").show();
 	$("#area_begin_time").hide();
@@ -136,15 +129,15 @@ $("#car").click(function(event) {
 $("#area_issue").click(function() {
 	$("#info_Commit").hide();
 	$("#add_user").hide();
+	$("#add_input").hide();
 	$("#area_Commit").show();
 	$("#infodiv").hide();
 	$("#issue_map").show();
 	$("#list_user").hide();
-	$("#area_message").show();
 	$("#area_begin_time").show();
 	$("#area_end_time").show();
 	$("#begin_time_area").val(getNowFormatDate());
-	$("#end_time_area").val($("#issue_day option:selected").val());
+	$("#end_time_area").val(day_date());
 	$("#issue_frame").attr("src","info/templates/51map.html");
 });
 
@@ -196,10 +189,6 @@ function subArea(){
 	var lonMax = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMax").value;
 	var latMax = document.getElementById("issue_frame").contentWindow.document.getElementById("latMax").value;
 
-	$("#message").val("最小经度:"+lonMin+"                         "
-			         +"最小纬度:"+latMin+"                         "
-			         +"最大经度:"+lonMax+"                         "
-			         +"最大纬度:"+latMax+"                         ");
 	$.post("index.php",{"a":204,"content":content,"is_area_info":1,"begin_time":begin,"end_time":end},function(data){
 		 $.post("index.php",{"a":205,"info_id":data,"lon":lonMax,"lat":latMax},function(data_one){
 				$.post("index.php",{"a":206,"info_id":data,"lon":lonMin,"lat":latMin,"next_id":data_one},function(data_two){
@@ -280,8 +269,100 @@ function getNowFormatDate()
 }
 
 	$("#issue_day").change(function(){
-		var time = $("#issue_day option:selected").val();
-		$("#end_time_area").val(time);
-		});
+		$("#end_time_area").val(day_date());
+	});
+
+	/**
+	 * 失效时间天数转换成当时 的时间
+	 *
+	 */
+	function day_date(){
+		var day = parseFloat($("#issue_day option:selected").val());
+		var begin_time = $("#begin_time_area").val();
+		var begin_day = parseFloat(begin_time.substr(8,2));
+		var differ = begin_day+day;
+
+		var year = parseFloat(begin_time.substr(0,4));
+		var month = parseFloat(begin_time.substr(5,2));
+
+		var more_months = new Array(1,3,5,7,8,10,12);
+
+		var end_day= 0;
+		var end_month = 0;
+		var end_year = 0;
+
+		if(month==2){
+			end_year = year;
+			if(differ>29){
+				end_month = 3;
+				if(year%4!=0){
+					end_day = differ-28;
+					}else{
+					end_day = differ-29;				
+					}
+				}else if(differ==29){
+					if(year%4==0){
+						end_day = differ;
+						end_month = 2;
+						}else{
+							end_day = 1;
+							end_month = 3;	
+							}
+					}else{
+						end_day = differ;
+						end_month = 2;
+						}
+			}else{	
+				if(differ>31){
+
+					for(var i =0;i<more_months.length;i++){
+						if(month==more_months[i]){
+							end_day = differ-31;
+							if(month<12){
+								end_month = month+1;
+								end_year = year;
+								}else{
+									end_month = 1;
+									end_year = year+1;
+								}
+							}
+						}
+
+					if(end_month==0){
+							end_day = differ-30;
+							end_month = month+1;	
+							end_year = year;						
+					}
+				}else if(differ==31){
+					for(var i =0;i<more_months.length;i++){
+						if(month==more_months[i]){
+							end_day = differ;
+							end_month = month;
+							end_year = year;
+							}
+						}
+
+					if(end_month==0){
+						end_day = differ-30;
+						end_month = month+1;	
+						end_year = year;						
+				  }
+				}else{
+					end_day = differ;
+					end_month = month;
+					end_year = year;
+					}
+		}	
+
+		if(end_month<10){
+			end_month = "0"+end_month;
+			}
+		if(end_day<10){
+			end_day = "0"+end_day;
+			}
+		var end_time = end_year+"/"+end_month+"/"+end_day+" "+begin_time.substr(11);
+		return end_time;
+		}
+
 </script>
 

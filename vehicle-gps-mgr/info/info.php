@@ -11,6 +11,9 @@
 
 $act = $GLOBALS ["all"] ["operate"];
 
+require_once ("include/data_mapping_handler.php");
+$comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
+
 switch ($act) {
 	case "main" : //填写信息内容页面
 		$vehicle_id = $_REQUEST ["vehicle_id"];
@@ -24,6 +27,14 @@ switch ($act) {
 		{
 			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
 		}	
+		
+		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
+		$day_list= $dataMapping->getMappingDataList ( "end_time", "day" );
+		
+		foreach($day_list as $val=>$dis){
+			$attr = $attr."<option value=".$val.">".$dis."</option>";
+		}
+		$param['day_list']=$attr;
 		echo $GLOBALS ['db']->display ( $param, $act );
 		break;
 	
