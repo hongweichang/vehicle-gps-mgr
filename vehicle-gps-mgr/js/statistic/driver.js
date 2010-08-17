@@ -1,4 +1,6 @@
-	jQuery("#navgrid_driver").jqGrid( {
+	
+
+jQuery("#navgrid_driver").jqGrid( {
 		url : 'index.php?a=405',
 		datatype : "json",
 		colNames : ['driver_id','驾驶员姓名', '累计行驶距离', '累计行驶时间', '累计停车时间', '最早开车时间', '最晚开车时间','详细说明' ],
@@ -46,7 +48,7 @@
 			editable : false
 		},{
 			name : 'detail',
-			index : 'max_time',
+			index : 'detail',
 			width : 80,
 			align : "center",
 			editable : false
@@ -66,8 +68,10 @@
 		edit : false,
 		alerttext : "请选择需要操作的数据行!"
 	});
-    
+	
 
+    
+	
 
 	
 
