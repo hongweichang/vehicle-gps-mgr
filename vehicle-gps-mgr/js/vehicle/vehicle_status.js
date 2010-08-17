@@ -31,10 +31,10 @@ jQuery("#vehicle_status_list").jqGrid({
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
 	for(var i = 1;i<=ids.length;i++){
 		var value = $("#vehicle_status_list").jqGrid('getCell',i,8);
-		if(value=="超速"){
+		if("超速"==value){
 			$("#vehicle_status_list").jqGrid('setRowData',i,"",{background:'#ff0000'});
 		}
-		if(value=="疲劳"){
+		if("疲劳"==value){
 			$("#vehicle_status_list").jqGrid('setRowData',i,"",{background:'#FFFF66'});
 		}
 	}
