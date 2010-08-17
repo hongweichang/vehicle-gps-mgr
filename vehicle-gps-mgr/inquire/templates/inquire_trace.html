@@ -29,8 +29,71 @@
 	<iframe id="mode_area"  scrolling='no' frameborder='0' height="460px" width="1050px"></iframe>
 	<div id="area_vehicles"></div>
 </div>
+
+<div class="toggler" id="location_info">
+		<div id="effect" class="ui-widget-content ui-corner-all">
+			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息</h3>
+			<table style="font-size:12px" border="1">
+				<tr>
+					<td width="60">车牌号:</td>
+					<td width="140">
+						<div id="vehicle_id">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">GPS编号:</td>
+					<td width="140">
+						<div id="gps_id">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">方向:</td>
+					<td width="140">
+						<div id="direction">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">速度:</td>
+					<td width="140">
+						<div id="speed">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">经度:</td>
+					<td width="140">
+						<div id="longitude">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">纬度:</td>
+					<td width="140">
+						<div id="latitude">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">定位时间:</td>
+					<td width="140">
+						<div id="location_time">&nbsp;</div>
+					</td>
+				</tr>
+				<tr>
+					<td width="60">地址:</td>
+					<td width="140">
+						<div id="address">&nbsp;</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div> 
+<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html" style="width:800px;height:410px; " scrolling="0" frameborder="0"></iframe>
+ 
 <script type="text/javascript">
-  
+
+	
+ 	//子页面对象   iframe
+	var history_map =  document.getElementById("history_track_frame").contentDocument;
+	
+ 
     if($("#vehicle_info option:selected").attr("name")=="have"){
 			$("#his").hide();
         }
@@ -41,6 +104,46 @@
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate());
 	$("#inquire_endTime").val(getNowFormatDate());
+
+
+	/**
+	 * 轨迹查看
+	 */
+	$("#trace").click(function(){ 
+		 
+	 		var startTime = $("#inquire_startTime").attr("value");
+			 
+			if(startTime == ""){
+				alert("开始时间不能为空!");
+				$("#startTime").focus();
+				return false;
+			}
+			var endTime = $("#inquire_endTime").attr("value");
+			if(endTime == ""){
+				alert("结束时间不能为空!");
+				$("#endTime").focus();0
+				return false;
+			}
+			 
+			 
+			//获取时间数组
+			history_track_frame.arr_history = getHourList(); 
+			//清除地图标签 
+			//clearOverLay();
+			history_track_frame.vehicle_id = $("#vehicle_info option:selected").val();
+	
+			//获取车牌号、GPS编号
+			$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
+	 			 var gps_plate = eval('(' + data + ')');  
+				 $("#vehicle_id").html(gps_plate[0]);
+				 $("#gps_id").html(gps_plate[1]);
+				});
+			
+			//运行历史轨迹
+			 history_track_frame.runHistoryTrack();  
+});
+
+
 
 	$("#select_mode").change(function(){
 		if("area_mode"==$("#select_mode option:selected").val()){
@@ -143,44 +246,7 @@
 		   	CurrentDate+="00:00:00";
 		   	return CurrentDate;
 		}
-
-	
-			$("#trace").click(function(){ 
-				
-				var startTime = $("#inquire_startTime").attr("value");
-				 
-				if(startTime == ""){
-					alert("开始时间不能为空!");
-					$("#startTime").focus();
-					return false;
-				}
-				var endTime = $("#inquire_endTime").attr("value");
-				if(endTime == ""){
-					alert("结束时间不能为空!");
-					$("#endTime").focus();
-					return false;
-				}
-
-				//获取时间数组
-				arr_history = getHourList(); 
-				//清除地图标签 
-				clearOverLay();
-				vehicle_id = $("#vehicle_info option:selected").val();
-
-				//获取车牌号、GPS编号
-				$.get("index.php?a=504&vehicle_id="+vehicle_id,function(data){
-	
-					var gps_plate = eval('(' + data + ')');  
-					$("#vehicle_id").html(gps_plate[0]);
-					$("#gps_id").html(gps_plate[1]);
-					});
-
-				//运行历史轨迹
-				runHistoryTrack();
-				//关闭对话框
-				closeDialog();
-			});
-
+ 
 
 			var step_info = 0;
 			
@@ -278,8 +344,7 @@
 				var date = new Date();
 				date.setTime(startdt);
 
-				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + date.getDate() + 
-								"" + padLeft("" + date.getHours(),2);
+				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + padLeft("" + date.getDate(),2) + "" + padLeft("" + date.getHours(),2);
 				hourList.push(hourStr);
 				
 				startdt += 60*60*1000; //起始时间增加1小时
