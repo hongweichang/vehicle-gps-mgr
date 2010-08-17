@@ -71,6 +71,7 @@ $("#driver_end_data").datetimepicker( {
 	    $("#detail").html("");
 		$("#detail").mask("处理中...");
 		$.post("index.php?a=410&driver_id="+id,function(data){
+		
 			$("#detail").html(data);
 			$("#detail").unmank();
 		});

@@ -191,5 +191,116 @@ class Statistic extends BASE {
 		$count = $GLOBALS ["db"]->query_once ( $this->sql );
 		return $count [0];
 	}
-}
+	
+	
+	/**
+	 * 根据驾驶员id显示驾驶员开车详细信息
+	 * @param $driver_id
+	 */
+	function drive_detail_data($driver_id, $wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		  $this->sql ="select cds.id, name,start_time,end_time,drive_time,distance from driver_manage dm,continue_drive_statistic cds 
+                       where  cds.driver_id='".$driver_id."' and  dm.id=cds.driver_id ".  
+		               " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+		  return $this->data = $GLOBALS ["db"]->query ( $this->sql );		
+	}
+	/**
+	 * 根据驾驶员id得到驾驶员开车信息数量
+	 */
+	function drive_detail_count($driver_id){
+		$this->sql ="select count(*) from driver_manage dm,continue_drive_statistic cds 
+                       where  cds.driver_id='".$driver_id."' and  dm.id=cds.driver_id ";
+        $count = $GLOBALS ["db"]->query_once ( $this->sql );
+		return $count [0];
+	}
+	
+	
+	
+	/**
+	 * 根据驾驶员id显示驾驶员停车详细信息
+	 */
+	function stop_detail_data($driver_id,$wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		  $this->sql ="select ss.id, name,start_time,end_time,stop_time from driver_manage dm ,stop_statistic ss 
+                       where  ss.driver_id='".$driver_id."' and  dm.id =ss.driver_id ".
+		               " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;;
+	 return $this->data = $GLOBALS ["db"]->query ( $this->sql );
+	}
+	/**
+	 * 根据驾驶员id得到驾驶员停车信息数量
+	 */
+	function stop_detail_count($driver_id){
+		$this->sql ="select count(*) from driver_manage dm ,stop_statistic ss 
+                     where  ss.driver_id='".$driver_id."' and  dm.id =ss.driver_id ";
+		$count = $GLOBALS ["db"]->query_once ( $this->sql );
+		return $count [0];
+	}
+	
+	
+	
+	/**
+	 * 根据车辆id得到行驶详细信息
+	 */
+       function vehicle_detail_data($vehicle_id, $wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		  $this->sql ="select cds.id, number_plate,start_time,end_time,drive_time,distance from vehicle_manage vm,continue_drive_statistic cds 
+                       where  cds.vehicle_id='".$vehicle_id."' and  vm.id=cds.vehicle_id ".  
+		               " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+		  return $this->data = $GLOBALS ["db"]->query ( $this->sql );		
+	}	
+	/**
+	 * 根据车辆id得到行驶详细信息数量
+	 */
+	function vehicle_detail_count($vehicle_id){
+		 $this->sql ="select count(*) from vehicle_manage vm,continue_drive_statistic cds 
+                       where  cds.vehicle_id='".$vehicle_id."' and  vm.id=cds.vehicle_id ";  
+		               
+		  $count = $GLOBALS ["db"]->query_once ( $this->sql );
+		  return $count [0];	
+	}
+	
+	
+	
+	/**
+	 * 根据车辆id得到停驶详细信息
+	 */
+	function vstop_detail_data($vehicle_id, $wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+		$this->sql ="select ss.id, number_plate,start_time,end_time,stop_time  from vehicle_manage vm,stop_statistic ss
+                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id  ".  
+		             " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+	    return $this->data = $GLOBALS ["db"]->query ( $this->sql );	
+	}
+	/**
+	 *  根据车辆id得到停驶详细信息数量
+	 */
+	function vstop_detail_count($vehicle_id){
+		$this->sql ="select count(*) from vehicle_manage vm,stop_statistic ss
+                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id  ";  
+		            
+		  $count = $GLOBALS ["db"]->query_once ( $this->sql );
+		  return $count [0];	
+	}
+	
+	
+	
+
+	/**
+	 * 根据驾驶员id查询驾驶员姓名
+	 */
+	function driver_name($driverID){
+		 $this->sql ="select name from driver_manage where id=".$driverID;  
+		            
+		  $name= $GLOBALS ["db"]->query_once ( $this->sql );
+		  return $name [0];	
+	}
+	
+	
+	
+	/**
+	 * 根据车辆id查询车牌号码
+	 */
+	function vehicle_plate_name($vehicleID){
+		 $this->sql ="select number_plate from vehicle_manage where id=".$vehicleID;  
+		            
+		  $number_plate= $GLOBALS ["db"]->query_once ( $this->sql );
+		  return $number_plate [0];	
+	}
+} 
 ?>
