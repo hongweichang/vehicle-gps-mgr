@@ -7,87 +7,72 @@
 <input type="text" id="inquire_startTime" size="15" />
 &nbsp;&nbsp;&nbsp; 结束时间:
 <input type="text" id="inquire_endTime" size="15" />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span id='info_select_vehicle'>选择车辆：</span>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+<span id='info_select_vehicle'>
+	<select id='select_mode'>
+		<option value="vehicle_mode">选择车辆</option>
+		<option value="area_mode">选择区域</option>
+	</select>
+</span>
 <select id="vehicle_info">
 {{vehicle_list}}
 </select>
-<input type="button" id="trace" name="trace" value="查询历史轨迹" />
+<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
+<input type="button" id="trace" name="trace" value="查询历史轨迹"/>
 <input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 </div>
 <div id='his_infoes'>
-<table id='infoes'></table>
-<div id="pagernav_infoes"></div>
+	<table id='infoes'></table>
+	<div id="pagernav_infoes"></div>
+</div>
+<div id="areas">
+	<iframe id="mode_area"  scrolling='no' frameborder='0' height="460px" width="1050px"></iframe>
+	<div id="area_vehicles"></div>
 </div>
 <script type="text/javascript">
   
     if($("#vehicle_info option:selected").attr("name")=="have"){
-		$("#his").hide();
+			$("#his").hide();
         }
 	$("#his_info").hide();
+	$("#show_vehicles").hide();
 	$("#history_trace").attr("checked","checked");
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate());
 	$("#inquire_endTime").val(getNowFormatDate());
+
+	$("#select_mode").change(function(){
+		if("area_mode"==$("#select_mode option:selected").val()){
+			$("#vehicle_info").hide();
+			$("#areas").show();
+			$("#show_vehicles").show();
+
+			$("#mode_area").attr("src","inquire/templates/51ditu.html");
+		}else{
+			$("#vehicle_info").show();
+			$("#areas").hide();
+			$("#show_vehicles").hide();
+			}
+		});
 	
-$("#history_post").click(function(){
-	$("#vehicle_info").hide();
-	$("#info_select_vehicle").hide();
-	$("#trace").hide();
-	$("#his_info").show();
-});
-$("#history_trace").click(function(){
-	$("#his_info").hide();
-	$("#info_select_vehicle").show();
-	$("#vehicle_info").show();
-	$("#trace").show();
-});
-
-//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
-function getNowFormatDate()
-{
-   	var day = new Date();
-
-   	var Year = 0;
-   	var Month = 0;
-   	var Day = 0;
-	var CurrentDate = "";
-   //初始化时间
-   	Year= day.getFullYear();
-   	Month= day.getMonth()+1;
-   	Day = day.getDate();
-   	Hour = day.getHours();
- 	Minute = day.getMinutes();
-	Second = day.getSeconds();
-   	CurrentDate += Year + "/";
-   	if (Month >= 10){
-    	CurrentDate += Month + "/";
-   	}else{
-    	CurrentDate += "0" + Month + "/";
-   	}
-   	if (Day >= 10 ){
-    	CurrentDate += Day +" ";
-   	}else{
-    	CurrentDate += "0" + Day+" " ;
-   	}
-   	if(Hour>=10){
-		CurrentDate+=Hour+":";
-	}else{
-		CurrentDate+="0"+Hour+":";
-   	}if (Minute >= 10 ){
-    	CurrentDate += Minute +":";
-   	}else{
-    	CurrentDate += "0" + Minute+":" ;
-   	}
-   	if(Second>=10){
-		CurrentDate+=Second;
-	}else{
-		CurrentDate+="0"+Second;
-   	}
-   	return CurrentDate;
-}
-
-	//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
-	function getTodayFormatDate()
+	$("#history_post").click(function(){
+		$("#vehicle_info").hide();
+		$("#info_select_vehicle").hide();
+		$("#trace").hide();
+		$("#areas").hide();
+		$("#show_vehicles").hide();
+		$("#his_info").show();
+	});
+	$("#history_trace").click(function(){
+		$("#his_info").hide();
+		$("#info_select_vehicle").show();
+		$("#vehicle_info").show();
+		$("#trace").show();
+		$("#areas").show();
+	});
+	
+	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
+	function getNowFormatDate()
 	{
 	   	var day = new Date();
 	
@@ -99,6 +84,9 @@ function getNowFormatDate()
 	   	Year= day.getFullYear();
 	   	Month= day.getMonth()+1;
 	   	Day = day.getDate();
+	   	Hour = day.getHours();
+	 	Minute = day.getMinutes();
+		Second = day.getSeconds();
 	   	CurrentDate += Year + "/";
 	   	if (Month >= 10){
 	    	CurrentDate += Month + "/";
@@ -110,9 +98,50 @@ function getNowFormatDate()
 	   	}else{
 	    	CurrentDate += "0" + Day+" " ;
 	   	}
-	   	CurrentDate+="00:00:00";
+	   	if(Hour>=10){
+			CurrentDate+=Hour+":";
+		}else{
+			CurrentDate+="0"+Hour+":";
+	   	}if (Minute >= 10 ){
+	    	CurrentDate += Minute +":";
+	   	}else{
+	    	CurrentDate += "0" + Minute+":" ;
+	   	}
+	   	if(Second>=10){
+			CurrentDate+=Second;
+		}else{
+			CurrentDate+="0"+Second;
+	   	}
 	   	return CurrentDate;
 	}
+	
+		//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
+		function getTodayFormatDate()
+		{
+		   	var day = new Date();
+		
+		   	var Year = 0;
+		   	var Month = 0;
+		   	var Day = 0;
+			var CurrentDate = "";
+		   //初始化时间
+		   	Year= day.getFullYear();
+		   	Month= day.getMonth()+1;
+		   	Day = day.getDate();
+		   	CurrentDate += Year + "/";
+		   	if (Month >= 10){
+		    	CurrentDate += Month + "/";
+		   	}else{
+		    	CurrentDate += "0" + Month + "/";
+		   	}
+		   	if (Day >= 10 ){
+		    	CurrentDate += Day +" ";
+		   	}else{
+		    	CurrentDate += "0" + Day+" " ;
+		   	}
+		   	CurrentDate+="00:00:00";
+		   	return CurrentDate;
+		}
 
 	
 			$("#trace").click(function(){ 
@@ -173,11 +202,13 @@ function getNowFormatDate()
 				
 				if(step_info==0){
 				jQuery("#infoes").jqGrid({
-					url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()+'&end_date='+$("#inquire_endTime").val(),
+					url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+						+'&end_date='+$("#inquire_endTime").val(),
 					  datatype: "json",
 				   	colNames:['ID','发布人', '类型', '发布时间','生效时间','失效时间','信息内容'],
 				   	colModel:[
-				   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
+				   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:
+																		{readonly:true,size:10}},
 				   		{name:'issuer_id',index:'issuer_id', width:80},
 				   		{name:'type',index:'type', width:70},
 				   		{name:'issue_time',index:'issue_time', width:140, align:"left"},   
@@ -199,7 +230,8 @@ function getNowFormatDate()
 					{edit:false,add:false,del:false});
 					step_info++;
 				}else{
-					var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()+'&end_date='+$("#inquire_endTime").val();
+					var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+								+'&end_date='+$("#inquire_endTime").val();
 					jQuery("#infoes").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
 					}
 			
@@ -245,7 +277,8 @@ function getNowFormatDate()
 				var date = new Date();
 				date.setTime(startdt);
 
-				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + date.getDate() + "" + padLeft("" + date.getHours(),2);
+				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + date.getDate() + 
+								"" + padLeft("" + date.getHours(),2);
 				hourList.push(hourStr);
 				
 				startdt += 60*60*1000; //起始时间增加1小时
