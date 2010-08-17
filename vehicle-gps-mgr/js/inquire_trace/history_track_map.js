@@ -55,7 +55,6 @@
 	 */
 	function runHistoryTrack(){   
 		if(arr_history.length>0){
-			clearOverLay();
 			
 			var time = arr_history[0];  
 			arr_history.shift();

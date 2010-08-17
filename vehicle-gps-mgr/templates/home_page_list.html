@@ -111,12 +111,13 @@
 					<a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">退出</a>
 			</div>
 		</div>
-	</div>
-	<div class="iframeDiv">
-		<iframe id="home_map_frame" src="/templates/home_map.html" scrolling="no" marginwidth="0" marginheight="0"  frameborder="0"></iframe>
-	</div>
+	</div> 
+	<div style="height:80%;width:100%">
+		<iframe id="home_map_frame" src="/templates/home_map.html" style="height:100%;width:100%"
+			scrolling="no" marginwidth="0" marginheight="0"  frameborder="0"></iframe>
+	</div>	
 	<div class="bottom">
-		<div class="dock" id="dock2">
+		<div   id="dock2">
 		  <div class="dock-container2">
 			  <a class="dock-item2 console_btn" href="index.php?a=1" title="选择车辆" showWidth="666" showHeight="320">
 					<span>选择车辆</span>
@@ -140,36 +141,39 @@
 			  </a> 
 		  </div>
 		</div>
-		<div id="content" class="content">
-		  <div class="alertInfo"  id="alertInfo" >
-		    <div id="lamp" class="lamp" ></div>
-		    <div class="alert_div">
-				<div id="newAlert" class="newAlert"></div>
-				<div  class="new_alert">
-					<div id="record" class="record"></div>
-					
-					<div class="operate" id="operate">
-						<div class="addAdvice" id="addAdvice">
-							<img alt="处理" src="images/advice.png" style="width:20px; height:19px;" />
-							<a href="#">处理</a>
+     	<div id="content" class="content">
+			  <div class="alertInfo"  id="alertInfo" >
+			    <div id="lamp" class="lamp" ></div>
+			    <div class="alert_div">
+					<div id="newAlert" class="newAlert"></div>
+					<div  class="new_alert">
+						<div id="record" class="record"></div>
+						
+						<div class="operate" id="operate">
+							<div class="addAdvice" id="addAdvice">
+								<img alt="处理" src="images/advice.png" style="width:20px; height:19px;" />
+								<a href="#">处理</a>
+							</div>
+							<div class="showMeInDialog" id="lookMore" title="告警列表" 
+								 url="index.php?a=901"  showWidth="830" showHeight="360">
+								<img alt="查看更多" src="images/lookMore.png" style="width:20px; height:19px;" />
+							 	<a href="#">查看更多</a>
+							</div>
 						</div>
-						<div class="showMeInDialog" id="lookMore" title="告警列表" 
-							 url="index.php?a=901"  showWidth="830" showHeight="360">
-							<img alt="查看更多" src="images/lookMore.png" style="width:20px; height:19px;" />
-						 	<a href="#">查看更多</a>
-						</div>
-					</div>
-			    </div>
-			</div>
-		  </div>
-	</div>  
+				    </div>
+				</div>
+			  </div>
+		</div>   
 </div>
 	
 	
 	<script language="javascript">
 		var host = "{{HOST}}"; //主机
 		{{PAGE_REFRESH_TIME}}
-		$("#home_map_frame").css({ "width": screen.width+"px", "height": screen.height*0.74+"px" });
+		
+		var width = document.documentElement.clientWidth;
+		var height = document.documentElement.clientHeight 
+		$("#home_map_frame").css({ "width": width+"px", "height": height*0.865+"px" });
 	</script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
 </body> 

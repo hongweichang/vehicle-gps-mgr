@@ -26,6 +26,7 @@ $(document).ready(function() {
 				valign: 'bottom',
 				halign : 'center'
 			});
+	
 		$("#location_info").draggable();
 		
 		$('#addAdvice').click(function(e) {
@@ -125,24 +126,8 @@ $(document).ready(function() {
 				$("#header").unmask();
 				$("#carInfor").html(image);
 		    }
-		});
+		}); 
 	 
-	$('.jsbutton').wrapInner('<span class="hover"></span>').css('textIndent','0')								
-	 .each(function () {
-		$('span.hover').css('opacity', 0).hover(function () {
-			$(this).stop().fadeTo(650, 1);
-		}, function () {
-			$(this).stop().fadeTo(650, 0);
-		});
-	});
-	
-	
-	//加载导航条
-	$("#vehicle").append("<div class='button_font'>选择车辆</div>");
-	$("#sendInfo").append("<div class='button_font'>发布信息</div>");
-	$("#searchInfo").append("<div class='button_font'>查询信息</div>");
-	$("#statistic").append("<div class='button_font'>统计分析</div>");
-	$("#setting").append("<div class='button_font'>设置</div>");
 
 	alertInfo();
 	$("#content").mask("告警正在查询中,请耐心等候...");
