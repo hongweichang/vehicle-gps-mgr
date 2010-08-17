@@ -23,16 +23,16 @@
 				</div>
 	   	    </div>
 			<div style=" width:250px; height:34px; margin:10px auto;display:block;" >
-				<span style="float:left; width:100px; height:32px;">
+				<div style="float:left; width:100px; height:32px;">
 					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(900,400)" value="选择车辆" />
-				</span>
-				<span style="float:left; width:100px; height:32px;">
+				</div>
+				<div style="float:left; width:100px; height:32px;">
 					<input id="area_issue" type="button" name="issue_area" onclick="resetDialogSize(900,400)" value="区域发布" />
-				</span>
-				<span id="area_begin_time" style="float:left; width:150px; height:32px;">
+				</div>
+				<div id="area_begin_time" style="float:left; width:150px; height:32px;">
 					生效时间：<input id="begin_time_area" type="text"/>
-				</span>
-				<span id="area_end_time" style="float:left; width:150px; height:32px;">
+				</div>
+				<div id="area_end_time" style="float:left; width:150px; height:32px;">
 					失效时间：<input id="end_time_area" type="text"/>
 					         <select id="issue_day">
 					         	<option>5天</option>
@@ -41,13 +41,24 @@
 					         	<option>20天</option>
 					         	<option>30天</option>
 					         </select>
-				</span>
-				<span id='info_Commit' style="float:left; width:100px; height:32px;">
+				</div>
+				<div id='add_user' style="float:left; width:100px; height:32px;">
+					<input id="addUser" type="button" value="添加对象"/>
+				</div>
+				<div id='info_Commit' style="float:left; width:100px; height:32px;">
 					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
-				</span>
-				<span id='area_Commit' style="float:left; width:100px; height:32px;">
+				</div>
+				<div id='add_input' style="float:left; width:200px; height:32px;">
+					<div style="float:left; width:130px; height:30px;">
+						<input id="addInput" type="text" style="width:130px"/>
+					</div>
+					<div style="float:left; width:50px; height:30px;">
+						<input id="add_commit" type="button" value="添加" style="width:40px"></input>
+					</div>
+				</div>
+				<div id='area_Commit' style="float:left; width:100px; height:32px;">
 					<input id="areaCommit" type="button" onclick="subArea();" value="提交信息"/>
-				</span>
+				</div>
 			</div>
 			
 		</div>
@@ -70,6 +81,7 @@ $("#area_Commit").hide();
 $("#area_begin_time").hide();
 $("#area_end_time").hide();
 $("#issue_map").hide();
+$("#add_input").hide();
 
 function fillMailList(str){
 str = str.substr(0,str.length-1);
@@ -97,6 +109,7 @@ $("#car").click(function(event) {
 	$("#infodiv").show();
 	$("#area_message").hide();
 	$("#list_user").show();
+	$("#add_user").show();
 	$("#area_begin_time").hide();
 	$("#area_end_time").hide();
 	$("#operation" ).mask("载入中...");
@@ -122,6 +135,7 @@ $("#car").click(function(event) {
 
 $("#area_issue").click(function() {
 	$("#info_Commit").hide();
+	$("#add_user").hide();
 	$("#area_Commit").show();
 	$("#infodiv").hide();
 	$("#issue_map").show();
@@ -132,6 +146,17 @@ $("#area_issue").click(function() {
 	$("#begin_time_area").val(getNowFormatDate());
 	$("#end_time_area").val($("#issue_day option:selected").val());
 	$("#issue_frame").attr("src","info/templates/51map.html");
+});
+
+$("#addUser").click(function(){
+	$("#add_input").show();
+});
+
+$("#add_commit").click(function(){
+	var email = $("#addInput").val();
+	$("#add_input").hide();
+	$("#email_list")[0].options.add(new Option(email,email));
+	
 });
 
 function subInfo(){	
