@@ -13,6 +13,19 @@ var home_map =  document.getElementById("home_map_frame").contentWindow;
 
 //初始化
 $(document).ready(function() {
+	/**展开动画效果**/
+	$('#dock2').Fisheye(
+			{
+				maxWidth: 60,
+				items: 'a',
+				itemsText: 'span',
+				container: '.dock-container2',
+				itemWidth: 40,
+				proximity: 80,
+				alignment : 'left',
+				valign: 'bottom',
+				halign : 'center'
+			});
 		$("#location_info").draggable();
 		
 		$('#addAdvice').click(function(e) {
@@ -29,6 +42,10 @@ $(document).ready(function() {
 			   close: function(event, ui) { alertInfo(); }
 		});
 
+		$('.console_btn').click(function(e) {
+			e.preventDefault();
+			showOperationDialog(this, $(this).attr('href'));
+		});
 		$('.button_font').click(function(e) {
 			e.preventDefault();
 			showOperationDialog(this, $(this).attr('url'));
