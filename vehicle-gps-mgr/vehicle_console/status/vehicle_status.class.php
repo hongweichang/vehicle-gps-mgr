@@ -292,18 +292,6 @@ class Vehicle_status extends BASE
     }
     
     /**
-     *      判断告警信息 0无告警，1超速，2疲劳
-     *      @param $alert_state告警状态
-     */
-    function alert_status($alert_state){
-    	
-    	if($alert_state==0 or $alert_state==null) return "无";
-    	if($alert_state==1) return "超速";
-    	if($alert_state==2) return "疲劳";
-    	
-    }
-    
-    /**
      *     判断gps状态 ，0无，1有
      *     @param $gps_status gsp状态
      */

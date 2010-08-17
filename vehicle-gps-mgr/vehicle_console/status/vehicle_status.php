@@ -10,6 +10,9 @@
 */
 $act = $GLOBALS["all"]["operate"];
 
+require_once ("include/data_mapping_handler.php");
+$comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
+
 $page = $_REQUEST['page']; // get the requested page
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
@@ -99,6 +102,8 @@ switch($act)
 		$response->total = $total_pages;
 		$response->records = $count;
 
+		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
+		
 		foreach($result as	$key => $val)
 		{ 
 			//对指定字段进行翻译
@@ -106,11 +111,12 @@ switch($act)
 			$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude']);
 			
 			$driver = $vehicle->get_driver($val['driver_id']);
+			$alert_state = $dataMapping->getMappingText ( "vehicle_manage", "alert_state", $val ['alert_state'] );
             
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],"限速",
-												$driver[0]['name'],$vehicle->alert_status($val['alert_state']),
+												$driver[0]['name'],$alert_state,
 												"<a href='#' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\")'>查看历史轨迹</a>","统计信息",
 												"<a href='#' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=".$val['id']."\")'>发布信息</a>","定位");
 		}
