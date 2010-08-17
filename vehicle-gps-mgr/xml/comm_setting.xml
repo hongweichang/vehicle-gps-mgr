@@ -121,7 +121,18 @@
 			<item value="1" displayText="女"/> 
 		</sex>
 	</comm>	
-
+	
+	<!-- 区域发布信息失效时间 -->
+	<end_time>
+		<day>
+			<item value="5" displayText="5天"></item>
+			<item value="10" displayText="10天"></item>
+			<item value="15" displayText="15天"></item>
+			<item value="20" displayText="20天"></item>
+			<item value="25" displayText="25天"></item>
+			<item value="30" displayText="30天"></item>
+		</day>
+	</end_time>
 	
 </data>
 
