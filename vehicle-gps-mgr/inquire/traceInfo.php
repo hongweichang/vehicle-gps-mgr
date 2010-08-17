@@ -48,14 +48,15 @@ class Position_parser
 		$this->time = $time;
 		$this->gps_id = $this->get_gps_id($vehicle_id);
 		//判断session中index是否存在，如果存在，则用session中的index
-		if($_SESSION["readfile_finished"] == 0)
+		/*if($_SESSION["readfile_finished"] == 0)
 		{
 			$this->index = $_SESSION["gps_info_index"];
 		}
 		else 
 		{
 			$this->index = $this->get_file_index($this->gps_id,$this->time);
-		}
+		}*/
+		$this->index = $this->get_file_index($this->gps_id,$this->time);
 		$this->file = fopen($filepath, "r") or exit("Unable to open file!");
 		
 		if($this->file)
@@ -113,6 +114,7 @@ class Position_parser
 			{
 				$data_list = explode('~',$line_data);
 				
+				/*
 				if($_SESSION["readfile_finished"] == 1) //本次半小时处理尚未进行
 				{
 					if(intval(substr($data_list[6],2,2)) >= 30) //截取时间中的分钟部分和30分钟进行对比
@@ -120,7 +122,7 @@ class Position_parser
 						$_SESSION["gps_info_index"] = $this->index;
 						return "pause";
 					}
-				}
+				}*/
 				
 				$this->index = $data_list[0];
 				
@@ -179,16 +181,17 @@ class Position_parser
 					{
 						$this->readLineData();
 					}
-					$_SESSION["readfile_finished"] = 1; //处理完一个文件后，设置完成标志位为1
+					//$_SESSION["readfile_finished"] = 1; //处理完一个文件后，设置完成标志位为1
 					break;
 				}
 				else
 				{
-					if("pause" == $this->readLineData())
+					$this->readLineData();
+					/*if("pause" == $this->readLineData())
 					{
 						$_SESSION["readfile_finished"] = 0; //本次半小时处理已经进行
 						break;
-					}
+					}*/
 				}
 			}
 			return $this->info_list;
