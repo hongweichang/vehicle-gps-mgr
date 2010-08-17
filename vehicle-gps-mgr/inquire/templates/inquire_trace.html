@@ -36,6 +36,7 @@
         }
 	$("#his_info").hide();
 	$("#show_vehicles").hide();
+	$("#areas").hide();
 	$("#history_trace").attr("checked","checked");
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate());
@@ -68,7 +69,7 @@
 		$("#info_select_vehicle").show();
 		$("#vehicle_info").show();
 		$("#trace").show();
-		$("#areas").show();
+		$("#areas").hide();
 	});
 	
 	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
