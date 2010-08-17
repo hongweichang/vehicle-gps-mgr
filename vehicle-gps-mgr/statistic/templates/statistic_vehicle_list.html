@@ -1,12 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-	<style type="text/css">
-		html, body { margin: 0; padding: 0; font-size:12px;}  
-	</style>
-</head>
-<body style="font-size:12px;">
+
 <div style="height:360px; width:870px;font-size:12px;">
 	<div style="height:27px; width:600px; margin-bottom:10px;">
 		<div style="font-weight:700;float:left; height:18px;margin-top:3px;">
@@ -28,8 +20,9 @@
 	<table id="navgrid_vehicle" style="font-size:12px;"></table>
 	<div id="pagernav_vehicle" style="font-size:12px;"></div>
 </div>
-</body>
-</html>
+
+<div id="dialog"></div>
+
 
 <script src="js/statistic/vehicle.js" type="text/javascript"></script>
 <script>
@@ -59,22 +52,24 @@
 		createButton : false
 	});
 
+	
 	function condition_vehicle_data() {
-
-		var begin_data = $("#vehicle_begin_data").val();
-		var end_data = $("#vehicle_end_data").val();
-
-		$("#navgrid_vehicle").clearGridData();
-
-		var mygrid = jQuery("#navgrid_vehicle")[0];
-
-		var str = "index.php?a=409&"+
-			      "page=1&rows=10&sidx=1&sord=asc"+
-			      "&begin_data=" + begin_data + "&end_data="
-				  + end_data;
-
-		$.post(str, function(json) {
-			mygrid.addJSONData(json);
-		}, "json");
+		$("#navgrid_vehicle").jqGrid().setGridParam({url : "index.php?a=409&begin_data="+$("#vehicle_begin_data").val()
+			+"&end_data="+$("#vehicle_end_data").val(),page:1}).trigger("reloadGrid");		
 	}
+
+	
+	  //查看数据详细内容
+	function show_vehicle(id){
+		$("#detail").dialog({height:800,width:1050,title:'车辆详细信息',
+			                 autoOpen:true,hide:'blind',show:'blind'}); 		                	 			                 
+	    $("#detail").html("");
+		$("#detail").mask("处理中...");
+		$.post("index.php?a=413&vehicle_id="+id,function(data){
+			$("#detail").html(data);
+			$("#detail").unmank();
+		});
+	}
+
+	
 </script>
