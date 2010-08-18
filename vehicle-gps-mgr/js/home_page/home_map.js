@@ -40,7 +40,7 @@
 		map.addControl( PolyControl );
 		PolyControl.setTop( 10 ); 
 		PolyControl.setRight(160);
-		
+
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
