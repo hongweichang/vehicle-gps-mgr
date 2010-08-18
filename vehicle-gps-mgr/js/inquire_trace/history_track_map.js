@@ -114,8 +114,7 @@
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
-			success:function(data){   
-			 
+			success:function(data){    
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
 			   if(arr_history.length>0){
 					runHistoryTrack();

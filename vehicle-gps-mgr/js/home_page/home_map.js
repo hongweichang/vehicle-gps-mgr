@@ -113,7 +113,7 @@
 							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>发布信息</a></div>" +
-							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"720\" showHeight=\"30\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
+							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>查看历史轨迹</a></div>";
 							addInfoWin(marker, context);
