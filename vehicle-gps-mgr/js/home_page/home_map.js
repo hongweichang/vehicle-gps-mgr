@@ -32,6 +32,15 @@
 		standControl.setTop(40);
 		map.addControl(standControl);
 	 
+		var ltControl = new LTZoomInControl();
+		map.addControl( ltControl );
+		ltControl.setRight(320);
+		
+		var PolyControl = new LTPolyLineControl();
+		map.addControl( PolyControl );
+		PolyControl.setTop( 10 ); 
+		PolyControl.setRight(160);
+		
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
