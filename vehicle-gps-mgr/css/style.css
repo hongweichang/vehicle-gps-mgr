@@ -18,6 +18,12 @@ body{
     border-bottom:2px #AAC8FE solid;
 	background:url(./../images/hearder.png) right repeat;
 }
+.mamagerImg{
+	width:17px; height:20px;
+}
+.exitImg{
+	width:20px; height:19px;
+}
 .carInfo{
 	float:left;
 	width:75%;
@@ -55,12 +61,12 @@ body{
 	float:left;
 }
 .content{
-	width:45%;
-	height:60px;
+	width:58%;
+	height:50px;
 	float:right;
-	margin-right:10px;
+	margin-right:0px;
 	margin-top:0 auto;
-	text-align:left;border:0px red solid;
+	text-align:left;
 }
 	
 .alertInfo{
@@ -68,38 +74,34 @@ body{
 	height:55px;
     margin:2px auto;
  }
-
-.newAlert{
-	font-weight:700;
+.newAlertTitle{
 	font-size:12px;
-	margin-left:5px;
+    float:left;
  	height:15px;
-}
-#alert_info{
-	margin-top:10px; 
-	font-size:12px;
-	margin-left:5px;
+ 	margin-top:3px;
+ 	font-weight:700;
 }
 .lamp{
 	height:55px;
 	width:47px;
     float:left;
 }
-.alert_div{
-	height:50px;
-	font-size:12px;
-	float:left;
-	margin:0 auto;
-}
-.new_alert{
-	height:23px;
-	margin-left:5px;
-	margin-top:10px;
-	font-size:12px;
-}
 .record{
 	float:left;
 	height:20px;
+	margin-top:8px;
+}
+.alerttop{
+	height:46px;
+	margin-left:46px;
+	font-size:12px;
+}
+.alertContent{
+	height:22px;
+}
+.adviceLookImg{
+	width:20px;
+	height:19px;
 }
 .operate{
 	float:left;
@@ -133,8 +135,8 @@ a{
 }
 .bottom{
 	width:100%;
-	height:62px; 
-	background: url(./../images/bottom.png);border:0px red solid;
+	height:62px;
+	background: url(./../images/bottom.png);
 }
 
 /**展开动画*/
@@ -151,7 +153,6 @@ a, a:visited {
 	height:60px; 
 	float:left;
 	margin-top:0px;
-	border:0px black solid; 
 }
 .dock-container2 {         /**设置背景图片**/     
 	position: absolute; /* 注：会左右动漂，注释只向右漂*/

@@ -31,19 +31,19 @@
 		    	<input type="checkbox" id="location_refresh" checked="checked" />定位刷新
 		    </div>
 			<div class="hearder_div">
-				<img alt="管理" src="images/manager.png" style="width:17px; height:20px;" />
+				<img alt="管理" src="images/manager.png" class="mamagerImg" />
 				<a href="{{URL_MANAGE}}" target="_blank">管理中心</a>
 			</div>
 			<div class="hearder_div">
-					<img alt="退出" src="images/exit.png" style="width:20px; height:19px;" />
+					<img alt="退出" src="images/exit.png" class="exitImg" />
 					<a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">退出</a>
 			</div>
 		</div>
-	</div> 
-	<div style="height:80%;width:100%">
-		<iframe id="home_map_frame" src="/templates/home_map.html" style="height:100%;width:100%"
-			scrolling="no" marginwidth="0" marginheight="0"  frameborder="0"></iframe>
-	</div>	
+	</div>
+	 
+	<iframe id="home_map_frame" src="/templates/home_map.html" 
+		scrolling="no" marginwidth="0" marginheight="0"  frameborder="0"></iframe>	
+		
 	<div class="bottom">
 		<div   id="dock2">
 		  <div class="dock-container2">
@@ -70,36 +70,35 @@
 		  </div>
 		</div>
      	<div id="content" class="content">
-			  <div class="alertInfo"  id="alertInfo" >
 			    <div id="lamp" class="lamp" ></div>
-			    <div class="alert_div">
-					<div id="newAlert" class="newAlert"></div>
-					<div  class="new_alert">
-						<div id="record" class="record"></div>
-						
-						<div class="operate" id="operate">
-							<div class="addAdvice" id="addAdvice">
-								<img alt="处理" src="images/advice.png" style="width:20px; height:19px;" />
-								<a href="#">处理</a>
+			    
+			    <div class="alerttop">
+				    	<div class="alertContent">
+					    	<div class="newAlertTitle">最新告警记录：</div>
+							<div class="operate" id="operate">
+									<div class="addAdvice" id="addAdvice">
+										<img alt="处理" src="images/advice.png" class="adviceLookImg" />
+										<a href="#">处理</a>
+									</div>
+									<div class="showMeInDialog" id="lookMore" title="告警列表" 
+										 url="index.php?a=901"  showWidth="830" showHeight="360">
+										<img alt="查看更多" src="images/lookMore.png" class="adviceLookImg" />
+									 	<a href="#">查看更多</a>
+									</div>
 							</div>
-							<div class="showMeInDialog" id="lookMore" title="告警列表" 
-								 url="index.php?a=901"  showWidth="830" showHeight="360">
-								<img alt="查看更多" src="images/lookMore.png" style="width:20px; height:19px;" />
-							 	<a href="#">查看更多</a>
-							</div>
-						</div>
-				    </div>
-				</div>
-			  </div>
-		</div>   
-</div>
+				       	</div>
+			       
+				   		<div id="record" class="record"></div>
+			    </div>
+		</div>
+</div>   
 	<script language="javascript">
 		var host = "{{HOST}}"; //主机
 		{{PAGE_REFRESH_TIME}}
 		
 		var width = document.documentElement.clientWidth;
 		var height = document.documentElement.clientHeight 
-		$("#home_map_frame").css({ "width": width+"px", "height": height*0.865+"px" });
+		$("#home_map_frame").css({ "width": width+"px", "height": height*0.82+"px" });
 	</script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
 </body> 
