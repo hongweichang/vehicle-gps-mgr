@@ -139,34 +139,7 @@ $(document).ready(function() {
 		$("#show_time").html( $( "#cur_run_time" ).slider("option","value"));
 	}	
 	 
-	var id=0;
-	/**获得24小时内未处理的告警记录**/
-	function alertInfo(){
-		$.post("index.php",{
-			 "a":921}
-			,function(data){
-				
-				if("-1" == data){
-					$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
-					$("#content").unmask();
-					$("#newAlert").html("最新告警记录");
-					$("#record").html("没有未处理的告警记录");
-					$("#operate").html("<a href='index?a=901'><img alt='查看更多' src='images/lookMore.jpg' style='width:20px; height:19px;margin-left:5px;'></a>");
-				}else
-				{   
-					var array=data.split("|");
-				    id=array[0];
-					$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-					$("#content").unmask();
-					$("#newAlert").html("最新告警记录："+"在"+array[1]+"时间点内");
-				    $("#record").html("车牌号为"+array[2]+"的告警记录为："+array[3]+"<bgsound balance='0' loop='2' src='voice/sound.mp3' volume='10' />");
-					document.getElementById("operate").style.display="block";
-			     }
-			 }
-		); 
-	}
-	 			 
-			
+ 	
 	var id=0;
 	/**获得24小时内未处理的告警记录**/
 	function alertInfo(){
