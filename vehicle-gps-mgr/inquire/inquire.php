@@ -145,6 +145,30 @@ switch($act)
 		
 		break;
 		
+	case "get_area_history":
+		require_once 'areaInfo.php';
+		$areaInfo = new AreaInfo();
+		/*$_REQUEST["lonMin"] = "";
+		$_REQUEST["latMin"] = "";
+		$_REQUEST["lonMax"] = "";
+		$_REQUEST["latMax"] = "";
+		$_REQUEST["vehicle_list"] = "";
+		$_REQUEST["hour_list"] = "";
+		*/
+		$position1 = new Position($_REQUEST["lonMin"], $_REQUEST["latMin"]);
+		$position2 = new Position($_REQUEST["lonMax"], $_REQUEST["latMax"]);
+		
+		array_push($areaInfo->positionList, $position1);
+		array_push($areaInfo->positionList, $position2);
+		
+		$vehile_list = explode("-", $_REQUEST["vehicle_list"]);
+		$hour_list = explode("-",$_REQUEST["hour_list"]);
+		
+		$inquire = new Inquire();
+		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour_list);
+		echo json_encode($vehicle_in_area);
+		break;
+		
 	break;
 }
 ?>

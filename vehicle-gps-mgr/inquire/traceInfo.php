@@ -1,4 +1,5 @@
 <?php
+require_once 'areaInfo.php';
 
 /**
  * 
@@ -200,6 +201,79 @@ class Position_parser
 		{
 			return null;
 		}
+	}
+	
+	function is_in_area($areaInfo)
+	{
+		if($this->file)
+		{
+			while(true)
+			{
+				if(0 == $this->index)
+				{
+					if($this->gps_id == $this->first_gps_id)
+					{
+						if($this->check_in_area($areaInfo))
+						{
+							return true;
+						}
+					}
+					break;
+				}
+				else
+				{
+					if($this->check_in_area($areaInfo))
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
+		
+	}
+	
+	function check_in_area($areaInfo)
+	{
+		if($this->file)
+		{
+			fseek($this->file,$this->index);
+			$line_data = fgets($this->file);
+			if($line_data)
+			{
+				$data_list = explode('~',$line_data);
+				$this->index = $data_list[0];
+				$position = new Position(around($data_list[4]),around($data_list[3]));
+				if($this->is_position_in_area($position, $areaInfo))
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	/**
+	 * 判断一个位置点是否在指定的区域内
+	 * @param unknown_type $position
+	 * @param unknown_type $areaInfo
+	 */
+	function is_position_in_area($position, $areaInfo){
+		return ($position->longitude >= $areaInfo->positionList[0]->longitude
+		&& $position->longitude <= $areaInfo->positionList[1]->longitude
+		&& $position->latitude >= $areaInfo->positionList[0]->latitude
+		&& $position->latitude <= $areaInfo->positionList[1]->latitude);
 	}
 }
 ?>

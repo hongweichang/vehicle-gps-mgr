@@ -8,8 +8,7 @@ class Inquire extends BASE
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
 	*		@return no
 	*/
-	function get_all_vehicles()
-	{
+	function get_all_vehicles()	{
 		$this->sql = "select id, number_plate from vehicle_manage where company_id = ".get_session("company_id");
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
@@ -52,5 +51,45 @@ class Inquire extends BASE
 		$test = $dataMapping->getMappingText("info_issue","type",$type);
 		return $test;
 	}
+	
+	/**
+	 * 检查车辆列表是否位于指定的区域内
+	 * @param unknown_type $vehicle_list
+	 * @param unknown_type $areaInfo
+	 */
+	function check_in_area(&$vehicle_list, $areaInfo, $hour_list){
+		$vehicle_in_area = array();
+		
+		foreach($hour_list as $value_h){
+			$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$value_h.".log";
+			if(!file_exists($gps_info_path)){
+				continue;
+			}
+			
+			for($i=0;$i<count($vehicle_list);$i++){
+				if($this->is_vehicle_in_area($vehicle_list[$i], $areaInfo, $gps_info_path, $value_h)){
+					array_push($vehicle_in_area, $vehicle_list[$i]);
+					array_splice($vehicle_list,$i,1); 
+				    $i--; 
+				}
+			}
+			
+		}
+		
+		return $vehicle_in_area;
+	}
+	
+	/**
+	 * 检查某辆车是否位于指定的区域内
+	 * @param unknown_type $vehicle_id
+	 * @param unknown_type $areaInfo
+	 */
+	function is_vehicle_in_area($vehicle_id, $areaInfo, $gps_info_path, $time){
+		require_once 'traceInfo.php';
+		$company_id = get_session("company_id"); //获取当前公司ID
+		$parser = new Position_parser($company_id,$gps_info_path,$vehicle_id, $time);
+		return $parser->is_in_area($areaInfo);
+	}
+	
 }
 ?>
