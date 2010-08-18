@@ -58,7 +58,7 @@ html,body {
 		style="width: 100%; height: 30px; margin: 30px auto; text-align: center;">
 	<input type="submit" value="确认" onclick="update_set();" /></div>
 	
-	
+	<div id="process"></div>
 	
 	<!-- 弹出设置颜色的模式窗口 -->
 	<div style="padding: 20px; background-color: #fff; display: none;"
@@ -82,7 +82,6 @@ function adviceDialog(){
 			    '取消': function() {
 					jQuery(this).dialog('close');
 			  },'提交': function() { 
-					
 					var str="";//循环取出所有已经有的数
 					var str_color="";//循环取出
 					for(var i=0;i<8;i++)
@@ -146,7 +145,6 @@ function adviceDialog(){
 					jQuery(this).dialog('close');
 				}
         },open:function(event,ui){
-
 		        getTraffic();
         }
 	 });
@@ -155,12 +153,15 @@ function adviceDialog(){
 
 function getTraffic()
 {
+	
+	$("#process").mask("正在查询中,请耐心等候...");
 	$.ajax({
 		type: "POST",
 		url: "index.php?a=5018",
 		data: "",
 		success: function(msg){
-			 jQuery("#canAdviceSelectDiv").html(msg); 
+		$("#process").unmask();
+		 	jQuery("#canAdviceSelectDiv").html(msg); 
 		}
 	 });
 }
