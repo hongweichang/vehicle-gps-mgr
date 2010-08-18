@@ -5,7 +5,7 @@
 </head>
 <body style="border:1px green solid; width:90%; height:90%;">
 <form id="sendNews" name="sendNews" method="post">
-	   <div style="float:left;  width:200px; height:280px; margin:5px auto;">
+	   <div style="float:left;  width:200px; height:310px; margin:5px auto;">
 			<div>写信息:</div>
 			<div style="font-size:12px;width:216px; height:100px; text-align:left;">
 				<textarea id="info_content" name="info_content" rows="4" cols="30"></textarea>
@@ -17,25 +17,26 @@
 				</div>
 			</div>
 
-			<div style=" width:250px; height:34px; margin:10px auto;display:block;" >
+			<div style=" width:250px; height:38px; margin:10px auto;display:block;" >
 				<div style="float:left; width:100px; height:32px;">
 					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(900,400)" value="选择车辆" />
 				</div>
 				<div style="float:left; width:100px; height:32px;">
 					<input id="area_issue" type="button" name="issue_area" onclick="resetDialogSize(900,400)" value="区域发布" />
 				</div>
-				<div id="area_begin_time" style="float:left; width:120px; height:32px;">
-					生效时间:<div style="float:left;width:90px;height:30px;"><input id="begin_time_area" type="text"/></div>
+				<div id="area_begin_time" style="float:left; width:120px; height:40px;">
+					生效时间:<input id="begin_time_area" type="text" style="width:120px"/>
 				</div>
-				<div id="area_end_time" style="float:left; width:200px; height:32px;">
-					失效时间:<div style="float:left; width:120px; height:30px;">
+				<div id="area_end_time" style="float:left; width:180px; height:40px;">
+					失效时间:<br/><div style="float:left; width:120px; height:30px;">
 								<input id="end_time_area" type="text" style="width:120px;"/>
 							</div>
-					<div style="float:left; width:50px; height:30px;">        					<select id="issue_day" style="width:50px;">
+					<div style="float:right; width:50px; height:30px;">        					<select id="issue_day">
 		 					     {{day_list}}
 					         </select>
 					 </div>
 				</div>
+				<br/>
 				<div id='add_user' style="float:left; width:100px; height:32px;">
 					<input id="addUser" type="button" value="添加对象"/>
 				</div>
@@ -44,10 +45,10 @@
 				</div>
 				<div id='add_input' style="float:left; width:200px; height:32px;">
 					<div style="float:left; width:130px; height:30px;">
-						<input id="addInput" type="text" style="width:130px"/>
+						<input id="addInput" type="text" style="width:120px"/>
 					</div>
 					<div style="float:left; width:50px; height:30px;">
-						<input id="add_commit" type="button" value="添加" style="width:40px"></input>
+						<input id="add_commit" type="button" value="添加" style="width:45px"></input>
 					</div>
 				</div>
 				<div id='area_Commit' style="float:left; width:100px; height:32px;">
@@ -84,7 +85,11 @@ str = str.substr(0,str.length-1);
 			if(data != "|"){
 				var array=data.split("|");
 				for(var i=0;i<array.length-1;i++){
-					$("#email_list")[0].options.add(new Option(array[i],array[i])); 
+					if(check_email(array[i])){
+						$("#email_list")[0].options.add(new Option(array[i],array[i])); 
+					}else{
+						alert("邮箱:"+array[i]+" 格式错误")
+						}
 				}
 			}
 		});
@@ -147,10 +152,22 @@ $("#addUser").click(function(){
 
 $("#add_commit").click(function(){
 	var email = $("#addInput").val();
+	if(check_email(email)==false){
+		alert("格式错误");
+		return;
+		}
 	$("#add_input").hide();
 	$("#email_list")[0].options.add(new Option(email,email));
 	
 });
+
+/**
+ * 正则表达式检验邮箱地址格式
+ */
+	function check_email(email){
+		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+	    return reg.test(email);
+	}
 
 function subInfo(){	
 	  var content=document.getElementById("info_content").value;
