@@ -1,32 +1,61 @@
 <div id='his'>
-<input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
-<input type="radio" name='history' id="history_post">查询历史发布信息</input>
+	<input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
+	<input type="radio" name='history' id="history_post">查询历史发布信息</input>
 </div>
-<div>
-开始时间:
-<input type="text" id="inquire_startTime" size="15" />
-&nbsp;&nbsp;&nbsp; 结束时间:
-<input type="text" id="inquire_endTime" size="15" />
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-<span id='info_select_vehicle'>
-	<select id='select_mode'>
-		<option value="vehicle_mode">选择车辆</option>
-		<option value="area_mode">选择区域</option>
-	</select>
-</span>
-<select id="vehicle_info">
-{{vehicle_list}}
-</select>
-<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
-<input type="button" id="trace" name="trace" value="查询历史轨迹"/>
-<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
+<style>
+<!--
+	.map_control{width:900px;height:25px;margin-top:2px}
+	.date_option{width:350px;}
+	.keep_left{float:left}
+	.speed{width:30px;margin-top:5px;text-align:center}
+	.track_info{width:85px;margin-top:5px;}	
+	.spacing{margin:0px 5px 0px 5px}	
+
+	#cur_run_time{width:100px;height:10px;margin-top:5px;}
+	#show_time{width:45px;margin-left:2px;font-weight:700;margin-top:5px;text-align:center;}
+	
+-->
+</style>
+<div class="map_control">
+	<div class="keep_left">
+		 开始时间:<input type="text" id="inquire_startTime" size="15" /> 
+		 结束时间:<input type="text" id="inquire_endTime" size="15" /> 
+	</div>
+	<div class="keep_left" id="speed_control"> 
+		<div class="speed keep_left">速度</div> 
+		<div id="cur_run_time" class="keep_left"></div>
+		<div id="show_time" class="keep_left"></div>
+		<div class="track_info keep_left">轨迹控制 0/0</div>
+	</div>
+	<div class="keep_left spacing">
+		<span id='info_select_vehicle'>
+			<select id='select_mode'>
+				<option value="vehicle_mode">选择车辆</option>
+				<option value="area_mode">选择区域</option>
+			</select>
+		</span>
+ 	</div>
+ 	<div class="keep_left spacing">
+		<select id="vehicle_info">
+			{{vehicle_list}}
+		</select>
+	</div>
+	<div class="keep_left spacing">	
+		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
+		<input type="button" id="play_history" value="播放"></input>
+		<input type="button" id="stop_history" value="暂停"></input> 
+		<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
+	</div>
+
 </div>
+
 <div id='his_infoes'>
 	<table id='infoes'></table>
 	<div id="pagernav_infoes"></div>
 </div>
 <div id="areas">
-	<iframe id="mode_area"  scrolling='no' frameborder='0' height="460px" width="1050px"></iframe>
+	<iframe id="mode_area"  style="width:900px;height:410px;" 
+	marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe>
 	<div id="area_vehicles"></div>
 </div>
 
@@ -84,80 +113,109 @@
 				</tr>
 			</table>
 		</div>
-	</div> 
-<div style="display:none;width:100%;height:30x;position:absolute;z-index:100000;top:30px;background-color:#80ffff;text-align:center;filter:alpha(Opacity=96);">
-		<div style="width:85%;height:20px;border:0px solid">
-			 <div style="float:left;">开始时间:<input type="text" id="start_time"></input></div>
-			 <div style="float:left;">结束时间:<input type="text" id="end_time"></input></div>
-			 <div style="float:left;width:80px;margin-top:9px;">播放速度</div>
-			 <div id="cur_run_time" style="width:100px;height:10px;float:left;margin-top:9px"></div>
-			 <div style="float:left;width:40px;margin-left:2px;margin-top:9px;font-weight:700;" id="show_time"></div>
-			 <div style="float:left;width:100px;margin-top:9px;">轨迹控制 0/0</div>
-			 <div style="float:left;width:40px;margin-left:10px;">
-			 	<input type="button" id="play_history" value="播放"></input>
-			 </div>
-			 <div style="float:left;width:40px;margin-left:10px;">
-			 	<input type="button" id="stop_history" value="暂停"></input>
-			 </div>
-		</div>
-	</div>	
-<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html" style="width:800px;height:410px; " scrolling="0" frameborder="0"></iframe>
+	</div>  
+<iframe id="history_track_frame" name="history_track_frame" 
+	src="inquire/templates/history_track_map.html" style="width:900px;height:410px;" 
+	marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe>
  
 <script type="text/javascript">
+	//子页面对象   iframe
+	var history_map =  document.getElementById("history_track_frame").contentDocument;
+
+	//正常速度
+	run_play(3);
 
 	
- 	//子页面对象   iframe
-	var history_map =  document.getElementById("history_track_frame").contentDocument;
-	
- 
+	//播放时间调整				
+	$("#cur_run_time").slider({ 
+		min : 1,
+		max : 5,
+		values : [3],
+		animate:true,
+		slide: function(event, ui) {
+		run_play(ui.value); 
+		}
+	});
+	//运行播放
+	function run_play(value){
+		
+		var speed_explain = new Array();
+		var play_speed = new Array();
+		
+		speed_explain[1] = "慢放2";
+		speed_explain[2] = "慢放1";
+		speed_explain[3] = "正常";
+		speed_explain[4] = "快放1";
+		speed_explain[5] = "快放2";
+
+		play_speed[1] = 4000;
+		play_speed[2] = 2000;
+		play_speed[3] = 1000;
+		play_speed[4] = 500;
+		play_speed[5] = 250;
+         
+		$("#show_time").html(speed_explain[value]);
+		 history_track_frame.speed = play_speed[value];
+	}	
+	 
     if($("#vehicle_info option:selected").attr("name")=="have"){
 			$("#his").hide();
-        }
+    }
+    
 	$("#his_info").hide();
 	$("#show_vehicles").hide();
 	$("#areas").hide();
 	$("#history_trace").attr("checked","checked");
+
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate());
 	$("#inquire_endTime").val(getNowFormatDate());
 
-
+	//暂停
+	$("#stop_history").click(function(){
+		history_track_frame.state="stop";
+	});
 	/**
 	 * 轨迹查看
 	 */
-	$("#trace").click(function(){ 
+	$("#play_history").click(function(){ 
+		history_track_frame.state="normal";
+		
+ 		var startTime = $("#inquire_startTime").attr("value");
 		 
-	 		var startTime = $("#inquire_startTime").attr("value");
-			 
-			if(startTime == ""){
-				alert("开始时间不能为空!");
-				$("#startTime").focus();
-				return false;
-			}
-			var endTime = $("#inquire_endTime").attr("value");
-			if(endTime == ""){
-				alert("结束时间不能为空!");
-				$("#endTime").focus();0
-				return false;
-			}
-			 
-			 
-			//获取时间数组
-			history_track_frame.arr_history = getHourList(); 
-			//清除地图标签 
-			//clearOverLay();
-			history_track_frame.vehicle_id = $("#vehicle_info option:selected").val();
-	
-			//获取车牌号、GPS编号
-			$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
-	 			 var gps_plate = eval('(' + data + ')');  
-				 $("#vehicle_id").html(gps_plate[0]);
-				 $("#gps_id").html(gps_plate[1]);
-				});
-
-			 history_track_frame.clearOverLay();
-			//运行历史轨迹
-			 history_track_frame.runHistoryTrack();  
+		if(startTime == ""){
+			alert("开始时间不能为空!");
+			$("#startTime").focus();
+			return false;
+		}
+		var endTime = $("#inquire_endTime").attr("value");
+		if(endTime == ""){
+			alert("结束时间不能为空!");
+			$("#endTime").focus();
+			return false;
+		}
+		var history_vehicle_id = $("#vehicle_info option:selected").val();    
+		
+		if(history_vehicle_id !== history_track_frame.vehicle_id){
+				//获取时间数组
+				history_track_frame.arr_history = getHourList();   
+				//设置所选车辆编号
+				history_track_frame.vehicle_id = $("#vehicle_info option:selected").val();
+		
+				//获取车牌号、GPS编号
+				$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
+		 			 var gps_plate = eval('(' + data + ')');  
+					 $("#vehicle_id").html(gps_plate[0]);
+					 $("#gps_id").html(gps_plate[1]);
+					});
+		
+				 //清除地图所有标签
+				 history_track_frame.clearOverLay();
+				 //设置正常运行速度
+				 history_track_frame.speed = 1000;
+		}	 
+		 //运行历史轨迹
+		 history_track_frame.runHistoryTrack();  
 });
 
 
@@ -167,29 +225,42 @@
 			$("#vehicle_info").hide();
 			$("#areas").show();
 			$("#show_vehicles").show();
+			$("#play_history").hide();
+			$("#speed_control").hide();
+			$("#stop_history").hide();
 
 			$("#mode_area").attr("src","inquire/templates/51ditu.html");
 		}else{
 			$("#vehicle_info").show();
 			$("#areas").hide();
 			$("#show_vehicles").hide();
+			$("#play_history").show();
+			$("#speed_control").show();
+			$("#stop_history").show();
 			}
 		});
 	
 	$("#history_post").click(function(){
 		$("#vehicle_info").hide();
 		$("#info_select_vehicle").hide();
-		$("#trace").hide();
+		$("#play_history").hide();
+		$("#speed_control").hide();
+		$("#stop_history").hide();
 		$("#areas").hide();
 		$("#show_vehicles").hide();
 		$("#his_info").show();
+		$("#history_track_frame").hide();
 	});
+	
 	$("#history_trace").click(function(){
 		$("#his_info").hide();
 		$("#info_select_vehicle").show();
 		$("#vehicle_info").show();
-		$("#trace").show();
+		$("#play_history").show();
+		$("#speed_control").show();
+		$("#stop_history").show();
 		$("#areas").hide();
+		$("#history_track_frame").show();
 	});
 	
 	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
@@ -236,147 +307,147 @@
 	   	return CurrentDate;
 	}
 	
-		//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
-		function getTodayFormatDate()
-		{
-		   	var day = new Date();
-		
-		   	var Year = 0;
-		   	var Month = 0;
-		   	var Day = 0;
-			var CurrentDate = "";
-		   //初始化时间
-		   	Year= day.getFullYear();
-		   	Month= day.getMonth()+1;
-		   	Day = day.getDate();
-		   	CurrentDate += Year + "/";
-		   	if (Month >= 10){
-		    	CurrentDate += Month + "/";
-		   	}else{
-		    	CurrentDate += "0" + Month + "/";
-		   	}
-		   	if (Day >= 10 ){
-		    	CurrentDate += Day +" ";
-		   	}else{
-		    	CurrentDate += "0" + Day+" " ;
-		   	}
-		   	CurrentDate+="00:00:00";
-		   	return CurrentDate;
-		}
+	//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
+	function getTodayFormatDate()
+	{
+	   	var day = new Date();
+	
+	   	var Year = 0;
+	   	var Month = 0;
+	   	var Day = 0;
+		var CurrentDate = "";
+	   //初始化时间
+	   	Year= day.getFullYear();
+	   	Month= day.getMonth()+1;
+	   	Day = day.getDate();
+	   	CurrentDate += Year + "/";
+	   	if (Month >= 10){
+	    	CurrentDate += Month + "/";
+	   	}else{
+	    	CurrentDate += "0" + Month + "/";
+	   	}
+	   	if (Day >= 10 ){
+	    	CurrentDate += Day +" ";
+	   	}else{
+	    	CurrentDate += "0" + Day+" " ;
+	   	}
+	   	CurrentDate+="00:00:00";
+	   	return CurrentDate;
+	}
  
 
-			var step_info = 0;
-			
-			$("#his_info").click(function(){
-				
-				var startTime = $("#inquire_startTime").attr("value");
-				 
-				if(startTime == ""){
-					alert("开始时间不能为空!");
-					$("#inquire_startTime").focus();
-					return false;
-				}
-				var endTime = $("#inquire_endTime").attr("value");
-				if(endTime == ""){
-					alert("结束时间不能为空!");
-					$("#inquire_endTime").focus();
-					return false;
-				}
-
-				
-				if(step_info==0){
-				jQuery("#infoes").jqGrid({
-					url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()
-						+'&end_date='+$("#inquire_endTime").val(),
-					  datatype: "json",
-				   	colNames:['ID','发布人', '类型', '发布时间','生效时间','失效时间','信息内容'],
-				   	colModel:[
-				   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:
-																		{readonly:true,size:10}},
-				   		{name:'issuer_id',index:'issuer_id', width:80},
-				   		{name:'type',index:'type', width:70},
-				   		{name:'issue_time',index:'issue_time', width:140, align:"left"},   
-				   		{name:'begin_time',index:'begin_time', width:140, align:"left"},
-				   		{name:'end_time',index:'end_time', width:140, align:"left"},
-				   		{name:'content',index:'content', width:900, align:"left"}
-				   		
-				   	],
-				   	rowNum:10,
-				   	rowList:[10,20,30],
-				   	pager: '#pagernav_infoes',
-				   	sortname: 'id',
-				    viewrecords: true,
-				    sortorder: "desc",
-					height:290
-				});
-
-					jQuery("#infoes").jqGrid('navGrid','#pagernav_infoes',
-					{edit:false,add:false,del:false});
-					step_info++;
-				}else{
-					var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()
-								+'&end_date='+$("#inquire_endTime").val();
-					jQuery("#infoes").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
-					}
-			
-			});
-
-
-		$("#inquire_startTime").datetimepicker({
-			 ampm: false,//上午下午是否显示  
-			 timeFormat: 'hh:mm:ss',//时间模式  
-			 stepHour: 1,//拖动时间时的间隔  
-			 dateFormat:"yy/mm/dd", //日期格式设定  
-			 showHour: true,//是否显示小时，默认是true  
-			 showMinute:false,
-			 showSecond:false,
-			 createButton:false
-		 });	
-	     
-
-		$("#inquire_endTime").datetimepicker({
-			 ampm: false,//上午下午是否显示  
-			 timeFormat: 'hh:mm:ss',//时间模式  
-			 stepHour: 1,//拖动时间时的间隔  
-			 dateFormat:"yy/mm/dd", //日期格式设定  
-			 showHour: true,//是否显示小时，默认是true  
-			 showMinute:false,
-			 showSecond:false,
-			 createButton:false
-		 });
-
-		function getHourList(){
-			var startTime = $("#inquire_startTime").attr("value");
-			var endTime = $("#inquire_endTime").attr("value");
-
-			var startdt0 = new Date(Date.parse(startTime));
-			var enddt0 = new Date(Date.parse(endTime));
-
-			startdt = startdt0.getTime();
-			enddt = enddt0.getTime();
-
-			var hourList = new Array();
-			
-			while(startdt <  enddt){
-				var date = new Date();
-				date.setTime(startdt);
-
-				var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + padLeft("" + date.getDate(),2) + "" + padLeft("" + date.getHours(),2);
-				hourList.push(hourStr);
-				
-				startdt += 60*60*1000; //起始时间增加1小时
-				//startdt += 30*60*1000; //起始时间增加半小时
-			}
-			
-			return hourList;
+	var step_info = 0;
+	
+	$("#his_info").click(function(){
+		
+		var startTime = $("#inquire_startTime").attr("value");
+		 
+		if(startTime == ""){
+			alert("开始时间不能为空!");
+			$("#inquire_startTime").focus();
+			return false;
+		}
+		var endTime = $("#inquire_endTime").attr("value");
+		if(endTime == ""){
+			alert("结束时间不能为空!");
+			$("#inquire_endTime").focus();
+			return false;
 		}
 
-		function padLeft(str,lenght){ 
-			if(str.length >= lenght){
-				return str;
+		
+		if(step_info==0){
+		jQuery("#infoes").jqGrid({
+			url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+				+'&end_date='+$("#inquire_endTime").val(),
+			  datatype: "json",
+		   	colNames:['ID','发布人', '类型', '发布时间','生效时间','失效时间','信息内容'],
+		   	colModel:[
+		   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:
+																{readonly:true,size:10}},
+		   		{name:'issuer_id',index:'issuer_id', width:80},
+		   		{name:'type',index:'type', width:70},
+		   		{name:'issue_time',index:'issue_time', width:140, align:"left"},   
+		   		{name:'begin_time',index:'begin_time', width:140, align:"left"},
+		   		{name:'end_time',index:'end_time', width:140, align:"left"},
+		   		{name:'content',index:'content', width:900, align:"left"}
+		   		
+		   	],
+		   	rowNum:10,
+		   	rowList:[10,20,30],
+		   	pager: '#pagernav_infoes',
+		   	sortname: 'id',
+		    viewrecords: true,
+		    sortorder: "desc",
+			height:290
+		});
+
+			jQuery("#infoes").jqGrid('navGrid','#pagernav_infoes',
+			{edit:false,add:false,del:false});
+			step_info++;
+		}else{
+			var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+						+'&end_date='+$("#inquire_endTime").val();
+			jQuery("#infoes").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
 			}
-			else{ 
-				return padLeft("0" +str,lenght); 
-			}
-		} 
+	
+	});
+
+
+	$("#inquire_startTime").datetimepicker({
+		 ampm: false,//上午下午是否显示  
+		 timeFormat: 'hh:mm:ss',//时间模式  
+		 stepHour: 1,//拖动时间时的间隔  
+		 dateFormat:"yy/mm/dd", //日期格式设定  
+		 showHour: true,//是否显示小时，默认是true  
+		 showMinute:false,
+		 showSecond:false,
+		 createButton:false
+	 });	
+     
+
+	$("#inquire_endTime").datetimepicker({
+		 ampm: false,//上午下午是否显示  
+		 timeFormat: 'hh:mm:ss',//时间模式  
+		 stepHour: 1,//拖动时间时的间隔  
+		 dateFormat:"yy/mm/dd", //日期格式设定  
+		 showHour: true,//是否显示小时，默认是true  
+		 showMinute:false,
+		 showSecond:false,
+		 createButton:false
+	 });
+
+	function getHourList(){
+		var startTime = $("#inquire_startTime").attr("value");
+		var endTime = $("#inquire_endTime").attr("value");
+
+		var startdt0 = new Date(Date.parse(startTime));
+		var enddt0 = new Date(Date.parse(endTime));
+
+		startdt = startdt0.getTime();
+		enddt = enddt0.getTime();
+
+		var hourList = new Array();
+		
+		while(startdt <  enddt){
+			var date = new Date();
+			date.setTime(startdt);
+
+			var hourStr = date.getFullYear() + "" + padLeft("" + (date.getMonth()+1),2) + "" + padLeft("" + date.getDate(),2) + "" + padLeft("" + date.getHours(),2);
+			hourList.push(hourStr);
+			
+			startdt += 60*60*1000; //起始时间增加1小时
+			//startdt += 30*60*1000; //起始时间增加半小时
+		}
+		
+		return hourList;
+	}
+
+	function padLeft(str,lenght){ 
+		if(str.length >= lenght){
+			return str;
+		}
+		else{ 
+			return padLeft("0" +str,lenght); 
+		}
+	} 
 </script>

@@ -1,11 +1,18 @@
 	var map = null; //历史轨迹地图对象
 	var arr_history = null; //历史轨迹
-	var drawLine_arr;  //画线队列
-	var vehicle_id = null; //车辆ID
+	var drawLine_arr = null;  //画线队列
+	var vehicle_id = -1; //车辆ID
 	var speed = 1000;  //速度/ms
-	var state = 1; //操作状态    '0' 不能操作   '1' 可操作 
+	
+	/***
+	 * 操作状态 :处理画历史轨迹操作状态    
+	 * 	 'normal' 正常   
+	 * 	 'stop' 停止
+	 */
+	var state = "normal"; 
 	var marker;   //地图标记对象
-	 history_map();
+	
+	history_map();
 	  
 	/**
 	 * 初始化历史轨迹
@@ -15,9 +22,8 @@
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
-		
-	 	var standControl = new LTStandMapControl();
 		 
+		var standControl = new LTSmallMapControl();
 		map.addControl(standControl);
 	 	map.handleMouseScroll();
 		//绑定事件注册
@@ -54,12 +60,19 @@
 	 * 运行历史轨迹
 	 */
 	function runHistoryTrack(){   
-		if(arr_history.length>0){
-			
-			var time = arr_history[0];  
-			arr_history.shift();
+		//如果当前画线数组还存在数据，继续执行画线
+		if(drawLine_arr != null && state === "normal"){
 			 
-			drawHistoryTrack(time,vehicle_id);
+			if(drawLine_arr.length > 0 ){ 
+				newDrawLine();
+			} 
+		}else{  
+			if(arr_history.length>0){ 
+				var time = arr_history[0];  
+				arr_history.shift();
+				 
+				drawHistoryTrack(time,vehicle_id);
+			}
 		}
 	}
 	
@@ -75,14 +88,20 @@
 		
 		setTimeout(function(){
 			if(drawLine_arr!=null){
-				if(drawLine_arr.length<=0){
-					runHistoryTrack();
+				if(drawLine_arr.length<=0){ 
+					drawLine_arr = null;
+					runHistoryTrack(); 
 				}else{
 					wait();
 				} 
 			}
 			},1000);
 	}
+	
+	function isArray(obj){ 
+		return (typeof obj=='object')&&obj.constructor==Array; 
+		} 
+
 	/**
 	 * 画历史轨迹路径
 	 * @param {Object} time  画数据时间点
@@ -90,12 +109,12 @@
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
 	 	 //var time = '2010081017';
-		state =0; //不可操作其它 
+		 
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
-			success:function(data){  
+			success:function(data){   
 			 
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
 			   if(arr_history.length>0){
@@ -112,7 +131,7 @@
 				map.getBestMap(points);
 			} 
 			drawLine_arr = data; 
-			
+			 
 			newDrawLine();
 			
 			wait();
@@ -123,9 +142,9 @@
 	/**
 	 * 画新线
 	 */
-	function newDrawLine(){
-		
-		if(drawLine_arr!=null){
+	function newDrawLine(){ 
+		 
+		if(drawLine_arr!=null && state==="normal"){ //等于‘正常’状态
 			var length = drawLine_arr.length; 
 			if(length>0){
 				 	
@@ -160,9 +179,8 @@
 
 				//调用画线函数 
 				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time);
-			}
-			
-		}
+			} 
+	 }
 }
 	
 	/**
