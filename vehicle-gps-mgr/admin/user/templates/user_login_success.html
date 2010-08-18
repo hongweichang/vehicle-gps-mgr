@@ -3,12 +3,11 @@
 var height =window.screen.availHeight-30;
 var width = window.screen.width-7;
 
-
-//新出操作窗口
-window.open ("index.php?a=100", "newwindow", "height="+height+", width="+width+", toolbar =no, menubar=no, scrollbars=yes, resizable=no, location=no, status=yes");
-//window.close();
 window.opener = null;
 window.open('','_self');
 window.close();
+//新出操作窗口
+window.open ("index.php?a=100", "newwindow", "height="+height+", width="+width+", toolbar =no, menubar=no, scrollbars=yes, resizable=no, location=no, status=yes");
+
 
 </script>
