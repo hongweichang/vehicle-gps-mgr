@@ -34,7 +34,7 @@
 	 
 		var ltControl = new LTZoomInControl();
 		map.addControl( ltControl );
-		ltControl.setRight(320);
+		ltControl.setRight(240);
 		
 		var PolyControl = new LTPolyLineControl();
 		map.addControl( PolyControl );
