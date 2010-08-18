@@ -37,8 +37,13 @@
 					 </div>
 				</div>
 				<br/>
-				<div id='add_user' style="float:left; width:100px; height:32px;">
-					<input id="addUser" type="button" value="添加对象"/>
+				<div id="da_user">
+					<div id='add_user' style="float:left; width:100px; height:32px;">
+						<input id="addUser" type="button" value="添加对象"/>
+					</div>
+					<div id='delete_user' style="float:left; width:100px; height:32px;">
+						<input id="deleteUser" type="button" value="删除对象"/>
+					</div>
 				</div>
 				<div id='info_Commit' style="float:left; width:100px; height:32px;">
 					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
@@ -107,7 +112,7 @@ $("#car").click(function(event) {
 	$("#issue_map").hide();
 	$("#infodiv").show();
 	$("#list_user").show();
-	$("#add_user").show();
+	$("#da_user").show();
 	$("#area_begin_time").hide();
 	$("#area_end_time").hide();
 	$("#operation" ).mask("载入中...");
@@ -126,14 +131,14 @@ $("#car").click(function(event) {
 			      	$("#infodiv").html("");
 			      	$("#infodiv").css("height","1");
 			      	
-			     	resetDialogSize(230,300);
+			     	resetDialogSize(230,390);
 		});
 	});
 });
 
 $("#area_issue").click(function() {
 	$("#info_Commit").hide();
-	$("#add_user").hide();
+	$("#da_user").hide();
 	$("#add_input").hide();
 	$("#area_Commit").show();
 	$("#infodiv").hide();
@@ -148,6 +153,13 @@ $("#area_issue").click(function() {
 
 $("#addUser").click(function(){
 	$("#add_input").show();
+});
+
+$("#deleteUser").click(function(){
+	while($("#email_list")[0].selectedIndex!=null){
+		var index = $("#email_list")[0].selectedIndex;
+		$("#email_list")[0].options.remove(index);
+		}
 });
 
 $("#add_commit").click(function(){
@@ -196,7 +208,7 @@ function subInfo(){
 }
 
 function subArea(){	
-	$("#operation" ).mask("载入中...");
+	$("#operation" ).mask("处理中...");
 	var content=document.getElementById("info_content").value;
 	var begin = document.getElementById("begin_time_area").value;
 	var end = document.getElementById("end_time_area").value;
