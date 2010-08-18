@@ -57,19 +57,6 @@ $(document).ready(function() {
 			showOperationDialog(this, $(this).attr('url'));   
 		});
 
-		//播放时间调整				
-		$("#cur_run_time").slider();
-		$("#cur_run_time").slider({ min:0,max:1000,step:10,animate:true}); 
-		$("#cur_run_time").slider({ range: 'min' });
-		 
-		get_cur_run_time();
-		
-		$( "#cur_run_time" ).slider({
-			slide: function(event, ui) {
-					get_cur_run_time();
-			   }
-			});
-		 
 	$(document).bind("contextmenu",function(e){
 		        return false;
 	});
@@ -113,10 +100,7 @@ $(document).ready(function() {
 	$("#header").mask("车辆速度正在查询中,请耐心等候...");
 });
 
-	//获取播放运行时间
-	function get_cur_run_time(){
-		$("#show_time").html( $( "#cur_run_time" ).slider("option","value"));
-	}	
+	
 	 
  	
 	var id=0;
