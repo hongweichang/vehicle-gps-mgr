@@ -145,6 +145,7 @@ $(document).ready(function() {
     	            width: showWidth,
     	            height: showHeight,
     	            modal: false,
+    	            position:'center',
     	            resizable: true,
     				autoResize: true
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
