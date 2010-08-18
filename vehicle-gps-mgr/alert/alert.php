@@ -70,6 +70,7 @@ $vehicle_group = "";
 		break;
 	
 	case "list_data" : //向jqgrid填充数据
+
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
 		
@@ -100,7 +101,12 @@ $vehicle_group = "";
 			$user_name = $alert->get_user_name ( $value ['dispose_id'] );
 			
 			$response->rows [$key] ['id'] = $value ['id'];
-			if ( !empty($value['dispose_opinion'])||strlen($value['dispose_opinion'])!=0) {
+			
+
+			$length=strlen(trim($value['dispose_opinion']));
+			
+			if (strlen(trim($value['dispose_opinion']))!=0)
+			 {
 				
 				if (strlen($value ['dispose_opinion']) > $limit_length) {
 					$shortString = convertOverlongString( $value ['dispose_opinion'], $limit_length );

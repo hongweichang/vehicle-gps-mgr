@@ -28,7 +28,11 @@
 
 		$("#addOpinion").click(function(){
 			var id = $("#alertId").val();
-			$.post("index.php?a=904&id="+id+"&advice="+$("#advice").text(),function(data){
+			$.post("index.php",{
+				"a":904,
+				"id":id,
+				"advice":$("#advice").text()},
+				function(data){
 				$("#result").text(data);
 			});
 		});

@@ -44,19 +44,19 @@ class Alert extends BASE {
 	 */
 	function get_all_alerts($group_id="",$vehicle_id="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = "") {
 		 if($group_id==-1){
-		 	$this->sql = "select * from " . $this->mysel_table_name . "  " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+		 	$this->sql = "select * from " . $this->mysel_table_name . "  " . $wh . " order by " . " alert_time desc " . " LIMIT " . $start . " , " . $limit;
 		 }else if($vehicle_id==-1){
 		 	$this->sql ="select a_i.id,a_i.alert_time,a_i.alert_type,a_i.vehicle_id,a_i.dispose_id,a_i.dispose_opinion,a_i.description from ".
                     "((select * from alert_info) as a_i ".
                     "inner join ".
                     "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
-                    "on v_m.id=a_i.vehicle_id)  " . $wh . " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 	
+                    "on v_m.id=a_i.vehicle_id)  " . $wh . " order by " . " a_i.alert_time desc " . " LIMIT " . $start . " , " . $limit; 	
 		 }else{
 		 	$this->sql ="select a_i.id,a_i.alert_time,a_i.alert_type,a_i.vehicle_id,a_i.dispose_id,a_i.dispose_opinion,a_i.description from ".
                     "((select * from alert_info) as a_i ".
                     "inner join ".
                     "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
-                    "on v_m.id=a_i.vehicle_id) ". $wh ." and a_i.vehicle_id=".$vehicle_id ." order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit; 
+                    "on v_m.id=a_i.vehicle_id) ". $wh ." and a_i.vehicle_id=".$vehicle_id ." order by " . " a_i.alert_time desc ". " LIMIT " . $start . " , " . $limit; 
 
 		 }
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
@@ -70,19 +70,19 @@ class Alert extends BASE {
 	 */
 	function get_all_count($group_id,$vehicle_id,$condition) {
 	 if($group_id==-1){
-		 	$this->sql = "select count(*) from " . $this->mysel_table_name;
+		 	$this->sql = "select count(*) from " . $this->mysel_table_name. $condition;
 		 }else if($vehicle_id==-1){
 		 	$this->sql ="select count(*) from ".
                     "((select * from alert_info) as a_i ".
                     "inner join ".
                     "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
-                    "on v_m.id=a_i.vehicle_id)"; 	
+                    "on v_m.id=a_i.vehicle_id) ".$condition; 	
 		 }else{
 		 	$this->sql ="select count(*) from ".
                     "((select * from alert_info) as a_i ".
                     "inner join ".
                     "(select id from   vehicle_manage where vehicle_group_id=".$group_id.") as v_m ".
-                    "on v_m.id=a_i.vehicle_id) where a_i.vehicle_id=".$vehicle_id; 
+                    "on v_m.id=a_i.vehicle_id) ". $condition . " and  a_i.vehicle_id=".$vehicle_id; 
 
 		 }
 		 $count = $GLOBALS ["db"]->query_once ( $this->sql );
