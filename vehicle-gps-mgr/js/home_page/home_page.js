@@ -70,28 +70,7 @@ $(document).ready(function() {
 			   }
 			});
 		 
-		$("#start_time").datetimepicker({
-			ampm: false,//上午下午是否显示  
-			timeFormat: 'hh:mm:ss',//时间模式  
-			stepHour: 1,//拖动时间时的间隔  
-			dateFormat: "yy/mm/dd", //日期格式设定  
-			showHour: true,//是否显示小时，默认是true  
-			showMinute: false,
-			showSecond: false,
-			createButton: false
-		});
-		
-		$("#end_time").datetimepicker({
-			ampm: false,//上午下午是否显示  
-			timeFormat: 'hh:mm:ss',//时间模式  
-			stepHour: 1,//拖动时间时的间隔  
-			dateFormat: "yy/mm/dd", //日期格式设定  
-			showHour: true,//是否显示小时，默认是true  
-			showMinute: false,
-			showSecond: false,
-			createButton: false
-		});
-		 $(document).bind("contextmenu",function(e){
+	$(document).bind("contextmenu",function(e){
 		        return false;
 	});
 				 		
