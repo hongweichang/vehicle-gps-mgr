@@ -179,13 +179,14 @@ $vehicle_group = "";
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();
 		if($record!=null){	
-			echo $record[0]."|".$record[1]."|".$record[2]."|".$record[3];
+			$dataMapping = new Data_mapping_handler ( $comm_setting_path );
+			$alert_type_display = $dataMapping->getMappingText ( $tableName, $colName, $record[3]);
+			
+			echo $record[0]."|".$record[1]."|".$record[2]."|".$alert_type_display;
 		}
 		else{
 			echo "-1";
 		}
 		break;
-	
-     
 }	
 ?>

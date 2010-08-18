@@ -9,9 +9,8 @@
 
 class Alert extends BASE {
 	
-	public $mysel_table_name = "alert_info"; //	以下为每个类都必须有的变量
+	public $mysel_table_name = "alert_info"; //	告警记录表
 	public $user_table_name = "user"; //FK 用户表名称
-	public $alert_table_name="alert_info";//告警记录表
 	public $vehicle_manage_table_name = "vehicle_manage"; // FK 车辆管理表名称
 
 	public $data = false; //数据
@@ -170,8 +169,9 @@ class Alert extends BASE {
     function get_newest_alert(){
     	$company_id = get_session("company_id");
     	//格式化sql语句
-    	$sql ="select a.id,a.alert_time, v.number_plate, a.description from alert_info a inner join vehicle_manage v where  v.id=a.vehicle_id   and v.company_id=%s  and (a.dispose_opinion is null or a.dispose_opinion=\"\") order by a.alert_time desc limit 0,1" ;
-    	$this->sql = sprintf($sql,$company_id);
+    	$sql ="select a.id,a.alert_time, v.number_plate, a.alert_type from  %s a inner join %s v where  v.id=a.vehicle_id  and v.company_id=%d  and (a.dispose_opinion is null or a.dispose_opinion='') order by a.alert_time desc limit 0,1" ;
+    	
+    	$this->sql = sprintf($sql,$this->mysel_table_name,$this->vehicle_manage_table_name,$company_id);
     	
     	$record = $GLOBALS ["db"]->query_once ( $this->sql );
     	return $record;
