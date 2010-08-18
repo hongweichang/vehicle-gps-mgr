@@ -25,7 +25,11 @@ jQuery(document).ready(function(){
             maintab.tabs('select', '#' + ui.panel.id);
         }
     });
-    jQuery("#west-grid").jqGrid({
+    var caption_info ="<div><div style='float:left'>欢迎 {{user_name}}</div>"+
+        			  "<div style='width:110px;float:left;text-align:right'>"+
+        			  "<a href='index.php?a=1005'>安全退出</a></div></div>"; 
+
+     jQuery("#west-grid").jqGrid({
         url: "xml/tree.xml",
         datatype: "xml",
         height: "auto",
@@ -38,7 +42,7 @@ jQuery(document).ready(function(){
             {name: "url",width:1,hidden:true}
         ],
         treeGrid: true,
-		caption: "欢迎 {{user_name}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='index.php?a=1005'>安全退出</a>",
+		caption: caption_info,
         ExpandColumn: "menu",
         autowidth: true,
         //width: 180,
@@ -78,10 +82,7 @@ jQuery(document).ready(function(){
 });
 </script>
 </head>
-<body>
-<script type="text/javascript"
-  //src="http://ui.jquery.com/themeroller/themeswitchertool/">
-</script>
+<body> 
 
   	<div id="LeftPane" class="ui-layout-west ui-widget ui-widget-content">
 		<table id="west-grid"></table>
