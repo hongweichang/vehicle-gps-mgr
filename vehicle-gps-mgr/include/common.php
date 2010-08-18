@@ -324,5 +324,28 @@
 			return $returnstr;
 		}
 	}
+	
+	
+	/**
+     * 经纬度转换
+     * @param $v 经度或纬度在数据库中的值
+     */
+    function around($v=-1,$e=0){
+				$v= $v*100000;
+				$t=1;   
+					for(;$e>0;$t*=10,$e--);   
+					for(;$e<0;$t/=10,$e++);   
+
+				return  round($v*$t)/$t;   
+			  } 
+			  
+	/**
+	 *  将经纬度转换成数据库中的值
+	 *  @param $经度或纬度值
+	 */
+	function e_around($v){
+		$v = $v/100000;
+		return $v;
+	}
 
 ?>
