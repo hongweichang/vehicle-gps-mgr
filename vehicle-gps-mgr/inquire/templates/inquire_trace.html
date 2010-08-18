@@ -175,6 +175,7 @@
 	$("#stop_history").click(function(){
 		history_track_frame.state="stop";
 	});
+
 	/**
 	 * 轨迹查看
 	 */
@@ -418,6 +419,8 @@
 		 createButton:false
 	 });
 
+
+	//得到起始时间和结束时间之间的小时列表，以便于分段向服务器请求位置信息
 	function getHourList(){
 		var startTime = $("#inquire_startTime").attr("value");
 		var endTime = $("#inquire_endTime").attr("value");
@@ -444,6 +447,7 @@
 		return hourList;
 	}
 
+	//字符串左侧补零函数
 	function padLeft(str,lenght){ 
 		if(str.length >= lenght){
 			return str;
@@ -452,4 +456,63 @@
 			return padLeft("0" +str,lenght); 
 		}
 	} 
+
+		//位置信息类
+		function Position(){
+			var longitude;
+			var latitude;
+		}
+
+		//区域信息类
+		function AreaInfo(){
+			var positionList;
+			var radius = 0;
+			var type = 0; //0-矩形 1-圆形 2-多边形
+		}
+
+		$("#show_vehicles").click(function(){
+			$("#areas").mask("查询中,请稍侯...");
+			var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
+			var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
+			var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
+			var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
+
+			var idListStr = "";
+			$("#vehicle_info > option").each(function(){
+				if(idListStr != ""){
+					idListStr += "-";
+				}
+				idListStr += $(this).val();
+			});
+
+				var hourList = getHourList();
+			
+			var hourListStr = "";
+			for(i=0;i<hourList.length;i++){
+				if(hourListStr != ""){
+					hourListStr += "-";
+				}
+
+				hourListStr += hourList[i];
+			}
+
+			//alert("lonMin:"+lonMin+" latMin:"+latMin+" lonMax:"+lonMax+" latMax:"+latMax);
+			
+			$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
+				"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
+				function(data){
+					$("#areas").unmask();
+					var idList = "";
+					if(data != null){
+						for(i=0;i<data.length;i++){
+							idList += "-";
+							idList += data[i];
+						}
+					}
+					//alert(idList);
+				}
+				,"json");
+
+		});
+
 </script>
