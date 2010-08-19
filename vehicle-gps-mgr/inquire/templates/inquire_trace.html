@@ -16,7 +16,7 @@
 	
 -->
 </style>
-<div class="map_control">
+<div id="control_map" class="map_control">
 	<div class="keep_left">
 		 开始时间:<input type="text" id="inquire_startTime" size="15" /> 
 		 结束时间:<input type="text" id="inquire_endTime" size="15" /> 
@@ -50,11 +50,17 @@
 	<table id='infoes'></table>
 	<div id="pagernav_infoes"></div>
 </div>
+
+<div id="show_area" style="display:none">
+	<table id="show_vehicles_page" style="width:880px;"></table>
+	<div id="page_show"></div>
+</div>
 <div id="areas">
 	<iframe id="mode_area"  style="width:900px;height:410px;" 
 	marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe>
 	<div id="area_vehicles"></div>
 </div>
+
 
 <div class="toggler" id="location_info">
 		<div id="effect" class="ui-widget-content ui-corner-all">
@@ -235,6 +241,7 @@ function position(){
 
 
 	$("#select_mode").change(function(){
+		$("#show_area").hide();
 		if("area_mode"==$("#select_mode option:selected").val()){
 			$("#vehicle_info").hide();
 			$("#areas").show();
@@ -255,6 +262,7 @@ function position(){
 		});
 	
 	$("#history_post").click(function(){
+		$("#show_area").hide();
 		$("#vehicle_info").hide();
 		$("#info_select_vehicle").hide();
 		$("#play_history").hide();
@@ -268,6 +276,7 @@ function position(){
 	});
 	
 	$("#history_trace").click(function(){
+		$("#show_area").hide();
 		$("#his_info").hide();
 		$("#his_infoes").hide();
 		$("#info_select_vehicle").show();
@@ -277,6 +286,7 @@ function position(){
 		$("#stop_history").show();
 		$("#areas").hide();
 		$("#history_track_frame").show();
+		$("#select_mode").get(0).selectedIndex=0;
 	});
 	
 	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
@@ -490,6 +500,9 @@ function position(){
 			var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
 			var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
 
+			var begin_time = $("#inquire_startTime").attr("value");
+			var end_time = $("#inquire_endTime").attr("value");
+
 			var idListStr = "";
 			$("#vehicle_info > option").each(function(){
 				if(idListStr != ""){
@@ -510,11 +523,14 @@ function position(){
 			}
 
 			//alert("lonMin:"+lonMin+" latMin:"+latMin+" lonMax:"+lonMax+" latMax:"+latMax);
-			
 			$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
 				"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
 				function(data){
 					$("#areas").unmask();
+					$("#areas").hide();
+					$("#his_infoes").hide();
+					$("#history_track_frame").hide();
+					$("#show_area").show();
 					var idList = "";
 					if(data != null){
 						for(i=0;i<data.length;i++){
@@ -522,10 +538,45 @@ function position(){
 							idList += data[i];
 						}
 					}
-					//alert(idList);
-				}
-				,"json");
+					
+					jQuery("#show_vehicles_page").jqGrid({
+						url:'index.php?a=356&begin_time='+begin_time
+							+'&end_time='+end_time+'&id_list='+data,
+						  datatype: "json",
+					   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
+					   	colModel:[
+					   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
+																			{readonly:true,size:10}},
+					   		{name:'number_plate',index:'number_plate', width:190},
+					   		{name:'driver',index:'driver', width:190},
+					   		{name:'trace',index:'trace', width:190}
+					   		
+					   	],
+					   	rowNum:10,
+					   	rowList:[10,20,30],
+					   	pager: '#page_show',
+					   	sortname: 'id',
+					    viewrecords: true,
+					    sortorder: "desc",
+						height:290
+					});
 
+						jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
+						{edit:false,add:false,del:false});
+									
+				}
+				,"json");			
 		});
 		
+		function show_trace_area(vehicle_id){
+			$("#show_area").hide();
+			$("#show_vehicles").hide();
+			$("#speed_control").show();
+			$("#play_history").show();
+			$("#stop_history").show();
+			$("#vehicle_info").show();
+			$("#history_track_frame").show();
+			$("#vehicle_info").val(vehicle_id);
+		}
+
 </script>
