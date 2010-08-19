@@ -91,5 +91,29 @@ class Inquire extends BASE
 		return $parser->is_in_area($areaInfo);
 	}
 	
+	/**
+	 * 根据车辆id查询车辆信息
+	 * @param $vehicld_id 车辆ID
+	 */
+	function get_vehicle($wh="",$sidx="",$sord="",$start="",$limit="",$vehicle_id){
+		if($wh==""){
+			$this->sql = "select * from vehicle_manage where id=".$vehicle_id." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		}else{
+			$this->sql = "select * from vehicle_manage ".$wh." and id=".$vehicle_id." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		}
+		$this->data = $GLOBALS["db"]->query_once($this->sql);
+		return $this->data;
+	}
+	
+ 	/**
+      *     根据驾驶员id查询驾驶员信息
+      *     @param $driver_id 驾驶员编号
+      */
+    function get_driver($driver_id){
+    	$this->sql = "select * from driver_manage where id=".$driver_id;
+    	$driver = $GLOBALS['db']->query($this->sql);
+    	return $driver;
+    }
+	
 }
 ?>

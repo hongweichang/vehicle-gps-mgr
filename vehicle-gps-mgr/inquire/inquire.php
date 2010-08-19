@@ -181,6 +181,54 @@ switch($act)
 		echo json_encode($vehicle_in_area);
 		break;
 		
+	case "show_area_history":
+		$inquire = new Inquire();
+		
+		$id_list = explode(",",$_REQUEST['id_list']);
+		$begin_time = $_REQUEST['begin_time'];
+		$end_time = $_REQUEST['end_time'];
+		
+		
+		$count = count($id_list);
+		if( $count >0 ) {
+			$total_pages = ceil($count/$limit);
+		} else {
+			$total_pages = 0;
+		}
+		
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		if ($start<0) $start = 0;
+		
+		if(empty($searchfil) or empty($searchstr))
+			$wh = "";
+		else
+		{
+			$type = $inquire->get_type($searchfil);
+			$searchstr = $db->prepare_value($searchstr,$type);
+			$wh = "where ".$searchfil." = ".$searchstr;
+		}
+
+		for($i = 0;$i<$count;$i++){
+			$infoes[$i] = $inquire->get_vehicle($wh,$sidx,$sord,$start,$limit,$id_list[$i]);
+		}
+	
+		$response->page	= $page;
+		$response->total = $total_pages;
+		$response->records = $count;
+		
+		foreach($infoes as	$key => $val)
+		{ 
+			$driver = $inquire->get_driver($val['driver_id']);
+			$response->rows[$key]['id']=$val['id'];
+			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],$driver[0]['name'],
+												"<a href='#' onclick='show_trace_area(".$val['id'].")'>查看历史轨迹</a>");
+		}
+
+		//打印json格式的数据
+		echo json_encode($response);
+		break;
+		
 	break;
 }
 ?>
