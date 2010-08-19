@@ -29,13 +29,13 @@ jQuery("#vehicle_status_list").jqGrid({
 
 	loadComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
-	for(var i = 1;i<=ids.length;i++){
-		var value = $("#vehicle_status_list").jqGrid('getCell',i,8);
+	for(var i = 0;i<ids.length;i++){
+		var value = $("#vehicle_status_list").jqGrid('getCell',ids[i],8);
 		if("超速"==value){
-			$("#vehicle_status_list").jqGrid('setRowData',i,"",{background:'#ff0000'});
+			$("#vehicle_status_list").jqGrid('setRowData',ids[i],"",{background:'#ff0000'});
 		}
 		if("疲劳"==value){
-			$("#vehicle_status_list").jqGrid('setRowData',i,"",{background:'#FFFF66'});
+			$("#vehicle_status_list").jqGrid('setRowData',ids[i],"",{background:'#FFFF66'});
 		}
 	}
 }
