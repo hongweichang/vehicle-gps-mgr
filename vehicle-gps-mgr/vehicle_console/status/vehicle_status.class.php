@@ -50,11 +50,6 @@ class Vehicle_status extends BASE
 			return false;
 	}
 	
-	/**
-	 *  
-	 * 
-	 */
-	
 	
 	/**
 	*	实体函数的render，车辆对指定的列名称（字符串）进行润色、翻译
