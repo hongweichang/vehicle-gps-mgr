@@ -18,6 +18,9 @@ body{
     border-bottom:2px #AAC8FE solid;
 	background:url(./../images/hearder.png) right repeat;
 }
+img{
+	border:none;
+}
 .mamagerImg{
 	width:17px; height:20px;
 }
