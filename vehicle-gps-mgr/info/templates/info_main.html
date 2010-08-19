@@ -18,11 +18,15 @@
 			</div>
 
 			<div style=" width:250px; height:38px; margin:10px auto;display:block;" >
-				<div style="float:left; width:100px; height:32px;">
-					<input id="car" type="button" name="sel_vehicle" onclick="resetDialogSize(900,400)" value="选择车辆" />
+				<div style="float:left; width:100px; height:32px; font-size:13px;">
+				    <a id="car" name="sel_vehicle" onclick="resetDialogSize(900,400)" href="#">
+				    	<img alt="选择车辆"  src="images/infoSelectCar.png" style="border:none; "/>选择车辆
+				    </a>
 				</div>
-				<div style="float:left; width:100px; height:32px;">
-					<input id="area_issue" type="button" name="issue_area" onclick="resetDialogSize(900,400)" value="区域发布" />
+				<div style="float:left; width:100px; height:32px;font-size:13px;">
+				<a id="area_issue" name="issue_area" onclick="resetDialogSize(900,400)" href="#">
+				    	<img alt="区域发布"  src="images/area.png" style="border:none; "/>区域发布
+				    </a>
 				</div>
 				<div id="area_begin_time" style="float:left; width:120px; height:40px;">
 					生效时间:<input id="begin_time_area" type="text" style="width:120px"/>
@@ -39,14 +43,14 @@
 				<br/>
 				<div id="da_user">
 					<div id='add_user' style="float:left; width:100px; height:32px;">
-						<input id="addUser" type="button" value="添加对象"/>
+						<a id="addUser" href="#"><img alt="添加对象"  src="images/add.png" style="border:none;"/>添加对象</a>
 					</div>
 					<div id='delete_user' style="float:left; width:100px; height:32px;">
-						<input id="deleteUser" type="button" value="删除对象"/>
+						<a id="deleteUser" href="#"><img alt="删除对象"  src="images/delete.png" style="border:none;"/>删除对象</a>
 					</div>
 				</div>
-				<div id='info_Commit' style="float:left; width:100px; height:32px;">
-					<input id="infoCommit" type="button" onclick="subInfo();" value="提交信息"/>
+				<div id='info_Commit' style="float:left; width:100px; height:32px;font-size:13px;">
+					<a id="infoCommit" href="#" onclick="subInfo();"><img alt="提交信息"  src="images/submit.png" style="border:none;"/>提交信息</a>
 				</div>
 				<div id='add_input' style="float:left; width:200px; height:32px;">
 					<div style="float:left; width:130px; height:30px;">
