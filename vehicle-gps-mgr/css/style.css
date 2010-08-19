@@ -188,8 +188,9 @@ a.dock-item2 {
 	position: relative; 
 	position: absolute;
 	z-index:100;
-	left:85%;
-	top:5%;
+	left:72%;
+	top:15%;
+	filter:alpha(opacity=80);
 	display:none;
 	z-index:100000;
 }
