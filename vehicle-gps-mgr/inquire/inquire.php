@@ -26,27 +26,39 @@ switch($act)
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 	case "trace":
+		$options = ""; //车辆下拉框
+		$function_operate = ""; //功能操作
+		$position_vehicle = ""; //定位车辆脚本 
 		
 		$id = $_REQUEST['vehicle_id']; //车辆ID
+		$logic = $_REQUEST['logic']; //逻辑判断   1是查看信息 0是历史轨迹
+		
+		
 		$inquire_info = new Inquire();
 		$vehicle_list = $inquire_info->get_all_vehicles();
 		
-		$options = "";
-		
-		foreach($vehicle_list as $value)
-		{
+		//车辆列表
+		foreach($vehicle_list as $value){
 			if($id && $value["id"] == $id)
-			{
 				$options = $options."<option name='have' value=".$value["id"]." selected>".$value["number_plate"]."</option>";
-			}
 			else
-			{
 				$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
-			}
-			
 		}
+			
+		if($logic == 1){  //查看信息状态下
+			$function_operate="<select id='select_mode'>".
+									"<option value='vehicle_mode'>选择车辆</option>".
+									"<option value='area_mode'>选择区域</option>".
+							  "</select>";	
+		}else if($logic ==0){ //首页地图查看历史轨迹状态下
+			$function_operate ="选择车辆: ";
+			$position_vehicle  =  "history_track_frame.vehiclePosition(".$id.");";
+								 
+		}	
 		
+		$data['FUNCTION_OPERATE']=$function_operate;
 		$data["VEHICLE_LIST"] = $options;
+		$data['POSITION_VEHICLE']=$position_vehicle;
 		
 		echo $GLOBALS['db']->display($data,$act);
 		break;

@@ -57,9 +57,10 @@ $(document).ready(function() {
 			showOperationDialog(this, $(this).attr('url'));   
 		});
 
-	$(document).bind("contextmenu",function(e){
+		//禁止查看源码
+	/*$(document).bind("contextmenu",function(e){
 		        return false;
-	});
+	});*/
 				 		
 	$('#addAdvice').click(function(e) {
 		$("#opinion").html("");
@@ -129,7 +130,7 @@ $(document).ready(function() {
 	  setTimeout("alertInfo()",30000);
 	} 
 	
-	function showOperationDialog(htmlObj, url){
+	function showOperationDialog(htmlObj, url){ 
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;
 		var verticalPadding = 0;
@@ -155,14 +156,14 @@ $(document).ready(function() {
 		});
 	
 		$( "#operation" ).mask("载入中...");
-
+			
 		$.post(url,function(data){
 			$("#operation").html(data);
 
 			$( "#operation" ).unmask();
-
+				 
 			if($this.attr('id') == "sel_vehicle_btn"){
-				$("#sel_vehicle_commit").click(function(){
+				$("#sel_vehicle_commit").click(function(){ 
 		            var vehicles = $(".vehicle:checked");
 		            var str="";
 		            vehicles.each(function(i){
@@ -174,6 +175,7 @@ $(document).ready(function() {
 		            	alert("请选择您所需要定位的车辆!");
 		            	return false;
 		            }else{
+		            	
 		            	home_map.vehiclePosition(str.substr(0,str.length-1));
 				   		closeDialog();
 		            }

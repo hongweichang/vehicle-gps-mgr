@@ -29,10 +29,7 @@
 	</div>
 	<div class="keep_left spacing">
 		<span id='info_select_vehicle'>
-			<select id='select_mode'>
-				<option value="vehicle_mode">选择车辆</option>
-				<option value="area_mode">选择区域</option>
-			</select>
+			{{FUNCTION_OPERATE}}
 		</span>
  	</div>
  	<div class="keep_left spacing">
@@ -114,13 +111,27 @@
 			</table>
 		</div>
 	</div>  
-<iframe id="history_track_frame" name="history_track_frame" 
-	src="inquire/templates/history_track_map.html" style="width:900px;height:410px;" 
-	marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe>
+	<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html"
+		 style="width:900px;height:410px;" 
+		marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe> 
+		
+<script type="text/javascript"> 
  
-<script type="text/javascript">
+position();
+function position(){
+	 var state = document.history_track_frame.document.readyState;
+	 if(state=="complete"){
+		{{POSITION_VEHICLE}}
+	 }else{
+		setTimeout("position();",1000);
+	 }	 
+}
+
+
+
+
 	//子页面对象   iframe
-	var history_map =  document.getElementById("history_track_frame").contentDocument;
+	//var history_map =  document.getElementById("history_track_frame").contentDocument;
 
 	//正常速度
 	run_play(3);
@@ -175,15 +186,16 @@
 	$("#stop_history").click(function(){
 		history_track_frame.state="stop";
 	});
-
+		
 	/**
 	 * 轨迹查看
 	 */
 	$("#play_history").click(function(){ 
-		history_track_frame.state="normal";
+		history_track_frame.state="normal"; //设置正常操作状态
+		$("#location_info").show(); //显示定位信息
 		
  		var startTime = $("#inquire_startTime").attr("value");
-		 
+   
 		if(startTime == ""){
 			alert("开始时间不能为空!");
 			$("#startTime").focus();
@@ -195,8 +207,8 @@
 			$("#endTime").focus();
 			return false;
 		}
-		var history_vehicle_id = $("#vehicle_info option:selected").val();    
 		 
+		var history_vehicle_id = $("#vehicle_info option:selected").val();     
 		if(history_vehicle_id !== history_track_frame.vehicle_id){
 				//获取时间数组
 				history_track_frame.arr_history = getHourList();   
@@ -514,5 +526,5 @@
 				,"json");
 
 		});
-
+		
 </script>

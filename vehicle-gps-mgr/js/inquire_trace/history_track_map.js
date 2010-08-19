@@ -22,7 +22,7 @@
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
-		 
+		map.cityNameAndZoom( "beijing" , 13);
 		var standControl = new LTSmallMapControl();
 		map.addControl(standControl);
 	 	map.handleMouseScroll();
@@ -214,19 +214,28 @@
 
 		$("#location_info").css("display","inline");
 
-		$("#direction").html(direction_change(direction));
-		$("#speed").html(vehicle_speed);
-		$("#longitude").html(around(longitude));
-		$("#latitude").html(around(latitude));
-		$("#location_time").html(format_time(location_time));
-		$("#address").html("<a id='more' name="+longitude+" rel="+latitude+" href='javascript:details();'>查看详情</a>")
+		$("#direction",parent.document).html(direction_change(direction));
+		$("#speed",parent.document).html(vehicle_speed);
+		$("#longitude",parent.document).html(around(longitude));
+		$("#latitude",parent.document).html(around(latitude));
+		$("#location_time",parent.document).html(format_time(location_time));
+		$("#address",parent.document).html("<a id='more' name="+longitude+" rel="+latitude+" href='javascript:history_track_frame.details();'>查看详情</a>")
 
 		//点添入地图中
 		map.addOverLay(marker); 
 
 		setTimeout("newDrawLine();",speed);
 	}
-	
+	/**
+	 *  根据经纬度查看具体地址	
+	 */
+	function details(){
+		var long = $("#more").attr("name");
+		var lat = $("#more").attr("rel");
+		$.get("index.php?a=503",{"longitude":long,"latitude":lat},function(data){
+			$("#address").html(data);
+			});
+	}
 	/**
 	 *  定位时间格式化
 	 *  @param location_time 定位时间
@@ -268,8 +277,56 @@
 		 
 		return directions[direction];
 			
-		}
-	 
+		}  
+	 /**
+	  * 车辆请求定位
+	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
+	  */
+	function vehiclePosition(str){ 
+		 
+		 $.ajax({
+				type:"POST",
+				url:window.parent.host+"/index.php?a=2&vehicleIds="+str, 
+				dataType:"json",
+				success:function(data){ 
+				
+					var length = data.length; 
+					var points = new Array();
+					 
+					if(length>0)clearOverLay();
+					
+					for(var i=0;i<length;i++){        
+						  
+						var point_longitude = data[i][1]; //点经度
+						var point_latitude =  data[i][2]; //点纬度
+						var file_path = data[i][4]; //文件目录
+						var img_name = data[i][3];  //图片名称
+						var number_plate = data[i][5]; //车牌号
+						var gps_id = data[i][6]; //GPS编号 
+						var location_time = data[i][7];//定位时间
+						var vehcile_group_name = data[i][8];//车组名
+						var driver_name = data[i][9]; //驾驶员
+						var cur_speed = data[i][10];//速度
+						var location_desc = data[i][11];//地址
+
+						points.push( new LTPoint(point_longitude,point_latitude));
+
+					 	
+						//创建点对象
+						marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
+										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
+
+						//点添入地图中
+						map.addOverLay(marker);
+
+						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
+						text.setLabel(number_plate ); 
+						map.addOverLay( text ); 
+					}
+					map.getBestMap(points);
+				 }
+				});
+	}
 		/**
 		 * 车辆提示信息
 		 * @param {Object} obj  点对象
