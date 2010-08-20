@@ -57,10 +57,7 @@ switch ($act) {
 		$response->records = $count;
 		
 		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
-			
-
 			$response->rows [$key] ['vehicle_id'] = $value ['vehicle_id'];
-			
 			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据		
@@ -176,7 +173,7 @@ switch ($act) {
            $driver_id=$_REQUEST["driver_id"];//得到驾驶员id 
            $driver_name=$driver->driver_name($driver_id); //添加驾驶员姓名
            $param["DRIVERNAME"]=$driver_name;
-		   $param["driverid"] =$driver_id; 
+		   $param["DRIVERID"] =$driver_id; 
    	       echo $GLOBALS ['db']->display ( $param, $act );
 	    break;
 
@@ -329,6 +326,42 @@ switch ($act) {
 		}
 		echo json_encode ( $response ); //打印json格式的数据	
 		break;
+	
+	case "driver_driving":
+		  
+		  $param["DRIVER_DRIVING_ID"]= $_REQUEST["driver_driving_id"];
+		  $param["DRIVER_DRIVING_NAME"]= iconv("gb2312","UTF-8",$_REQUEST["driver_driving_name"]);
+  	       
+		  echo $GLOBALS ['db']->display ($param, $act );
+		
+		  break;
+
+   case "driver_stop":
+		  
+ 		  $param["DRIVER_STOP_ID"]=$_REQUEST["driver_stop_id"];
+  	      $param["DRIVER_STOP_NAME"]=iconv("gb2312","UTF-8",$_REQUEST["driver_stop_name"]);;
+  	      
+		  echo $GLOBALS ['db']->display ($param, $act );
+		
+  	      break;
+
+   case "vehicle_driving":
+   	      
+	   	   $param["VE_DRIVING_ID"]=$_REQUEST["vehicle_drinving_number"];
+	   	   $param["VE_DRIVING_NUMBER_PLATE"]=iconv("gb2312","UTF-8",$_REQUEST["vehicle_drinving_numberplate"]);;
+		   	      
+   	       echo $GLOBALS ['db']->display ($param, $act );
+		   
+   	       break;
+	
+   case "vehicle_stop":
+   	 	   
+   	       $param["VE_STOP_ID"]=$_REQUEST["vehicle_stop_number"];
+   	 	   $param["VE_STOP_NUMBER_PLATE"]=iconv("gb2312","UTF-8",$_REQUEST["vehicle_stop_numberplate"]);
+		   
+   	 	   echo $GLOBALS ['db']->display ($param, $act );
+		   
+		   break;
 	
 }
 ?>

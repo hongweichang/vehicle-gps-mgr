@@ -1,5 +1,5 @@
 
-jQuery("#navgrid_vehicle").jqGrid( {
+jQuery("#vehicle_statistic_table").jqGrid( {
 		url : 'index.php?a=403',
 		datatype : "json",
 		colNames : ['vehicle_id','车牌号', '累计行驶距离', '累计行驶时间', '累计停驶时间', '最早启用时间', '最后停用时间','详细说明' ],
@@ -58,13 +58,13 @@ jQuery("#navgrid_vehicle").jqGrid( {
 		rowNum : 10,// 初始化每页10条数据
 		rowList : [ 10, 20, 30 ],// 设置每页多少条数据
 		gridview : true,
-		pager : '#pagernav_vehicle',
+		pager : '#vehicle_statistic_div',
 		viewrecords : true,
 		sortorder : "asc",
 		height : "230"
 	});
 	
-	jQuery("#navgrid_vehicle").jqGrid('navGrid_vehicle', '#pagernav_vehicle', {
+	jQuery("#vehicle_statistic_table").jqGrid('navGrid', '#vehicle_statistic_div', {
 		del : false,
 		add : false,
 		edit : false,

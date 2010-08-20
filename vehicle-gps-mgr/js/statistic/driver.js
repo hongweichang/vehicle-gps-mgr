@@ -1,6 +1,6 @@
 	
 
-jQuery("#navgrid_driver").jqGrid( {
+jQuery("#statistic_driver_table").jqGrid( {
 		url : 'index.php?a=405',
 		datatype : "json",
 		colNames : ['driver_id','驾驶员姓名', '累计行驶距离', '累计行驶时间', '累计停车时间', '最早开车时间', '最晚开车时间','详细说明' ],
@@ -56,13 +56,13 @@ jQuery("#navgrid_driver").jqGrid( {
 		rowNum : 10,// 初始化每页10条数据
 		rowList : [ 10, 20, 30 ],// 设置每页多少条数据
 		gridview : true,
-		pager : '#pagernav_driver',
+		pager : '#statistic_driver_div',
 		viewrecords : true,
 		sortorder : "asc",
 		height : "230"
 	});
 	
-	jQuery("#navgrid_driver").jqGrid('navGrid_driver', '#pagernav_driver', {
+	jQuery("#statistic_driver_table").jqGrid('navGrid', '#statistic_driver_div', {
 		del : false,
 		add : false,
 		edit : false,
