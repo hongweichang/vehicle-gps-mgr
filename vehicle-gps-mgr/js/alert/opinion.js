@@ -8,6 +8,6 @@ function showOpinion(id){
 	$("#opinion").mask("处理中...");
 	$.get("index.php?a=903&id="+id, function(data) {
 		$("#opinion").html(data);
-		$("#opinion").unmank();
+		$("#opinion").unmask();
     });
 }

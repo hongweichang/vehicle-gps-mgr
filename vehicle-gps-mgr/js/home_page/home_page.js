@@ -35,7 +35,7 @@ $(document).ready(function() {
 			$("#opinion").mask("处理中...");
 			$.post("index.php?a=903&id="+id,function(data){
 				$("#opinion").html(data);
-				$("#opinion").unmank();
+				$("#opinion").unmask();
 			});
 		});
  
