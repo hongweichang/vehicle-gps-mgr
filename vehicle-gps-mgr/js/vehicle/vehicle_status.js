@@ -1,7 +1,7 @@
 jQuery("#vehicle_status_list").jqGrid({
 	url:'index.php?a=502',
 	  datatype: "json",
-   	colNames:['ID','车牌号', 'GPS状态', '定位时间','当前位置','实速','限速','驾驶员','告警状态','轨迹','统计信息','信息发布','定位'],
+   	colNames:['ID','车牌号', 'GPS状态', '定位时间','当前位置','实速','驾驶员','告警状态','历史轨迹','统计信息','信息发布','定位'],
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80},
@@ -9,7 +9,6 @@ jQuery("#vehicle_status_list").jqGrid({
    		{name:'location_time',index:'location_time', width:90, align:"left"},   
    		{name:'cur_location',index:'cur_location', width:80, align:"left"},
    		{name:'real_speed',index:'real_speed', width:60, align:"left"},
-   		{name:'speed_limit',index:'speed_limit', width:40, align:"left"},
    		{name:'driver',index:'driver', editable:true,width:70, align:"left"},
    		{name:'alert_status',index:'alert_status', width:80, align:"left"},
    		{name:'trace',index:'trace', width:80, align:"left"},
@@ -25,7 +24,8 @@ jQuery("#vehicle_status_list").jqGrid({
     viewrecords: true,
     sortorder: "desc",
     editurl:"index.php?a=1012",
-	height:290,
+    multiselect: true, 
+	height:276,
 
 	loadComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
@@ -43,6 +43,12 @@ jQuery("#vehicle_status_list").jqGrid({
 
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 {edit:false,add:false,del:false});
+
+jQuery("#m1").click( function() {
+		var s; 
+		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
+		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s)
+	}); 
 
 //根据车牌号查询
 $("#commit").click(function(){
