@@ -109,16 +109,16 @@
 							
 							points.push(new LTPoint(point_longitude, point_latitude));
 							//点对象设置内容
-							var context = "车牌号：" + number_plate + "<br>GPS编号：" + gps_id +
-							"<br>车队：" +
+							var context = "<span style='font-weight:700'>车牌号：</span>" + number_plate + "<br><span style='font-weight:700'>GPS编号：</span>" + gps_id +
+							"<br><span style='font-weight:700'>车队：</span>" +
 							vehicle_group_name +
-							"<br>驾驶员：" +
+							"<br><span style='font-weight:700'>驾驶员：</span>" +
 							driver_name +
-							"<br>速度: " +
+							"<br><span style='font-weight:700'>速度:</span> " +
 							cur_speed +
-							"<br>定位时间:" +
+							"<br><span style='font-weight:700'>定位时间:</span>" +
 							location_time +
-							"<br>地址: " +
+							"<br><span style='font-weight:700'>地址:</span> " +
 							location_desc +
 							"<br><br>" +
 							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
