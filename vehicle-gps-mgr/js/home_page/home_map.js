@@ -22,7 +22,7 @@
 	 * 刷新最新车辆集合
 	 * 例:1,2,3,4,5  定位最新车辆集合
 	 */
-	var refresh_vehicles = "";
+	var refresh_vehicles = null;
 	
 
 	onLoadMap();
@@ -140,7 +140,8 @@
 					}
 				}
 			});
-			refresh_vehicle_info();
+			if(refresh_state!=0)
+				refresh_vehicle_info();
 			
 		}	
 	} 
@@ -153,7 +154,7 @@
 	function refresh_vehicle_info(){
 		 
 		switch(refresh_state){
-			case 0:
+			case 0://alert("0 选项");
 				refresh_state=0;
 				setTimeout(function(){ //alert("complay all vehicle information");
 					loadCompanyVehicle();
@@ -161,13 +162,14 @@
 				break;
 			case 1:  
 				refresh_state=1;
-				setTimeout(function(){ //alert("position: "+refresh_vehicles.substr(0,refresh_vehicles.length-1));
-					vehiclePosition(refresh_vehicles.substr(0,refresh_vehicles.length-1));
+				setTimeout(function(){// alert("position: "+refresh_vehicles);
+					vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
 				break; 
 		} 
 		
 	}
+	 
 	
 	var moveLsitener;
 	
@@ -206,18 +208,19 @@
 	
 	function refresh_vehicle_position(str){
 		refresh_state=1;
-		vehiclePosition(str);
+		refresh_vehicles = str;
+		vehiclePosition();
 	}
 	 
 	 /**
 	  * 车辆请求定位
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
-	function vehiclePosition(str){ 
-	 
+	function vehiclePosition(){ 
+ 
 		 $.ajax({
 				type:"POST",
-				url:window.parent.host+"/index.php?a=2&vehicleIds="+str, 
+				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
 				dataType:"json",
 				success:function(data){ 
 				
@@ -225,11 +228,10 @@
 					var points = new Array();
 					 
 					if(length>0)clearOverLay();
-						
-						refresh_vehicles="";
-					 
+						 
+					// alert("refresh_vehicles: "+refresh_vehicles);
 					for(var i=0;i<length;i++){        
-						refresh_vehicles+=data[i][0]+",";
+					 
 						
 						var point_longitude = data[i][1]; //点经度
 						var point_latitude =  data[i][2]; //点纬度
@@ -256,7 +258,12 @@
 									  "<br>驾驶员："+driver_name+
 									  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
 									  "<br>地址: "+location_desc+"<br><br>"+
-									  "<a href='#'>发送信息</a>&nbsp;&nbsp;&nbsp;<a href='#'>历史轨迹</a>";
+									  "<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+									  data[i][0] +
+									"\")'><a href='#'>发布信息</a></div>" +
+									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
+									data[i][0] +
+									"\")'><a href='#'>查看历史轨迹</a></div>";
 						//点对象设置内容
 						addInfoWin(marker,context);
 
