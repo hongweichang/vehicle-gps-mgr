@@ -69,7 +69,7 @@ switch($act)
 			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($lon/100000,$lat/100000); //地址
 			
 			//图片路径
-			if(!isset($value['color'])) 
+			if(!isset($value['color']) || is_null($value['color']) || $value['color'] = " ") 
 				$arr_vehicle[$index]['file_path']	= "images/vehicle/gray"; //未设置、设置  默认车辆
 			 else 
 				$arr_vehicle[$index]['file_path']	= str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 	
