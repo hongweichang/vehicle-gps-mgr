@@ -115,10 +115,11 @@ switch($act)
             
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
-												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],"限速",
+												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],
 												$driver[0]['name'],$alert_state,
-												"<a href='#' title='查询历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\")'>查看历史轨迹</a>","统计信息",
-												"<a href='#' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=".$val['id']."\")'>发布信息</a>","定位");
+												"<a href='#' title='查询历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\")'>查看>></a>","统计>>",
+												"<a href='#' title='发布信息' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=".$val['id']."\")'>发布>></a>",
+												"<a href='#' title='车辆定位' onclick='vehicle_position(".$val['id'].")' name=".$val['id'].">定位>></a>");
 		}
 
 		//打印json格式的数据
