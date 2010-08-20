@@ -29,7 +29,7 @@
 					$("#body").unmask();
 					if(data==1){
 						document.location= "index.php?a=1003";
-						$("#body").mask("页面跳转中，请稍候...<img src='images/smiley.png' alt='通过'/>");
+						$("#body").mask("页面跳转中，请稍候...");
 					}else{
 						$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码错误！");
 					}
