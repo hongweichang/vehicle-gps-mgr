@@ -17,14 +17,20 @@ $comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
 switch ($act) {
 	case "main" : //填写信息内容页面
 		$vehicle_id = $_REQUEST ["vehicle_id"];
+		$vehicle_ids = $_REQUEST["vehicle_ids"];
+		$info = new info();
 		if($vehicle_id)
-		{
-			$info = new info();
+		{		
 			$address = $info->get_phone_email ( $vehicle_id );
 			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option><option selected>".$address[0][0]."</option>";
-		}
-		else
-		{
+		}else if($vehicle_ids){
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
+			$ids = explode(",",$vehicle_ids);
+			for($i = 0;$i<count($ids);$i++){
+				$address = $info->get_phone_email($ids[$i]);
+				$param["MAIL_LIST"] = $param["MAIL_LIST"]."<option selected>".$address[0][0]."</option>";
+			}
+		}else{
 			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
 		}	
 		
