@@ -1,70 +1,69 @@
 <style>
-html,body {
-	margin: 0; /* Remove body margin/padding */
-	padding: 0;
-	overflow: hidden; /* Remove scroll bars on browser window */
-	font-size: 85%;
-}
+.body_div{border: 2px gray solid; width: 420px; height: 300px; font-size:12px; font-weight:700;text-align: cneter; padding: 5px 30px 5px 30px; margin-top: 20px;}
+.speed_div{width: 360px; height: 22px; margin-top: 10px;}
+.setting_title{width: 120px; height: 21px; float: left; text-align: right;}
+.fatigue_div{width: 360px; height: 22px; margin-top: 10px;}
+.time_color{width: 300px; height: 22px; margin-top: 10px;}
+.color_div{width: 420px; height: 75px; margin-top: 10px;}
+.speed_content{width: 160px; height: 21px; float: left; margin-left: 13px;}
+.fatigue_content{width: 160px; height: 21px; float: left; margin-left: 13px;}
+.speed_color{width: 200px; height: 74px; float: left; margin-left: 13px;}
+.mile_hour{width: 50px; height: 21px; float: left;}
+.setting_button{width: 80px; height: 33px; float: left; margin-top: 20px;}
+.submit{width: 100%; height: 30px; margin: 30px auto; text-align: center;}
+.time_default{width: 120px; height: 21px; float: left; margin-left: 13px;}
+.color_mapping_dialog{padding: 20px; background-color: #fff; display: none;}
 </style>
 
 
-<div style="border: 2px gray solid; width: 420px; height: 300px; font-size:12px; font-weight:700; text-align: cneter; padding: 5px 30px 5px 30px; margin-top: 20px;">
+<div class="body_div">
 	<!-- 超速限制 -->
-	<div style="width: 360px; height: 22px; margin-top: 10px;">
-	<div style="width: 120px; height: 21px; float: left; text-align: right;">超速限制：</div>
-	<div style="width: 160px; height: 21px; float: left; margin-left: 13px;">
-	<input type='text' name='speed_limit' id='speed_limit'
-		value='{{speed_limit}}'></div>
-	<div style="width: 50px; height: 21px; float: left;">公里/h</div>
+	<div class="setting_div">
+		<div class="setting_title">超速限制：</div>
+		<div class="speed_content"><input type='text' name='speed_limit' id='speed_limit' value='{{speed_limit}}'></div>
+		<div class="mile_hour">公里/h</div>
 	</div>
 	
 	
 	<!-- 疲劳驾驶限制 -->
-	<div style="width: 360px; height: 22px; margin-top: 10px;">
-	<div style="width: 120px; height: 21px; float: left; text-align: right;">疲劳驾驶限制：</div>
-	<div style="width: 160px; height: 21px; float: left; margin-left: 13px;">
-	<input type='text' name='fatigue_remind_time' id='fatigue_remind_time'
-		value='{{fatigue_remind_time}}'></div>
-	<div style="width: 50px; height: 21px; float: left;">小时</div>
+	<div class="fatigue_div">
+		<div class="setting_title">疲劳驾驶限制：</div>
+		<div class="fatigue_content">
+			<input type='text' name='fatigue_remind_time' id='fatigue_remind_time' value='{{fatigue_remind_time}}'>
+		</div>
+		<div class="mile_hour">小时</div>
 	</div>
 	
 	<!-- 刷新时间 -->
-	<div style="width: 300px; height: 22px; margin-top: 10px;">
-	<div style="width: 120px; height: 21px; float: left; text-align: right;">刷新时间：</div>
-	<div style="width: 120px; height: 21px; float: left; margin-left: 13px;">{{page_refresh_time}}</div>
+	<div class="time_color">
+		<div class="setting_title">刷新时间：</div>
+		<div class="time_default">{{page_refresh_time}}</div>
 	</div>
 	
 	<!-- 默认颜色 -->
-	<div style="width: 300px; height: 30px; margin-top: 10px;">
-	<div
-		style="width: 120px; height: 22px; float: left; text-align: right; margin-top: 5px;">默认轨迹颜色：</div>
-	<div style="width: 120px; height: 29px; float: left; margin-left: 13px;">{{default_color}}</div>
+	<div class="time_color">
+		<div class="setting_title">默认轨迹颜色：</div>
+		<div class="time_default">{{default_color}}</div>
 	</div>
 	
 	<!-- 速度颜色映射设置 -->
-	<div style="width: 420px; height: 75px; margin-top: 10px;">
-	<div
-		style="width: 120px; height: 33px; float: left; text-align: right; margin-top: 20px;">速度颜色映射设置
-	:</div>
-	<div style="width: 200px; height: 74px; float: left; margin-left: 13px;">
-	<div id='speeds'>{{speeds}}</div>
-	</div>
-	<div style="width: 80px; height: 33px; float: left; margin-top: 20px; ">
-	<a href='javascript:void(0);' onclick='adviceDialog();'><img src="images/gear.png" border="0" title="设置" alt="设置">设置</img></a></div>
+	<div class="color_div">
+		<div class="setting_title">速度颜色映射设置:</div>
+		<div id='speeds' class="speed_color">{{speeds}}</div>
+		<div class="setting_button">
+			<a href='javascript:void(0);' onclick='adviceDialog();'>
+				<img src="images/gear.png" border="0" title="设置" alt="设置"/>设置</a>
+		</div>
 	</div>
 	
 	<!-- 修改按钮 -->
-	<div
-		style="width: 100%; height: 30px; margin: 30px auto; text-align: center;">
-	<input type="submit" value="确认" onclick="update_set();" /></div>
-	
-	<div id="process"></div>
+	<div class="submit"><input type="submit" value="确认" onclick="update_set();" /></div>
 	
 	<!-- 弹出设置颜色的模式窗口 -->
-	<div style="padding: 20px; background-color: #fff; display: none;"
-		id="color_mapping_dialog">
-	<div id="canAdviceSelectDiv"></div>
+	<div class="color_mapping_dialog" id="color_mapping_dialog">
+		<div id="canAdviceSelectDiv"></div>
 	</div>
+	<div id="process"></div>
 </div>
 
 <SCRIPT LANGUAGE="JavaScript">
