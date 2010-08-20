@@ -47,8 +47,14 @@ jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 jQuery("#m1").click( function() {
 		var s; 
 		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
-		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s)
+		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s);
 	}); 
+
+jQuery("#m2").click( function() {
+	var s; 
+	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
+	vehicle_position(s);
+}); 
 
 //根据车牌号查询
 $("#commit").click(function(){
@@ -93,3 +99,24 @@ $("#area_result").click(function(){
 	$("#frame_map").hide();	
 	$("#select").show();
 });
+
+var vehicle_id_str = "";
+function  vehicle_position(vehicle_ids){
+	vehicle_id_str="";
+	vehicle_id_str = vehicle_ids;
+	
+	locate_vehicle();
+}
+function locate_vehicle(){ 
+	
+	$("#locates").dialog({height:356,width:610,title:'定位',
+			                 autoOpen:true,hide:'blind',show:'blind'});
+	//$("#locate").attr("src","info/templates/51map.html");
+	
+	 var state = document.locate.document.readyState;
+	 if(state=="complete"){
+		 locate.location(vehicle_id_str);
+	 }else{
+		setTimeout("locate_vehicle();",1000);
+	 }	
+}
