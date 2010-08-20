@@ -3,28 +3,46 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>GPS智能车辆监控调度系统-登录</title>
+	
 	<link href="css/login.css" rel="stylesheet" />
+	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
 	<script language="javascript" src="../js/login/cookie.js"></script>
 	<script language="javascript" src="../js/login/common.js"></script>
+	<script language="javascript" src="../js/jquery-1.4.2.js" ></script>
+	<script language="javascript" src="../js/jquery.loadmask.min.js" ></script>
 	<script type="text/javascript">
-		function mouseOver(){
-			document.getElementById("loginCar").src='images/car.png';
-			document.getElementById("loginCar").style.cursor='hand';
-		}
-		function mouseOut(){
-			document.getElementById("loginCar").src='images/ycar.png';
-		}
-	
-		function login(){
-				document.getElementById("login_from").submit();
-		}
+		$(document).ready(function(){
+			$("#loginCar").mouseover(function(){
+				document.getElementById("loginCar").src='images/car.png';
+				document.getElementById("loginCar").style.cursor='hand';
+			});
+			$("#loginCar").mouseout(function(){
+				document.getElementById("loginCar").src='images/ycar.png';
+			});
+			$("#loginCar").click(function(){
+				$("#body").mask("验证中，请稍候...");
+				$("#clue").html("");
+				var userName=document.getElementById("userName").value;
+				var password=document.getElementById("password").value;
+				$.post("login_check.php?username="+userName+"&password="+password,function(data){
+					$("#body").unmask();
+					if(data==1){
+						document.location= "index.php?a=1003";
+						$("#body").mask("页面跳转中，请稍候...<img src='images/smiley.png' alt='通过'/>");
+					}else{
+						$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码错误！");
+					}
+				});
+			});
+			
+		});
+		
 	</script>
 </head>
 
 <body>
-<form method="post" id="login_from" action="login_check.php" name='theForm'>
-   <div class="body_div">
+   <div id="body" class="body_div">
    		<input type="hidden" name="act" value="signin" />
 		<div class="title"></div>
 		<div class="content">
@@ -72,14 +90,14 @@
 							<span>记住</span>
 						</div>
 					</div>
-				</div>
+				</div> 
 				<div class="submit_div" >
-					<input type="image" class="submit"  src="images/ycar.png" id="loginCar" onmouseover="mouseOver()" onmouseout="mouseOut()" onsubmit="login();"/> 
+					<input type="image" class="submit"  src="images/ycar.png" id="loginCar"/> 
+					<div id="clue" style="font-size:10px;color:red;"></div>
 				</div>
 			</div>
 		</div>
 	</div>
-</form>
 </body>
 </html>
 		

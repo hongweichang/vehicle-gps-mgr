@@ -11,12 +11,13 @@
 	$user = new User();
 	if(!$user->login($user_name,$user_pass,$companyloginid))
 	{
-		$errormsg = $user->message;//"用户名或密码错误，登录失败！";
-		echo $db->result_display_alert(0,false,$errormsg);
-		die();
+		//$errormsg = $user->message;//"用户名或密码错误，登录失败！";
+		echo(-1);
+		//die();
 	}
-	goto_url(URL('user',"user.php","login_success"));
+	//goto_url(URL('user',"user.php","login_success"));
 	//Header("Location: index.php?a=1003");
+	echo(1);
 	exit;
 
 
