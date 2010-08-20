@@ -176,7 +176,7 @@ $(document).ready(function() {
 		            	return false;
 		            }else{
 		            	
-		            	home_map.vehiclePosition(str.substr(0,str.length-1));
+		            	home_map.refresh_vehicle_position(str.substr(0,str.length-1));
 				   		closeDialog();
 		            }
 		            

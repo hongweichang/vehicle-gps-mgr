@@ -12,6 +12,17 @@
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
 	var marker;   //地图标记对象
+	/**
+	 * 刷新状态
+	 * 0 刷新公司所有车辆
+	 * 1 选择选择车辆
+	 */
+	var refresh_state = 0;  
+	/**
+	 * 刷新最新车辆集合
+	 * 例:1,2,3,4,5  定位最新车辆集合
+	 */
+	var refresh_vehicles = "";
 	
 
 	onLoadMap();
@@ -129,15 +140,35 @@
 					}
 				}
 			});
+			refresh_vehicle_info();
 			
-			//自动刷新页面当前公司所有车辆最新定位信息。
-			setTimeout(function(){
-				//if (window.parent.state == 1) 
-					loadCompanyVehicle();
-			}, window.parent.page_refresh_time * 1000);
 		}	
-		} 
+	} 
 	 
+	
+	/**
+	 * 刷新公司车辆信息
+	 * @return
+	 */
+	function refresh_vehicle_info(){
+		 
+		switch(refresh_state){
+			case 0:
+				refresh_state=0;
+				setTimeout(function(){ //alert("complay all vehicle information");
+					loadCompanyVehicle();
+				}, window.parent.page_refresh_time * 1000);
+				break;
+			case 1:  
+				refresh_state=1;
+				setTimeout(function(){ //alert("position: "+refresh_vehicles.substr(0,refresh_vehicles.length-1));
+					vehiclePosition(refresh_vehicles.substr(0,refresh_vehicles.length-1));
+				}, window.parent.page_refresh_time * 1000); 
+				break; 
+		} 
+		
+	}
+	
 	var moveLsitener;
 	
 	/**
@@ -172,6 +203,11 @@
 		}
 		LTEvent.addListener(obj,"click",shwoInfo); 
 	} 
+	
+	function refresh_vehicle_position(str){
+		refresh_state=1;
+		vehiclePosition(str);
+	}
 	 
 	 /**
 	  * 车辆请求定位
@@ -189,9 +225,12 @@
 					var points = new Array();
 					 
 					if(length>0)clearOverLay();
-					
+						
+						refresh_vehicles="";
+					 
 					for(var i=0;i<length;i++){        
-						  
+						refresh_vehicles+=data[i][0]+",";
+						
 						var point_longitude = data[i][1]; //点经度
 						var point_latitude =  data[i][2]; //点纬度
 						var file_path = data[i][4]; //文件目录
@@ -231,6 +270,8 @@
 					map.getBestMap(points);
 				 }
 				});
+		 
+		 refresh_vehicle_info();
 	}
  
 	/**
