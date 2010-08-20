@@ -198,47 +198,52 @@ function position(){
 	 * 轨迹查看
 	 */
 	$("#play_history").click(function(){ 
-		history_track_frame.state="normal"; //设置正常操作状态
-		$("#location_info").show(); //显示定位信息
-		
- 		var startTime = $("#inquire_startTime").attr("value");
-   
-		if(startTime == ""){
-			alert("开始时间不能为空!");
-			$("#startTime").focus();
-			return false;
-		}
-		var endTime = $("#inquire_endTime").attr("value");
-		if(endTime == ""){
-			alert("结束时间不能为空!");
-			$("#endTime").focus();
-			return false;
-		}
-		 
-		var history_vehicle_id = $("#vehicle_info option:selected").val();     
-		if(history_vehicle_id !== history_track_frame.vehicle_id){
-				//获取时间数组
-				history_track_frame.arr_history = getHourList();   
-				//设置所选车辆编号
-				history_track_frame.vehicle_id = history_vehicle_id;
-		
-				//获取车牌号、GPS编号
-				$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
-		 			 var gps_plate = eval('(' + data + ')');  
-					 $("#vehicle_id").html(gps_plate[0]);
-					 $("#gps_id").html(gps_plate[1]);
-					});
-		
-				 //清除地图所有标签
-				 history_track_frame.clearOverLay();
-				 //设置正常运行速度
-				 history_track_frame.speed = 1000;
-		}	 
-		 //运行历史轨迹
-		 history_track_frame.runHistoryTrack();  
-});
+		play_trace();	
+	});
 
-
+	 /**
+	  * 轨迹播放函数
+	  */
+	  function play_trace(){
+		  history_track_frame.state="normal"; //设置正常操作状态
+			$("#location_info").show(); //显示定位信息
+			
+	 		var startTime = $("#inquire_startTime").attr("value");
+	   
+			if(startTime == ""){
+				alert("开始时间不能为空!");
+				$("#startTime").focus();
+				return false;
+			}
+			var endTime = $("#inquire_endTime").attr("value");
+			if(endTime == ""){
+				alert("结束时间不能为空!");
+				$("#endTime").focus();
+				return false;
+			}
+			 
+			var history_vehicle_id = $("#vehicle_info option:selected").val();     
+			if(history_vehicle_id !== history_track_frame.vehicle_id){
+					//获取时间数组
+					history_track_frame.arr_history = getHourList();   
+					//设置所选车辆编号
+					history_track_frame.vehicle_id = history_vehicle_id;
+			
+					//获取车牌号、GPS编号
+					$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
+			 			 var gps_plate = eval('(' + data + ')');  
+						 $("#vehicle_id").html(gps_plate[0]);
+						 $("#gps_id").html(gps_plate[1]);
+						});
+			
+					 //清除地图所有标签
+					 history_track_frame.clearOverLay();
+					 //设置正常运行速度
+					 history_track_frame.speed = 1000;
+			}	 
+			 //运行历史轨迹
+			 history_track_frame.runHistoryTrack(); 
+		  }
 
 	$("#select_mode").change(function(){
 		$("#show_area").hide();
@@ -577,6 +582,7 @@ function position(){
 			$("#vehicle_info").show();
 			$("#history_track_frame").show();
 			$("#vehicle_info").val(vehicle_id);
+			play_trace();
 		}
 
 </script>
