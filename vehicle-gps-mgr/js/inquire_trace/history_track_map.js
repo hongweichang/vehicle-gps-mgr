@@ -109,12 +109,14 @@
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
 	 	 //var time = '2010081017';
-		 
+		$("#inquireing",parent.document).mask("查询中...");
+	 
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
 			success:function(data){    
+			$("#inquireing",parent.document).unmask();
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
 			   if(arr_history.length>0){
 					runHistoryTrack();
@@ -229,11 +231,13 @@
 	/**
 	 *  根据经纬度查看具体地址	
 	 */
-	function details(){
-		var long = $("#more").attr("name");
-		var lat = $("#more").attr("rel");
-		$.get("index.php?a=503",{"longitude":long,"latitude":lat},function(data){
-			$("#address").html(data);
+	function details(){ 
+		  
+		var long = $("#more",parent.document).attr("name");
+		var lat = $("#more",parent.document).attr("rel");
+		$.get(window.parent.host+"/index.php?a=503",{"longitude":long,"latitude":lat},function(data){
+			 
+			$("#address",parent.document).html(data.replace("[null,null]",""));
 			});
 	}
 	/**
