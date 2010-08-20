@@ -5,13 +5,29 @@
 </head>
 <body style="border:1px green solid; width:90%; height:90%;">
 <form id="sendNews" name="sendNews" method="post">
-	   <div style="float:left;  width:200px; height:310px; margin:5px auto;">
+	   <div style="float:left; width:200px; height:310px; margin:5px auto;">
 			<div>写信息:</div>
 			<div style="font-size:12px;width:216px; height:100px; text-align:left;">
 				<textarea id="info_content" name="info_content" rows="4" cols="30"></textarea>
 			</div>
 		    <div id="list_user">
-				<div>发送对象列表：</div>
+				<div id="da_user">
+				    <div style="float:left;height:32px;">发布对象列表：</div>
+					<div id='add_user' style="float:left; height:32px;">
+						<a id="addUser" href="#"><img alt="添加"  src="images/add.png" style="border:none;"/>添加</a>
+					</div>
+					<div id='delete_user' style="float:left; height:32px; margin-left:10px;">
+						<a id="deleteUser" href="#"><img alt="删除"  src="images/delete.png" style="border:none;"/>删除</a>
+					</div>
+				</div>
+				<div id='add_input' style="float:left; width:200px; height:32px;">
+					<div style="float:left; width:130px; height:30px;">
+						<input id="addInput" type="text" style="width:120px"/>
+					</div>
+					<div style="float:left; width:50px; height:30px;">
+						<input id="add_commit" type="button" value="添加" style="width:45px"></input>
+					</div>
+				</div>
 				<div style="font-size:12px; float:left; width:216px; height:90px;text-align:left;">
 					<select id="email_list" name="email_list" size="4" multiple style="width:200px; height:85px;">{{mail_list}}</select>
 				</div>
@@ -19,12 +35,12 @@
 
 			<div style=" width:250px; height:38px; margin:10px auto;display:block;" >
 				<div style="float:left; width:100px; height:32px; font-size:13px;">
-				    <a id="car" name="sel_vehicle" onclick="resetDialogSize(900,400)" href="#">
+				    <a id="car" name="sel_vehicle" onclick="resetDialogSize(860,400)" href="#">
 				    	<img alt="选择车辆"  src="images/infoSelectCar.png" style="border:none; "/>选择车辆
 				    </a>
 				</div>
 				<div style="float:left; width:100px; height:32px;font-size:13px;">
-				<a id="area_issue" name="issue_area" onclick="resetDialogSize(900,400)" href="#">
+				<a id="area_issue" name="issue_area" onclick="resetDialogSize(860,400)" href="#">
 				    	<img alt="区域发布"  src="images/area.png" style="border:none; "/>区域发布
 				    </a>
 				</div>
@@ -41,25 +57,13 @@
 					 </div>
 				</div>
 				<br/>
-				<div id="da_user">
-					<div id='add_user' style="float:left; width:100px; height:32px;">
-						<a id="addUser" href="#"><img alt="添加对象"  src="images/add.png" style="border:none;"/>添加对象</a>
-					</div>
-					<div id='delete_user' style="float:left; width:100px; height:32px;">
-						<a id="deleteUser" href="#"><img alt="删除对象"  src="images/delete.png" style="border:none;"/>删除对象</a>
-					</div>
+				
+				<div id='info_Commit' style="float:left; width:160px; height:32px; text-align:center; border:0px green solid; margin:0 font-size:13px;">
+					<a id="infoCommit" href="#" onclick="subInfo();">
+						<img alt="提交信息"  src="images/submit.png" style="border:none;"/>提交信息
+					</a>
 				</div>
-				<div id='info_Commit' style="float:left; width:100px; height:32px;font-size:13px;">
-					<a id="infoCommit" href="#" onclick="subInfo();"><img alt="提交信息"  src="images/submit.png" style="border:none;"/>提交信息</a>
-				</div>
-				<div id='add_input' style="float:left; width:200px; height:32px;">
-					<div style="float:left; width:130px; height:30px;">
-						<input id="addInput" type="text" style="width:120px"/>
-					</div>
-					<div style="float:left; width:50px; height:30px;">
-						<input id="add_commit" type="button" value="添加" style="width:45px"></input>
-					</div>
-				</div>
+				
 				<div id='area_Commit' style="float:left; width:100px; height:32px;">
 					<input id="areaCommit" type="button" onclick="subArea();" value="提交信息"/>
 				</div>
@@ -135,7 +139,7 @@ $("#car").click(function(event) {
 			      	$("#infodiv").html("");
 			      	$("#infodiv").css("height","1");
 			      	
-			     	resetDialogSize(230,390);
+			     	resetDialogSize(220,390);
 		});
 	});
 });
