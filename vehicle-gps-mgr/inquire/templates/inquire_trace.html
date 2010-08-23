@@ -47,7 +47,8 @@
 	<div class="keep_left spacing">	
 		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
 		<img alt="播放" id="play_history" src="images/play.png" style="cursor:hand;"/>
-		<img alt="暂停" id="stop_history" src="images/stop.png" style="cursor:hand;"/> 
+		<img alt="暂停" id="suspend_history" src="images/suspend.png" style="cursor:hand;display:none"/> 
+		<img alt="停止" id="stop_history" src="images/stop.png" style="cursor:hand;"/>  
 		<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 	</div>
 
@@ -135,15 +136,12 @@ function position(){
 
 $("#location_info").draggable({containment:'#drag'});
 
-
-
-	//子页面对象   iframe
+    //子页面对象   iframe
 	//var history_map =  document.getElementById("history_track_frame").contentDocument;
 
 	//正常速度
 	run_play(3);
 
-	
 	//播放时间调整				
 	$("#cur_run_time").slider({ 
 		min : 1,
@@ -154,7 +152,8 @@ $("#location_info").draggable({containment:'#drag'});
 		run_play(ui.value); 
 		}
 	});
-	//运行播放
+	
+	//播放运行速度控制
 	function run_play(value){
 		
 		var speed_explain = new Array();
@@ -179,7 +178,26 @@ $("#location_info").draggable({containment:'#drag'});
     if($("#vehicle_info option:selected").attr("name")=="have"){
 			$("#his").hide();
     }
-    
+
+    //清空当前运行历史轨迹
+	function empty_cur_vhicle_history(){
+		
+		history_track_frame.state = "normal";
+		history_track_frame.speed = 1000;
+		history_track_frame.vehicle_id = -1;
+		history_track_frame.cur_progress = 0;
+		history_track_frame.progress_length=0;
+		history_track_frame.arr_history = null;
+		history_track_frame.drawLine_arr = null;
+
+		$("#direction").html(" ");
+		$("#speed").html(" ");
+		$("#longitude").html(" ");
+		$("#latitude").html(" ");
+		$("#location_time").html(" ");
+		$("#address").html(" ");
+	}
+	
 	$("#his_info").hide();
 	$("#show_vehicles").hide();
 	$("#areas").hide();
@@ -190,28 +208,55 @@ $("#location_info").draggable({containment:'#drag'});
 	$("#inquire_endTime").val(getNowFormatDate());
 
 	//暂停
-	$("#stop_history").click(function(){
+	$("#suspend_history").click(function(){
 		$("#location_info").show();
-		history_track_frame.state="stop";
-	});
+		$("#suspend_history").hide();
+		$("#play_history").show();
 		
-	/**
-	 * 轨迹查看
-	 */
+		history_track_frame.state="suspend"; 
+	});
+
+	//停止 
+	$("#stop_history").click(function(){
+		
+		if(history_track_frame.state === "search"){
+			alert("正在查询，不能停止!");
+		}else{
+			empty_cur_vhicle_history();
+			$("#play_history").show();
+			$("#suspend_history").hide();
+
+			history_track_frame.state="stop";
+		}	
+	});
+ 
+	//播放
 	$("#play_history").click(function(){ 
-		$("#location_info").show();
-		progress_assignment(1);
-		play_trace();	
+
+		 var state = document.history_track_frame.document.readyState;
+
+		 if(state === "complete"){
+			$("#location_info").show();
+			$("#play_history").hide();
+			$("#suspend_history").show();
+			$("#location_info").show(); //显示定位信息
+			 
+			if(history_track_frame.state === "suspend"){
+				history_track_frame.state = "normal";
+			}
+			
+			progress_assignment(1);
+			play_trace();	
+		 }else
+			 alert("地图未加载完，请等待地图加载完之后，点击操作！");
+		
 	});
 
 	 /**
 	  * 轨迹播放函数
 	  */
 	  function play_trace(){
-		  history_track_frame.state="normal"; //设置正常操作状态
-			$("#location_info").show(); //显示定位信息
-			
-	 		var startTime = $("#inquire_startTime").attr("value");
+		  	var startTime = $("#inquire_startTime").attr("value");
 	   
 			if(startTime == ""){
 				alert("开始时间不能为空!");
@@ -224,10 +269,11 @@ $("#location_info").draggable({containment:'#drag'});
 				$("#endTime").focus();
 				return false;
 			}
-
-			 
 			var history_vehicle_id = $("#vehicle_info option:selected").val();     
-			if(history_vehicle_id !== history_track_frame.vehicle_id){
+			if(history_track_frame.state === "stop"){  
+				history_track_frame.state == "normal";
+					empty_cur_vhicle_history();
+
 					//获取时间数组
 					history_track_frame.arr_history = getHourList();   
 					history_track_frame.progress_length = getHourList().length;
@@ -251,15 +297,17 @@ $("#location_info").draggable({containment:'#drag'});
 		  }
 
 	$("#select_mode").change(function(){
+		
 		$("#show_area").hide();
 		$("#location_info").hide();
+
 		if("area_mode"==$("#select_mode option:selected").val()){
 			$("#vehicle_info").hide();
 			$("#areas").show();
 			$("#show_vehicles").show();
 			$("#play_history").hide();
 			$("#speed_control").hide();
-			$("#stop_history").hide();
+			$("#suspend_history").hide();
 
 			$("#mode_area").attr("src","inquire/templates/51ditu.html");
 		}else{
@@ -268,7 +316,7 @@ $("#location_info").draggable({containment:'#drag'});
 			$("#show_vehicles").hide();
 			$("#play_history").show();
 			$("#speed_control").show();
-			$("#stop_history").show();
+			$("#suspend_history").show();
 			}
 		});
 	
@@ -278,7 +326,7 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#info_select_vehicle").hide();
 		$("#play_history").hide();
 		$("#speed_control").hide();
-		$("#stop_history").hide();
+		$("#suspend_history").hide();
 		$("#areas").hide();
 		$("#show_vehicles").hide();
 		$("#location_info").hide();
@@ -296,7 +344,7 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#vehicle_info").show();
 		$("#play_history").show();
 		$("#speed_control").show();
-		$("#stop_history").show();
+		$("#suspend_history").show();
 		$("#areas").hide();
 		$("#history_track_frame").show();
 		$("#select_mode").get(0).selectedIndex=0;
@@ -596,7 +644,7 @@ $("#location_info").draggable({containment:'#drag'});
 			$("#show_vehicles").hide();
 			$("#speed_control").show();
 			$("#play_history").show();
-			$("#stop_history").show();
+			$("#suspend_history").show();
 			$("#vehicle_info").show();
 			$("#history_track_frame").show();
 			$("#vehicle_info").val(vehicle_id);

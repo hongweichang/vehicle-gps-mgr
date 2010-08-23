@@ -10,8 +10,9 @@
 	 * 操作状态 :处理画历史轨迹操作状态    
 	 * 	 'normal' 正常   
 	 * 	 'stop' 停止
+	 * 	 'search' 查询状态
 	 */
-	var state = "normal"; 
+	var state = "stop"; 
 	var marker;   //地图标记对象
 	
 	history_map();
@@ -118,13 +119,14 @@
 	function drawHistoryTrack(time,vehicle_id){   
 	 	 //var time = '2010081017';
 		$("#inquireing",parent.document).mask("查询中...");
-	 
+		state = "search";
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
 			success:function(data){    
 			$("#inquireing",parent.document).unmask();
+			state = "normal";
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
 			   if(arr_history.length>0){
 					runHistoryTrack();
@@ -216,12 +218,7 @@
 
 		map.removeOverLay(marker); 
 		marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(window.parent.host+"/"+img_path));
-
-		//点对象设置内容
-		var context = "<br>速度: "+vehicle_speed+"<br>定位时间:"+format_time(location_time)+
-					  "<br>方向:"+direction_change(direction);
-		addInfoWin(marker,context);
-
+ 
 		$("#location_info").css("display","inline");
 
 		$("#direction",parent.document).html(direction_change(direction));
