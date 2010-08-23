@@ -110,8 +110,7 @@
 </div>
 <script type="text/javascript"> 
 
-//-------------new add--------------
-
+//初始始进度条
 $("#history_progress").progressbar({
 		value:0
 });
@@ -120,10 +119,9 @@ $("#history_progress").progressbar({
  * 进度条赋值
  * @progress_val 值
  */
-function progress_assignment(progress_val){//alert(progress_val);
+function progress_assignment(progress_val){ 
 	$( "#history_progress" ).progressbar( "option", "value", progress_val );
-}
-//----------------end---------------
+} 
 
 position();
 function position(){
