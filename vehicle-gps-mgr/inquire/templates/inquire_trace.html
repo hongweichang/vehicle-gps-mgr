@@ -68,7 +68,7 @@
 
 <div class="toggler" id="location_info">
 		<div id="effect" class="ui-widget-content ui-corner-all">
-			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息 [隐藏]</h3>
+			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id="dragger" href="#">[隐藏]</a></h3>
 			
 			<div class="location_info">
 				<div class="location_title">车牌号:</div>
@@ -289,13 +289,13 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#select_mode").get(0).selectedIndex=0;
 	});
 
-	$("#location_info h3").click(function(){
+	$("#dragger").click(function(){
 		$("#location_info .location_info").toggle();
 
 		if($("#location_info .location_info").is(":hidden")){
-			$("#location_info h3").html("定位信息 [展开]");
+			$("#dragger").html("[展开]");
 		 }else {
-			 $("#location_info h3").html("定位信息 [隐藏]");
+			$("#dragger").html("[隐藏]");
 		 }
 		});
 	
