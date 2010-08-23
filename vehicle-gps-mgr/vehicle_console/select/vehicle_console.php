@@ -41,7 +41,7 @@ switch ($act) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
-							"'>选择本组车辆</input><div class='scroll' style='font-size:12px;' >";
+							"'><span style='font-weight:700;'>选择本组车辆</span></input><div class='scroll' style='font-size:12px;' >";
 			
 			/**遍历每个车辆组，得到每组的所有车辆*/
 			foreach ( $vehicles as $vehicle ) {
