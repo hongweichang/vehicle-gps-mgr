@@ -1,4 +1,4 @@
-<div id='his'>
+<div id='his' class="font">
 	<input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
 	<input type="radio" name='history' id="history_post">查询历史发布信息</input>
 </div>
@@ -6,11 +6,11 @@
 <!--
 	.map_control{width:900px;height:25px;margin-top:2px}
 	.date_option{width:350px;}
-	.keep_left{float:left}
-	.speed{width:30px;margin-top:5px;text-align:center}
+	.keep_left{float:left;font-size:12px;font-weight:700;}
+	.speed{width:39px;margin-top:5px;text-align:center}
 	.track_info{width:85px;margin-top:5px;height:10px;}	
 	.spacing{margin:0px 5px 0px 5px}	
-
+    .font{font-size:12px;font-weight:700;}
 	#cur_run_time{width:100px;height:10px;margin-top:5px;}
 	#show_time{width:45px;margin-left:2px;font-weight:700;margin-top:5px;text-align:center;}
 	.location_info{font-size:12px;border:1px #99CCFF solid; margin-top:0px; height:208px;}
@@ -25,11 +25,11 @@
 </style>
 <div id="control_map" class="map_control">
 	<div class="keep_left">
-		 开始时间:<input type="text" id="inquire_startTime" size="15" /> 
-		 结束时间:<input type="text" id="inquire_endTime" size="15" /> 
+		 开始时间：<input type="text" id="inquire_startTime" size="15" /> 
+		 结束时间：<input type="text" id="inquire_endTime" size="15" /> 
 	</div>
 	<div class="keep_left" id="speed_control"> 
-		<div class="speed keep_left">速度</div> 
+		<div class="speed keep_left">速度：</div> 
 		<div id="cur_run_time" class="keep_left"></div>
 		<div id="show_time" class="keep_left"></div>
 		<div class="track_info keep_left" id="history_progress"></div>
@@ -46,8 +46,8 @@
 	</div>
 	<div class="keep_left spacing">	
 		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
-		<input type="button" id="play_history" value="播放"></input>
-		<input type="button" id="stop_history" value="暂停"></input> 
+		<img alt="播放" id="play_history" src="images/play.png"/>
+		<img alt="暂停" id="stop_history" src="images/stop.png"/> 
 		<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 	</div>
 
