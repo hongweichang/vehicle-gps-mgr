@@ -23,8 +23,9 @@ if (! $sidx)
 	$vehicle_console = new vehicle_console ();
 	
 switch ($act) {
-	case "select" ://选择车辆		
-		 
+	case "select" ://选择车辆
+		
+		$arrayID=$_REQUEST ['array_ID'];
         /**获取所有车辆组*/
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
@@ -44,7 +45,27 @@ switch ($act) {
 			
 			/**遍历每个车辆组，得到每组的所有车辆*/
 			foreach ( $vehicles as $vehicle ) {
-				$str = $str . "<input type='checkbox' style='font-size:13px;' class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
+			    $choose=0;                      //初始化choose为0	
+				if(empty($arrayID)){
+					$str = $str . "<input type='checkbox' style='font-size:13px;'   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
+				}else{
+					if($arrayID==0){
+					    $str = $str . "<input type='checkbox' style='font-size:13px;'   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
+					}else{
+						$array_str=split(',',$arrayID);
+						for($i=0;$i<count($array_str);$i++){
+							if($vehicle[0]==$array_str[$i]){
+							    $choose=1;
+								$str = $str . "<input type='checkbox' style='font-size:13px;' checked=true   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";					    
+							}
+						}
+					    if($choose==0){
+						$str = $str . "<input type='checkbox' style='font-size:13px;'    class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
+					    }
+					 }
+				}
+				//$str = $str . "<input type='checkbox' style='font-size:13px;'    class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
+						
 			}
 			$str = $str . "</div></div>";
 		}

@@ -35,6 +35,8 @@ $group_id=$_REQUEST ['group_id'];//车辆组id
 $vehicle_id=$_REQUEST ['vehicle_id'];//车辆id
 $deal=$_REQUEST ['deal'];//是否处理
 
+$company_id = get_session("company_id"); //得到公司id
+
 if (! $sidx)
 	$sidx = 1;
 if (! $sord)
@@ -50,15 +52,13 @@ if ($deal=='true') { //1为显示全部数据 0为显示为处理数据
 	$wh = " where (dispose_opinion is null or \"\" = dispose_opinion) ";
 }
 
-
-
 switch ($act) {
 	case "list" : //模拟测试
 $vehicle_group = "";
 
 		$vehicle_group_options = "<option value=-1 selected>全部车辆组</option>";
 		$alert = new Alert ();
-		$vehicle_group_data = $alert->get_vehicle_group ();
+		$vehicle_group_data = $alert->get_vehicle_group ($company_id);
 		foreach ( $vehicle_group_data as $key => $value ) {
 			$vehicle_group_options = $vehicle_group_options."<option value=\"".$value['id']."\" >".$value['name']."</option>"; 
 		}
@@ -74,7 +74,7 @@ $vehicle_group = "";
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
 		
-		$count = $alert->get_all_count ($group_id,$vehicle_id, $wh );
+		$count = $alert->get_all_count ($group_id,$vehicle_id, $wh,$company_id );
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -87,7 +87,7 @@ $vehicle_group = "";
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $alert->get_all_alerts ( $group_id,$vehicle_id,$wh, $sidx, $sord, $start, $limit );
+		$dataList = $alert->get_all_alerts ( $group_id,$vehicle_id,$wh, $sidx, $sord, $start, $limit, $company_id);
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
@@ -102,7 +102,6 @@ $vehicle_group = "";
 			
 			$response->rows [$key] ['id'] = $value ['id'];
 			
-
 			$length=strlen(trim($value['dispose_opinion']));
 			
 			if (strlen(trim($value['dispose_opinion']))!=0)
@@ -129,8 +128,7 @@ $vehicle_group = "";
 		foreach($data_list_advicer as $key => $value)
 		{
 			$options_str = $options_str."<option value=\"".$key."\">".$value."</option>";
-		}
-		
+		}		
 		$options["option"] = $options_str;
 		$options["id"] = $_REQUEST ['id'];
 		echo $GLOBALS ['db']->display ( $options, $act );
@@ -138,8 +136,7 @@ $vehicle_group = "";
 		
 	case "add_opinion" : //给指定的数据添加处理意见
 		$alert = new Alert ( $_REQUEST ['id'] );
-		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );
-		
+		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );		
 		$boolean = $alert->edit_alert_advice ( $arr );
 		if ($boolean) {
 			echo "意见添加成功";
@@ -147,29 +144,11 @@ $vehicle_group = "";
 			echo "意见添加失败";
 		}
 		break;
-	case "list_select_data" : //查询所有车辆组名称
-		$vehicle_group = "";
-		$vehicle = "";
-		
-		$alert = new Alert ();
-		
-		$vehicle_group_data = $alert->get_vehicle_group ();
-		foreach ( $vehicle_group_data as $key => $value ) { //追加xml文件字符串
-			$vehicle_group = $vehicle_group . $value ["id"] . "," . $value ["name"] . "|";
-		}
-		
-		$vehicle_data = $alert->get_vehicle ();
-		foreach ( $vehicle_data as $key => $value ) { //追加xml文件字符串
-			$vehicle = $vehicle . $value ["id"] . "," . $value ["number_plate"] . "|";
-		}
-		
-		echo $vehicle_group . "@" . $vehicle;
-		break;
+	
 	
 	case "list_relevance_data" : //根据车辆组查询相关车辆
 		$vehicle_data = "";
-		$alert = new Alert ();
-		
+		$alert = new Alert ();	
 		$vehicle_list_count = $alert->get_count_vehicle ( $vehicle_id );
 		$vehicle_list = $alert->get_linkage_vehicle ( $vehicle_id );
 		if ($vehicle_list_count > 0) {
@@ -181,6 +160,7 @@ $vehicle_group = "";
 		}
 		echo $vehicle_data;
 		break;
+	
 	case "newest_alert" : //查询没有处理的最新告警	
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();

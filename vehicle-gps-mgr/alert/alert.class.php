@@ -42,9 +42,10 @@ class Alert extends BASE {
 	 * @param $limit
 	 * @return 查询记录
 	 */
-	function get_all_alerts($group_id="",$vehicle_id="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = "") {
+	function get_all_alerts($group_id="",$vehicle_id="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = "",$company_id="") {
 		 if($group_id==-1){
-		 	$this->sql = "select * from " . $this->mysel_table_name . "  " . $wh . " order by " . " alert_time desc " . " LIMIT " . $start . " , " . $limit;
+		 	$this->sql = "select * from " . $this->mysel_table_name .$wh." and vehicle_id in 
+                         (select id from vehicle_manage where company_id=".$company_id.")  order by  alert_time desc " . " LIMIT " . $start . " , " . $limit;
 		 }else if($vehicle_id==-1){
 		 	$this->sql ="select a_i.id,a_i.alert_time,a_i.alert_type,a_i.vehicle_id,a_i.dispose_id,a_i.dispose_opinion,a_i.description from ".
                     "((select * from alert_info) as a_i ".
@@ -68,9 +69,10 @@ class Alert extends BASE {
 	 * @return 总记录数
 	 * 
 	 */
-	function get_all_count($group_id,$vehicle_id,$condition) {
+	function get_all_count($group_id,$vehicle_id,$condition,$company_id) {
 	 if($group_id==-1){
-		 	$this->sql = "select count(*) from " . $this->mysel_table_name. $condition;
+		 	$this->sql = "select count(*) from " . $this->mysel_table_name. $condition ." and vehicle_id in 
+                         (select id from vehicle_manage where company_id=".$company_id.")";
 		 }else if($vehicle_id==-1){
 		 	$this->sql ="select count(*) from ".
                     "((select * from alert_info) as a_i ".
@@ -132,28 +134,21 @@ class Alert extends BASE {
 	 * 查询所有车辆组数据
 	 * @return 查询记录
 	 */
-	function get_vehicle_group() {
-		$this->sql = "select id,name from vehicle_group";
+	function get_vehicle_group($company_id) {
+		$this->sql = "select id,name from vehicle_group where company_id=".$company_id;
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
-	/**
-	 * 查询所有车辆数据
-	 * @return 查询记录
-	 */
-	function get_vehicle() {
-		$this->sql = "select id,number_plate from vehicle_manage";
-		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
-	}
+	
 	/**
 	 * 查询所有车辆数据(和车辆组联动)
 	 * @param unknown_type $vehicle_group_id
 	 */
-	
 	function get_linkage_vehicle($vehicle_group_id=""){
 		$this->sql ="select vm.id,vm.number_plate from vehicle_manage as vm inner join  vehicle_group as vg".
                     " on vg.id=vm.vehicle_group_id and vm.vehicle_group_id=".$vehicle_group_id;
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
+	
 	/**
 	 * 算出车辆组下对应的车辆数
 	 */

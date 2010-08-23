@@ -22,6 +22,8 @@ $begin_data=str_replace("/","-",$begin_data_str);
 $end_data=str_replace("/","-",$end_data_str);
 
 
+$company_id = get_session("company_id"); //得到公司id
+
 
 switch ($act) {
 	case "main" : //填写信息内容页面
@@ -37,7 +39,7 @@ switch ($act) {
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
 		
-		$count = $driver->get_vehicle_count ();
+		$count = $driver->get_vehicle_count ($company_id);
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -50,7 +52,7 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $driver->get_all_vehicle ( $wh, $sidx, $sord, $start, $limit );
+		$dataList = $driver->get_all_vehicle ( $wh, $sidx, $sord, $start, $limit, $company_id);
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
@@ -74,7 +76,7 @@ switch ($act) {
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
 		
-		$count = $driver->get_driver_count ();
+		$count = $driver->get_driver_count ($company_id);
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -87,7 +89,7 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $driver->get_all_driver ( $wh, $sidx, $sord, $start, $limit );
+		$dataList = $driver->get_all_driver ( $wh, $sidx, $sord, $start, $limit,$company_id );
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
@@ -107,7 +109,7 @@ switch ($act) {
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
 		
-		$count = $driver->sel_driver_count ($begin_data,$end_data);
+		$count = $driver->sel_driver_count ($begin_data,$end_data,$company_id);
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -120,7 +122,7 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $driver->get_driver_time ($begin_data,$end_data, $wh, $sidx, $sord, $start, $limit );
+		$dataList = $driver->get_driver_time ($begin_data,$end_data, $wh, $sidx, $sord, $start, $limit,$company_id );
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
@@ -135,14 +137,17 @@ switch ($act) {
 	
 		
 	case "vehicle_time_data" :
+		
+		$vehicle_array = $_REQUEST ['select_vehicle']; 		
+				
 		if (! $sidx)
 			$sidx = 1;
 		$wh = "where 1=1 "; //查询条件
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
-		
-		$count = $driver->sel_vehicle_count ($begin_data,$end_data);
-		
+			
+		$count = $driver->sel_vehicle_count ($begin_data,$end_data,$vehicle_array,$company_id);	
+				
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
 		} else {
@@ -154,7 +159,7 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $driver->get_vehicle_time($begin_data,$end_data, $wh, $sidx, $sord, $start, $limit );
+		$dataList = $driver->get_vehicle_time($vehicle_array,$begin_data,$end_data, $wh, $sidx, $sord, $start, $limit,$company_id );
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
