@@ -68,7 +68,7 @@
 
 <div class="toggler" id="location_info">
 		<div id="effect" class="ui-widget-content ui-corner-all">
-			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息</h3>
+			<h3 class="ui-widget-header ui-corner-all cursor_style">定位信息 [隐藏]</h3>
 			
 			<div class="location_info">
 				<div class="location_title">车牌号:</div>
@@ -290,6 +290,12 @@ $("#location_info").draggable({containment:'#drag'});
 
 	$("#location_info h3").click(function(){
 		$("#location_info .location_info").toggle();
+
+		if($("#location_info .location_info").is(":hidden")){
+			$("#location_info h3").html("定位信息 [展开]");
+		 }else {
+			 $("#location_info h3").html("定位信息 [隐藏]");
+		 }
 		});
 	
 	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
