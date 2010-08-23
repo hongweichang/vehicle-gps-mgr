@@ -109,18 +109,20 @@
 							
 							points.push(new LTPoint(point_longitude, point_latitude));
 							//点对象设置内容
-							var context = "<span style='font-weight:700'>车牌号：</span>" + number_plate + "<br><span style='font-weight:700'>GPS编号：</span>" + gps_id +
-							"<br><span style='font-weight:700'>车队：</span>" +
-							vehicle_group_name +
-							"<br><span style='font-weight:700'>驾驶员：</span>" +
-							driver_name +
-							"<br><span style='font-weight:700'>速度:</span> " +
-							cur_speed +
-							"<br><span style='font-weight:700'>定位时间:</span>" +
-							location_time +
-							"<br><span style='font-weight:700'>地址:</span> " +
-							location_desc +
-							"<br><br>" +
+							var context = "<div class='context'><div class='content_div'><div class='title'>车牌号：</div>" + 
+							"<div class='content'>"+number_plate +"</div></div>"+ 
+							"<div class='content_div'><div class='title'>GPS编号：</div>" +
+							"<div class='content'>"+gps_id + "</div></div>" +
+							"<div class='content_div'><div class='title'>车队：</div>" +
+							"<div class='content'>"+vehicle_group_name +"</div></div>" +
+							"<div class='content_div'><div class='title'>驾驶员：</div>" +
+							"<div class='content'>"+driver_name +"</div></div>"+
+							"<div class='content_div'><div class='title'>速度：</div> " +
+							"<div class='content'>"+cur_speed +"</div></div>" +
+							"<div class='content_div'><div class='title'>定位时间：</div>" +
+							"<div class='content'>"+location_time +"</div></div>" +
+							"<div class='content_div'><div class='title'>地址：</div> " +
+							"<div class='content'>"+location_desc +"</div></div></div>" +
 							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>发布信息</a></div>" +
