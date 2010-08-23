@@ -3,6 +3,8 @@
 	var drawLine_arr = null;  //画线队列
 	var vehicle_id = -1; //车辆ID
 	var speed = 1000;  //速度/ms
+	var progress_length = 0;
+	var cur_progress = 0;
 	
 	/***
 	 * 操作状态 :处理画历史轨迹操作状态    
@@ -68,9 +70,15 @@
 			} 
 		}else{  
 			if(arr_history.length>0){ 
+				cur_progress ++;
+				
+				var progress_val = round((cur_progress/progress_length)*100,0);
+				window.parent.progress_assignment(progress_val);
+				
 				var time = arr_history[0];  
 				arr_history.shift();
-				 
+				
+				
 				drawHistoryTrack(time,vehicle_id);
 			}
 		}

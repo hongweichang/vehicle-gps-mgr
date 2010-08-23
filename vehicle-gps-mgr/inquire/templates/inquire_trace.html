@@ -8,7 +8,7 @@
 	.date_option{width:350px;}
 	.keep_left{float:left}
 	.speed{width:30px;margin-top:5px;text-align:center}
-	.track_info{width:85px;margin-top:5px;}	
+	.track_info{width:85px;margin-top:5px;height:10px;}	
 	.spacing{margin:0px 5px 0px 5px}	
 
 	#cur_run_time{width:100px;height:10px;margin-top:5px;}
@@ -28,7 +28,7 @@
 		<div class="speed keep_left">速度</div> 
 		<div id="cur_run_time" class="keep_left"></div>
 		<div id="show_time" class="keep_left"></div>
-		<div class="track_info keep_left">轨迹控制 0/0</div>
+		<div class="track_info keep_left" id="history_progress"></div>
 	</div>
 	<div class="keep_left spacing">
 		<span id='info_select_vehicle'>
@@ -99,7 +99,22 @@
 
 </div>
 <script type="text/javascript"> 
- 
+
+//-------------new add--------------
+
+$("#history_progress").progressbar({
+		value:0
+});
+
+/**
+ * 进度条赋值
+ * @progress_val 值
+ */
+function progress_assignment(progress_val){//alert(progress_val);
+	$( "#history_progress" ).progressbar( "option", "value", progress_val );
+}
+//----------------end---------------
+
 position();
 function position(){
 	 var state = document.history_track_frame.document.readyState;
@@ -198,11 +213,13 @@ $("#location_info").draggable({containment:'#drag'});
 				$("#endTime").focus();
 				return false;
 			}
+
 			 
 			var history_vehicle_id = $("#vehicle_info option:selected").val();     
 			if(history_vehicle_id !== history_track_frame.vehicle_id){
 					//获取时间数组
 					history_track_frame.arr_history = getHourList();   
+					history_track_frame.progress_length = getHourList().length;
 					//设置所选车辆编号
 					history_track_frame.vehicle_id = history_vehicle_id;
 			
