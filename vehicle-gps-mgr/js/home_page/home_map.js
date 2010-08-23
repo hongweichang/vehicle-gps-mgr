@@ -109,8 +109,10 @@
 							
 							points.push(new LTPoint(point_longitude, point_latitude));
 							//点对象设置内容
-							var context = "<div class='context'><div class='content_div'><div class='title'>车牌号：</div>" + 
-							"<div class='content'>"+number_plate +"</div></div>"+ 
+							
+							marker.openInfoWinElement("车牌号:"+number_plate);
+							
+							var context = 
 							"<div class='content_div'><div class='title'>GPS编号：</div>" +
 							"<div class='content'>"+gps_id + "</div></div>" +
 							"<div class='content_div'><div class='title'>车队：</div>" +
@@ -129,7 +131,10 @@
 							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>查看历史轨迹</a></div>";
-							addInfoWin(marker, context);
+							
+							var title = "<span style='font-weight:700;color:black;'>车牌号:"+number_plate+"</span>";
+							addInfoWin(marker, context,title);
+							
 							
 							//点添入地图中
 							map.addOverLay(marker);
@@ -196,12 +201,13 @@
 	 * @param {Object} obj  点对象
 	 * @param {Object} context 对象提示内容
 	 */
-	function addInfoWin(obj,context){
+	function addInfoWin(obj,context,title){
 		
 		var info = new LTInfoWindow( obj );
 
 		function shwoInfo(){
 			info.setLabel(context);
+			info.setTitle(title);
 			info.clear();
 			map.addOverLay(info);
 		}
