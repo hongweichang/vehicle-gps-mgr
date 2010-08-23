@@ -215,6 +215,7 @@ function subInfo(){
 	  },"text");
 }
 
+
 function subArea(){	
 	$("#operation" ).mask("处理中...");
 	var content=document.getElementById("info_content").value;
@@ -227,12 +228,17 @@ function subArea(){
 	var latMax = document.getElementById("issue_frame").contentWindow.document.getElementById("latMax").value;
 
 	$.post("index.php",{"a":204,"content":content,"is_area_info":1,"begin_time":begin,"end_time":end},function(data){
-		 $.post("index.php",{"a":205,"info_id":data,"lon":lonMax,"lat":latMax},function(data_one){
-				$.post("index.php",{"a":206,"info_id":data,"lon":lonMin,"lat":latMin,"next_id":data_one},function(data_two){
-					if("ok"==data_two){
-						$("#operation").unmask();
-						alert("发布成功");
-						}
+		 $.post("index.php",{"a":205,"info_id":data,"lon":lonMin,"lat":latMin},function(data_one){
+				$.post("index.php",{"a":205,"info_id":data,"lon":lonMax,"lat":latMax},function(data_two){
+					$.post("index.php",{"a":206,"first_id":data_one,"second_id":data_two},function(result){
+						if("ok"==result){
+								$("#operation" ).unmask();
+								alert("发布成功");
+							}else{
+								$("#operation" ).unmask();
+								alert("发布失败");
+							}
+						});
 					});
 		        });
 	});
