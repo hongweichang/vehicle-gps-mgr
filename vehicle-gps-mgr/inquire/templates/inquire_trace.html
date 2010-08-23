@@ -183,6 +183,7 @@ $("#location_info").draggable({containment:'#drag'});
 
 	//暂停
 	$("#stop_history").click(function(){
+		$("#location_info").show();
 		history_track_frame.state="stop";
 	});
 		
@@ -190,6 +191,7 @@ $("#location_info").draggable({containment:'#drag'});
 	 * 轨迹查看
 	 */
 	$("#play_history").click(function(){ 
+		$("#location_info").show();
 		progress_assignment(1);
 		play_trace();	
 	});
@@ -242,6 +244,7 @@ $("#location_info").draggable({containment:'#drag'});
 
 	$("#select_mode").change(function(){
 		$("#show_area").hide();
+		$("#location_info").hide();
 		if("area_mode"==$("#select_mode option:selected").val()){
 			$("#vehicle_info").hide();
 			$("#areas").show();
@@ -270,12 +273,14 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#stop_history").hide();
 		$("#areas").hide();
 		$("#show_vehicles").hide();
+		$("#location_info").hide();
 		$("#his_info").show();
 		$("#his_infoes").show();
 		$("#history_track_frame").hide();
 	});
 	
 	$("#history_trace").click(function(){
+		$("#location_info").hide();
 		$("#show_area").hide();
 		$("#his_info").hide();
 		$("#his_infoes").hide();
