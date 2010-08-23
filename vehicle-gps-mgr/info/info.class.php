@@ -48,22 +48,37 @@
 			return $result;
 		}
 		
+		
 		/**
-		 *  将最小经纬度区域信息存入到数据库中
+		 *  将经纬度区域信息存入到数据库中
 		 *  @param $params 要插入的信息
 		 */
-		function save_area_info_one($params){
+		function save_area_info($params){
 			$result = $GLOBALS ["db"]->insert_row ( "area_info", $params);
 			return $result;
 		}
 		
 		/**
-		 *  将最大经纬度区域信息存入到数据库中
-		 *  @param $params 要插入的信息
+		 *  更新info表中的next_id
+		 *  @param $info 信息
 		 */
-		function save_area_info_two($params){
-			$result = $GLOBALS ["db"]->insert_row ( "area_info", $params);
-			return $result;
+		function update_next_id($info){
+			if(!$GLOBALS['db']->update_row("area_info",$info,"id")){
+				return false;
+			}
+			return true;
+			
 		}
+		
+		/**
+		 * 根据id查找area_info信息
+		 * @param $id 信息id
+		 */
+		function get_area_info($id){
+			$sql = "select * from area_info where id=".$id;
+			$data = $GLOBALS['db']->query($sql);
+			return $data;
+		}
+		
 		
 	}

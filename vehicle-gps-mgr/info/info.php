@@ -86,7 +86,7 @@ switch ($act) {
         }
         break;
         
-	case "save_area_info_one":
+	case "save_area_info":
         $info = new info();
         
         $params["info_id"] = $GLOBALS['db']->prepare_value($_REQUEST['info_id'],"INT");
@@ -96,33 +96,49 @@ switch ($act) {
         $params["radius"] = $GLOBALS['db']->prepare_value(null,"INT");
         $params["next_id"] = $GLOBALS['db']->prepare_value(null,"INT");
         
-        $result = $info->save_area_info_one($params);
+        $result = $info->save_area_info($params);
  		if($result>1){
         	echo $result;
         }else{
         	echo "fail";
-        }
-        
+        }      
     	break;
-        
-	case "save_area_info_two":
+   
+    case "update_area_info":
 		$info = new info();
-        
-        $params["info_id"] = $GLOBALS['db']->prepare_value($_REQUEST['info_id'],"INT");
-        $params["type"] = $GLOBALS['db']->prepare_value(0,"TINYINT");
-        $params["log"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lon']),"INT");
-        $params["lat"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lat']),"INT");
-        $params["radius"] = $GLOBALS['db']->prepare_value(null,"INT");
-        $params["next_id"] = $GLOBALS['db']->prepare_value($_REQUEST['next_id'],"INT");
-        
-        $result = $info->save_area_info_two($params);
- 		if($result>1){
-        	echo "ok";
-        }else{
-        	echo "fail";
-        }
-    
-        break;
+		
+		$first_info = $info->get_area_info($_REQUEST['first_id']);
+		$second_info = $info->get_area_info($_REQUEST['second_id']);
+		
+		$first_info[0]['next_id']=$_REQUEST['second_id'];
+		$second_info[0]['next_id']=-1;
+		
+		$info_one['id']=$first_info[0]['id'];
+		$info_one['info_id']=$first_info[0]['info_id'];
+		$info_one['type']=$first_info[0]['type'];
+		$info_one['log']=$first_info[0]['log'];
+		$info_one['lat']=$first_info[0]['lat'];
+		$info_one['radius']=$first_info[0]['radius'];
+		$info_one['next_id']=$first_info[0]['next_id'];
+		
+		$info_two['id']=$second_info[0]['id'];
+		$info_two['info_id']=$second_info[0]['info_id'];
+		$info_two['type']=$second_info[0]['type'];
+		$info_two['log']=$second_info[0]['log'];
+		$info_two['lat']=$second_info[0]['lat'];
+		$info_two['radius']=$second_info[0]['radius'];
+		$info_two['next_id']=$second_info[0]['next_id'];
+		
+		$first = $info->update_next_id($info_one);
+		$second = $info->update_next_id($info_two);
+		
+		if($first && $second){
+			echo "ok";
+		}else{
+			echo "fail";
+		}		
+		break;
+
         
      break;
 }
