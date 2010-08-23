@@ -27,6 +27,7 @@ img{
 .exitImg{
 	width:20px; height:19px;
 }
+img{border:none;}
 .carInfo{
 	float:left;
 	width:75%;
