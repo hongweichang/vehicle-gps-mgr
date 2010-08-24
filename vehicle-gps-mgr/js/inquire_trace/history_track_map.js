@@ -1,10 +1,10 @@
 	var map = null; //历史轨迹地图对象
-	var arr_history = null; //历史轨迹
+	var arr_history = null; //历史轨迹时间队列数组
 	var drawLine_arr = null;  //画线队列
 	var vehicle_id = -1; //车辆ID
 	var speed = 1000;  //速度/ms
-	var progress_length = 0;
-	var cur_progress = 0;
+	var progress_length = 0; //历史轨迹时间队列数组长度
+	var cur_progress = 0; //当前进度
 	
 	/***
 	 * 操作状态 :处理画历史轨迹操作状态    
@@ -69,7 +69,8 @@
 			if(drawLine_arr.length > 0 ){ 
 				newDrawLine();
 			} 
-		}else{  
+		}else{ //当画线队列数组不存在数据是，执行时间段取点  
+			 
 			if(arr_history.length>0){ 
 				cur_progress ++;
 				
@@ -126,7 +127,7 @@
 			dataType:"json",
 			success:function(data){    
 			$("#inquireing",parent.document).unmask();
-			state = "normal";
+			state = "normal"; 
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
 			   if(arr_history.length>0){
 					runHistoryTrack();
@@ -183,6 +184,17 @@
 					newLongitude = longitude;
 					newLatitude = latitude;
 					points.push( new LTPoint(newLongitude,newLatitude));
+					
+					//当历史轨迹画完之后，回到初始状态
+					if(arr_history.length <=0 || arr_history == null || arr_history == ""){
+						$("#suspend_history",parent.document).hide();
+						$("#play_history",parent.document).show();
+						 
+						window.parent.empty_cur_vhicle_history();
+						
+						state = "stop";
+						return false;
+					}
 				} 
 				
 				//删除并返回数组的第一个元素
