@@ -110,37 +110,23 @@
 
 </div>
 <script type="text/javascript"> 
-
-//初始始进度条
-$("#history_progress").progressbar({
-		value:0
-});
-
-/**
- * 进度条赋值
- * @progress_val 值
- */
-function progress_assignment(progress_val){ 
-	$( "#history_progress" ).progressbar( "option", "value", progress_val );
-} 
-
-position();
-function position(){
-	 var state = document.history_track_frame.document.readyState;
-	 if(state=="complete"){
-		{{POSITION_VEHICLE}}
-	 }else{
-		setTimeout("position();",1000);
-	 }	 
-}
-
-$("#location_info").draggable({containment:'#drag'});
-
-    //子页面对象   iframe
+	//子页面对象   iframe
 	//var history_map =  document.getElementById("history_track_frame").contentDocument;
 
-	//正常速度
-	run_play(3);
+
+	var step_info = 0;
+
+$(document).ready(function(){
+	
+	position(); //加载车辆最新定位
+	run_play(3);//正常速度
+	
+	//初始始进度条
+	$("#history_progress").progressbar({
+			value:0
+	});
+	//定位向导信息
+	$("#location_info").draggable({containment:'#drag'});
 
 	//播放时间调整				
 	$("#cur_run_time").slider({ 
@@ -152,52 +138,7 @@ $("#location_info").draggable({containment:'#drag'});
 		run_play(ui.value); 
 		}
 	});
-	
-	//播放运行速度控制
-	function run_play(value){
-		
-		var speed_explain = new Array();
-		var play_speed = new Array();
-		
-		speed_explain[1] = "慢放2";
-		speed_explain[2] = "慢放1";
-		speed_explain[3] = "正常";
-		speed_explain[4] = "快放1";
-		speed_explain[5] = "快放2";
 
-		play_speed[1] = 4000;
-		play_speed[2] = 2000;
-		play_speed[3] = 1000;
-		play_speed[4] = 500;
-		play_speed[5] = 250;
-         
-		$("#show_time").html(speed_explain[value]);
-		 history_track_frame.speed = play_speed[value];
-	}	
-	 
-    if($("#vehicle_info option:selected").attr("name")=="have"){
-			$("#his").hide();
-    }
-
-    //清空当前运行历史轨迹
-	function empty_cur_vhicle_history(){
-		
-		history_track_frame.state = "normal";
-		history_track_frame.speed = 1000;
-		history_track_frame.vehicle_id = -1;
-		history_track_frame.cur_progress = 0;
-		history_track_frame.progress_length=0;
-		history_track_frame.arr_history = null;
-		history_track_frame.drawLine_arr = null;
-
-		$("#direction").html(" ");
-		$("#speed").html(" ");
-		$("#longitude").html(" ");
-		$("#latitude").html(" ");
-		$("#location_time").html(" ");
-		$("#address").html(" ");
-	}
-	
 	$("#his_info").hide();
 	$("#show_vehicles").hide();
 	$("#areas").hide();
@@ -251,52 +192,7 @@ $("#location_info").draggable({containment:'#drag'});
 			 alert("地图未加载完，请等待地图加载完之后，点击操作！");
 		
 	});
-
-	 /**
-	  * 轨迹播放函数
-	  */
-	  function play_trace(){
-		  	var startTime = $("#inquire_startTime").attr("value");
-	   
-			if(startTime == ""){
-				alert("开始时间不能为空!");
-				$("#startTime").focus();
-				return false;
-			}
-			var endTime = $("#inquire_endTime").attr("value");
-			if(endTime == ""){
-				alert("结束时间不能为空!");
-				$("#endTime").focus();
-				return false;
-			}
-			var history_vehicle_id = $("#vehicle_info option:selected").val();     
-			if(history_track_frame.state === "stop"){  
-				history_track_frame.state == "normal";
-					empty_cur_vhicle_history();
-
-					//获取时间数组
-					history_track_frame.arr_history = getHourList();   
-					//alert(history_track_frame.arr_history+"----length: "+history_track_frame.arr_history.length);
-					history_track_frame.progress_length = getHourList().length;
-					//设置所选车辆编号
-					history_track_frame.vehicle_id = history_vehicle_id;
-			
-					//获取车牌号、GPS编号
-					$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
-			 			 var gps_plate = eval('(' + data + ')');  
-						 $("#vehicle_id").html(gps_plate[0]);
-						 $("#gps_id").html(gps_plate[1]);
-						});
-			
-					 //清除地图所有标签
-					 history_track_frame.clearOverLay();
-					 //设置正常运行速度
-					 history_track_frame.speed = 1000;
-			}	 
-			 //运行历史轨迹
-			 history_track_frame.runHistoryTrack(); 
-		  }
-
+	
 	$("#select_mode").change(function(){
 		
 		$("#show_area").hide();
@@ -309,6 +205,7 @@ $("#location_info").draggable({containment:'#drag'});
 			$("#play_history").hide();
 			$("#speed_control").hide();
 			$("#suspend_history").hide();
+			$("#stop_history").hide();
 
 			$("#mode_area").attr("src","inquire/templates/51ditu.html");
 		}else{
@@ -318,6 +215,7 @@ $("#location_info").draggable({containment:'#drag'});
 			$("#play_history").show();
 			$("#speed_control").show();
 			$("#suspend_history").show();
+			$("#stop_history").show();
 			}
 		});
 	
@@ -328,6 +226,7 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#play_history").hide();
 		$("#speed_control").hide();
 		$("#suspend_history").hide();
+		$("#stop_history").hide();
 		$("#areas").hide();
 		$("#show_vehicles").hide();
 		$("#location_info").hide();
@@ -346,6 +245,7 @@ $("#location_info").draggable({containment:'#drag'});
 		$("#play_history").show();
 		$("#speed_control").show();
 		$("#suspend_history").show();
+		$("#stop_history").show();
 		$("#areas").hide();
 		$("#history_track_frame").show();
 		$("#select_mode").get(0).selectedIndex=0;
@@ -360,82 +260,6 @@ $("#location_info").draggable({containment:'#drag'});
 			$("#dragger").html("[隐藏]");
 		 }
 		});
-	
-	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
-	function getNowFormatDate()
-	{
-	   	var day = new Date();
-	
-	   	var Year = 0;
-	   	var Month = 0;
-	   	var Day = 0;
-		var CurrentDate = "";
-	   //初始化时间
-	   	Year= day.getFullYear();
-	   	Month= day.getMonth()+1;
-	   	Day = day.getDate();
-	   	Hour = day.getHours();
-	 	Minute = day.getMinutes();
-		Second = day.getSeconds();
-	   	CurrentDate += Year + "/";
-	   	if (Month >= 10){
-	    	CurrentDate += Month + "/";
-	   	}else{
-	    	CurrentDate += "0" + Month + "/";
-	   	}
-	   	if (Day >= 10 ){
-	    	CurrentDate += Day +" ";
-	   	}else{
-	    	CurrentDate += "0" + Day+" " ;
-	   	}
-	   	if(Hour>=10){
-			CurrentDate+=Hour+":";
-		}else{
-			CurrentDate+="0"+Hour+":";
-	   	}if (Minute >= 10 ){
-	    	CurrentDate += Minute +":";
-	   	}else{
-	    	CurrentDate += "0" + Minute+":" ;
-	   	}
-	   	if(Second>=10){
-			CurrentDate+=Second;
-		}else{
-			CurrentDate+="0"+Second;
-	   	}
-	   	return CurrentDate;
-	}
-	
-	//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
-	function getTodayFormatDate()
-	{
-	   	var day = new Date();
-	
-	   	var Year = 0;
-	   	var Month = 0;
-	   	var Day = 0;
-		var CurrentDate = "";
-	   //初始化时间
-	   	Year= day.getFullYear();
-	   	Month= day.getMonth()+1;
-	   	Day = day.getDate();
-	   	CurrentDate += Year + "/";
-	   	if (Month >= 10){
-	    	CurrentDate += Month + "/";
-	   	}else{
-	    	CurrentDate += "0" + Month + "/";
-	   	}
-	   	if (Day >= 10 ){
-	    	CurrentDate += Day +" ";
-	   	}else{
-	    	CurrentDate += "0" + Day+" " ;
-	   	}
-	   	CurrentDate+="00:00:00";
-	   	return CurrentDate;
-	}
- 
-
-	var step_info = 0;
-	
 	$("#his_info").click(function(){
 		
 		var startTime = $("#inquire_startTime").attr("value");
@@ -513,8 +337,269 @@ $("#location_info").draggable({containment:'#drag'});
 		 showSecond:false,
 		 createButton:false
 	 });
+	 
+	$("#show_vehicles").click(function(){
+		$("#areas").mask("查询中,请稍侯...");
+		var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
+		var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
+		var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
+		var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
 
+		var begin_time = $("#inquire_startTime").attr("value");
+		var end_time = $("#inquire_endTime").attr("value");
 
+		var idListStr = "";
+		$("#vehicle_info > option").each(function(){
+			if(idListStr != ""){
+				idListStr += "-";
+			}
+			idListStr += $(this).val();
+		});
+
+			var hourList = getHourList();
+		
+		var hourListStr = "";
+		for(i=0;i<hourList.length;i++){
+			if(hourListStr != ""){
+				hourListStr += "-";
+			}
+
+			hourListStr += hourList[i];
+		}
+
+ 
+		$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
+			"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
+			function(data){
+				$("#areas").unmask();
+				$("#areas").hide();
+				$("#his_infoes").hide();
+				$("#history_track_frame").hide();
+				$("#show_area").show();
+				var idList = "";
+				if(data != null){
+					for(i=0;i<data.length;i++){
+						idList += "-";
+						idList += data[i];
+					}
+				}
+				
+				jQuery("#show_vehicles_page").jqGrid({
+					url:'index.php?a=356&begin_time='+begin_time
+						+'&end_time='+end_time+'&id_list='+data,
+					  datatype: "json",
+				   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
+				   	colModel:[
+				   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
+																		{readonly:true,size:10}},
+				   		{name:'number_plate',index:'number_plate', width:190},
+				   		{name:'driver',index:'driver', width:190},
+				   		{name:'trace',index:'trace', width:190}
+				   		
+				   	],
+				   	rowNum:10,
+				   	rowList:[10,20,30],
+				   	pager: '#page_show',
+				   	sortname: 'id',
+				    viewrecords: true,
+				    sortorder: "desc",
+					height:290
+				});
+
+					jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
+					{edit:false,add:false,del:false});
+								
+			}
+			,"json");			
+	});
+	
+	
+}); 
+	/**
+	 * 进度条赋值
+	 * @progress_val 值
+	 */
+	function progress_assignment(progress_val){ 
+		$( "#history_progress" ).progressbar( "option", "value", progress_val );
+	} 
+	
+	/**
+	 * 开始加载首先加载车辆的最新定位，判断IFRAME是否加载完
+	 */
+	function position(){
+		 var state = document.history_track_frame.document.readyState;
+		 if(state=="complete"){
+			{{POSITION_VEHICLE}}
+		 }else{
+			setTimeout("position();",1000);
+		 }	 
+	} 
+    
+	
+	//播放运行速度控制
+	function run_play(value){
+		
+		var speed_explain = new Array();
+		var play_speed = new Array();
+		
+		speed_explain[1] = "慢放2";
+		speed_explain[2] = "慢放1";
+		speed_explain[3] = "正常";
+		speed_explain[4] = "快放1";
+		speed_explain[5] = "快放2";
+
+		play_speed[1] = 4000;
+		play_speed[2] = 2000;
+		play_speed[3] = 1000;
+		play_speed[4] = 500;
+		play_speed[5] = 250;
+         
+		$("#show_time").html(speed_explain[value]);
+		 history_track_frame.speed = play_speed[value];
+	}	
+	 
+    if($("#vehicle_info option:selected").attr("name")=="have"){
+			$("#his").hide();
+    }
+    //清空当前运行历史轨迹
+	function empty_cur_vhicle_history(){
+		
+		history_track_frame.state = "normal";
+		history_track_frame.speed = 1000;
+		history_track_frame.vehicle_id = -1;
+		history_track_frame.cur_progress = 0;
+		history_track_frame.progress_length=0;
+		history_track_frame.arr_history = null;
+		history_track_frame.drawLine_arr = null;
+
+		$("#direction").html(" ");
+		$("#speed").html(" ");
+		$("#longitude").html(" ");
+		$("#latitude").html(" ");
+		$("#location_time").html(" ");
+		$("#address").html(" ");
+	}
+	
+	
+	 /**
+	  * 轨迹播放函数
+	  */
+	  function play_trace(){
+		  	var startTime = $("#inquire_startTime").attr("value");
+	   
+			if(startTime == ""){
+				alert("开始时间不能为空!");
+				$("#startTime").focus();
+				return false;
+			}
+			var endTime = $("#inquire_endTime").attr("value");
+			if(endTime == ""){
+				alert("结束时间不能为空!");
+				$("#endTime").focus();
+				return false;
+			}
+			var history_vehicle_id = $("#vehicle_info option:selected").val();     
+			if(history_track_frame.state === "stop"){  
+				history_track_frame.state == "normal";
+					empty_cur_vhicle_history();
+
+					//获取时间数组
+					history_track_frame.arr_history = getHourList();   
+					//alert(history_track_frame.arr_history+"----length: "+history_track_frame.arr_history.length);
+					history_track_frame.progress_length = getHourList().length;
+					//设置所选车辆编号
+					history_track_frame.vehicle_id = history_vehicle_id;
+			
+					//获取车牌号、GPS编号
+					$.get("index.php?a=504&vehicle_id="+history_track_frame.vehicle_id,function(data){ 
+			 			 var gps_plate = eval('(' + data + ')');  
+						 $("#vehicle_id").html(gps_plate[0]);
+						 $("#gps_id").html(gps_plate[1]);
+						});
+			
+					 //清除地图所有标签
+					 history_track_frame.clearOverLay();
+					 //设置正常运行速度
+					 history_track_frame.speed = 1000;
+			}	 
+			 //运行历史轨迹
+			 history_track_frame.runHistoryTrack(); 
+		  }
+
+	
+	
+	//获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
+	function getNowFormatDate()
+	{
+	   	var day = new Date();
+	
+	   	var Year = 0;
+	   	var Month = 0;
+	   	var Day = 0;
+		var CurrentDate = "";
+	   //初始化时间
+	   	Year= day.getFullYear();
+	   	Month= day.getMonth()+1;
+	   	Day = day.getDate();
+	   	Hour = day.getHours();
+	 	Minute = day.getMinutes();
+		Second = day.getSeconds();
+	   	CurrentDate += Year + "/";
+	   	if (Month >= 10){
+	    	CurrentDate += Month + "/";
+	   	}else{
+	    	CurrentDate += "0" + Month + "/";
+	   	}
+	   	if (Day >= 10 ){
+	    	CurrentDate += Day +" ";
+	   	}else{
+	    	CurrentDate += "0" + Day+" " ;
+	   	}
+	   	if(Hour>=10){
+			CurrentDate+=Hour+":";
+		}else{
+			CurrentDate+="0"+Hour+":";
+	   	}if (Minute >= 10 ){
+	    	CurrentDate += Minute +":";
+	   	}else{
+	    	CurrentDate += "0" + Minute+":" ;
+	   	}
+	   	if(Second>=10){
+			CurrentDate+=Second;
+		}else{
+			CurrentDate+="0"+Second;
+	   	}
+	   	return CurrentDate;
+	}
+	
+	//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
+	function getTodayFormatDate()
+	{
+	   	var day = new Date();
+	
+	   	var Year = 0;
+	   	var Month = 0;
+	   	var Day = 0;
+		var CurrentDate = "";
+	   //初始化时间
+	   	Year= day.getFullYear();
+	   	Month= day.getMonth()+1;
+	   	Day = day.getDate();
+	   	CurrentDate += Year + "/";
+	   	if (Month >= 10){
+	    	CurrentDate += Month + "/";
+	   	}else{
+	    	CurrentDate += "0" + Month + "/";
+	   	}
+	   	if (Day >= 10 ){
+	    	CurrentDate += Day +" ";
+	   	}else{
+	    	CurrentDate += "0" + Day+" " ;
+	   	}
+	   	CurrentDate+="00:00:00";
+	   	return CurrentDate;
+	}
+   
 	//得到起始时间和结束时间之间的小时列表，以便于分段向服务器请求位置信息
 	function getHourList(){
 		var startTime = $("#inquire_startTime").attr("value");
@@ -552,104 +637,30 @@ $("#location_info").draggable({containment:'#drag'});
 		}
 	} 
 
-		//位置信息类
-		function Position(){
-			var longitude;
-			var latitude;
-		}
+	//位置信息类
+	function Position(){
+		var longitude;
+		var latitude;
+	}
 
-		//区域信息类
-		function AreaInfo(){
-			var positionList;
-			var radius = 0;
-			var type = 0; //0-矩形 1-圆形 2-多边形
-		}
-
-		$("#show_vehicles").click(function(){
-			$("#areas").mask("查询中,请稍侯...");
-			var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
-			var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
-			var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
-			var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
-
-			var begin_time = $("#inquire_startTime").attr("value");
-			var end_time = $("#inquire_endTime").attr("value");
-
-			var idListStr = "";
-			$("#vehicle_info > option").each(function(){
-				if(idListStr != ""){
-					idListStr += "-";
-				}
-				idListStr += $(this).val();
-			});
-
-				var hourList = getHourList();
-			
-			var hourListStr = "";
-			for(i=0;i<hourList.length;i++){
-				if(hourListStr != ""){
-					hourListStr += "-";
-				}
-
-				hourListStr += hourList[i];
-			}
-
-			//alert("lonMin:"+lonMin+" latMin:"+latMin+" lonMax:"+lonMax+" latMax:"+latMax);
-			$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
-				"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
-				function(data){
-					$("#areas").unmask();
-					$("#areas").hide();
-					$("#his_infoes").hide();
-					$("#history_track_frame").hide();
-					$("#show_area").show();
-					var idList = "";
-					if(data != null){
-						for(i=0;i<data.length;i++){
-							idList += "-";
-							idList += data[i];
-						}
-					}
-					
-					jQuery("#show_vehicles_page").jqGrid({
-						url:'index.php?a=356&begin_time='+begin_time
-							+'&end_time='+end_time+'&id_list='+data,
-						  datatype: "json",
-					   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
-					   	colModel:[
-					   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
-																			{readonly:true,size:10}},
-					   		{name:'number_plate',index:'number_plate', width:190},
-					   		{name:'driver',index:'driver', width:190},
-					   		{name:'trace',index:'trace', width:190}
-					   		
-					   	],
-					   	rowNum:10,
-					   	rowList:[10,20,30],
-					   	pager: '#page_show',
-					   	sortname: 'id',
-					    viewrecords: true,
-					    sortorder: "desc",
-						height:290
-					});
-
-						jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
-						{edit:false,add:false,del:false});
-									
-				}
-				,"json");			
-		});
-		
-		function show_trace_area(vehicle_id){
-			$("#show_area").hide();
-			$("#show_vehicles").hide();
-			$("#speed_control").show();
-			$("#play_history").show();
-			$("#suspend_history").show();
-			$("#vehicle_info").show();
-			$("#history_track_frame").show();
-			$("#vehicle_info").val(vehicle_id);
-			play_trace();
-		}
+	//区域信息类
+	function AreaInfo(){
+		var positionList;
+		var radius = 0;
+		var type = 0; //0-矩形 1-圆形 2-多边形
+	}
+ 	
+	function show_trace_area(vehicle_id){
+		$("#show_area").hide();
+		$("#show_vehicles").hide();
+		$("#speed_control").show();
+		$("#play_history").show();
+		$("#suspend_history").show();
+		$("#stop_history").show();
+		$("#vehicle_info").show();
+		$("#history_track_frame").show();
+		$("#vehicle_info").val(vehicle_id);
+		play_trace();
+	}
 
 </script>
