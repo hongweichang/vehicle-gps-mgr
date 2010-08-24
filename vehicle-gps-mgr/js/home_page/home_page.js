@@ -175,7 +175,6 @@ $(document).ready(function() {
 		            	alert("请选择您所需要定位的车辆!");
 		            	return false;
 		            }else{
-		            	
 		            	home_map.refresh_vehicle_position(str.substr(0,str.length-1));
 				   		closeDialog();
 		            }
