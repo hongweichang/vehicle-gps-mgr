@@ -122,7 +122,7 @@ $(document).ready(function() {
 				    id=array[0];
 					$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
 					$("#content").unmask();
-				  $("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]+"<bgsound balance='0' loop='2' src='voice/sound.mp3' volume='10' />");
+				  $("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
 					document.getElementById("operate").style.display="block";
 			     }
 			 }
