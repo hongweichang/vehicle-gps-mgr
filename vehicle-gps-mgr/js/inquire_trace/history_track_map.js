@@ -107,11 +107,7 @@
 			}
 			},1000);
 	}
-	
-	function isArray(obj){ 
-		return (typeof obj=='object')&&obj.constructor==Array; 
-		} 
-
+	 
 	/**
 	 * 画历史轨迹路径
 	 * @param {Object} time  画数据时间点
