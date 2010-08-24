@@ -51,7 +51,7 @@ switch($act)
 									"<option value='area_mode'>选择区域</option>".
 							  "</select>";	
 		}else if($logic ==0){ //首页地图查看历史轨迹状态下
-			$function_operate ="选择车辆: ";
+			$function_operate ="<div style='margin-top:5px'>选择车辆: </div>";
 			$position_vehicle  =  "history_track_frame.vehiclePosition(".$id.");";
 								 
 		}	
