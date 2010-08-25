@@ -72,7 +72,7 @@ switch ($act) {
 		foreach ( $vehicle_group as $values ) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
-							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
+							"<input type='checkbox'  value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 							"'/><span style='font-weight:700;'>选择本组车辆</span><table class='scroll' border='1' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' style='border-collapse:collapse;font-size:12px; width:100%;height:100%' >";
 			
 			$count = count($vehicles);
@@ -87,16 +87,24 @@ switch ($act) {
 		   		 $str = $str . "<tr>";
 		   		 if($j==$exat_rows-1){
 		   		 	for($m = $j*6;$m<$count;$m++){
+		   		 	if($vehicles[$m]['gprs_status']==1){
 		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
 		
 						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
-		  	 			} 
+		   		 	}else{
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' disabled />" . $vehicles [$m][1]."</td>" ;
+		   		 		}
+		  	 		}
 		    			$str = $str."</tr>";
 		   		 }else{		   		 
 		   		 for($m = $j*6; $m<($j+1)*6;$m++){
+		   		 	if($vehicles[$m]['gprs_status']==1){
 					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
 		
-					value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+		   		 	}else{
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' disabled />" . $vehicles [$m][1]."</td>" ;
+		   		 		}
 		  	 		} 
 		    		$str = $str."</tr>";
 				}
