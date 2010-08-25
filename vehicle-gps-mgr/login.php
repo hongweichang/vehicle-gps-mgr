@@ -8,7 +8,7 @@
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
 	<script language="javascript" src="../js/login/cookie.js"></script>
-	<script language="javascript" src="../js/login/common.js"></script>
+	<script language="javascript" src="../js/login/login.js"></script>
 	<script language="javascript" src="../js/jquery-1.4.2.js" ></script>
 	<script language="javascript" src="../js/jquery.loadmask.min.js" ></script>
 	<script type="text/javascript">
