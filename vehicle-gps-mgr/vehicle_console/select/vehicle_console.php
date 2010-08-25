@@ -37,13 +37,12 @@ switch ($act) {
 		$str = $str."</ul></div>";
 		
 		/**在车辆组下显示所有的车辆*/
-		foreach ( $vehicle_group as $values ) {
+		/*foreach ( $vehicle_group as $values ) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 							"'><span style='font-weight:700;'>选择本组车辆</span></input><div class='scroll' style='font-size:12px;' >";
 			
-			/**遍历每个车辆组，得到每组的所有车辆*/
 			foreach ( $vehicles as $vehicle ) {
 			    $choose=0;                      //初始化choose为0	
 				if(empty($arrayID)){
@@ -68,6 +67,41 @@ switch ($act) {
 						
 			}
 			$str = $str . "</div></div>";
+		}*/
+		
+		foreach ( $vehicle_group as $values ) {
+			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
+			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
+							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
+							"'/><span style='font-weight:700;'>选择本组车辆</span><table class='scroll' border='1' style='font-size:12px;' >";
+			
+			$count = count($vehicles);
+			$rows = $count/3;
+			$exat_rows = round($rows);
+
+			if($exat_rows<$rows){
+    			$exat_rows = $exat_rows+1;
+			}
+
+			for($j = 0;$j<$exat_rows;$j++){
+		   		 $str = $str . "<tr>";
+		   		 if($j==$exat_rows-1){
+		   		 	for($m = $j*3;$m<$count;$m++){
+		   		 		$str = $str . "<td><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+		
+						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+		  	 			} 
+		    			$str = $str."</tr>";
+		   		 }else{		   		 
+		   		 for($m = $j*3; $m<($j+1)*3;$m++){
+					$str = $str . "<td><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+		
+					value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+		  	 		} 
+		    		$str = $str."</tr>";
+				}
+			}
+			$str = $str . "</table></div>";
 		}
 		$arr ['vehicle_group_data'] = $str;
 		echo $db->display ( $arr, "select" );
