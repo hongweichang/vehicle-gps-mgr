@@ -73,10 +73,10 @@ switch ($act) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
-							"'/><span style='font-weight:700;'>选择本组车辆</span><table class='scroll' border='1' style='font-size:12px;' >";
+							"'/><span style='font-weight:700;'>选择本组车辆</span><table class='scroll' border='1' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' style='border-collapse:collapse;font-size:12px; width:100%;height:100%' >";
 			
 			$count = count($vehicles);
-			$rows = $count/3;
+			$rows = $count/6;
 			$exat_rows = round($rows);
 
 			if($exat_rows<$rows){
@@ -86,15 +86,15 @@ switch ($act) {
 			for($j = 0;$j<$exat_rows;$j++){
 		   		 $str = $str . "<tr>";
 		   		 if($j==$exat_rows-1){
-		   		 	for($m = $j*3;$m<$count;$m++){
-		   		 		$str = $str . "<td><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+		   		 	for($m = $j*6;$m<$count;$m++){
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
 		
 						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		  	 			} 
 		    			$str = $str."</tr>";
 		   		 }else{		   		 
-		   		 for($m = $j*3; $m<($j+1)*3;$m++){
-					$str = $str . "<td><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+		   		 for($m = $j*6; $m<($j+1)*6;$m++){
+					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
 		
 					value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		  	 		} 
