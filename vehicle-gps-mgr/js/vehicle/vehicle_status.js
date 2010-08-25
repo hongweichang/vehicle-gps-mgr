@@ -83,6 +83,7 @@ $("#commit").click(function(){
 //区域查询
 $("#area_select").click(function(){
 	$("#area_select").hide();
+	$("#locates").hide();
 	$("#commit").hide();
 	$("#area_result").show();
     $("#select").hide();
@@ -114,7 +115,7 @@ function  vehicle_position(vehicle_ids){
 	locate_vehicle();
 }
 function locate_vehicle(){ 
-	
+	$("#locates").show();
 	$("#locates").dialog({height:356,width:610,title:'定位',
 			                 autoOpen:true,hide:'blind',show:'blind'});
 	//$("#locate").attr("src","info/templates/51map.html");

@@ -7,7 +7,7 @@
 <script language="javascript" src="/js/jquery-1.4.2.js" ></script>
 </head>
 <body>
-<div id="myMap" style="position:relative; width:100%; height:106%;"></div>
+<div id="myMap" style="position:relative; width:100%; height:115%;"></div>
 
 <script language="javascript">
 var maps = new LTMaps( "myMap" );
@@ -28,7 +28,7 @@ maps.addOverLay( marker );
 maps.cityNameAndZoom( "beijing" , 5 ); 
 
 
-maps.addControl(new LTStandMapControl());
+maps.addControl(new LTSmallMapControl());
 control = new LTZoomSearchControl();
 control.setTop(10);
 control.setLabel("选中矩形区域查询");
