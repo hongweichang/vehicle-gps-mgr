@@ -124,20 +124,20 @@
 							"<div class='content_div'><div class='title'>定位时间：</div>" +
 							"<div class='content'>"+location_time +"</div></div>" +
 							"<div class='content_div'><div class='title'>地址：</div> " +
-							"<div class='content'>"+location_desc +"</div></div></div>" +
-							"<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+							"<div class='address_content'>"+location_desc +"</div></div></div>" +
+							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
 							vehicle_id +
 							"\")'><a href='#'>发布信息</a></div>" +
 											
-							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
+							"<div class='statistics_info' url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
 							vehicle_id +
 							"\")'><a href='#'>统计分析信息</a></div>" +
 									
-							"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
+							"<div class='look_history' url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
 							vehicle_id +
-							"\")'><a href='#'>查看历史轨迹</a></div>";
+							"\")'><a href='#'>查看历史轨迹</a></div></div>";
 							
-							var title = "<span style='font-weight:700;color:black;'>"+number_plate+"</span>";
+							var title = "<span class='span'>"+number_plate+"</span>";
 							addInfoWin(marker, context,title);
 							
 							
