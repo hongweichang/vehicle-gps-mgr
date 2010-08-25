@@ -5,6 +5,13 @@
 	var speed = 1000;  //速度/ms
 	var progress_length = 0; //历史轨迹时间队列数组长度
 	var cur_progress = 0; //当前进度
+	var data_queue_state = 1;  //数据队列状态，0 非新数据状态  1 新数据状态 
+	var data_queue_point_second = 0; //数据队列是否是第二个点  0 非   1 真
+	var second_longitude = -1; //数据队列第二个点经度
+	var second_latitude = -1; //数据队列第二个点纬度
+	var old_longitude = -1;//旧点经度
+	var old_latitude = -1;//旧点纬度
+	
 	
 	/***
 	 * 操作状态 :处理画历史轨迹操作状态    
@@ -97,11 +104,11 @@
 	function wait(){
 		
 		setTimeout(function(){
-			if(drawLine_arr!=null){
+			if(drawLine_arr!=null){//唤醒线程
 				if(drawLine_arr.length<=0){ 
 					drawLine_arr = null;
 					runHistoryTrack(); 
-				}else{
+				}else{ //等待
 					wait();
 				} 
 			}
@@ -114,14 +121,15 @@
 	 * @param {Object} vehicle_id 车辆编号
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
-	 	 //var time = '2010081017';
+	 	  
 		$("#inquireing",parent.document).mask("查询中...");
 		state = "search";
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
-			success:function(data){    
+			success:function(data){   
+			
 			$("#inquireing",parent.document).unmask();
 			state = "normal"; 
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
@@ -130,7 +138,8 @@
 				}
 			}
 			if(data!=null){
-
+				data_queue_state = 1;
+				
 				var points = new Array();
 				
 				for(var i=0;i<data.length;i++){
@@ -140,8 +149,10 @@
 			} 
 			drawLine_arr = data; 
 			 
+			//新画线
 			newDrawLine();
 			
+			//线程等待
 			wait();
 			
 		 }
@@ -167,19 +178,52 @@
 					var location_time = drawLine_arr[0][6]; //定位时间
 			 		var newLongitude = -1; //新线点经度
 			 		var newLatitude = -1; //新线点纬度
-
-					//线的起始点
-					points.push( new LTPoint(longitude,latitude));
-				if(length>1){
-					//线的终点
-					newLongitude = drawLine_arr[1][0];
-					newLatitude = drawLine_arr[1][1];
+			 		var point_index = -1; //数据点下标
+			 		 
+			 		//初始始画线点1
+			 		switch(data_queue_state){
+						case 0: //非新数据队列状态
+							
+							point_index = 1;//非新数据队列状态，队列点2为终点线坐标
+							
+							if(data_queue_point_second==1){ 
+								points.push( new LTPoint(second_longitude,second_latitude));//画线开始点
+								data_queue_point_second = 0;
+							}else
+								points.push( new LTPoint(longitude,latitude));//画线开始点
+							break;
+						case 1: //新数据队列状态
+							
+							point_index = 0;//新数据队列状态 ，队列点1为终点线坐标
+							data_queue_point_second = 1;
+							
+							if(old_longitude === -1 && old_latitude === -1)  
+								points.push( new LTPoint(longitude,latitude));//新路线开始点
+							else
+								points.push( new LTPoint(old_longitude,old_latitude));//新路线连接点
+							
+							break;
+			 		}
+			 		
+				if(length>1){ //队列数据大于1
+					 
+					newLongitude = drawLine_arr[point_index][0];//线的终点经度
+					newLatitude = drawLine_arr[point_index][1]; //线的终点纬度
+					
+					second_longitude = newLongitude;
+					second_latitude = newLatitude;
+					
 					points.push( new LTPoint(newLongitude,newLatitude));
-				}else{
+				}else{ //队列中 只存在最后一个点坐标
+					
 					//当前起始点为终点
 					newLongitude = longitude;
 					newLatitude = latitude;
 					points.push( new LTPoint(newLongitude,newLatitude));
+					
+					//保存最后经纬度点
+					old_longitude = newLongitude;
+					old_latitude = newLatitude; 
 					
 					//当历史轨迹画完之后，回到初始状态
 					if(arr_history.length <=0 || arr_history == null || arr_history == ""){
@@ -193,9 +237,13 @@
 					}
 				} 
 				
+				//改变数据队列状态 为非新数据队列状态
+				if(data_queue_state ===1)
+						data_queue_state = 0;
+				
 				//删除并返回数组的第一个元素
 				drawLine_arr.shift();
-
+				//alert(points[0][0]+"-"+points[0][1]+"｜"+points[1][0]+"-"+points[1][1]);
 				//调用画线函数 
 				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time);
 			} 
