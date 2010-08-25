@@ -37,37 +37,9 @@ switch ($act) {
 		$str = $str."</ul></div>";
 		
 		/**在车辆组下显示所有的车辆*/
-		/*foreach ( $vehicle_group as $values ) {
-			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
-			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
-							"<input type='checkbox' value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
-							"'><span style='font-weight:700;'>选择本组车辆</span></input><div class='scroll' style='font-size:12px;' >";
-			
-			foreach ( $vehicles as $vehicle ) {
-			    $choose=0;                      //初始化choose为0	
-				if(empty($arrayID)){
-					$str = $str . "<input type='checkbox' style='font-size:13px;'   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
-				}else{
-					if($arrayID==0){
-					    $str = $str . "<input type='checkbox' style='font-size:13px;'   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
-					}else{
-						$array_str=split(',',$arrayID);
-						for($i=0;$i<count($array_str);$i++){
-							if($vehicle[0]==$array_str[$i]){
-							    $choose=1;
-								$str = $str . "<input type='checkbox' style='font-size:13px;' checked=true   class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";					    
-							}
-						}
-					    if($choose==0){
-						$str = $str . "<input type='checkbox' style='font-size:13px;'    class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
-					    }
-					 }
-				}
-				//$str = $str . "<input type='checkbox' style='font-size:13px;'    class='vehicle' name='" . $values [0] . "' value='".$vehicle[0]."'>" . $vehicle [1] . "</input>";
-						
-			}
-			$str = $str . "</div></div>";
-		}*/
+		
+		$vehicle_list = explode(",",$arrayID);
+		$is_selected = "";
 		
 		foreach ( $vehicle_group as $values ) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
@@ -87,8 +59,11 @@ switch ($act) {
 		   		 $str = $str . "<tr>";
 		   		 if($j==$exat_rows-1){
 		   		 	for($m = $j*6;$m<$count;$m++){
+		   		 	
+		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");
+		   		 		
 		   		 	if($vehicles[$m]['gprs_status']==1){
-		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' ".$is_selected." class='vehicle' name='" . $values [0] . "' 
 		
 						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		   		 	}else{
@@ -98,8 +73,10 @@ switch ($act) {
 		    			$str = $str."</tr>";
 		   		 }else{		   		 
 		   		 for($m = $j*6; $m<($j+1)*6;$m++){
+		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");
+		   		 		
 		   		 	if($vehicles[$m]['gprs_status']==1){
-					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  class='vehicle' name='" . $values [0] . "' 
+					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  ".$is_selected."  class='vehicle' name='" . $values [0] . "' 
 		
 						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		   		 	}else{
