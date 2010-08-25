@@ -56,7 +56,7 @@ class vehicle_console extends BASE{
 							 "				FROM ".$this->tablename_vehicle_manage." v ".
 							 "					LEFT JOIN ".$this->tablename_speed_color." as s ".
 							 "						ON s.company_id =".$company_id."  AND v.company_id=s.company_id AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ".
-							 "					LEFT JOIN  ".$this->tablename_vehicle_group." g ON g.company_id=v.vehicle_group_id  ".
+							 "					LEFT JOIN  ".$this->tablename_vehicle_group." g ON g.company_id=v.company_id  ".
 							 "					LEFT JOIN ".$this->tablename_driver_manage." d ON d.id= v.driver_id	 ".
 							 "					LEFT JOIN ".$this->tablename_common_setting." c ON c.company_id =".$company_id.
 							 "				WHERE v.company_id =".$company_id." AND (v.cur_longitude is not null OR v.cur_latitude is not null) AND v.gprs_status =1".
