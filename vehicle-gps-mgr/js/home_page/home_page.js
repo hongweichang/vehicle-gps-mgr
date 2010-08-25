@@ -134,7 +134,8 @@ $(document).ready(function() {
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;
 		var verticalPadding = 0;
-
+		$("#operation").html("");
+		
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
 		$('#operation').css('overflow','hidden');//隐藏滚动条 
@@ -154,7 +155,6 @@ $(document).ready(function() {
 		$( "#operation" ).dialog({
 			   close: function(event, ui) { $("#operation").html(""); }
 		});
-	
 		$( "#operation" ).mask("载入中...");
 			
 		$.post(url,function(data){
