@@ -78,7 +78,7 @@ class vehicle_console extends BASE{
 						   "					".$this->tablename_vehicle_manage." as v ". 			
 						   "					LEFT JOIN ".
 						   "						".$this->tablename_speed_color." as s ". 			
-						   "					    ON  s.company_id = ".$company."  AND  v.company_id = s.company_id 	AND v.cur_direction>=min AND v.cur_direction<max ". 
+						   "					    ON  s.company_id = ".$company."  AND  v.company_id = s.company_id  AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ". 
 						   "					LEFT JOIN ". 				
 						   "						".$this->tablename_common_setting." c ". 			
 						   "					    ON  c.company_id = s.company_id".		 
