@@ -92,7 +92,7 @@ class vehicle_console extends BASE{
 				  
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
-			 
+			
 }
 
 ?>

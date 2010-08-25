@@ -39,7 +39,6 @@ switch ($act) {
 		break;
 	
 	case "vehicle_list_data" :
-		
 		$vehicle_id_value=$_REQUEST["vehicle_id_value"];//得到单一车辆信息id
 		
 		if (! $sidx)
