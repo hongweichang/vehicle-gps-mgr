@@ -1,7 +1,7 @@
 jQuery("#vehicle_status_list").jqGrid({
 	url:'index.php?a=502',
 	  datatype: "json",
-   	colNames:['ID','车牌号', 'GPS状态', '定位时间','当前位置','实速','驾驶员','告警状态','历史轨迹','统计信息','信息发布','定位'],
+   	colNames:['ID','车牌号', 'GPRS状态', '定位时间','当前位置','实速','驾驶员','告警状态','历史轨迹','统计信息','信息发布','定位'],
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80},

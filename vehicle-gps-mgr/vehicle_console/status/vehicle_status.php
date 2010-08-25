@@ -101,18 +101,29 @@ switch($act)
 		$response->page	= $page;
 		$response->total = $total_pages;
 		$response->records = $count;
-
+		
 		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
 		
 		foreach($result as	$key => $val)
 		{ 
+			$vehicle_position_str = null; //当前车辆定位链接
+			$cur_location = null; //当前位置
+			
 			//对指定字段进行翻译
 			$vehicle = new Vehicle_status($val['id']);
-			$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude']);
 			
+			//获取驾驶员对象
 			$driver = $vehicle->get_driver($val['driver_id']);
+			//获取状态映射文字说明
 			$alert_state = $dataMapping->getMappingText ( "vehicle_manage", "alert_state", $val ['alert_state'] );
             
+			//正常状态操作
+			if($val['gprs_status'] == 1){
+				$vehicle_position_str = "<a href='#' title='车辆定位' onclick='vehicle_position(".$val['id'].")' name=".$val['id'].">定位>></a>";
+				$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude']);
+			} 
+			
+			//设置显示列表
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],
@@ -122,7 +133,7 @@ switch($act)
 												"<a href='#'  showWidth='850' showHeight='320' title='统计分析' onclick='showOperationDialog(this,\"index.php?a=402&vehicle_id=".$val['id']."\")'>统计>></a>",
 												
 												"<a href='#' title='发布信息' showWidth='230' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_id=".$val['id']."\")'>发布>></a>",
-												"<a href='#' title='车辆定位' onclick='vehicle_position(".$val['id'].")' name=".$val['id'].">定位>></a>");
+												$vehicle_position_str);
 		}
 
 		//打印json格式的数据
