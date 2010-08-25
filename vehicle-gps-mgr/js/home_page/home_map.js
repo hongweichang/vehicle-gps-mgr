@@ -248,7 +248,7 @@
 					// alert("refresh_vehicles: "+refresh_vehicles);
 					for(var i=0;i<length;i++){        
 					 
-						
+						var vehicle_id = data[i][0]; //车辆id
 						var point_longitude = data[i][1]; //点经度
 						var point_latitude =  data[i][2]; //点纬度
 						var file_path = data[i][4]; //文件目录
@@ -269,19 +269,32 @@
 										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
 
 						//点对象设置内容
-						var context = "车牌号："+number_plate+"<br>GPS编号："+gps_id+
-									  "<br>车队："+vehcile_group_name+
-									  "<br>驾驶员："+driver_name+
-									  "<br>速度: "+cur_speed+"<br>定位时间:"+location_time+
-									  "<br>地址: "+location_desc+"<br><br>"+
-									  "<div url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
-									  data[i][0] +
-									"\")'><a href='#'>发布信息</a></div>" +
-									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
-									data[i][0] +
-									"\")'><a href='#'>查看历史轨迹</a></div>";
-						
-						var title = "<span style='font-weight:700;color:black;'>"+number_plate+"</span>";
+						var context = 
+							"<div class='content_div'><div class='title'>GPS编号：</div>" +
+							"<div class='content'>"+gps_id + "</div></div>" +
+							"<div class='content_div'><div class='title'>车队：</div>" +
+							"<div class='content'>"+vehcile_group_name +"</div></div>" +
+							"<div class='content_div'><div class='title'>驾驶员：</div>" +
+							"<div class='content'>"+driver_name +"</div></div>"+
+							"<div class='content_div'><div class='title'>速度：</div> " +
+							"<div class='content'>"+cur_speed +"</div></div>" +
+							"<div class='content_div'><div class='title'>定位时间：</div>" +
+							"<div class='content'>"+location_time +"</div></div>" +
+							"<div class='content_div'><div class='title'>地址：</div> " +
+							"<div class='address_content'>"+location_desc +"</div></div></div>" +
+							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+							vehicle_id +
+							"\")'><a href='#'>发布信息</a></div>" +
+											
+							"<div class='statistics_info' url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
+							vehicle_id +
+							"\")'><a href='#'>统计分析信息</a></div>" +
+									
+							"<div class='look_history' url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
+							vehicle_id +
+							"\")'><a href='#'>查看历史轨迹</a></div></div>";
+							
+							var title = "<span class='span'>"+number_plate+"</span>";
 						//点对象设置内容
 						addInfoWin(marker,context,title);
 
