@@ -1,3 +1,12 @@
+/**
+ * commpany  秦运恒  
+ * date  2010-08-25 15:02
+ * function 首页脚本函数库
+ * author 叶稳
+ * update 
+ * modifier
+ */
+
 	var map = null; //历史轨迹地图对象
 	var arr_history = null; //历史轨迹时间队列数组
 	var drawLine_arr = null;  //画线队列
@@ -242,8 +251,7 @@
 						data_queue_state = 0;
 				
 				//删除并返回数组的第一个元素
-				drawLine_arr.shift();
-				//alert(points[0][0]+"-"+points[0][1]+"｜"+points[1][0]+"-"+points[1][1]);
+				drawLine_arr.shift(); 
 				//调用画线函数 
 				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time);
 			} 
