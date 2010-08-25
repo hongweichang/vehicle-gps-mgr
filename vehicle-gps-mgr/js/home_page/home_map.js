@@ -132,7 +132,7 @@
 							vehicle_id +
 							"\")'><a href='#'>查看历史轨迹</a></div>";
 							
-							var title = "<span style='font-weight:700;color:black;'>车牌号:"+number_plate+"</span>";
+							var title = "<span style='font-weight:700;color:black;'>"+number_plate+"</span>";
 							addInfoWin(marker, context,title);
 							
 							
@@ -275,8 +275,10 @@
 									"&nbsp;&nbsp;&nbsp;<div url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
 									data[i][0] +
 									"\")'><a href='#'>查看历史轨迹</a></div>";
+						
+						var title = "<span style='font-weight:700;color:black;'>"+number_plate+"</span>";
 						//点对象设置内容
-						addInfoWin(marker,context);
+						addInfoWin(marker,context,title);
 
 						//点添入地图中
 						map.addOverLay(marker);
