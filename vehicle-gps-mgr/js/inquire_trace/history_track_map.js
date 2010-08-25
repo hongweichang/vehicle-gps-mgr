@@ -62,7 +62,7 @@
 	/**
 	 * 运行历史轨迹
 	 */
-	function runHistoryTrack(){   
+	function runHistoryTrack(){    
 		//如果当前画线数组还存在数据，继续执行画线
 		if(drawLine_arr != null && state === "normal"){
 			 

@@ -456,6 +456,7 @@ $(document).ready(function(){
          
 		$("#show_time").html(speed_explain[value]);
 		 history_track_frame.speed = play_speed[value];
+		  
 	}	
 	 
     if($("#vehicle_info option:selected").attr("name")=="have"){
@@ -464,8 +465,7 @@ $(document).ready(function(){
     //清空当前运行历史轨迹
 	function empty_cur_vhicle_history(){
 		
-		history_track_frame.state = "normal";
-		history_track_frame.speed = 1000;
+		history_track_frame.state = "normal"; 
 		history_track_frame.vehicle_id = -1;
 		history_track_frame.cur_progress = 0;
 		history_track_frame.progress_length=0;
@@ -527,7 +527,7 @@ $(document).ready(function(){
 					 //清除地图所有标签
 					 history_track_frame.clearOverLay();
 					 //设置正常运行速度
-					 history_track_frame.speed = 1000;
+					 //history_track_frame.speed = 1000;
 			}	 
 			 //运行历史轨迹
 			 history_track_frame.runHistoryTrack(); 
