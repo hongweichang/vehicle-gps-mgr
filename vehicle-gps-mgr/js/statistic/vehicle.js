@@ -1,6 +1,7 @@
 
+var vehicle_id_value=$("#vehicle_id_value").val();
 jQuery("#vehicle_statistic_table").jqGrid( {
-		url : 'index.php?a=403',
+		url : 'index.php?a=403&vehicle_id_value='+vehicle_id_value,
 		datatype : "json",
 		colNames : ['vehicle_id','车牌号', '累计行驶距离', '累计行驶时间', '累计停驶时间', '最早启用时间', '最后停用时间','详细说明' ],
 		colModel : [ {

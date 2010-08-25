@@ -26,20 +26,33 @@ $company_id = get_session("company_id"); //得到公司id
 
 
 switch ($act) {
-	case "main" : //填写信息内容页面
+	case "main" : //填写信息内容页面vehicle_list 402
 		echo $GLOBALS ['db']->display ( null, $act );
 		break;
+	    
 	case "vehicle_list" :
-		echo $GLOBALS ['db']->display ( null, $act );
+		$param["VEHICLE_ID"]=$_REQUEST["vehicle_id"];//得到单一车辆信息id
+		if(empty($param["VEHICLE_ID"])){
+			$param["VEHICLE_ID"]=-1;
+		}
+		echo $GLOBALS ['db']->display ($param,$act);
 		break;
+	
 	case "vehicle_list_data" :
+		
+		$vehicle_id_value=$_REQUEST["vehicle_id_value"];//得到单一车辆信息id
+		
 		if (! $sidx)
 			$sidx = 1;
 		$wh = "where 1=1 "; //查询条件
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
 		
-		$count = $driver->get_vehicle_count ($company_id);
+		if($vehicle_id_value==-1){
+		   $count = $driver->get_vehicle_count ($company_id);
+		}else{
+		   $count = $driver->get_vehicle_count ($company_id,$vehicle_id_value);
+		}
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -51,8 +64,12 @@ switch ($act) {
 		$start = $limit * $page - $limit;
 		if ($start < 0)
 			$start = 0;
-		
-		$dataList = $driver->get_all_vehicle ( $wh, $sidx, $sord, $start, $limit, $company_id);
+			
+		if($vehicle_id_value==-1){
+		    $dataList = $driver->get_all_vehicle ( $wh, $sidx, $sord, $start, $limit, $company_id);
+		}else{
+			$dataList = $driver->get_all_vehicle ( $wh, $sidx, $sord, $start, $limit, $company_id,$vehicle_id_value);
+		}
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;
@@ -253,7 +270,7 @@ switch ($act) {
 		break;
 
 		
-	case "vehicle_detail_list":
+	case "vehicle_detail_list"://显示车辆详细信息
 		   $driver = new Statistic ();                               
 		   $vehicle_id=$_REQUEST["vehicle_id"];//得到车辆id 
 		   $number_plate=$driver->vehicle_plate_name($vehicle_id);//添加车辆车牌号码
@@ -261,7 +278,6 @@ switch ($act) {
 		   $param["VEHICLEID"] =$vehicle_id; 
    	       echo $GLOBALS ['db']->display ( $param, $act );
 		 break;
-	
 		 
 	case "vehicle_detail_data":
 		$vehicle_id=$_REQUEST["vehicle_id"];//得到驾驶员id 

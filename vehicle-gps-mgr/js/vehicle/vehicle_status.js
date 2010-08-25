@@ -56,6 +56,12 @@ jQuery("#m2").click( function() {
 	vehicle_position(s);
 }); 
 
+jQuery("#m3").click( function() {
+	var s; 
+	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');
+	showOperationDialog(this,"index.php?a=402&vehicle_id="+s);
+});
+
 //根据车牌号查询
 $("#commit").click(function(){
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val();
