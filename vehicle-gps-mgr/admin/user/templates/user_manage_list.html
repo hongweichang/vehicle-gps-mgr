@@ -11,6 +11,7 @@ jQuery(document).ready(function(){
             jQuery("#west-grid").jqGrid('setGridWidth',$Pane.innerWidth()-2);
 		}
 	});
+	
 	$.jgrid.defaults = $.extend($.jgrid.defaults,{loadui:"enable"});
 	var maintab =jQuery('#tabs','#RightPane').tabs({
         add: function(e, ui) {
@@ -55,12 +56,10 @@ jQuery(document).ready(function(){
                 //treedata.url
                 var st = "#t"+treedata.id;
 				if($(st).html() != null ) {
+					
 					maintab.tabs('select',st);
 				} else {
-					maintab.tabs('add',st, treedata.menu);
-					//$(st,"#tabs").load(treedata.url);
-
-
+ 					maintab.tabs('add',st, treedata.menu);
 					$.ajax({
 						url: treedata.url,
 						type: "GET",
@@ -70,15 +69,38 @@ jQuery(document).ready(function(){
 							try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
 						}
 					});
-
-
-				}
+   			    }
             }
         }
-    });
-	
-// end splitter
+    });	
 
+
+     
+//加载页面以后得到驾驶员数据信息   
+document.getElementById('tabs-1').style.display="none";
+    var maintab =jQuery('#tabs','#RightPane').tabs({
+         add: function(e, ui) {
+             // append close thingy
+             $(ui.tab).parents('li:first')
+                 .append('<span class="ui-tabs-close ui-icon ui-icon-close" title="关闭"></span>')
+                 .find('span.ui-tabs-close')
+                 .click(function() {
+                     maintab.tabs('remove', $('li', maintab).index($(this).parents('li:first')[0]));
+                 });
+             maintab.tabs('select', '#' + ui.panel.id);
+         }
+     });
+ 	maintab.tabs('add','#t4', '驾驶员'); 
+  	$.ajax({
+		url: 'index.php?a=5001',
+		type: "GET",
+		dataType: "html",
+		complete : function (req, err) {
+			$('#t4',"#tabs").append(req.responseText);
+			try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
+		}
+	});
+  	
 });
 </script>
 </head>
@@ -94,11 +116,10 @@ jQuery(document).ready(function(){
 	<div id="switcher"></div>
 		<div id="tabs" class="jqgtabs">
 			<ul>
-				<li><a href="#tabs-1">GPS车辆定位服务系统</a></li>
+				<li><a id="tabs-1" href="#tabs-1"></a></li>
 			</ul>
-			<div id="tabs-1" style="font-size:12px;"> 欢迎来到 GPS车辆定位服务系统 - 管理中心<br/>
-			<br/>
-
+			<div id="tabs-1" style="font-size:12px;">
+			            
 			</div>
 		</div>
 	</div> 
