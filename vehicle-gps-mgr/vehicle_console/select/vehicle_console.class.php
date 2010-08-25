@@ -51,17 +51,16 @@ class vehicle_console extends BASE{
 			function company_all_vehicle($company_id=-1){ 
 				
 				$this->sql = "SELECT  v.id, v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
-							 "			(case when s.color is null then c.default_color ".
-							 "			    else s.color end)as color ".
+							 "			(CASE WHEN s.color is null then c.default_color ".
+							 "			    ELSE s.color END)as color ".
 							 "				FROM ".$this->tablename_vehicle_manage." v ".
-							 "					left join ".$this->tablename_speed_color." as s ".
-							 "						on s.company_id =".$company_id."  and v.company_id=s.company_id and (v.cur_speed>=s.min and v.cur_speed<s.max) ".
-							 "					left join  ".$this->tablename_vehicle_group." g on g.company_id=v.vehicle_group_id  ".
-							 "					left join ".$this->tablename_driver_manage." d on d.id= v.driver_id	 ".
-							 "					left join ".$this->tablename_common_setting." c on c.company_id =".$company_id.
-							 "				where v.company_id =".$company_id.
-							 "				group by v.id";
-		 
+							 "					LEFT JOIN ".$this->tablename_speed_color." as s ".
+							 "						ON s.company_id =".$company_id."  AND v.company_id=s.company_id AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ".
+							 "					LEFT JOIN  ".$this->tablename_vehicle_group." g ON g.company_id=v.vehicle_group_id  ".
+							 "					LEFT JOIN ".$this->tablename_driver_manage." d ON d.id= v.driver_id	 ".
+							 "					LEFT JOIN ".$this->tablename_common_setting." c ON c.company_id =".$company_id.
+							 "				WHERE v.company_id =".$company_id." AND (v.cur_longitude is not null OR v.cur_latitude is not null) AND v.gprs_status =1".
+							 "				GROUP BY v.id";
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			 
