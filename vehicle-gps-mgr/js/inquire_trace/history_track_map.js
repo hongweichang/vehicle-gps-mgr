@@ -78,9 +78,9 @@
 	/**
 	 * 运行历史轨迹
 	 */
-	function runHistoryTrack(){    
+	function runHistoryTrack(){   
 		//如果当前画线数组还存在数据，继续执行画线
-		if(drawLine_arr != null && state === "normal"){
+		if(drawLine_arr != null  && state === "normal"){
 			 
 			if(drawLine_arr.length > 0 ){ 
 				newDrawLine();
@@ -95,7 +95,6 @@
 				
 				var time = arr_history[0];  
 				arr_history.shift();
-				
 				
 				drawHistoryTrack(time,vehicle_id);
 			}
@@ -138,15 +137,19 @@
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
 			success:function(data){   
-			
+			 
 			$("#inquireing",parent.document).unmask();
 			state = "normal"; 
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
+			 
 			   if(arr_history.length>0){
 					runHistoryTrack();
-				}
+					return false;
+				}else
+					return end_history_line();
 			}
-			if(data!=null){
+			/**请求得到数据*/	
+			if(data!=null){ 
 				data_queue_state = 1;
 				
 				var points = new Array();
@@ -236,13 +239,7 @@
 					
 					//当历史轨迹画完之后，回到初始状态
 					if(arr_history.length <=0 || arr_history == null || arr_history == ""){
-						$("#suspend_history",parent.document).hide();
-						$("#play_history",parent.document).show();
-						 
-						window.parent.empty_cur_vhicle_history();
-						
-						state = "stop";
-						return false;
+						return end_history_line();
 					}
 				} 
 				
@@ -257,7 +254,20 @@
 			} 
 	 }
 }
-	
+	/**
+	 * 历史轨迹请求画完，返回初始状态
+	 * @return 停止运行 返回上一级操作
+	 */
+	function  end_history_line(){
+		 
+		$("#suspend_history",parent.document).hide();
+		$("#play_history",parent.document).show();
+		 
+		window.parent.empty_cur_vhicle_history();
+		
+		state = "stop";
+		return false;
+	}
 	/**
 	 * 运行画线函数
 	 * @param {Object} points 画线点
