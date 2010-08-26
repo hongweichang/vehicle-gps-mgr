@@ -144,6 +144,7 @@ $("#car").click(function(event) {
 	});
 });
 
+//加载区域发布时的地图
 $("#area_issue").click(function() {
 	$("#info_Commit").hide();
 	$("#da_user").hide();
@@ -154,15 +155,16 @@ $("#area_issue").click(function() {
 	$("#list_user").hide();
 	$("#area_begin_time").show();
 	$("#area_end_time").show();
-	$("#begin_time_area").val(getNowFormatDate());
-	$("#end_time_area").val(day_date());
-	$("#issue_frame").attr("src","info/templates/51map.html");
+	$("#begin_time_area").val(getNowFormatDate()); //生效时间赋默认值
+	$("#end_time_area").val(day_date()); //失效时间赋默认值
+	$("#issue_frame").attr("src","info/templates/51map.html"); //iframe加载地图
 });
 
 $("#addUser").click(function(){
 	$("#add_input").show();
 });
 
+//删除驾驶员邮箱
 $("#deleteUser").click(function(){
 	while($("#email_list")[0].selectedIndex!=null){
 		var index = $("#email_list")[0].selectedIndex;
@@ -170,6 +172,7 @@ $("#deleteUser").click(function(){
 		}
 });
 
+//保存信息
 $("#add_commit").click(function(){
 	var email = $("#addInput").val();
 	if(check_email(email)==false){
@@ -181,9 +184,9 @@ $("#add_commit").click(function(){
 	
 });
 
-/**
- * 正则表达式检验邮箱地址格式
- */
+	/**
+	 * 正则表达式检验邮箱地址格式
+	 */
 	function check_email(email){
 		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
 	    return reg.test(email);
@@ -219,10 +222,11 @@ $("#add_commit").click(function(){
 /*区域发布信息*/
 function subArea(){	
 	$("#operation" ).mask("处理中...");
-	var content=document.getElementById("info_content").value;
-	var begin = document.getElementById("begin_time_area").value;
-	var end = document.getElementById("end_time_area").value;
-	
+	var content=document.getElementById("info_content").value; //获取信息内容
+	var begin = document.getElementById("begin_time_area").value; //获取生效时间
+	var end = document.getElementById("end_time_area").value; //获取失效时间
+
+	/*获取经纬度范围*/
 	var lonMin = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMin").value;
 	var latMin = document.getElementById("issue_frame").contentWindow.document.getElementById("latMin").value;
 	var lonMax = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMax").value;
@@ -312,13 +316,13 @@ function getNowFormatDate()
    	return CurrentDate;
 }
 
+	//获取失效天数
 	$("#issue_day").change(function(){
 		$("#end_time_area").val(day_date());
 	});
 
 	/**
-	 * 失效时间天数转换成当时 的时间
-	 *
+	 * 失效时间天数转换成当时的时间
 	 */
 	function day_date(){
 		var day = parseFloat($("#issue_day option:selected").val());

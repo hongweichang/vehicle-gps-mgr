@@ -18,7 +18,7 @@ class Inquire extends BASE
 	 *  @param $begin_date开始日期，$end_date结束日期
 	 */
 	function get_history_info($wh="",$sidx="",$sord="",$start="",$limit="",$begin_date,$end_date){
-		$user_id = get_session("user_id");
+		$user_id = get_session("user_id"); //获取登录用户ID
 		if($wh!=""){
 			$this->sql = "select info.*,u.login_name from info_issue info left join user u on info.issuer_id=u.id ".$wh." and (info.issue_time >='".$begin_date."' and info.issue_time<='"
 		             .$end_date."') and info.issuer_id=".$user_id." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
@@ -34,7 +34,7 @@ class Inquire extends BASE
 	 *  @param $begin_date开始日期，$end_date结束日期
 	 */
 	function get_history_info_count($begin_date,$end_date){
-		$user_id = get_session("user_id");
+		$user_id = get_session("user_id");//获取登录用户ID
 		$this->sql = "select count(*) from info_issue  where (issue_time >='".$begin_date."' and issue_time<='"
 		             .$end_date."') and issuer_id=".$user_id;
 		 $count = $GLOBALS['db']->query_once($this->sql);
@@ -48,7 +48,7 @@ class Inquire extends BASE
 	function change_type($type){
 		$comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
 		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
-		$test = $dataMapping->getMappingText("info_issue","type",$type);
+		$test = $dataMapping->getMappingText("info_issue","type",$type); //从XML中解析信息的类型
 		return $test;
 	}
 	

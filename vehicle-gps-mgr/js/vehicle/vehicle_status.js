@@ -47,28 +47,28 @@ jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 /*批量发布信息*/
 jQuery("#m1").click( function() {
 		var s; 
-		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
+		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); //获取所有选中车辆的ID
 		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s);
 	}); 
 
 /*定位车辆*/
 jQuery("#m2").click( function() {
 	var s; 
-	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
+	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); //获取所有选中车辆的ID
 	vehicle_position(s);
 }); 
 
 /*统计信息*/
 jQuery("#m3").click( function() {
 	var s; 
-	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');
-	showOperationDialog(this,"index.php?a=402&vehicle_id="+s);
+	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');//获取所有选中车辆的ID
+	showOperationDialog(this,"index.php?a=402&vehicle_id="+s); //显示该车辆的统计信息
 });
 
 //根据车牌号查询
 $("#commit").click(function(){
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val();
-	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid"); //获取新数据刷新JQGrid
 	$("#area_result").hide();
 	$("#commit").show();
 	$("#area_select").show();
@@ -91,18 +91,20 @@ $("#area_select").click(function(){
 	$("#area_result").show();
     $("#select").hide();
 	$("#frame_map").show();
-	$("#frame_map").attr("src","inquire/templates/51ditu.html");
+	$("#frame_map").attr("src","inquire/templates/51ditu.html"); //Iframe加载地图
 });
 
 //显示区域查询结果
 $("#area_result").click(function(){	
+	
+	/*获取经纬度范围*/
 	var lonMin = document.getElementById("frame_map").contentWindow.document.getElementById("lonMin").value;
 	var latMin = document.getElementById("frame_map").contentWindow.document.getElementById("latMin").value;
 	var lonMax = document.getElementById("frame_map").contentWindow.document.getElementById("lonMax").value;
 	var latMax = document.getElementById("frame_map").contentWindow.document.getElementById("latMax").value;
 	
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val()+'&lonMin='+lonMin+'&latMin='+latMin+'&lonMax='+lonMax+'&latMax='+latMax;
-	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");//获取结果刷新JqGrid显示数据
 	$("#commit").show();
 	$("#area_result").hide();
 	$("#area_select").show();
@@ -110,12 +112,13 @@ $("#area_result").click(function(){
 	$("#select").show();
 });
 
-var vehicle_id_str = "";
+var vehicle_id_str = ""; //声明要定位车辆的ID
+//定位事件
 function  vehicle_position(vehicle_ids){
 	vehicle_id_str="";
 	vehicle_id_str = vehicle_ids;
 	
-	locate_vehicle();
+	locate_vehicle(); //显示车辆定位信息
 }
 
 /*显示车辆定位信息*/

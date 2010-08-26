@@ -12,12 +12,12 @@
 * @todo			  n/a
 */
 class vehicle_console extends BASE{	 
-	public $tablename = "user";
-	public $data = false;                //数据
-	public $data_list = false;					 //数据集合
-	public $sql;                         //SQL语句
-	public $message;                     //消息
-	private $user_id = false;		//用户ID
+	public $tablename = "user"; //用户表
+	public $data = false; //数据
+	public $data_list = false; //数据集合
+	public $sql; //SQL语句
+	public $message;//消息
+	private $user_id = false; //用户ID
 	private $tablename_vehicle_group = "vehicle_group";//车辆组表
 	private $tablename_vehicle_manage = "vehicle_manage";//车辆管理表
 	private $tablename_common_setting = "common_setting"; //系统内部参数表

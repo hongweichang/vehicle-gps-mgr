@@ -14,13 +14,13 @@
 class Vehicle_status extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "vehicle_manage"; 
-	public $tablename2 = "driver_manage";//驾驶员表
-	public $data = false;                //数据
-	public $data_list = false;					 //数据集合
-	public $sql;                         //SQL语句
-	public $message;                     //消息
-	private $id = false;		//车辆管理表主键ID
+	public $tablename = "vehicle_manage";  //车辆信息表
+	public $tablename2 = "driver_manage"; //驾驶员表
+	public $data = false; //数据
+	public $data_list = false; //数据集合
+	public $sql; //SQL语句
+	public $message; //消息
+	private $id = false; //车辆管理表主键ID
 	
 	/**
 	*		构造函数
@@ -90,8 +90,8 @@ class Vehicle_status extends BASE
 	*	@return numeric or null
 	*/
 	function get_vehicle_count()
-	{
-		$company_id = get_session("company_id");
+	{ 
+		$company_id = get_session("company_id"); //获取公司ID
 		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id;
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
@@ -103,7 +103,7 @@ class Vehicle_status extends BASE
 	 * 
 	 */
 	function get_vehicle_count_plate($number_plate){
-		$company_id = get_session("company_id");
+		$company_id = get_session("company_id");//获取公司ID
 		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." and number_plate like '%".$number_plate."%'";
 		$count = $GLOBALS['db']->query_once($this->sql);
 		return $count[0];
@@ -114,7 +114,7 @@ class Vehicle_status extends BASE
 	 *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度
 	 */
 	function get_lon_lat_count($lonMin,$lonMax,$latMin,$latMax){
-		$company_id = get_session("company_id");
+		$company_id = get_session("company_id");//获取公司ID
 		$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." 
 		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
 		              (cur_latitude between ".$latMin." and ".$latMax.")";
@@ -127,7 +127,7 @@ class Vehicle_status extends BASE
 	 *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度 $number_plate车牌号
 	 */
 	function get_lon_lat_plate_count($lonMin,$lonMax,$latMin,$latMax,$number_plate){
-		$company_id = get_session("company_id");
+		$company_id = get_session("company_id");//获取公司ID
     	$this->sql = "select count(*) from ".$this->tablename." where company_id=".$company_id." 
 		              and (cur_longitude between ".lonMin." and ".lonMax.") and 
 		              (cur_latitude between ".latMin." and ".latMax.") and number_plate like 
@@ -154,7 +154,7 @@ class Vehicle_status extends BASE
 	 *   @param $number_plate 车牌号前缀
 	 */
 	function get_all_vehicles_number($number_plate){
-		$company_id = get_session("company_id");
+		$company_id = get_session("company_id");//获取公司ID
 		$this->sql = "select * from ".$this->tablename." where company_Id=".$company_id." and number_plate like '%".$number_plate."%'";
 		return $this->data_list = $GLOBALS['db']->query($this->sql);
 	}
@@ -238,10 +238,10 @@ class Vehicle_status extends BASE
      */
     private function parse_location_decs($location)
     {
-    	$begin = stripos($location,"<msg>")+5;
-    	$end = stripos($location,"</msg>");
-    	$length=$end-$begin;
-    	$location_decs = substr($location,$begin,$length);
+    	$begin = stripos($location,"<msg>")+5; //获取地址信息开始位置
+    	$end = stripos($location,"</msg>"); //获取结束位置
+    	$length=$end-$begin; //获取地址长度
+    	$location_decs = substr($location,$begin,$length); //得到地址信息
     	return $location_decs;
     }
 			  
@@ -253,7 +253,8 @@ class Vehicle_status extends BASE
      */
     function get_location_desc($cur_longitude,$cur_latitude)
     {
-    	$longitude_51ditu=$this->around($cur_longitude, 0);
+    	//将经纬度转换成51地图规定的经纬度
+    	$longitude_51ditu=$this->around($cur_longitude, 0); 
     	$latitude_51ditu=$this->around($cur_latitude, 0);
     	
     	//把经纬度值的后三位置0
@@ -263,15 +264,19 @@ class Vehicle_status extends BASE
     	$sql = "select * from gis_pos_info where pos_longitude =".$longitude." and pos_latitude = ".$latitude." LIMIT 1";
  		$gis_info = $GLOBALS["db"]->query($sql);
  		
- 		$location_desc = "";
+ 		$location_desc = ""; //声明地址描述信息
  		if($gis_info)
  		{
  			$location_desc = $gis_info[0]["pos_desc"];
  		}
  		else
  		{
+ 			//获取地址信息并将gb2312编码转换为utf-8
  			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude_51ditu.",".$latitude_51ditu));
- 		 	$location_desc = $this->parse_location_decs($location);
+ 		 	
+ 			$location_desc = $this->parse_location_decs($location);//从XML中解析地址信息
+ 			
+ 			
  		 	$parms["pos_longitude"] = $longitude;
  		 	$parms["pos_latitude"] = $latitude;
  		 	$parms["pos_desc"] = "\"".$location_desc."\"";
@@ -301,7 +306,7 @@ class Vehicle_status extends BASE
      *  @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度
      */
     function get_lon_lat_vehicle($lonMin,$lonMax,$latMin,$latMax){
-        $company_id = get_session("company_id");
+        $company_id = get_session("company_id"); //获取公司ID
     	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
 		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
 		              (cur_latitude between ".$latMin." and ".$latMax.")";
@@ -313,7 +318,7 @@ class Vehicle_status extends BASE
      *   @param $lonMin 最小经度 $lonMax 最大经度 $latMin最小纬度 $latMax最大纬度 $number_plate模糊车牌号
      */
     function get_lon_lat_plate_vehicle($lonMin,$lonMax,$latMin,$latMax,$number_plate){
-    	$company_id = get_session("company_id");
+    	$company_id = get_session("company_id");//获取公司ID
     	$this->sql = "select * from ".$this->tablename." where company_id=".$company_id." 
 		              and (cur_longitude between ".$lonMin." and ".$lonMax.") and 
 		              (cur_latitude between ".$latMin." and ".$latMax.") and number_plate like 
@@ -326,7 +331,7 @@ class Vehicle_status extends BASE
      *   查询所有车辆的经纬度 
      */
     function get_lon_lat (){
-    	$company_id = get_session("company_id");
+    	$company_id = get_session("company_id");//获取公司ID
     	$this->sql = "select cur_longitude,cur_latitude from ".$this->tablename.
     	             " where company_id=".$company_id;
     	$this->data_list = $GLOBALS['db']->query($this->sql);
@@ -371,15 +376,18 @@ class Vehicle_status extends BASE
     	$sql = "select * from gis_pos_info where pos_longitude =".$longitude." and pos_latitude = ".$latitude." LIMIT 1";
  		$gis_info = $GLOBALS["db"]->query($sql);
  		
- 		$location_desc = "";
+ 		$location_desc = ""; //声明地址
  		if($gis_info)
  		{
  			$location_desc = $gis_info[0]["pos_desc"];
  		}
  		else
  		{
+ 			//获取地址信息并将gb2312编码转换为utf-8
  			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$cur_longitude.",".$cur_latitude));
- 		 	$location_desc = $this->parse_location_decs($location);
+ 		 	
+ 			$location_desc = $this->parse_location_decs($location); //从xml中解析地址信息
+ 			
  		 	$parms["pos_longitude"] = $longitude;
  		 	$parms["pos_latitude"] = $latitude;
  		 	$parms["pos_desc"] = "\"".$location_desc."\"";

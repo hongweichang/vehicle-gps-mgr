@@ -16,7 +16,7 @@ $sidx = $_REQUEST ['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST ['sord']; // get the direction
 $vehicleIds = $_REQUEST['vehicleIds'];  //获取车辆ID集合  
 
-$company_id = get_session("company_id"); 
+$company_id = get_session("company_id");  //获取公司ID
 if (! $sidx)
 	$sidx = 1;
 
@@ -29,7 +29,7 @@ switch ($act) {
         /**获取所有车辆组*/
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
-		/**生成车辆组标题*/
+		/**遍历车辆组，生成车辆组标题*/
 		$str = "<div style='font-size:12px;'><ul>";
 		foreach ( $vehicle_group as $value ) {
 			$str = $str . "<li style='font-size:12px;'><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
@@ -41,25 +41,28 @@ switch ($act) {
 		$vehicle_list = explode(",",$arrayID);
 		$is_selected = "";
 		
+		/*遍历车辆组，显示车辆*/
 		foreach ( $vehicle_group as $values ) {
-			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);
+			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);//查询该组的所有车辆
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox'  value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 							"'/><span style='font-weight:700;'>选择本组车辆</span>
 							<table class='scroll' border='1' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
 								   style='border-collapse:collapse;font-size:12px; width:100%;height:100%' >";
 			
-			$count = count($vehicles);  
+			$count = count($vehicles);  //获取该组车辆总数
 			$rows = $count/6;  //每行显示六辆车辆
-			$exat_rows = round($rows);
+			$exat_rows = round($rows);//总共显示多少行
 
+			/*精确行数*/
 			if($exat_rows<$rows){
     			$exat_rows = $exat_rows+1; 
 			}
-
+			
+			/*遍历生成车辆显示*/
 			for($j = 0;$j<$exat_rows;$j++){
 		   		 $str = $str . "<tr>";
-		   		 /*判断是不是最后一行*/
+		   		 /*判断是否是最后一行*/
 		   		 if($j==$exat_rows-1){
 		   		 	for($m = $j*6;$m<$count;$m++){
 		   		 	
@@ -79,6 +82,7 @@ switch ($act) {
 		   		 for($m = $j*6; $m<($j+1)*6;$m++){
 		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");
 		   		 		
+		   		 	/*判断GPRS是否在线*/
 		   		 	if($vehicles[$m]['gprs_status']==1){
 					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  ".$is_selected.
 										"  class='vehicle' name='" . $values [0] . "' 
@@ -95,7 +99,7 @@ switch ($act) {
 			$str = $str . "</table></div>";
 		}
 		$arr ['vehicle_group_data'] = $str;
-		echo $db->display ( $arr, "select" );
+		echo $db->display ( $arr, "select" );//输出数据到页面
 
 		break;
 	case  "get_vehicle_position":  //获取请求车辆定位信息

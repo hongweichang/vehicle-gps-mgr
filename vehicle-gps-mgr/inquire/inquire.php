@@ -35,7 +35,7 @@ switch($act)
 		
 		
 		$inquire_info = new Inquire();
-		$vehicle_list = $inquire_info->get_all_vehicles();
+		$vehicle_list = $inquire_info->get_all_vehicles(); //查询所有车辆
 		
 		//车辆列表
 		foreach($vehicle_list as $value){
@@ -111,12 +111,12 @@ switch($act)
 		echo json_encode(array_reverse($trace_info));
 		break;
 		
-	case "get_history_info":
+	case "get_history_info": //查询历史发布信息
 		$inquire = new Inquire();
 		
-		$count = $inquire->get_history_info_count($_REQUEST['begin_date'],$_REQUEST['end_date']);
+		$count = $inquire->get_history_info_count($_REQUEST['begin_date'],$_REQUEST['end_date']); //获取历史信息总数
 		if( $count >0 ) {
-			$total_pages = ceil($count/$limit);
+			$total_pages = ceil($count/$limit); //获取总页数
 		} else {
 			$total_pages = 0;
 		}
@@ -134,7 +134,8 @@ switch($act)
 			$wh = "where ".$searchfil." = ".$searchstr;
 		}
 
-		$infoes = $inquire->get_history_info($wh,$sidx,$sord,$start,$limit,$_REQUEST['begin_date'],$_REQUEST['end_date']);
+		//查询指定时间内的历史 发布信息
+		$infoes = $inquire->get_history_info($wh,$sidx,$sord,$start,$limit,$_REQUEST['begin_date'],$_REQUEST['end_date']); 
 		
 		$response->page	= $page;
 		$response->total = $total_pages;
@@ -146,7 +147,7 @@ switch($act)
 		foreach($infoes as	$key => $val)
 		{ 
 			
-			$info_type= $dataMapping->getMappingText ( "info_issue", "type", $val ['type'] );
+			$info_type= $dataMapping->getMappingText ( "info_issue", "type", $val ['type'] ); //从XML中获取信息类型
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['login_name'],
 												$info_type,$val['issue_time'],$val['begin_time'],$val['end_time'],
@@ -158,7 +159,7 @@ switch($act)
 		
 		break;
 		
-	case "get_area_history":
+	case "get_area_history": 
 		require_once 'areaInfo.php';
 		$areaInfo = new AreaInfo();
 		/*$_REQUEST["lonMin"] = "";
@@ -182,15 +183,17 @@ switch($act)
 		echo json_encode($vehicle_in_area);
 		break;
 		
-	case "show_area_history":
+	case "show_area_history":  //区域查询历史轨迹时显示该区域内的车辆
 		$inquire = new Inquire();
 		
-		$id_list = explode(",",$_REQUEST['id_list']);
-		$begin_time = $_REQUEST['begin_time'];
-		$end_time = $_REQUEST['end_time'];
+		$id_list = explode(",",$_REQUEST['id_list']); //获取车辆ID集合
+		$begin_time = $_REQUEST['begin_time']; //获取开始时间
+		$end_time = $_REQUEST['end_time']; //获取结束时间
 		
 		
-		$count = count($id_list);
+		$count = count($id_list); //获取车辆总数
+		
+		/*获取总页数*/
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
 		} else {
@@ -210,6 +213,7 @@ switch($act)
 			$wh = "where ".$searchfil." = ".$searchstr;
 		}
 
+		/*查询出所有车辆的信息保存在数组中*/
 		for($i = 0;$i<$count;$i++){
 			$infoes[$i] = $inquire->get_vehicle($wh,$sidx,$sord,$start,$limit,$id_list[$i]);
 		}
@@ -218,9 +222,10 @@ switch($act)
 		$response->total = $total_pages;
 		$response->records = $count;
 		
+		/*遍历所有车辆*/
 		foreach($infoes as	$key => $val)
 		{ 
-			$driver = $inquire->get_driver($val['driver_id']);
+			$driver = $inquire->get_driver($val['driver_id']); //查询驾驶员信息
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],$driver[0]['name'],
 												"<a href='#' onclick='show_trace_area(".$val['id'].")'>查看历史轨迹</a>");

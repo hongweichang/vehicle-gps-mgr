@@ -1,6 +1,6 @@
 <?php
 	class info extends BASE{
-		public $tablename = "user";
+		public $tablename = "user"; 		//用户表
 		public $data_list = false;			 //数据集合
 		public $sql="";                         //SQL语句
 

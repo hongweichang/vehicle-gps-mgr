@@ -43,10 +43,12 @@
 		standControl.setTop(40);
 		map.addControl(standControl);
 	 
+		/*添加拉框放大控件*/
 		var ltControl = new LTZoomInControl();
 		map.addControl( ltControl );
 		ltControl.setRight(240);
 		
+		/*添加测距控件*/
 		var PolyControl = new LTPolyLineControl();
 		map.addControl( PolyControl );
 		PolyControl.setTop( 10 ); 
@@ -125,7 +127,7 @@
 							"<div class='content'>"+location_time +"</div></div>" +
 							"<div class='content_div'><div class='title'>地址：</div> " +
 							"<div class='address_content'>"+location_desc +"</div></div></div>" +
-							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
+							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_ids=" +
 							vehicle_id +
 							"\")'><a href='#'>发布信息</a></div>" +
 											

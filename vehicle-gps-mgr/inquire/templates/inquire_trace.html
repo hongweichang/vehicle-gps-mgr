@@ -145,8 +145,8 @@ $(document).ready(function(){
 	$("#history_trace").attr("checked","checked");
 
 	var myDate = new Date();
-	$("#inquire_startTime").val(getTodayFormatDate());
-	$("#inquire_endTime").val(getNowFormatDate());
+	$("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
+	$("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
 
 	//暂停
 	$("#suspend_history").click(function(){
@@ -193,6 +193,7 @@ $(document).ready(function(){
 		
 	});
 
+	//选择车辆查询和区域查询切换
 	$("#select_mode").change(function(){
 		
 		$("#show_area").hide();
@@ -207,7 +208,7 @@ $(document).ready(function(){
 			$("#suspend_history").hide();
 			$("#stop_history").hide();
 
-			$("#mode_area").attr("src","inquire/templates/51ditu.html");
+			$("#mode_area").attr("src","inquire/templates/51ditu.html"); //区域查询时加载地图
 		}else{
 			$("#vehicle_info").show();
 			$("#areas").hide();
@@ -250,12 +251,12 @@ $(document).ready(function(){
 		$("#stop_history").show();
 		$("#areas").hide();
 		$("#history_track_frame").show();
-		$("#select_mode").get(0).selectedIndex=0;
+		$("#select_mode").get(0).selectedIndex=0; //点击查询历史轨迹时查询默认切换成选择车辆
 	});
 
 	//定位信息窗口操作
 	$("#dragger").click(function(){
-		$("#location_info .location_info").toggle();
+		$("#location_info .location_info").toggle(); //切换展开与隐藏状态
 
 		if($("#location_info .location_info").is(":hidden")){
 			$("#dragger").html("[展开]");
@@ -267,7 +268,7 @@ $(document).ready(function(){
 	//查询显示历史发布信息
 	$("#his_info").click(function(){
 		
-		var startTime = $("#inquire_startTime").attr("value");
+		var startTime = $("#inquire_startTime").attr("value"); //获取开始时间
 		 
 		if(startTime == ""){
 			alert("开始时间不能为空!");
@@ -319,7 +320,7 @@ $(document).ready(function(){
 	
 	});
 
-
+	
 	$("#inquire_startTime").datetimepicker({
 		 ampm: false,//上午下午是否显示  
 		 timeFormat: 'hh:mm:ss',//时间模式  
@@ -331,7 +332,7 @@ $(document).ready(function(){
 		 createButton:false
 	 });	
      
-
+	
 	$("#inquire_endTime").datetimepicker({
 		 ampm: false,//上午下午是否显示  
 		 timeFormat: 'hh:mm:ss',//时间模式  
@@ -346,13 +347,15 @@ $(document).ready(function(){
 	 //区域查询车辆历史轨迹
 	$("#show_vehicles").click(function(){
 		$("#areas").mask("查询中,请稍侯...");
+
+		/*获取经纬度范围*/
 		var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
 		var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
 		var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
 		var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
 
-		var begin_time = $("#inquire_startTime").attr("value");
-		var end_time = $("#inquire_endTime").attr("value");
+		var begin_time = $("#inquire_startTime").attr("value"); //获取开始时间
+		var end_time = $("#inquire_endTime").attr("value"); //获取结束时间
 
 		var idListStr = "";
 		$("#vehicle_info > option").each(function(){
