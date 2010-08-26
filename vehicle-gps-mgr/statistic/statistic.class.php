@@ -154,7 +154,7 @@ class Statistic extends BASE {
 	 * 车辆信息
 	 */
 	function get_vehicle_time($id_array="",$sel_start_time="",$sel_end_time="",$wh = "", $sidx = "", $sord = "", $start = "", $limit = "",$company_id){
-		if($id_array!=0){
+		if($id_array!=0&&$id_array!=-1){
 			   $str=" and vehicle_data.vehicle_id in ($id_array) ";
 		}else{	 
 		  	  $str=" and vehicle_data.vehicle_id in (select id from vehicle_manage where company_id=".$company_id.")";
@@ -185,7 +185,9 @@ class Statistic extends BASE {
 		
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
-	
+	/*
+	 * 跟据时间段，公司id查询驾驶员数量
+	 */
 	function sel_driver_count ($begin_data,$end_data,$company_id){
 			$this->sql =
 			"select count(*) from
@@ -217,7 +219,9 @@ class Statistic extends BASE {
 		$count = $GLOBALS ["db"]->query_once ( $this->sql );
 		return $count [0];	
 }
-	
+	/*
+	 * 根据时间段查询本公司的车辆数量
+	 */
 	function sel_vehicle_count ($begin_data,$end_data,$id_array,$company_id){		    
 			$this->sql =					
 					"select count(*) from 
@@ -242,7 +246,7 @@ class Statistic extends BASE {
 					  (select id,number_plate from vehicle_manage) as vehicle_manage_data
 					on
 					vehicle_manage_data.id=vehicle_data.vehicle_id"; 					
-			if($id_array!=0){
+			if($id_array!=0&&$id_array!=-1){
 				$this->sql=$this->sql." and  vehicle_data.vehicle_id in ($id_array)";
 			}else {
 				 $this->sql=$this->sql." and vehicle_data.vehicle_id in (select id from vehicle_manage where company_id=".$company_id.")";
