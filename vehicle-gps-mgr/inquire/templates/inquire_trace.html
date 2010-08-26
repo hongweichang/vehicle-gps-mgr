@@ -192,7 +192,7 @@ $(document).ready(function(){
 			 alert("地图未加载完，请等待地图加载完之后，点击操作！");
 		
 	});
-	
+
 	$("#select_mode").change(function(){
 		
 		$("#show_area").hide();
@@ -218,7 +218,8 @@ $(document).ready(function(){
 			$("#stop_history").show();
 			}
 		});
-	
+
+	//历史发布信息查询
 	$("#history_post").click(function(){
 		$("#show_area").hide();
 		$("#vehicle_info").hide();
@@ -234,7 +235,8 @@ $(document).ready(function(){
 		$("#his_infoes").show();
 		$("#history_track_frame").hide();
 	});
-	
+
+	//历史轨迹查询
 	$("#history_trace").click(function(){
 		$("#location_info").hide();
 		$("#show_area").hide();
@@ -251,6 +253,7 @@ $(document).ready(function(){
 		$("#select_mode").get(0).selectedIndex=0;
 	});
 
+	//定位信息窗口操作
 	$("#dragger").click(function(){
 		$("#location_info .location_info").toggle();
 
@@ -260,6 +263,8 @@ $(document).ready(function(){
 			$("#dragger").html("[隐藏]");
 		 }
 		});
+
+	//查询显示历史发布信息
 	$("#his_info").click(function(){
 		
 		var startTime = $("#inquire_startTime").attr("value");
@@ -337,7 +342,8 @@ $(document).ready(function(){
 		 showSecond:false,
 		 createButton:false
 	 });
-	 
+
+	 //区域查询车辆历史轨迹
 	$("#show_vehicles").click(function(){
 		$("#areas").mask("查询中,请稍侯...");
 		var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;

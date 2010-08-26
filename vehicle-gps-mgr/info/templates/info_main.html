@@ -189,7 +189,8 @@ $("#add_commit").click(function(){
 	    return reg.test(email);
 	}
 
-function subInfo(){	
+	/*发布信息*/
+	function subInfo(){	
 	  var content=document.getElementById("info_content").value;
 	  var str="";
 	  var datalist=document.getElementById('email_list');
@@ -215,7 +216,7 @@ function subInfo(){
 	  },"text");
 }
 
-
+/*区域发布信息*/
 function subArea(){	
 	$("#operation" ).mask("处理中...");
 	var content=document.getElementById("info_content").value;

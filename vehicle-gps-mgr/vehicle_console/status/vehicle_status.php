@@ -147,7 +147,7 @@ switch($act)
 		echo $location;
 		
 	case "gps_plate":
-		$vehicle_status = new Vehicle_status($_REQUEST['vehicle_id']);
+		$vehicle_status = new Vehicle_status($_REQUEST['vehicle_id']);//根据车辆ID查询出车辆具体信息
 		$attr[0]=$vehicle_status->data['number_plate'];
 		$attr[1]=$vehicle_status->data['gps_id'];
 		echo json_encode($attr);

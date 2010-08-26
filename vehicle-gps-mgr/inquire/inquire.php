@@ -142,6 +142,7 @@ switch($act)
 		
 		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
 		
+		//遍历历史发布信息
 		foreach($infoes as	$key => $val)
 		{ 
 			
@@ -173,7 +174,7 @@ switch($act)
 		array_push($areaInfo->positionList, $position1);
 		array_push($areaInfo->positionList, $position2);
 		
-		$vehile_list = explode("-", $_REQUEST["vehicle_list"]);
+		$vehile_list = explode("-", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以"-"为分割符
 		$hour_list = explode("-",$_REQUEST["hour_list"]);
 		
 		$inquire = new Inquire();

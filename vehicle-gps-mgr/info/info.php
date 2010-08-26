@@ -16,8 +16,8 @@ $comm_setting_path = $all ["BASE"] . "xml/comm_setting.xml";
 
 switch ($act) {
 	case "main" : //填写信息内容页面
-		$vehicle_id = $_REQUEST ["vehicle_id"];
-		$vehicle_ids = $_REQUEST["vehicle_ids"];
+		$vehicle_id = $_REQUEST ["vehicle_id"];//一个车辆
+		$vehicle_ids = $_REQUEST["vehicle_ids"];//多个车辆
 		$info = new info();
 		if($vehicle_id)
 		{		
@@ -69,6 +69,7 @@ switch ($act) {
 	case "save_info":
 		$info = new info();
 		
+		//配置发布信息以备保存
 		$parms["is_area_info"]			= $GLOBALS['db']->prepare_value($_REQUEST["is_area_info"],"TINYINT");
 		$parms["issuer_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 		$parms["type"]		= $GLOBALS['db']->prepare_value(0,"TINYINT");
@@ -89,6 +90,7 @@ switch ($act) {
 	case "save_area_info":
         $info = new info();
         
+        //配置发布信息以备保存
         $params["info_id"] = $GLOBALS['db']->prepare_value($_REQUEST['info_id'],"INT");
         $params["type"] = $GLOBALS['db']->prepare_value(0,"TINYINT");
         $params["log"] = $GLOBALS['db']->prepare_value($info->arroud($_REQUEST['lon']),"INT");
@@ -113,6 +115,7 @@ switch ($act) {
 		$first_info[0]['next_id']=$_REQUEST['second_id'];
 		$second_info[0]['next_id']=-1;
 		
+		//手动书写发布信息，以符合更新发布信息方法要求的格式。
 		$info_one['id']=$first_info[0]['id'];
 		$info_one['info_id']=$first_info[0]['info_id'];
 		$info_one['type']=$first_info[0]['type'];

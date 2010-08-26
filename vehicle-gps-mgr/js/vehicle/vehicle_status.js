@@ -44,18 +44,21 @@ jQuery("#vehicle_status_list").jqGrid({
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 {edit:false,add:false,del:false});
 
+/*批量发布信息*/
 jQuery("#m1").click( function() {
 		var s; 
 		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
 		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s);
 	}); 
 
+/*定位车辆*/
 jQuery("#m2").click( function() {
 	var s; 
 	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); 
 	vehicle_position(s);
 }); 
 
+/*统计信息*/
 jQuery("#m3").click( function() {
 	var s; 
 	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');
@@ -114,6 +117,8 @@ function  vehicle_position(vehicle_ids){
 	
 	locate_vehicle();
 }
+
+/*显示车辆定位信息*/
 function locate_vehicle(){ 
 	$("#locates").show();
 	$("#locates").dialog({height:356,width:610,title:'定位',
