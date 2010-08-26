@@ -294,11 +294,17 @@ switch($act)
 				$va = "0";
 
 			$html .= "<tr>";
-			$html .= "<td align='center'><input type='text' size='5' name='speed_".(2*$key)."' readonly id='speed_".(2*$key)."' value='".$va."'></td><td align='center'> -- </td><td align='center'><input type='text' onblur='change_speed(this);' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'></td><td id='td".$key."' name='td_c[]'>".$a."</td>";
+			$html .= "<td align='center'>".
+			"<input readonly  style='border:1px solid #EFEFEF; text-align:center; background-color:#EFEFEF'  type='text' size='5' name='speed_".(2*$key)."'  id='speed_".(2*$key)."' value='".$va."' ></td>".
+			"<td align='center'> -- </td>".
+			"<td align='center'>".
+			"<input type='text' onKeyUp='change_speed(this);' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'>".
+			"</td>".
+			"<td id='td".$key."' name='td_c[]'>".$a."</td>";
 			$html .= "</tr>";
 		}
 
-		echo $html."</table><input type='hidden' name='c_hidden' id='c_hidden' value='".$c_hidden."'>";
+		echo $html."</table><div id='message'></div><input type='hidden' name='c_hidden' id='c_hidden' value='".$c_hidden."'>";
 		break;
 
 	//刷新速度颜色映射

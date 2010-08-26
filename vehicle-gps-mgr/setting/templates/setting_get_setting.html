@@ -67,13 +67,14 @@
 </div>
 
 <SCRIPT LANGUAGE="JavaScript">
+var judgeResult=true;
 <!--
 //速度时间映射
 function adviceDialog(){
       jQuery("#color_mapping_dialog").dialog({
 			bgiframe: true,
 			autoOpen: true, 
-			height: 380, 
+			height: 400, 
 			width: 300,
 			modal: true,
 			title: '速度颜色映射设置',
@@ -121,7 +122,9 @@ function adviceDialog(){
 	                  
 		            if(repeat){
 			            alert("不能选择相同颜色的车辆");
-			            return;			            
+			            return;			            		     
+		            }else if(judgeResult==false){
+			            return;
 		            }else{
 		            	$.ajax({
 							type: "POST",
@@ -151,8 +154,7 @@ function adviceDialog(){
 }
 
 function getTraffic()
-{
-	
+{	
 	$("#process").mask("正在查询中,请耐心等候...");
 	$.ajax({
 		type: "POST",
@@ -170,7 +172,7 @@ function update_set(){
 	//取得各种值
 
 	//刷新时间
-	var page_refresh_time = document.getElementById("page_refresh_time").value;
+	var page_refresh_time_val = document.getElementById("page_refresh_time").value;
 
 	//速度限制
 	var speed_limit = document.getElementById("speed_limit").value;
@@ -184,10 +186,10 @@ function update_set(){
 	$.ajax({
 		type: "POST",
 		url: "index.php?a=5019&part=1",
-		data: "page_refresh_time="+page_refresh_time+"&default_color="+de_color+"&speed_limit="+speed_limit+"&fatigue_remind_time="+fatigue_remind_time,
+		data: "page_refresh_time="+page_refresh_time_val+"&default_color="+de_color+"&speed_limit="+speed_limit+"&fatigue_remind_time="+fatigue_remind_time,
 		success: function(msg){
 			alert("配置更新成功！");
-			
+			page_refresh_time =page_refresh_time_val;
 			$.post("index.php",{
 				 "a":5021}
 				,function(data){
@@ -214,24 +216,35 @@ function update_set(){
 
 }
 
-//当前最小值是第2行的最大值
+//验证设置时速是否合理
 function change_speed(obj)
-{
+{  	
 	var ss;
-	//当前文本框ID
 	var speed_id = obj.id;
-
-	var speed_value = $("#"+speed_id).attr("value");
-
 	ss = speed_id.split("_");
 
-	$("#speed_"+(parseInt(ss[1])+parseInt(1))).attr("value",speed_value);
+	//得到当前值的上一个值
+	var forward_tow = $("#speed_"+(parseInt(ss[1])-parseInt(2))).attr("value"); 
+	//得到当前值 
+	var my_value=  $("#speed_"+(parseInt(ss[1]))).attr("value");
 
-	//检查最大值一定比最小值大	
-	var max_v = $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value");
+	//vaule输入不等于空的时候给上一个input赋值
+	if(my_value!=""){
+		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value",forward_tow);//赋值
+	}
+	else if(my_value==""){
+		 $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");//赋值
+	}
 
-	if(max_v >= speed_value && speed_value != "")
-		alert("最大速度应大于最小速度");
+	//最大时速和最小时速比较 错误给出提示	
+    if(parseInt(my_value) <= parseInt($("#speed_"+(parseInt(ss[1])-parseInt(1))).val())){
+		$("#message").html("<span style='font-size:14px;color:red'>当前速度不能小于最大速度！</span>");
+		judgeResult=false;
+	}else{
+		$("#message").html("<span></span>");
+		judgeResult=true;
+	}
+	return judgeResult;
 }
 
 //-->
