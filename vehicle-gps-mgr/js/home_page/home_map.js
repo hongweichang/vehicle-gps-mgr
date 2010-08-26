@@ -67,9 +67,9 @@
 	/**
 	 * 定位刷新操作
 	 */
-	$("#location_refresh",parent.document).click(function(){
-		if($(this).attr('checked') && refresh_state === 0 ){
-			loadCompanyVehicle();
+	$("#location_refresh",parent.document).click(function(){ 
+		if($(this).attr('checked') ){ 
+			refresh_vehicle_info();
 		}
 	}); 
 	
@@ -77,7 +77,7 @@
 	 * 初始化当前公司所有车辆定位信息
 	 */
 	function loadCompanyVehicle(){
-		if ($("#location_refresh",parent.document).attr('checked')) {
+		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===0) {
 			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=101",
@@ -151,8 +151,7 @@
 						map.getBestMap(points);
 					}
 				}
-			});
-			if(refresh_state!=0)
+			}); 
 				refresh_vehicle_info();
 			
 		}	
@@ -166,7 +165,7 @@
 	function refresh_vehicle_info(){
 		if (!$("#location_refresh",parent.document).attr('checked'))
 			return false; 
-		
+		 
 		switch(refresh_state){
 			case 0:    //'0'代表刷新所有车辆
 				refresh_state=0;
@@ -176,6 +175,7 @@
 				break;
 			case 1:  //‘1’代表刷新选择监控车辆 
 				refresh_state=1;
+				
 				setTimeout(function(){// alert("position: "+refresh_vehicles);
 					vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
