@@ -33,51 +33,57 @@ switch($act)
 		
 		echo $db->display($arr,"list");
 		break;
-	case "vehicle_position": //车辆定位加载	
+		
+		case "vehicle_position": //车辆定位加载	
 	 
-		//获取当前公司所有车辆信息
-		$vehicle = $vehicle_console->company_all_vehicle($company_id); 
-		
-		//导入数据映射文件解析类
-		require_once("include/data_mapping_handler.php");
-		 
-		//创建XML解析对象
-		$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
-		$arr_vehicle = array(); //车辆数据数组
-		
-		$index = 0; //下标索引
-		
-		$ve_status = new Vehicle_status(); 
-		
-		//获取车辆定位信息
-		foreach($vehicle as $value){
+			//获取当前公司所有车辆信息
+			$vehicle = $vehicle_console->company_all_vehicle($company_id); 
 			
-			$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
-			$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
+			//导入数据映射文件解析类
+			require_once("include/data_mapping_handler.php");
+			 
+			//创建XML解析对象
+			$xml_handler =  new Data_mapping_handler($GLOBALS["all"]["BASE"]."xml/color.xml");
+			$arr_vehicle = array(); //车辆数据数组
 			
-			$arr_vehicle[$index]['id']= $value['id'];//车id
-			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号
-			$arr_vehicle[$index]['gps_id']	= $value['gps_id']; //GPS id
-			$arr_vehicle[$index]['location_time']	= $value['location_time']; //定位时间			
-			$arr_vehicle[$index]['cur_longitude']	= $lon;
-			$arr_vehicle[$index]['cur_latitude']	= $lat;			
-			$arr_vehicle[$index]['cur_speed']	= $value['cur_speed']; //速度
-			$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']); //方向 
-			$arr_vehicle[$index]['group_name']	= $value['group_name']; //车辆组
-			$arr_vehicle[$index]['driver_name']	= $value['driver_name']; //驾驶人员
+			$index = 0; //下标索引
 			
-			$arr_vehicle[$index]['location_desc'] = $ve_status->get_location_desc($lon/100000,$lat/100000); //地址
+			$ve_status = new Vehicle_status(); 
 			
-			//图片路径
-			if(!isset($value['color'])) 
-				$arr_vehicle[$index]['file_path']	= "images/vehicle/gray"; //未设置、设置  默认车辆
-			 else 
-				$arr_vehicle[$index]['file_path']	= str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 	
+			//获取车辆定位信息
+			foreach($vehicle as $value){
 				
-			$index++; 
-		} 
-		echo json_encode($arr_vehicle); 
-		break;
+				$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
+				$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
+				
+				$arr_vehicle[$index]['id']= $value['id'];//车id
+				$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号			
+				$arr_vehicle[$index]['cur_longitude']	= $lon;
+				$arr_vehicle[$index]['cur_latitude']	= $lat;			
+				$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']); //方向 
+								
+				//图片路径
+				if(!isset($value['color'])) 
+					$arr_vehicle[$index]['file_path']	= "images/vehicle/gray"; //未设置、设置  默认车辆
+				 else 
+					$arr_vehicle[$index]['file_path']	= str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 	
+					
+				$index++; 
+			} 
+			echo json_encode($arr_vehicle); 
+			break;
+		
+		case "vehicle_issue": //动态加载车辆定位信息
+			$ve_status = new Vehicle_status(); 
+			$vehicle_id = $_REQUEST['vehicle_id']; //获取车辆ID
+			$vehicle = $vehicle_console->get_vehicle($vehicle_id); //根据ID查询车辆信息
+			
+			$lon = $ve_status->exact_lon($ve_status->around($vehicle[0]['cur_longitude'],0)); //经度
+			$lat = $ve_status->exact_lat($ve_status->around($vehicle[0]['cur_latitude'],0));//纬度
+			$vehicle[0]['location_desc']=$ve_status->get_location_desc($lon/100000,$lat/100000); //地址
+			
+			echo json_encode(($vehicle[0]));
+			break;
 }
 
 
