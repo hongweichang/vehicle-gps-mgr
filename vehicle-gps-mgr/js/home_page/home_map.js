@@ -181,11 +181,15 @@
 	 * @param vehicle_id 车辆ID
 	 * @PARAM title 车牌号，用于标题显示
 	 */
-	function addInfoWin(obj,title,vehicle_id){
+	function addInfoWin(obj,title,vehicle_id){ 
 		
 		var info = new LTInfoWindow( obj );
-
+		
 		function shwoInfo(){
+			info.setTitle(title);
+			
+			info.setLabel("<div id='show_info_div'>正在载入....</div>")
+			map.addOverLay(info); 
 			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
@@ -194,7 +198,6 @@
 					info.setLabel(get_data(data));
 				}
 			});
-			info.setTitle(title);
 			info.clear();
 			map.addOverLay(info);
 		}
@@ -203,13 +206,10 @@
 	
 	/*显示定位信息*/
 	function get_data(data){
-		if (data != null) {			
+		if (data != null) {		 
 			var vehicle_id = data['id']; //车辆id
-			var number_plate = data['number_plate']; //车牌号
 			var gps_id = data['gps_id']; //GPS编号
 			var location_time = data['location_time']; //当前定位时间 
-			var point_longitude = data['cur_longitude']; //当前经度
-			var point_latitude = data['cur_latitude']; //当前纬度 
 			var cur_speed = data['cur_speed'];//当前速度
 			var vehicle_group_name = data['group_name']; //车队
 			var driver_name = data['driver_name']; //驾驶员
