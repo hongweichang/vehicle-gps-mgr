@@ -93,6 +93,17 @@ class vehicle_console extends BASE{
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
 			}
 			
+			/**
+			 * 根据车辆ID查询车辆详细信息
+			 * @param $vehicle_id 车辆ID
+			 */
+			function get_vehicle($vehicle_id){
+				$this->sql = "select vm.*,dm.name as driver_name,vg.name as group_name from ".$this->tablename_vehicle_manage." as vm left join "
+								.$this->tablename_driver_manage." as dm on vm.driver_id=dm.id left join ".$this->tablename_vehicle_group
+								." as vg on vm.vehicle_group_id=vg.id where vm.id=".$vehicle_id;
+				return $this->data_list = $GLOBALS['db']->query($this->sql);
+			}
+			
 }
 
 ?>

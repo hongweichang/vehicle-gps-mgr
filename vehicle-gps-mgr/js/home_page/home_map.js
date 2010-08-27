@@ -78,6 +78,7 @@
 	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
+	 
 	function loadCompanyVehicle(){
 		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===0) {
 			$.ajax({
@@ -96,16 +97,11 @@
 						
 							var vehicle_id = data[i]['id']; //车辆id
 							var number_plate = data[i]['number_plate']; //车牌号
-							var gps_id = data[i]['gps_id']; //GPS编号
-							var location_time = data[i]['location_time']; //当前定位时间 
 							var point_longitude = data[i]['cur_longitude']; //当前经度
 							var point_latitude = data[i]['cur_latitude']; //当前纬度 
-							var cur_speed = data[i]['cur_speed'];//当前速度
 							var img_name = data[i]['cur_direction']; //图片名
-							var vehicle_group_name = data[i]['group_name']; //车队
-							var driver_name = data[i]['driver_name']; //驾驶员
 							var file_path = data[i]['file_path']; //文件路径
-							var location_desc = data[i]['location_desc']; //地址
+
 							//创建点对象
 							marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png"));
 							
@@ -114,33 +110,8 @@
 							
 							marker.openInfoWinElement("车牌号:"+number_plate);
 							
-							var context = 
-							"<div class='content_div'><div class='title'>GPS编号：</div>" +
-							"<div class='content'>"+gps_id + "</div></div>" +
-							"<div class='content_div'><div class='title'>车队：</div>" +
-							"<div class='content'>"+vehicle_group_name +"</div></div>" +
-							"<div class='content_div'><div class='title'>驾驶员：</div>" +
-							"<div class='content'>"+driver_name +"</div></div>"+
-							"<div class='content_div'><div class='title'>速度：</div> " +
-							"<div class='content'>"+cur_speed +"</div></div>" +
-							"<div class='content_div'><div class='title'>定位时间：</div>" +
-							"<div class='content'>"+location_time +"</div></div>" +
-							"<div class='content_div'><div class='title'>地址：</div> " +
-							"<div class='address_content'>"+location_desc +"</div></div></div>" +
-							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_ids=" +
-							vehicle_id +
-							"\")'><a href='#'>发布信息</a></div>" +
-											
-							"<div class='statistics_info' url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
-							vehicle_id +
-							"\")'><a href='#'>统计分析信息</a></div>" +
-									
-							"<div class='look_history' url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
-							vehicle_id +
-							"\")'><a href='#'>查看历史轨迹</a></div></div>";
-							
 							var title = "<span class='span'>"+number_plate+"</span>";
-							addInfoWin(marker, context,title);
+							addInfoWin(marker,title,vehicle_id);
 							
 							
 							//点添入地图中
@@ -157,8 +128,7 @@
 				refresh_vehicle_info();
 			
 		}	
-	} 
-	 
+	}
 	
 	/**
 	 * 刷新公司车辆信息
@@ -208,20 +178,71 @@
 	/**
 	 * 车辆提示信息
 	 * @param {Object} obj  点对象
-	 * @param {Object} context 对象提示内容
+	 * @param vehicle_id 车辆ID
+	 * @PARAM title 车牌号，用于标题显示
 	 */
-	function addInfoWin(obj,context,title){
+	function addInfoWin(obj,title,vehicle_id){
 		
 		var info = new LTInfoWindow( obj );
 
 		function shwoInfo(){
-			info.setLabel(context);
+			$.ajax({
+				type: "POST",
+				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
+				dataType: "json",
+				success: function(data){
+					info.setLabel(get_data(data));
+				}
+			});
 			info.setTitle(title);
 			info.clear();
 			map.addOverLay(info);
 		}
 		LTEvent.addListener(obj,"click",shwoInfo); 
 	} 
+	
+	/*显示定位信息*/
+	function get_data(data){
+		if (data != null) {			
+			var vehicle_id = data['id']; //车辆id
+			var number_plate = data['number_plate']; //车牌号
+			var gps_id = data['gps_id']; //GPS编号
+			var location_time = data['location_time']; //当前定位时间 
+			var point_longitude = data['cur_longitude']; //当前经度
+			var point_latitude = data['cur_latitude']; //当前纬度 
+			var cur_speed = data['cur_speed'];//当前速度
+			var vehicle_group_name = data['group_name']; //车队
+			var driver_name = data['driver_name']; //驾驶员
+			var location_desc = data['location_desc']; //地址
+			
+			var context = 
+			"<div class='content_div'><div class='title'>GPS编号：</div>" +
+			"<div class='content'>"+gps_id + "</div></div>" +
+			"<div class='content_div'><div class='title'>车队：</div>" +
+			"<div class='content'>"+vehicle_group_name +"</div></div>" +
+			"<div class='content_div'><div class='title'>驾驶员：</div>" +
+			"<div class='content'>"+driver_name +"</div></div>"+
+			"<div class='content_div'><div class='title'>速度：</div> " +
+			"<div class='content'>"+cur_speed +"</div></div>" +
+			"<div class='content_div'><div class='title'>定位时间：</div>" +
+			"<div class='content'>"+location_time +"</div></div>" +
+			"<div class='content_div'><div class='title'>地址：</div> " +
+			"<div class='address_content'>"+location_desc +"</div></div></div>" +
+			"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_ids=" +
+			vehicle_id +
+			"\")'><a href='#'>发布信息</a></div>" +
+							
+			"<div class='statistics_info' url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
+			vehicle_id +
+			"\")'><a href='#'>统计分析信息</a></div>" +
+					
+			"<div class='look_history' url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
+			vehicle_id +
+			"\")'><a href='#'>查看历史轨迹</a></div></div>";
+			
+			return context;
+		}
+	}
 	
 	function refresh_vehicle_position(str){
 			
