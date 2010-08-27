@@ -1,35 +1,30 @@
 <link type="text/css" href="css/alert.css"  media="screen" rel="stylesheet" />
-
-<div style="margin:10px; height:25px; width:600px;">
-   <div style=" float:left; height:22px;margin-left:8px;font-size:12px;">
-  	 	<select id="vehicle_group" OnChange='selVehicle()' style="width: 150px; ">
-  	 	{{group_option}}
-  	 	</select>
+<div class="body_div">
+   <div class="group_vehicle ">
+  	 	<select id="vehicle_group" OnChange='selVehicle()' class="select">{{group_option}}</select>
    </div>
    
-   <div style=" float:left; height:22px;margin-left:8px;font-size:12px;"> 
-   		<select id="vehicle_sel" style="width: 150px">
-   		{{vehicle_option}}
-   		</select> 
+   <div class="group_vehicle "> 
+   		<select id="vehicle_sel" class="select">{{vehicle_option}}</select> 
    </div>
-  <div style=" float:left; height:22px;margin-left:8px;font-size:12px;">
+  <div class="group_vehicle ">
    		<input onclick="reloadGrid();"  type="button" value="查询" /> 
   </div>
-  <div style="float:left;height:20px;font-size:12px;margin-left:8px;">
-	   <div style="float:left;font-size:12px; height:12px; margin-top:6px;">处理意见：</div>
-	   <div style="float:left;font-size:12px; height:12px;margin-top:3px;"><input type="checkbox" name="deal_condition" id="data_condition" /></div>
-	   <div style="float:left;font-size:11px; height:12px; margin-top:8px;">(包含已处理)</div>
+  <div class="deal_advice">
+	   <div class="deal_advice_title">处理意见：</div>
+	   <div class="deal_dadvice_checkbox"><input type="checkbox" name="deal_condition" id="data_condition" /></div>
+	   <div class="yes_no_deal">(包含已处理)</div>
   </div>
   
 </div>
 
-<div style="margin-top:20px;height:310px;width:56%;font-size:12px;">
+<div class="alert_jqgrid">
 	<table id="navgrid1"></table>
 	<div id="pagernav1"></div>
 </div>
 
 
-<div style="padding: 20px; background-color: #fff; display: none; font-size:12px;" id="dialog">
+<div class="dialog" id="dialog">
 	<div id="canAdviceSelectDiv"></div>
 </div>
 

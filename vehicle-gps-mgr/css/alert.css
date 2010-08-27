@@ -1,0 +1,75 @@
+/***alert_list.html***/
+.body_div{
+	margin:10px;
+	height:25px;
+	width:600px;
+}
+.group_vehicle{
+	float:left; 
+	height:22px;
+	margin-left:8px;
+	font-size:12px;
+}
+.select{
+	width: 150px;
+}
+.deal_advice{
+	float:left;
+	height:20px;
+	font-size:12px;
+	margin-left:8px;
+}
+.deal_advice_title{
+	float:left;
+	font-size:12px;
+	height:12px; 
+	margin-top:6px;
+}
+.deal_dadvice_checkbox{
+	float:left;
+	font-size:12px; 
+	height:12px;
+	margin-top:3px;
+}
+.yes_no_deal{
+	float:left;
+	font-size:11px; 
+	height:12px;
+	margin-top:8px;
+}
+.alert_jqgrid{
+	margin-top:20px;
+	height:310px;
+	width:56%;
+	font-size:12px;
+}
+.dialog{
+	padding:20px;
+	background-color:#fff;
+	display: none; 
+	font-size:12px;
+}
+/***alert_write_opinion.html***/
+	.advice_title{
+		font-weight:700;
+		font-size:12px;
+	}
+	.advice_select{
+	width:140px;
+	}
+    .advice_div{
+	margin-top:8px;
+    }
+	.advice_content{
+    font-weight:700;
+     font-size:12px;
+	}
+	.advice_textarea{
+	height:160px; 
+	width:200px;
+	}
+	.button_div{
+	font-size:12px;
+	 text-align:center;
+	}
+-->

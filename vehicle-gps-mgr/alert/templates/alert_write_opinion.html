@@ -1,17 +1,17 @@
 <!--这是一个局部页面，被其他页面用ajax方式调入 -->
 <input id="alertId" type="hidden" value="{{ID}}"></input>
-<div style="font-size:12px;">
-	<span style="font-weight:700; font-size:12px;">备选意见：</span>
-	<select id="preparedOpinion" style="width:140px;">{{OPTION}}</select>
+<div>
+	<span class="advice_title">备选意见：</span>
+	<select id="preparedOpinion" class="advice_select">{{OPTION}}</select>
 </div>
-<div style="margin-top:8px;">
-	<span style="font-weight:700; font-size:12px;">意见内容：</span>
-	<textarea id="advice" style="height:160px; width:200px;font-size:12px;" >
+<div class="advice_div">
+	<span class="advice_content">意见内容：</span>
+	<textarea id="advice" class="advice_textarea" >
 </textarea>
 </div>
-<div style="font-size:12px; text-align:center;">
-<input type="button" id="addOpinion" name="addOpinion" value="确定"/>&nbsp;&nbsp;&nbsp;&nbsp;
-<input type="button" id="return" name="return" value="退出"/>
+<div class="button_div">
+	<input type="button" id="addOpinion" name="addOpinion" value="确定"/>&nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="button" id="return" name="return" value="退出"/>
 </div>
 <div>
 <label id="result"></label>
