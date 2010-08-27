@@ -277,12 +277,6 @@
 						var file_path = data[i][4]; //文件目录
 						var img_name = data[i][3];  //图片名称
 						var number_plate = data[i][5]; //车牌号
-						var gps_id = data[i][6]; //GPS编号 
-						var location_time = data[i][7];//定位时间
-						var vehcile_group_name = data[i][8];//车组名
-						var driver_name = data[i][9]; //驾驶员
-						var cur_speed = data[i][10];//速度
-						var location_desc = data[i][11];//地址
 
 						points.push( new LTPoint(point_longitude,point_latitude));
 
@@ -290,36 +284,10 @@
 						//创建点对象
 						marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
-
+						//设置标题
+						var title = "<span class='span'>"+number_plate+"</span>";
 						//点对象设置内容
-						var context = 
-							"<div class='content_div'><div class='title'>GPS编号：</div>" +
-							"<div class='content'>"+gps_id + "</div></div>" +
-							"<div class='content_div'><div class='title'>车队：</div>" +
-							"<div class='content'>"+vehcile_group_name +"</div></div>" +
-							"<div class='content_div'><div class='title'>驾驶员：</div>" +
-							"<div class='content'>"+driver_name +"</div></div>"+
-							"<div class='content_div'><div class='title'>速度：</div> " +
-							"<div class='content'>"+cur_speed +"</div></div>" +
-							"<div class='content_div'><div class='title'>定位时间：</div>" +
-							"<div class='content'>"+location_time +"</div></div>" +
-							"<div class='content_div'><div class='title'>地址：</div> " +
-							"<div class='address_content'>"+location_desc +"</div></div></div>" +
-							"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&vehicle_id=" +
-							vehicle_id +
-							"\")'><a href='#'>发布信息</a></div>" +
-											
-							"<div class='statistics_info' url='index.php?a=402' showWidth=\"850\" showHeight=\"320\" title='车辆统计分析信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=402&vehicle_id="+
-							vehicle_id +
-							"\")'><a href='#'>统计分析信息</a></div>" +
-									
-							"<div class='look_history' url='index.php?a=201' showWidth=\"900\" showHeight=\"400\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
-							vehicle_id +
-							"\")'><a href='#'>查看历史轨迹</a></div></div>";
-							
-							var title = "<span class='span'>"+number_plate+"</span>";
-						//点对象设置内容
-						addInfoWin(marker,context,title);
+						addInfoWin(marker,title,vehicle_id);
 
 						//点添入地图中
 						map.addOverLay(marker);
