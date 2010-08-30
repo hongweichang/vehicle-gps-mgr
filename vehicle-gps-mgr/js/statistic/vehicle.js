@@ -100,13 +100,12 @@
 	//点击要查询的车辆
 	function select_vehicle_data(){
 			$("#select_statistic_content").dialog({height:350,width:700,title:'选择要查询的车辆',
-	            autoOpen:true,hide:'blind',show:'blind'}); 		                	 			                 
-	        $("#select_statistic_content").html("");
-	        $("#select_statistic_content").mask("处理中...");
-
-		$.post("index.php?a=1&array_ID="+array_id,function(data){	
+	            autoOpen:true,hide:'blind',show:'blind',close:function(event, ui) {
+				   $("#select_statistic_content").html("");
+			}}); 		                	 			                 
+	    $("#select_statistic_content").mask("处理中...");
+		$.post("index.php?a=1&array_ID="+array_id,function(data){
 		$("#select_statistic_content").html(data);
-
 		$("#sel_vehicle_commit").click(function(){
 			var vehicles = $(".vehicle:checked");
 	     	var str="";

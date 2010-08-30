@@ -1,5 +1,5 @@
-$("#tabs").tabs(); //加载JQUERY UI
-			
+
+	$("#tabs").tabs(); //加载JQUERY UI				
 
 			//选择本组所有车辆
 	        $(".selectall").click(function(){
