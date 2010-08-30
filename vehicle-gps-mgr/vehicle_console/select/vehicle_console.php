@@ -30,9 +30,9 @@ switch ($act) {
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
 		/**遍历车辆组，生成车辆组标题*/
-		$str = "<div style='font-size:12px; '><ul>";
+		$str = "<link type='text/css' href='/css/vehicle_console.css'  media='screen' rel='stylesheet' /><div class='vehicle_status_font'><ul>";
 		foreach ( $vehicle_group as $value ) {
-			$str = $str . "<li style='font-size:12px;'><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
+			$str = $str . "<li class='vehicle_status_font'><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
 		}
 		$str = $str."</ul></div>";
 		
@@ -44,11 +44,11 @@ switch ($act) {
 		/*遍历车辆组，显示车辆*/
 		foreach ( $vehicle_group as $values ) {
 			$vehicles = $vehicle_console->get_group_vehicle ( "where vehicle_group_id=" . $values [0],$company_id);//查询该组的所有车辆
-			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
+			$str = $str . "<div class='vehicle_status_font' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox'  value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
-							"'/><span style='font-weight:700;'>选择本组车辆</span>
-							<div style='overflow:scroll;overflow-x:hidden;overflow-y:scroll; font-size:12px; width:600px; height:160px; margin-top:10px;'><table border='1' width='600' height='25' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
-								   style='border-collapse:collapse;font-size:12px; width:100%;height:100%' >";
+							"'/><span class='table_select_title'>选择本组车辆</span>
+							<div class='table_div'><table border='1' width='600' height='25' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
+								   class='table vehicle_status_font' >";
 			
 			$count = count($vehicles);  //获取该组车辆总数
 			$rows = $count/6;  //每行显示六辆车辆
@@ -69,11 +69,11 @@ switch ($act) {
 		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");
 		   		 	/*判断GPRS是否在线*/
 		   		 	if($vehicles[$m]['gprs_status']==1){
-		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' ".$is_selected.
+		   		 		$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
 		   		 							" class='vehicle' name='" . $values [0] . "' 
 											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		   		 	}else{
-		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' disabled />" .
+		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
 		   		 							 $vehicles [$m][1]."</td>" ;
 		   		 		}
 		  	 		}
@@ -84,12 +84,12 @@ switch ($act) {
 		   		 		
 		   		 	/*判断GPRS是否在线*/
 		   		 	if($vehicles[$m]['gprs_status']==1){
-					$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;'  ".$is_selected.
+					$str = $str . "<td class='table_td'><input type='checkbox' ".$is_selected.
 										"  class='vehicle' name='" . $values [0] . "' 
 		
 						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 		   		 	}else{
-		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' style='font-size:12px;' disabled />" .
+		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
 		   		 							 $vehicles [$m][1]."</td>" ;
 		   		 		}
 		  	 		} 

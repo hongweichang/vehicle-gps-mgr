@@ -59,3 +59,26 @@
 	font-size:12px;
 	margin-top:5px;
 }
+/**************vehicle_console.php***************/
+.table_select_title{
+	font-weight:700;
+}
+.table_div{
+	overflow:scroll;
+	overflow-x:hidden;
+	overflow-y:scroll;
+	font-size:12px;
+	width:600px; 
+	height:160px; 
+	margin-top:10px;
+}
+.table{
+	border-collapse:collapse;
+	font-size:12px;
+	width:100%;
+	height:100%;
+}
+.table_td{
+	width:30px;
+	height:28px;
+}
