@@ -16,30 +16,5 @@
 <div>
 <label id="result"></label>
 </div>
-<script type="text/javascript">
-		function setAdvice(){
-			var opinion = $("#preparedOpinion option:selected").text(); 
-		 	$("#advice").text(opinion);
-		}
 
-		setAdvice();
-		 
-		$("#preparedOpinion").change(function(){
-			setAdvice();
-		});
-
-		$("#addOpinion").click(function(){
-			var id = $("#alertId").val();
-			$.post("index.php",{
-				"a":904,
-				"id":id,
-				"advice":$("#advice").text()},
-				function(data){
-				$("#result").text(data);
-			});
-		});
-
-		$("#return").click(function(){
-			$("#opinion").dialog("close");
-		});
-</script>
+<script src="js/alert/write_option.js" type="text/javascript"></script>
