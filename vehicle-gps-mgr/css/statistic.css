@@ -1,0 +1,58 @@
+/*************statistic_vehicle***************/
+.statistic_vehicle_bodydiv{
+	height:360px;
+	 width:870px;
+}
+.statistic_vehicle_div{
+	height:27px; 
+	width:800px;
+	margin-bottom:10px;
+}
+.statistic_begin_time,.statistic_end_time{
+	font-weight:700;
+	float:left; 
+	height:18px;
+	margin-top:3px;
+}
+.statistic_vehicle_input,.statistic_select_vehicle{
+	float:left;
+	height:25px;
+	margin-left:5px;
+}
+.statistic_end_time{ 
+	margin-left:40px;
+}
+.statistic_select_vehicle{
+	margin-left:15px;
+}
+.statistic_font{
+	font-size:12px;
+}
+.statistic_input{
+	size:20px;
+}
+.statistic_num{
+	margin:10px 0;
+	font-weight:700;
+}
+/*************statistic_driver***************/
+
+.statistic_body_div{
+	height:99%; 
+	width:99%;
+}
+.statistic_div{
+	height:27px; 
+	width:600px; 
+	margin-bottom:10px;
+}
+.statistic_input_div,.statistic_select{
+	float:left;
+	height:25px;
+}
+.statistic_input_div{
+	margin-left:5px;
+}
+.statistic_select{
+	margin-left:15px;
+}

@@ -1,30 +1,27 @@
+<link type="text/css" href="css/statistic.css"  media="screen" rel="stylesheet" />
 
-<div style="height:360px; width:870px;font-size:12px;">
-	<div style="height:27px; width:800px; margin-bottom:10px;font-size:12px;">
-		<div style="font-weight:700;float:left; height:18px;margin-top:3px;">
-			查询开始时间:
+<div class="statistic_vehicle_bodydiv statistic_font">
+	<div class="statistic_vehicle_div statistic_font">
+		<div class="statistic_begin_time">查询开始时间:</div>
+		<div class="statistic_vehicle_input">
+			<input type="text" name="vehicle_begin_data" id="vehicle_begin_data" class="statistic_input" />
 		</div>
-		<div style="float:left; height:25px;margin-left:5px;">
-			<input type="text" name="vehicle_begin_data" id="vehicle_begin_data" size="20px" />
-		</div>
-		<div style="font-weight:700;float:left; height:18px;margin-top:3px; margin-left:40px;">
-			查询结束时间:
-		</div>
-		<div style="float:left; height:25px;margin-left:5px;">
-			<input type="text" name="vehicle_end_data" id="vehicle_end_data" size="20px" />
+		<div class="statistic_end_time"> 查询结束时间: </div>
+		<div class="statistic_vehicle_input">
+			<input type="text" name="vehicle_end_data" id="vehicle_end_data" class="statistic_input" />
 		</div>
 		
-		<div style="float:left; height:25px; margin-left:15px;" id="vehicle_sel">
-		    <input type="button"  onclick="select_vehicle_data();" value="选择要查询的车辆" width="200px" />
+		<div class="statistic_select_vehicle" id="vehicle_sel">
+		    <input type="button"  onclick="select_vehicle_data();" value="选择要查询的车辆"  />
 		</div>	
 		
-		<div style="float:left; height:25px; margin-left:15px;">
-			<input type="button" value="查询" onclick="condition_vehicle_data()"  width="140px" />		
+		<div class="statistic_select_vehicle">
+			<input type="button" value="查询" onclick="condition_vehicle_data()" />		
 		</div>
 			
 	</div>
-	<table id="vehicle_statistic_table" style="font-size:12px;"></table>
-	<div id="vehicle_statistic_div" style="font-size:12px;"></div>
+	<table id="vehicle_statistic_table" class="statistic_font"></table>
+	<div id="vehicle_statistic_div" class="statistic_font"></div>
 </div>
 
 <input type="hidden" value="{{VEHICLE_ID}}" id="vehicle_id_value" name="vehicle_id_value" />
