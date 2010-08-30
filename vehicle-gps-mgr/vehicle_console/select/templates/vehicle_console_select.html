@@ -1,33 +1,14 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
- <head> 
- 	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
-	
-	<!-- 滚动条样式 -->
-	<style>
- 		.scroll{
-			padding-right:10px;overflow-y:auto;padding-left:10px;
-			font-size:11pt;padding-bottom:0px;overflow:auto;width:510px; 
-			line-height:100%;padding-top:0px;font-family:宋体;letter_spacing:1pt;
-			height:150px;text-align:left
-		}
- 	</style>
-</head>
-<body style="width:620px; height:282px; font-size:12px;">	
-	<div style="border:1px #cccccc solid; width:619px; height:280px; margin-top:20px;">
-		<div id="tabs" style="font-size:12px;border-left:0px;border-right:0px;border-top:0px;">
-		     {{VEHICLE_GROUP_DATA}}
+<link type="text/css" href="css/vehicle_console.css"  media="screen" rel="stylesheet" />
+<div class="vehicle_select_bodydiv">
+	<div id="tabs" class="vehicle_select_tab">{{VEHICLE_GROUP_DATA}}</div>
+	<div class="vehicle_select_bottom">
+		<div class="vehicle_select_title">
+			<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input>
+			<span><input type='checkbox' disabled/>gprs离线状态</span>
 		</div>
-		<div style="width:620px; height:30px;position:absolute;bottom:25px;">
-			<div style="margin-left:5px;float:left;font-size:12px;margin-top:5px;">
-				<input type='checkbox' name='all' id='all' align='center'>选择全部车辆</input>
-				<span><input type='checkbox' disabled/>gprs离线状态</span>
-			</div>
-			<div style="float:right; margin-right:5px;font-size:12px;margin-top:5px;">
-				<input type="button" id="sel_vehicle_commit" value="确认"></input>
-			</div>
-	    </div>
-	</div> 
-	<script src="js/vehicle/vehicle_console_select.js" type="text/javascript"></script>
-</body>
-</html>
+		<div class="vehicle_select_button">
+			<input type="button" id="sel_vehicle_commit" value="确认"></input>
+		</div>
+    </div>
+</div> 
+<script src="js/vehicle/vehicle_console_select.js" type="text/javascript"></script>
