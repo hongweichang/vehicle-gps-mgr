@@ -1,33 +1,13 @@
+<link type="text/css" href="css/inquire_trace.css"  media="screen" rel="stylesheet" />
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
 <div id='his' class="font">
-	<input type="radio" name='history' id='history_trace'>查询历史轨迹</input>
-	<input type="radio" name='history' id="history_post">查询历史发布信息</input>
+	<input type="radio" name='history' id='history_trace' />查询历史轨迹
+	<input type="radio" name='history' id="history_post" />查询历史发布信息
 </div>
-<style>
-<!--
-	.map_control{width:900px;height:25px;margin-top:2px;}
-	.date_option{width:350px;}
-	.keep_left{float:left;font-size:12px;font-weight:700;}
-	.speed{width:39px;margin-top:5px;text-align:center}
-	.track_info{width:85px;margin-top:5px;height:10px;}	
-	.spacing{margin:0px 5px 0px 5px}	
-    .font{font-size:12px;font-weight:700;}
-	#cur_run_time{width:100px;height:10px;margin-top:5px;}
-	#show_time{width:45px;margin-left:2px;font-weight:700;margin-top:5px;text-align:center;}
-	.location_info{font-size:12px;border:1px #99CCFF solid; margin-top:0px; height:208px;}
-	.location_div{height:16px;margin-top:8px; border:0px red solid;}
-	.location_title{width:57px; float:left;height:15px;border:0px red solid; margin-top:8px;text-align:right;font-weight:700;}
-	.location_content{width:128px; float:left;height:15px; margin-top:8px;}
-
-	.location_info_tile{height:17px;text-align:center;width:100%;}
-	.location_info_show{width:73%;height:15px;}
-	.location_info_operate{width:27%;height:15px;}
--->
-</style>
 <div id="control_map" class="map_control">
 	<div class="keep_left">
-		 开始时间：<input type="text" id="inquire_startTime" size="15" /> 
-		 结束时间：<input type="text" id="inquire_endTime" size="15" /> 
+		 开始时间：<input type="text" id="inquire_startTime" class="input" /> 
+		 结束时间：<input type="text" id="inquire_endTime" class="input"/> 
 	</div>
 	<div class="keep_left" id="speed_control"> 
 		<div class="speed keep_left">速度：</div> 
@@ -36,78 +16,74 @@
 		<div class="track_info keep_left" id="history_progress"></div>
 	</div>
 	<div class="keep_left spacing">
-		<span id='info_select_vehicle'>
-			{{FUNCTION_OPERATE}}
-		</span>
+		<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
  	</div>
  	<div class="keep_left spacing">
-		<select id="vehicle_info">
-			{{vehicle_list}}
-		</select>
+		<select id="vehicle_info">{{vehicle_list}}</select>
 	</div>
 	<div class="keep_left spacing">	
 		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
-		<img alt="播放" id="play_history" src="images/play.png" style="cursor:hand;"/>
-		<img alt="暂停" id="suspend_history" src="images/suspend.png" style="cursor:hand;display:none;"/> 
-		<img alt="停止" id="stop_history" src="images/stop.png" style="cursor:hand;"/>  
+		<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
+		<img alt="暂停" id="suspend_history" src="images/suspend.png" class="suspend hand"/> 
+		<img alt="停止" id="stop_history" src="images/stop.png" class="hand"/>  
 		<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 	</div>
 
 </div>
 
 <div id="drag">
-<div id='his_infoes'>
-	<table id='infoes'></table>
-	<div id="pagernav_infoes"></div>
-</div>
-
-<div id="show_area" style="display:none">
-	<table id="show_vehicles_page" style="width:880px;"></table>
-	<div id="page_show"></div>
-</div>
-<div id="areas">
-	<iframe id="mode_area"  style="width:900px;height:410px;" 
-	marginwidth="0" marginheight="0" scrolling="0" frameborder="0"></iframe>
-	<div id="area_vehicles"></div>
-</div>
-
-
-<div class="toggler" id="location_info">
-		<div id="effect" class="ui-widget-content ui-corner-all">
-			<h3 class="ui-widget-header ui-corner-all cursor_style">
-				<div class="location_info_tile">
-						 <div class="keep_left location_info_show">定位信息</div>
-						 <div class="keep_left location_info_operate">
-						 		<a id="dragger" href="#">[隐藏]</a>
-						 </div>
+	<div id='his_infoes'>
+		<table id='infoes'></table>
+		<div id="pagernav_infoes"></div>
+	</div>
+	
+	<div id="show_area" style="display:none">
+		<table id="show_vehicles_page" style="width:880px;"></table>
+		<div id="page_show"></div>
+	</div>
+	<div id="areas">
+		<iframe id="mode_area"  style="width:900px;height:410px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
+		<div id="area_vehicles"></div>
+	</div>
+	
+	
+	<div class="toggler" id="location_info">
+			<div id="effect" class="ui-widget-content ui-corner-all">
+				<div class="ui-widget-header ui-corner-all cursor_style">
+					<div class="location_info_tile">
+							 <div class="keep_left location_info_show">定位信息</div>
+							 <div class="keep_left location_info_operate">
+							 		<a id="dragger" href="#">[隐藏]</a>
+							 </div>
+					</div>
+				
 				</div>
-			</h3>
-			<div class="location_info">
-				<div class="location_title">车牌号:</div>
-				<div id="vehicle_id" class="location_content">&nbsp;</div>
-				<div class="location_title">GPS编号:</div>
-				<div id="gps_id" class="location_content">&nbsp;</div>
-				<div class="location_title">方向:</div>
-				<div id="direction" class="location_content">&nbsp;</div>
-				<div class="location_title">速度:</div>
-				<div id="speed" class="location_content">&nbsp;</div>
-				<div class="location_title">经度:</div>
-				<div id="longitude" class="location_content">&nbsp;</div>
-				<div class="location_title">纬度:</div>
-				<div id="latitude" class="location_content">&nbsp;</div>
-				<div class="location_title">定位时间:</div>
-				<div id="location_time" class="location_content">&nbsp;</div>
-				<div class="location_title">地址:</div>
-				<div id="address" class="location_content">&nbsp;</div>
+				<div class="location_info">
+					<div class="location_title">车牌号:</div>
+					<div id="vehicle_id" class="location_content">&nbsp;</div>
+					<div class="location_title">GPS编号:</div>
+					<div id="gps_id" class="location_content">&nbsp;</div>
+					<div class="location_title">方向:</div>
+					<div id="direction" class="location_content">&nbsp;</div>
+					<div class="location_title">速度:</div>
+					<div id="speed" class="location_content">&nbsp;</div>
+					<div class="location_title">经度:</div>
+					<div id="longitude" class="location_content">&nbsp;</div>
+					<div class="location_title">纬度:</div>
+					<div id="latitude" class="location_content">&nbsp;</div>
+					<div class="location_title">定位时间:</div>
+					<div id="location_time" class="location_content">&nbsp;</div>
+					<div class="location_title">地址:</div>
+					<div id="address" class="location_content">&nbsp;</div>
+				</div>
+				
 			</div>
-			
-		</div>
-</div>  
-<div id="inquireing" style="border:4px #c8c8c8 solid;width:850px;height:343px;">	
-	<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html"
-		 style="width:850px;height:345px;" 
-		marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe> 
-</div>		
+	</div>  
+	<div id="inquireing" class="inquireing">	
+		<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html"
+			 style="width:850px;height:345px;" 
+			marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe> 
+	</div>		
 
 </div>
 
