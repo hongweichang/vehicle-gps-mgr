@@ -75,6 +75,7 @@
 		moveLsitener=LTEvent.addListener(map,"moveend",onMoveEnd);
 	}
 	
+	
 	/**
 	 * 运行历史轨迹
 	 */
@@ -107,7 +108,8 @@
 	function clearOverLay(){
 		map.clearOverLays(); 
 	}
-	
+	 
+	 
 	//等待线程
 	function wait(){
 		
