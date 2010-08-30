@@ -42,39 +42,6 @@ switch ($act) {
 		echo $GLOBALS ['db']->display ( null, $act );
 		break;
 	
-	case "driver_list_data" :  //给驾驶员列表页面填充数据
-		if (! $sidx)
-			$sidx = 1;
-		$wh = "where 1=1 "; //查询条件
-		$limit_length = 8; //设置处理意见字符串最多显示8个字符
-		$driver = new Statistic ();
-		
-		$count = $driver->get_driver_count ($company_id);//根据公司id查询所本公司的驾驶员总数
-		
-		if ($count > 0) {
-			$total_pages = ceil ( $count / $limit );
-		} else {
-			$total_pages = 0;
-		}
-		if ($page > $total_pages)
-			$page = $total_pages;
-		$start = $limit * $page - $limit;
-		if ($start < 0)
-			$start = 0;
-		
-		$dataList = $driver->get_all_driver ( $wh, $sidx, $sord, $start, $limit,$company_id );//得到驾驶员信息
-		
-		$response->page = $page; //分别赋值当前页,总页数，总数据条数
-		$response->total = $total_pages;
-		$response->records = $count;
-		
-		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
-			$response->rows [$key] ['driver_id'] = $value ['driver_id'];			
-			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
-		}
-		echo json_encode ( $response ); //打印json格式的数据
-		break;
-	
 	case "driver_time_data" ://根据时间查询驾驶员信息
 		if (! $sidx)
 			$sidx = 1;
@@ -103,8 +70,8 @@ switch ($act) {
 		$response->records = $count;
 		
 		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
-			$response->rows [$key] ['driver_id'] = $value ['driver_id'];
-			$response->rows [$key] ['cell'] = array ($value ['driver_id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['driver_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
+			$response->rows [$key] ['id'] = $value ['id'];
+			$response->rows [$key] ['cell'] = array ($value ['id'], $value ['name'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_driver(" . $value ['id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
 		}
 		echo json_encode ( $response ); //打印json格式的数据
 		break;

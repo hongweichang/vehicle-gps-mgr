@@ -13,51 +13,13 @@
 				<input type="text" name="driver_end_data" id="driver_end_data" size="20px" />
 			</div>
 			<div style="float:left; height:25px; margin-left:15px;">
-			<input type="button"  onclick="condition_driver_data();" value="查询"  width="140px" />
-		
-		</div>
-		     
+			<input type="button"  onclick="condition_driver_data();" value="查询"  width="140px" />		
+		</div>		     
 	</div>
 	<table id="statistic_driver_table" style="font-size:12px;"></table>
 	<div id="statistic_driver_div" style="font-size:12px;"></div>
-
 </div>
-
 <script src="js/statistic/driver.js" type="text/javascript"></script>
 
-<script>
-$("#driver_begin_data").datetimepicker( {
-	ampm : false,//上午下午是否显示  
-	timeFormat : 'hh:mm:ss',//时间模式  
-	stepHour : 1,//拖动时间时的间隔  
-	stepMinute : 1,//拖动分钟时的间隔  
-	//stepSecond: 1,//拖动秒时的间隔
-	dateFormat : "yy/mm/dd", //日期格式设定  
-	showHour : true,//是否显示小时，默认是true  
-	showMinute : true,
-	showSecond : false,
-	createButton : false
-});
 
-$("#driver_end_data").datetimepicker( {
-	ampm : false,//上午下午是否显示  
-	timeFormat : 'hh:mm:ss',//时间模式  
-	stepHour : 1,//拖动时间时的间隔  
-	stepMinute : 1,//拖动分钟时的间隔  
-	//stepSecond: 1,//拖动秒时的间隔
-	dateFormat : "yy/mm/dd", //日期格式设定  
-	showHour : true,//是否显示小时，默认是true  
-	showMinute : true,
-	showSecond : false,
-	createButton : false
-});
 
-	//点击查询搜索符合条件的数据
-	function condition_driver_data() {
-		$("#statistic_driver_table").jqGrid().setGridParam({url : "index.php?a=408&begin_data="+$("#driver_begin_data").val()
-			+"&end_data="+$("#driver_end_data").val(),page:1}).trigger("reloadGrid");			
-	}
-
-	
-   
-</script>
