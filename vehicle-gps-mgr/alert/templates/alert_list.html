@@ -1,19 +1,21 @@
 <link type="text/css" href="css/alert.css"  media="screen" rel="stylesheet" />
-<div class="body_div">
-   <div class="group_vehicle ">
-  	 	<select id="vehicle_group" OnChange='selVehicle()' class="select">{{group_option}}</select>
+<div class="alert_body_div">
+   <div class="alert_group_vehicle ">
+  	 	<select id="vehicle_group" OnChange='selVehicle()' class="alert_select">{{group_option}}</select>
    </div>
    
-   <div class="group_vehicle "> 
-   		<select id="vehicle_sel" class="select">{{vehicle_option}}</select> 
+   <div class="alert_group_vehicle "> 
+   		<select id="vehicle_sel" class="alert_select">{{vehicle_option}}</select> 
    </div>
-  <div class="group_vehicle ">
+  <div class="alert_group_vehicle ">
    		<input onclick="reloadGrid();"  type="button" value="查询" /> 
   </div>
-  <div class="deal_advice">
-	   <div class="deal_advice_title">处理意见：</div>
-	   <div class="deal_dadvice_checkbox"><input type="checkbox" name="deal_condition" id="data_condition" /></div>
-	   <div class="yes_no_deal">(包含已处理)</div>
+  <div class="alert_deal_advice">
+	   <div class="alert_deal_advice_title">处理意见：</div>
+	   <div class="alert_deal_dadvice_checkbox">
+	   	<input type="checkbox" name="deal_condition" id="data_condition" />
+	   </div>
+	   <div class="alert_yes_no_deal">(包含已处理)</div>
   </div>
   
 </div>
