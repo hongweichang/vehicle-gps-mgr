@@ -15,7 +15,8 @@
 	/**
 	 * 刷新状态
 	 * 0 刷新公司所有车辆
-	 * 1 选择选择车辆
+	 * 1 刷新选择车辆
+	 * 2 停止刷新
 	 */
 	var refresh_state = 0;  
 	/**
@@ -135,20 +136,23 @@
 	 * @return
 	 */
 	function refresh_vehicle_info(){
-		if (!$("#location_refresh",parent.document).attr('checked'))
-			return false; 
+		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state===2){
+			alert("refresh_state: "+refresh_state);
+			return false;
+		}	
+			 
 		 
 		switch(refresh_state){
 			case 0:    //'0'代表刷新所有车辆
 				refresh_state=0;
-				setTimeout(function(){ //alert("complay all vehicle information");
+				setTimeout(function(){
 					loadCompanyVehicle();
 				}, window.parent.page_refresh_time * 1000);
 				break;
 			case 1:  //‘1’代表刷新选择监控车辆 
 				refresh_state=1;
 				
-				setTimeout(function(){// alert("position: "+refresh_vehicles);
+				setTimeout(function(){
 					vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
 				break; 
@@ -184,8 +188,11 @@
 	function addInfoWin(obj,title,vehicle_id){ 
 		
 		var info = new LTInfoWindow( obj );
-		
+		//alert(refresh_state);
+		var refresh_state_backup = refresh_state; //刷新操作状态备份
+
 		function shwoInfo(){
+			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
 			
 			info.setLabel("<div id='show_info_div'>正在载入....</div>")
@@ -195,14 +202,17 @@
 				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
 				dataType: "json",
 				success: function(data){
-					info.setLabel(get_data(data));
+					refresh_state = refresh_state_backup;
+					info.setLabel(get_data(data));					
 				}
 			});
 			info.clear();
-			map.addOverLay(info);
+			map.addOverLay(info);			
 		}
 		LTEvent.addListener(obj,"click",shwoInfo); 
 	} 
+	
+	
 	
 	/*显示定位信息*/
 	function get_data(data){
@@ -267,8 +277,7 @@
 					var points = new Array();
 					 
 					if(length>0)clearOverLay();
-						 
-					// alert("refresh_vehicles: "+refresh_vehicles);
+
 					for(var i=0;i<length;i++){        
 					 
 						var vehicle_id = data[i][0]; //车辆id
