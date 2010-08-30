@@ -30,7 +30,7 @@ switch ($act) {
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
 		/**遍历车辆组，生成车辆组标题*/
-		$str = "<div style='font-size:12px;'><ul>";
+		$str = "<div style='font-size:12px; '><ul>";
 		foreach ( $vehicle_group as $value ) {
 			$str = $str . "<li style='font-size:12px;'><a href='#tabs" . $value [0] . "'>" . $value [1] . "</a></li>";
 		}
@@ -47,7 +47,7 @@ switch ($act) {
 			$str = $str . "<div style='font-size:12px;' id='tabs" . $values [0] . "'>".
 							"<input type='checkbox'  value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 							"'/><span style='font-weight:700;'>选择本组车辆</span>
-							<table class='scroll' border='1' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
+							<div style='overflow:scroll;overflow-x:hidden;overflow-y:scroll; font-size:12px; width:600px; height:160px; margin-top:10px;'><table border='1' width='600' height='25' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
 								   style='border-collapse:collapse;font-size:12px; width:100%;height:100%' >";
 			
 			$count = count($vehicles);  //获取该组车辆总数
@@ -96,7 +96,7 @@ switch ($act) {
 		    		$str = $str."</tr>";
 				}
 			}
-			$str = $str . "</table></div>";
+			$str = $str . "</table></div></div>";
 		}
 		$arr ['vehicle_group_data'] = $str;
 		echo $db->display ( $arr, "select" );//输出数据到页面
