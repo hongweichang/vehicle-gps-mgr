@@ -13,7 +13,7 @@
 	var speed = 1000;  //速度/ms
 	var marker;   //地图标记对象
 	/**
-	 * 刷新状态(注：刷新不同操作，例：刷新公司所有车辆、刷新选择车辆)
+	 * 刷新状态(注：刷新不同操作，例：刷新公司车辆)
 	 * 0 刷新公司所有车辆
 	 * 1 刷新选择车辆
 	 * 2 停止刷新
@@ -87,8 +87,13 @@
 	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
-	function loadCompanyVehicle(){ 
-		 
+	function loadCompanyVehicle(){  
+		if(wait_state != 1){ 
+			setTimeout(function(){
+				 loadCompanyVehicle();
+			 },1000);
+		}else{ 
+		// $("#vehicle_load_info").mask("正在加载..."); 
 		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===0) {
 			$.ajax({
 				type: "POST",
@@ -97,7 +102,8 @@
 				success: function(data){
 					if (data != null) {
 						var length = data.length;
-						
+						var run_index = length;
+						 
 						if (length > 0) 
 							clearOverLay();
 						
@@ -129,39 +135,57 @@
 							var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
 							text.setLabel(number_plate);
 							map.addOverLay(text);
+							
+							run_index--;
 						}
 						map.getBestMap(points);
+						
+					//	$("#vehicle_load_info").unmask();
+						wait_load_vehicle();
+						
+						//等待加载完车辆定位，运行下一步
+						function wait_load_vehicle(){
+							if(run_index===0){
+								wait_state =1; 
+								refresh_vehicle_info();
+							 }else 
+								 setTimeout(function(){
+									 wait_load_vehicle();
+								 },1000); 
+						 }
+						
 					}
-					wait_state =1;
-					refresh_vehicle_info();
 				}
 			});  
-		}	
+		  }	
+	  }	
 	}
+	
+	
 	
 	/**
 	 * 刷新公司车辆信息
 	 * @return
 	 */
 	function refresh_vehicle_info(){
-		if(wait_state === 0) return false; //等待状态不允许执行刷新
+		//if(wait_state === 0) return false; //等待状态不允许执行刷新
 		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state===2)  return false;
 		 
 		switch(refresh_state){
 			case 0:    //'0'代表刷新所有车辆
 				refresh_state=0;
 				setTimeout(function(){
-					if(wait_state === 0) return false; //等待状态不允许执行刷新
-					wait_state=0;//停止其它函数块调用刷新公司车辆
+					//if(wait_state === 0) return false; //等待状态不允许执行刷新
+					//wait_state=0;//停止其它函数块调用刷新公司车辆
 					loadCompanyVehicle();
 				}, window.parent.page_refresh_time * 1000);
 				break;
 			case 1:  //‘1’代表刷新选择监控车辆 
 				refresh_state=1;
 				setTimeout(function(){ 
-					if(wait_state === 0) return false;//等待状态不允许执行刷新
-				 
-					 wait_state=0; //停止其它函数块调用刷新公司车辆
+					//if(wait_state === 0) return false;//等待状态不允许执行刷新
+					 
+					// wait_state=0; //停止其它函数块调用刷新公司车辆
 					 vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
 				break; 
@@ -198,7 +222,9 @@
 		
 		var info = new LTInfoWindow( obj );
 		var refresh_state_backup = refresh_state; //备份刷新 操作状态
-
+		
+		wait_state=0; //停止其它函数块调用刷新公司车辆
+		
 		function shwoInfo(){
 			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
@@ -214,18 +240,18 @@
 					
 					//还原当前操作前一次刷新状态
 					refresh_state = refresh_state_backup;
-					 
+					wait_state=1;
 					/**
 					 * 当等待为‘正常’状态设置状态为等待状态，以作为停止其它函数块调用刷新公司车辆。
 					 * 当前等待 2秒时间 
-					 */
+					
 					if(wait_state===1){ 
 						wait_state=0; //停止其它函数块调用刷新公司车辆
 						setTimeout(function(){
 							wait_state = 1;//允许当前可运行 ‘正常’状态  
 							refresh_vehicle_info(); //刷新公司车辆
 						},2000);
-					}	
+					} */	
 				}
 			});
 			
@@ -286,8 +312,12 @@
 	  * 车辆请求定位
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
-	function vehiclePosition(){ 
-		 
+	function vehiclePosition(){  
+		if(wait_state != 1){ 
+			setTimeout(function(){
+				 loadCompanyVehicle();
+			 },1000);
+		}else{ 
 		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===1) {
 		 $.ajax({
 				type:"POST",
@@ -297,7 +327,8 @@
 				
 					var length = data.length; 
 					var points = new Array();
-					 
+					var run_index  = length;
+					
 					if(length>0)clearOverLay();
 
 					for(var i=0;i<length;i++){        
@@ -325,12 +356,26 @@
 						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 						text.setLabel(number_plate ); 
 						map.addOverLay( text ); 
+						run_index --;
 					}
 					map.getBestMap(points);
-					wait_state =1; 
-					refresh_vehicle_info();
+					 
+					
+					wait_load_vehicle();
+					
+					//等待加载完车辆定位，运行下一步
+					function wait_load_vehicle(){
+						if(run_index===0){
+							wait_state =1; 
+							refresh_vehicle_info();
+						 }else 
+							 setTimeout(function(){
+								 wait_load_vehicle();
+							 },1000); 
+					 }
 				 } 
 			 });
+		}
 		}
 	 }
  
