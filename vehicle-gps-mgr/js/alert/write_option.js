@@ -10,8 +10,10 @@ function setAdvice(){
 		});
 
 		$("#addOpinion").click(function(){
+
+			$("#maskReuslt").mask("修改中,请耐心等候...");
 			var totalDeal=$("#totalDeal").attr('checked');
-	
+	         
 			//得到告警时间
 			var type=$("#alertType").val();
 			var id = $("#alertId").val();
@@ -23,8 +25,9 @@ function setAdvice(){
 				"vehicleID":vehicleID,
 				"totalDeal":totalDeal,
 				"advice":$("#advice").text()},
-				function(data){
-				$("#result").text(data);
+				function(data){					 
+					$("#maskReuslt").unmask();
+					$("#result").text(data);
 			});
 		});
 

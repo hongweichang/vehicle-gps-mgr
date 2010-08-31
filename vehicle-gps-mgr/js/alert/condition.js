@@ -7,7 +7,12 @@ function selVehicle() {// 车辆组联动车辆编号
 	}
 	else{
 		var vehicle_content = "";
+		
+		$("#vehicle_sel").empty();//onChange等待事件
+		$("#vehicle_sel").append("<option select='selected' value=-2>查询中请耐心等待...</option>");
+		
 		jQuery.ajax( {
+			
 			url : "index.php?a=906",// 读取车辆组的名称数据
 			type : "post",
 			data : "vehicle_id=" + vehicle_group_id,

@@ -1,12 +1,16 @@
 <link type="text/css" href="css/alert.css"  media="screen" rel="stylesheet" />
 <div class="alert_body_div">
+
+ <!-- 在js中的onChange事件触发selVehicle() 事件 -->
    <div class="alert_group_vehicle ">
   	 	<select id="vehicle_group" OnChange='selVehicle()' class="alert_select">{{group_option}}</select>
    </div>
-   
+ <!-- 加载等待事件  -->
    <div class="alert_group_vehicle "> 
    		<select id="vehicle_sel" class="alert_select">{{vehicle_option}}</select> 
    </div>
+   
+     
   <div class="alert_group_vehicle ">
    		<input onclick="reloadGrid();"  type="button" value="查询" /> 
   </div>
