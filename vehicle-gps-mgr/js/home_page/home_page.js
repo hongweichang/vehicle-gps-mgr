@@ -112,7 +112,7 @@ $(document).ready(function() {
 			,function(data){
 				
 				if("-1" == data){
-					$("#lamp").html("<img alt='警灯' src='images/lamp.jpg' style='height:56px; width:46px;'></img>");
+					$("#lamp").html("<img alt='警灯' src='images/lamp.png' style='height:56px; width:46px;'></img>");
 					$("#content").unmask();
 					$("#record").html("没有未处理的告警记录");
 					$("#operate").html("<a href='index?a=901'><img alt='查看更多' src='images/lookMore.jpg' style='width:20px; height:19px;margin-left:5px;'></a>");
