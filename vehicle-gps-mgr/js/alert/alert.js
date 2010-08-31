@@ -5,7 +5,7 @@
 	jQuery("#navgrid1").jqGrid( {
 		url : "index.php?a=902&group_id="+$("#vehicle_group").val()+"&vehicle_id="+$("#vehicle_sel").val()+"&deal="+$("#data_condition").attr("checked"),
 		datatype : "json",
-		colNames : [ 'id', '告警时间', '告警类型', '车牌号码', '处理人姓名', '描述', '处理状态' ],
+		colNames : [ 'id', '告警时间', '告警类型', '车牌号码', '处理人', '描述', '处理状态' ],
 		colModel : [ {
 			name : 'id',
 			index : 'id',

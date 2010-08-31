@@ -171,6 +171,25 @@ class Alert extends BASE {
     	$record = $GLOBALS ["db"]->query_once ( $this->sql );
     	return $record;
     }
+    
+    /**
+     * 批量修改告警
+     */
+    function alert_total_update($vehicle_id,$alert_type,$advice,$userID){
+    	$sql="update alert_info set dispose_opinion='".$advice."',dispose_id='".$userID."' where vehicle_id='".$vehicle_id."'
+    	      and alert_type='".$alert_type."'";	
+    	$record = $GLOBALS ["db"]->totleUpdate($sql);
+    	return $record;
+    }
+    
+    /*
+     * 根据用户 id得到用户姓名
+     */
+   //function alert_user_name($user_id){
+   //  $sql="select name from user where id=".$user_id;
+   //  $count = $GLOBALS ["db"]->query_once ( $this->sql );
+   //	 return $count [0];
+   //}
 
 }
 ?>

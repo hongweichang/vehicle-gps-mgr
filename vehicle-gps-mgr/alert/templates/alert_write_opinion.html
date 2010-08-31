@@ -1,5 +1,8 @@
 <!--这是一个局部页面，被其他页面用ajax方式调入 -->
 <input id="alertId" type="hidden" value="{{ID}}"></input>
+<input id="alertType" type="hidden" value="{{ALERTTYPE}}" />
+<input id="vehicleId" type="hidden" value="{{VEHICLEID}}" />
+
 <div>
 	<span class="alert_advice_title">备选意见：</span>
 	<select id="preparedOpinion" class="alert_advice_select">{{OPTION}}</select>
@@ -10,7 +13,9 @@
 </textarea>
 </div>
 <div class="alert_button_div">
-	<input type="button" id="addOpinion" name="addOpinion" value="确定"/>&nbsp;&nbsp;&nbsp;&nbsp;
+    <span class="alert_advice_content">是否批量处理：</span>
+    <input type="checkbox" id="totalDeal" name="totalDeal"  checked="checked" />
+	<input type="button" id="addOpinion" name="addOpinion" value="确定"/>
 	<input type="button" id="return" name="return" value="退出"/>
 </div>
 <div>

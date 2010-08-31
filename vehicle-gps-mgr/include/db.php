@@ -188,7 +188,19 @@ Class MySQL
 		return true;
 		//mysql_affected_rows();
 	}
-
+    
+    /**
+     * 更新多行,成功则返回true
+     */
+	function totleUpdate($sql=""){
+		$this->nu++;
+		$this->sql_list[] = $sql;
+		$results = mysql_query($sql,$this->CONN);
+		if( (!$results) or (empty($results)) )
+			return false;
+		return true;
+	}
+	
 	/*
 	*		删除数据
 	*/

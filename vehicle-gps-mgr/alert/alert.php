@@ -71,7 +71,7 @@ $vehicle_group = "";
 	
 	case "list_data" : //向jqgrid填充数据
 
-		$limit_length = 8; //设置处理意见字符串最多显示8个字符
+		$limit_length = 12; //设置处理意见字符串最多显示8个字符
 		$alert = new Alert ();
 		
 		$count = $alert->get_all_count ($group_id,$vehicle_id, $wh,$company_id );
@@ -98,23 +98,21 @@ $vehicle_group = "";
 			$alert_type_display = $dataMapping->getMappingText ( $tableName, $colName, $value ['alert_type'] );
 			
 			$vehicle_number = $alert->get_vehicle_manage_number ( $value ['vehicle_id'] );
-			$user_name = $alert->get_user_name ( $value ['dispose_id'] );
+			
+			$user_name = $alert->get_user_name ( $value ['dispose_id'] );//**************批注人的姓名
 			
 			$response->rows [$key] ['id'] = $value ['id'];
-			
-			$length=strlen(trim($value['dispose_opinion']));
-			
+					
 			if (strlen(trim($value['dispose_opinion']))!=0)
-			 {
-				
+			 { 			
 				if (strlen($value ['dispose_opinion']) > $limit_length) {
 					$shortString = convertOverlongString( $value ['dispose_opinion'], $limit_length );
 				}else{
 					$shortString=$value ['dispose_opinion'];
-				}
+				}	   
 			   $response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $shortString );
 			} else {
-				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
+				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].",".$value ['alert_type'].",".$value ['vehicle_id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
 		
 		}
@@ -129,15 +127,34 @@ $vehicle_group = "";
 		{
 			$options_str = $options_str."<option value=\"".$key."\">".$value."</option>";
 		}		
-		$options["option"] = $options_str;
+		$options["option"] = $options_str;		
 		$options["id"] = $_REQUEST ['id'];
+		$options["ALERTTYPE"]=$_REQUEST["alertType"];
+		$options["VEHICLEID"]=$_REQUEST["vehicleId"];
+		
+		
+		
 		echo $GLOBALS ['db']->display ( $options, $act );
 		break;
 		
 	case "add_opinion" : //给指定的数据添加处理意见
 		$alert = new Alert ( $_REQUEST ['id'] );
-		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );		
-		$boolean = $alert->edit_alert_advice ( $arr );
+				
+		$arr ["dispose_opinion"] = $db->prepare_value ( $_REQUEST ['advice'], "VARCHAR" );	
+		$arr ["dispose_id"]=get_session("user_id");
+		
+		$alert_type=$_REQUEST ['type'];
+		$vehicle_id  =$_REQUEST["vehicleID"];
+        $advice=$_REQUEST ['advice'];
+        $userID=get_session("user_id");
+        
+        $totalDeal=$_REQUEST["totalDeal"];
+        
+		if($totalDeal=="true"){      //先判断是否已经选择批量处理
+			$boolean = $alert->alert_total_update($vehicle_id,$alert_type,$advice,$userID);		
+		}else{
+			$boolean = $alert->edit_alert_advice ($arr);
+		}
 		if ($boolean) {
 			echo "意见添加成功";
 		} else {
