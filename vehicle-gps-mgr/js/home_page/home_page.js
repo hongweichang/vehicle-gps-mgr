@@ -13,6 +13,30 @@ var home_map =  document.getElementById("home_map_frame").contentWindow;
 
 //初始化
 $(document).ready(function() {
+	//提示年检时间
+	$.ajax({
+		type: "get",
+		url: window.parent.host+"/index.php?a=103",
+		dataType: "json",
+		success: function(data){
+			if(data==null){
+				$("#as_date").hide();
+			}else{
+				$("#as_date").show();
+				var str="<div>";
+				for(var i=0;i<data.length;i++){
+					str = str+data[i]['number_plate']+"的年检时间为:"+data[i]['next_AS_date']+"&nbsp;&nbsp;<input type='button' id="+(i+1)*3+" class='modify_as'" +
+							" value='修改时间'><br/><div id=tijiao"+(i+1)+" class='tijiao' style='display:none'><input type='text' id="+(i+1)*2+" class='new_as_date'><input type='button' id="+(i+1)+" class='commit_new_date'" +
+							" value='确定' name="+data[i]['id']+"></div><br/>";
+				}
+				str = str+"</div><script language='javascript' src='/js/home_page/as_date.js' ></script>"
+				$("#as_date").html(str);
+				$("#as_date").dialog({height:150,width:350,title:'年检提示',
+	                 autoOpen:true,position:[1200,900],hide:'blind',show:'blind'});
+			}
+		}
+	});
+	
 	/**展开动画效果**/
 	$('#dock2').Fisheye(
 			{

@@ -31,15 +31,14 @@
 	 * 1 正常
 	 */
 	var wait_state = 1;
-	
-
-	onLoadMap();
-	
+	 
+	onLoadMap(); 
+	 
 	/**
 	 * 加载地图
 	 */
-	function onLoadMap()
-	{	
+	function onLoadMap(){	
+		
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
@@ -55,12 +54,6 @@
 		var ltControl = new LTZoomInControl();
 		map.addControl( ltControl );
 		ltControl.setRight(240);
-		
-		/*添加测距控件*/
-		var PolyControl = new LTPolyLineControl();
-		map.addControl( PolyControl );
-		PolyControl.setTop( 10 ); 
-		PolyControl.setRight(160);
 
 		map.handleMouseScroll();
 		//绑定事件注册
@@ -114,6 +107,7 @@
 							var number_plate = data[i]['number_plate']; //车牌号
 							var point_longitude = data[i]['cur_longitude']; //当前经度
 							var point_latitude = data[i]['cur_latitude']; //当前纬度 
+							var alert_state = data[i]['alert_state'];// 告警状态
 							var img_name = data[i]['cur_direction']; //图片名
 							var file_path = data[i]['file_path']; //文件路径
 
@@ -133,7 +127,16 @@
 							map.addOverLay(marker);
 							
 							var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
-							text.setLabel(number_plate);
+							if(alert_state==0){
+								text.setLabel(number_plate+" 正常");
+							}else if(alert_state==1){
+								text.setBackgroundColor("red");//更改文字标签背景色
+								text.setLabel(number_plate+" 超速");
+
+							}else{
+								text.setBackgroundColor("yellow");//更改文字标签背景色
+								text.setLabel(number_plate+" 疲劳");
+							}
 							map.addOverLay(text);
 							
 							run_index--;

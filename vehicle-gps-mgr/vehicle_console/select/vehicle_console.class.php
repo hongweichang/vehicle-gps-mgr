@@ -50,15 +50,13 @@ class vehicle_console extends BASE{
 			 */
 			function company_all_vehicle($company_id=-1){ 
 				
-				$this->sql = "SELECT  v.id, v.company_id,v.number_plate,v.gps_id,v.location_time,v.cur_longitude,v.cur_latitude,v.cur_speed,v.cur_direction,g.name as group_name,d.name as driver_name, ".
+				$this->sql = "SELECT  v.id, v.company_id,v.number_plate,v.cur_longitude,v.cur_latitude,v.cur_direction,v.alert_state, ".
 							 "			(CASE WHEN s.color is null then c.default_color ".
 							 "			    ELSE s.color END)as color ".
 							 "				FROM ".$this->tablename_vehicle_manage." v ".
-							 "					LEFT JOIN ".$this->tablename_speed_color." as s ".
-							 "						ON s.company_id =".$company_id."  AND v.company_id=s.company_id AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ".
-							 "					LEFT JOIN  ".$this->tablename_vehicle_group." g ON g.company_id=v.company_id  ".
-							 "					LEFT JOIN ".$this->tablename_driver_manage." d ON d.id= v.driver_id	 ".
-							 "					LEFT JOIN ".$this->tablename_common_setting." c ON c.company_id =".$company_id.
+							 "				LEFT JOIN ".$this->tablename_speed_color." as s ".
+							 "				ON s.company_id =".$company_id."  AND v.company_id=s.company_id AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ".
+							 "				LEFT JOIN ".$this->tablename_common_setting." c ON c.company_id =".$company_id.
 							 "				WHERE v.company_id =".$company_id." AND (v.cur_longitude is not null OR v.cur_latitude is not null) AND v.gprs_status =1".
 							 "				GROUP BY v.id";
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
@@ -103,6 +101,37 @@ class vehicle_console extends BASE{
 								.$this->tablename_vehicle_manage." as vm left join "
 								.$this->tablename_driver_manage." as dm on vm.driver_id=dm.id left join ".$this->tablename_vehicle_group
 								." as vg on vm.vehicle_group_id=vg.id where vm.id=".$vehicle_id;
+				return $this->data_list = $GLOBALS['db']->query($this->sql);
+			}
+			
+			/**
+			 * 	查询本公司所有年检时间还有一个月的车辆
+			 */
+			function get_as_date(){
+				$company_id = get_session("company_id"); //获取公司ID
+				$this->sql = "select id,number_plate,next_AS_date from ".$this->tablename_vehicle_manage.
+							 " where (to_days(next_AS_date)-to_days(now())) between 0 and 30 and company_id=".
+							 $company_id;
+				return $this->data_list = $GLOBALS['db']->query($this->sql);
+			}
+			
+			/**
+			 * 	修改年检时间
+			 *  @param $vehicle 车辆
+			 */
+			function modify_as_date($vehicle){
+				if(!$GLOBALS['db']->update_row("vehicle_manage",$vehicle,"id")){
+					return false;
+				}
+				return true;				
+			}
+			
+			/**
+			 * 	查询车辆信息
+			 *  @param $vehicle_id 车辆ID
+			 */
+			function get_vehicle_once($vehicle_id){
+				$this->sql = "select * from ".$this->tablename_vehicle_manage." where id=".$vehicle_id;
 				return $this->data_list = $GLOBALS['db']->query($this->sql);
 			}
 			
