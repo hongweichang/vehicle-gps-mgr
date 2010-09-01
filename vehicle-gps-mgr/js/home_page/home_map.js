@@ -39,6 +39,11 @@
 	 */
 	var chanage_state = 0; 
 	
+	var leftOffsetRatio = 0.05;  //	矩形左间距
+	var rightOffsetRatio = 0.1;  //	矩形右间距
+	var upOffsetRatio = 0.05;    //	矩形上间距
+	var downOffsetRatio = 0.1;   //	矩形下间距
+					
 	onLoadMap(); 
 	  
 	/**
@@ -50,8 +55,6 @@
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
 		map.setMapCursor("hand","hand");
-		//初始化车辆定位
-		loadCompanyVehicle();
 		
 		var standControl = new LTStandMapControl();
 		standControl.setTop(40);
@@ -65,6 +68,9 @@
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
+		
+		//初始化车辆定位
+		loadCompanyVehicle();
 	} 
 
 	
@@ -89,24 +95,27 @@
 	 */
 	function loadCompanyVehicle(){  
 		if(wait_state != 1){ 
-			setTimeout(function(){
+			setTimeout(function(){ 
 				 loadCompanyVehicle();
 			 },1000);
-		}else{ 
-		// $("#vehicle_load_info").mask("正在加载..."); 
+		}else{  
 		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===0) {
 			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=101",
 				dataType: "json",
-				success: function(data){
+				success: function(data){ 
 					if (data != null) {
+						 
+						var longitudeArray = new Array(); // 所有车辆经度保存数组
+						var latitudeArray = new Array();  // 所有车辆纬度保存数组
+					 
 						var length = data.length;
 						var run_index = length;
 						 
 						if (length > 0) 
 							clearOverLay();
-						
+						 
 						var points = new Array();
 						for (var i = 0; i < length; i++) {
 						
@@ -117,6 +126,11 @@
 							var alert_state = data[i]['alert_state'];// 告警状态
 							var img_name = data[i]['cur_direction']; //图片名
 							var file_path = data[i]['file_path']; //文件路径
+							
+							//循环
+							//取得所有车的最大经度、最小经度、最大纬度、最小纬度
+							longitudeArray[i] = point_longitude;
+						 	latitudeArray[i] = point_latitude;
 
 							//创建点对象
 							marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png"));
@@ -146,10 +160,47 @@
 							map.addOverLay(text);
 							
 							run_index--;
+						}  
+						/**
+						 * 区域自动匹配用户查看设置
+						 * 1 匹配
+						 * 0 非匹配
+						 */
+						switch (chanage_state) {
+							case 1: //匹配
+								
+								var bound = map.getBoundsLatLng(); //矩形范围对象 
+								var xmin = bound.getXmin(); // 最小经度
+								var ymin = bound.getYmin(); // 最小纬度
+								var xmax = bound.getXmax(); // 最大经度
+								var ymax = bound.getYmax(); // 最大纬度 
+								
+								var longitudeRange = xmax - xmin; // 矩形经度范围
+								var latitudeRange = ymax - ymin;  // 矩形纬度范围
+								
+								//取出所有车辆中的最大经纬度、最小经纬度。	
+								var point_longitude_min = Math.min.apply(Math, longitudeArray);
+								var point_longitude_max = Math.max.apply(Math, longitudeArray);
+								var point_latitude_min = Math.max.apply(Math, latitudeArray);
+								var point_latitude_max = Math.max.apply(Math, latitudeArray);
+								
+								//验证车辆当前位置是否超出范围
+								var isOutofMapRange = (((point_longitude_min - xmin) / longitudeRange) <= leftOffsetRatio) ||
+								(((xmax - point_longitude_max) / longitudeRange) <= rightOffsetRatio) ||
+								(((point_latitude_min - ymin) / latitudeRange) <= downOffsetRatio) ||
+								(((ymax - point_latitude_max) / latitudeRange) <= upOffsetRatio);
+								
+								if (isOutofMapRange) {//超出范围
+									//重新获得最佳位置
+									map.getBestMap(points);
+								}
+								break;
+							case 0:	//非匹配
+								chanage_state = 1;
+								map.getBestMap(points);
+								break;
 						}
-						map.getBestMap(points);
-						
-					//	$("#vehicle_load_info").unmask();
+						 
 						wait_load_vehicle();
 						
 						//等待加载完车辆定位，运行下一步
@@ -307,8 +358,8 @@
 	}
 	
 	function refresh_vehicle_position(str){
-			
-			refresh_state=1;
+			chanage_state=0; //非自动匹配
+			refresh_state=1; 
 			refresh_vehicles = str;
 			vehiclePosition(); 
 	}
@@ -339,12 +390,7 @@
 					var xmin = bound.getXmin(); // 最小经度
 					var ymin = bound.getYmin(); // 最小纬度
 					var xmax = bound.getXmax(); // 最大经度
-					var ymax = bound.getYmax(); // 最大纬度
-					
-					var leftOffsetRatio = 0.05;  //	矩形左间距
-					var rightOffsetRatio = 0.1;  //	矩形右间距
-					var upOffsetRatio = 0.05;    //	矩形上间距
-					var downOffsetRatio = 0.1;   //	矩形下间距
+					var ymax = bound.getYmax(); // 最大纬度 
 					
 					var longitudeRange = xmax - xmin; // 矩形经度范围
 					var latitudeRange = ymax - ymin;  // 矩形纬度范围
