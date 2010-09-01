@@ -20,16 +20,26 @@
 	var second_latitude = -1; //数据队列第二个点纬度
 	var old_longitude = -1;//旧点经度
 	var old_latitude = -1;//旧点纬度
-	
+	/**
+	 * 区域自动匹配用户查看设置
+	 * 0  非匹配
+	 * 1  匹配
+	 */
+	var chanage_state = 0; 
 	
 	/***
 	 * 操作状态 :处理画历史轨迹操作状态    
 	 * 	 'normal' 正常   
-	 * 	 'stop' 停止
-	 * 	 'search' 查询状态
+	 * 	 'stop' 停止 
 	 */
 	var state = "stop"; 
 	var marker;   //地图标记对象
+	
+	
+	var leftOffsetRatio = 0.05;  //	矩形左间距
+	var rightOffsetRatio = 0.1;  //	矩形右间距
+	var upOffsetRatio = 0.05;    //	矩形上间距
+	var downOffsetRatio = 0.1;   //	矩形下间距
 	
 	history_map();
 	  
@@ -132,17 +142,18 @@
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
 	 	var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";  
-		$("#inquireing",parent.document).mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));
-		state = "search";
+		$("#inquireing",parent.document).mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH")); 
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
-			success:function(data){   
+			success:function(data){    
+			if(state == "stop") return false; //停止状态不能运行
 			 
 			$("#inquireing",parent.document).unmask();
-			state = "normal"; 
+			
 			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
+			   if(arr_history == null) return false; //查询时间队列为空 
 			 
 			   if(arr_history.length>0){
 					runHistoryTrack();
@@ -158,8 +169,7 @@
 				
 				for(var i=0;i<data.length;i++){
 					points.push( new LTPoint(data[i][0],data[i][1]));
-				}
-				map.getBestMap(points);
+				} 
 			} 
 			drawLine_arr = data; 
 			 
@@ -252,7 +262,7 @@
 				//删除并返回数组的第一个元素
 				drawLine_arr.shift(); 
 				//调用画线函数 
-				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time);
+				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time,newLongitude,newLatitude);
 			} 
 	 }
 }
@@ -273,17 +283,59 @@
 	/**
 	 * 运行画线函数
 	 * @param {Object} points 画线点
-	 * @param {Object} lon 经度
-	 * @param {Object} lat 纬度
+	 * @param {Object} longitude 第一个经度
+	 * @param {Object} latitude 第一个纬度
 	 * @param {Object} direction 方向
 	 * @param {Object} color 颜色
 	 * @param {Object} vehicle_speed 车辆速度 
 	 * @param {Object} img_path 图片路径
 	 * @param {Object} location_time 定位时间
+	 * @param {Object} newLongitude 第二个经度
+	 * @param {Object} newLatitude 第二个纬度
 	 */
-	function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path,location_time){  
-		 
-		 
+	function drawRunLine(points,longitude,latitude,direction,color,vehicle_speed,img_path,location_time,newLongitude,newLatitude){  
+		 //居中点
+		var point = new Array();
+		point.push(new LTPoint(newLongitude,newLatitude)); 
+		
+		/**
+		 * 区域自动匹配用户查看设置
+		 * 1 匹配
+		 * 0 非匹配
+		 */
+		switch (chanage_state) {
+			case 1: //匹配
+				
+				var bound = map.getBoundsLatLng(); //矩形范围对象 
+				var xmin = bound.getXmin(); // 最小经度
+				var ymin = bound.getYmin(); // 最小纬度
+				var xmax = bound.getXmax(); // 最大经度
+				var ymax = bound.getYmax(); // 最大纬度 
+				
+				var longitudeRange = xmax - xmin; // 矩形经度范围
+				var latitudeRange = ymax - ymin;  // 矩形纬度范围
+				var current_zoom = map.getCurrentZoom();  //获取当前用户操作地图比例  
+				
+				//验证车辆当前位置是否超出范围
+				var isOutofMapRange = (((longitude - xmin) / longitudeRange) <= leftOffsetRatio) ||
+				(((xmax - longitude) / longitudeRange) <= rightOffsetRatio) ||
+				(((latitude - ymin) / latitudeRange) <= downOffsetRatio) ||
+				(((ymax - latitude) / latitudeRange) <= upOffsetRatio);
+				
+				if (isOutofMapRange) {//超出范围
+					//重新获得最佳位置
+					map.getBestMap(point);
+					//如果当前重新获得最佳位置比例非等于以前用户操作比较，还原用户操作比例
+					if(current_zoom !=map.getCurrentZoom())
+						map.zoomTo(current_zoom);
+				}
+				break;
+			case 0:	//非匹配
+				chanage_state = 1;
+				map.getBestMap(point);
+				break;
+		} 
+		
 		var polyLine = new LTPolyLine(points);
 		polyLine.setLineColor("#"+color);	//设置折线颜色 
 		polyLine.setLineStroke(3);	//设置折线线宽
