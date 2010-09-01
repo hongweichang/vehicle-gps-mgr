@@ -293,8 +293,9 @@
 			
 			info_old = info; //将信息浮窗变量赋与info_old;
 			
-			info.setLabel("<div id='show_info_div'>正在载入....</div>")
+			info.setLabel("<div id='show_info_div'>正在载入....</div>");		
 			map.addOverLay(info); 
+			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
 			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
