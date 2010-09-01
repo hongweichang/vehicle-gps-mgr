@@ -110,9 +110,9 @@ $vehicle_group = "";
 				}else{
 					$shortString=$value ['dispose_opinion'];
 				}	   
-			   $response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], $shortString );
+			   $response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name,  $shortString );
 			} else {
-				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name, $value ['description'], "<a href='#' onclick=\"showOpinion(".$value ['id'].",".$value ['alert_type'].",".$value ['vehicle_id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
+				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name,  "<a href='#' onclick=\"showOpinion(".$value ['id'].",".$value ['alert_type'].",".$value ['vehicle_id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
 		
 		}
