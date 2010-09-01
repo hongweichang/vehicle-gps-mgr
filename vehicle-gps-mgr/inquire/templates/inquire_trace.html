@@ -1,37 +1,34 @@
 <link type="text/css" href="css/inquire_trace.css"  media="screen" rel="stylesheet" />
-
-<div id='his' class="font">
-	<input type="radio" name='history' id='history_trace' />查询历史轨迹
-	<input type="radio" name='history' id="history_post" />查询历史发布信息
-</div>
-<div id="control_map" class="map_control">
-	<div class="keep_left">
-		 开始时间：<input type="text" id="inquire_startTime" class="input" /> 
-		 结束时间：<input type="text" id="inquire_endTime" class="input"/> 
+<div style="height:70px; width:100%;">
+	<div id='his' class="font">
+		<input type="radio" name='history' id='history_trace' />查询历史轨迹
+		<input type="radio" name='history' id="history_post" />查询历史发布信息
 	</div>
-	<div class="keep_left spacing">
-		<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
- 	</div>
- 	<div class="keep_left spacing">
-		<select id="vehicle_info">{{vehicle_list}}</select>
+	<div id="control_map" class="map_control">
+		<div class="keep_left">
+			 开始时间：<input type="text" id="inquire_startTime" class="input" /> 
+			 结束时间：<input type="text" id="inquire_endTime" class="input"/> 
+		</div>
+			<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
+			<select id="vehicle_info">{{vehicle_list}}</select>
 	</div>
-	<div class="keep_left" id="speed_control"> 
+	<div class="keep_left" id="speed_control" style="height:20px; width:100%;"> 
 		<div class="speed keep_left">慢</div> 
 		<div id="cur_run_time" class="keep_left"></div>
 		<div id="show_time" class="keep_left"></div>
 		<div class="speed keep_left">进度</div> 
 		<div class="track_info keep_left" id="history_progress"></div>
+		<div class="keep_left"><input type="button" id="show_vehicles" value="显示区域内车辆"></input></div>
+		<div class="keep_left" style="margin-left:5px;"><img alt="播放" id="play_history" src="images/play.png" class="hand"/></div>
+		<div class="keep_left" style="margin-left:5px;"><img alt="暂停" id="suspend_history" src="images/suspend.png" class="suspend hand"/> </div>
+		<div class="keep_left" style="margin-left:5px;"><img alt="停止" id="stop_history" src="images/stop.png" class="hand"/>  </div>
+		<div class="keep_left"><input type="button" id="his_info" name="his_info" value="查询发布历史"></input></div>
 	</div>	
-	<div class="keep_left spacing">	
-		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
-		<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
-		<img alt="暂停" id="suspend_history" src="images/suspend.png" class="suspend hand"/> 
-		<img alt="停止" id="stop_history" src="images/stop.png" class="hand"/>  
-		<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
-	</div>
-
 </div>
-
+<div class="keep_left spacing">	
+		
+		
+	</div>
 <div id="drag">
 	<div id='his_infoes'>
 		<table id='infoes'></table>

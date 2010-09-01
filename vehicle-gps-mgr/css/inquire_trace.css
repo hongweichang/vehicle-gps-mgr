@@ -1,8 +1,8 @@
 /**************inquire_trace****************/
 .map_control{
-	width:900px;
+	width:100%;
 	height:25px;
-	margin-top:2px;
+	margin-top:2px;border:1px red solid;
 }
 .date_option{
 	width:350px;
@@ -74,7 +74,7 @@
 }
 .location_info_show{
 	width:73%;
-	height:15px;
+	height:18px;
 }
 .location_info_operate{
 	width:27%;
