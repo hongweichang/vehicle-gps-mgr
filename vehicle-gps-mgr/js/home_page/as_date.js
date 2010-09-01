@@ -7,6 +7,10 @@ $(".commit_new_date").click(function(){
 	var id = $(this).attr("name");
 	var date_id = $(this).attr("id")*2;
 	var real_date = $("#"+date_id).val();
+	if(real_date=="" || real_date==null){
+		alert("日期不能为空");
+		return;
+	}
 	$.get("index.php?a=104&vehicle_id="+id+"&new_date="+real_date,function(data){
 		alert(data);
 	});
