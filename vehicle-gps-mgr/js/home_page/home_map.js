@@ -37,11 +37,8 @@
 	 * 0  非匹配
 	 * 1  匹配
 	 */
-	var chanage_state = 0;
-
-	onLoadMap();
-	 
-	 
+	var chanage_state = 0; 
+	
 	onLoadMap(); 
 	  
 	/**
