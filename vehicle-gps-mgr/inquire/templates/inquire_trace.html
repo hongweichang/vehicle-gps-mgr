@@ -1,5 +1,5 @@
 <link type="text/css" href="css/inquire_trace.css"  media="screen" rel="stylesheet" />
-<script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
+
 <div id='his' class="font">
 	<input type="radio" name='history' id='history_trace' />查询历史轨迹
 	<input type="radio" name='history' id="history_post" />查询历史发布信息
@@ -9,18 +9,19 @@
 		 开始时间：<input type="text" id="inquire_startTime" class="input" /> 
 		 结束时间：<input type="text" id="inquire_endTime" class="input"/> 
 	</div>
-	<div class="keep_left" id="speed_control"> 
-		<div class="speed keep_left">速度：</div> 
-		<div id="cur_run_time" class="keep_left"></div>
-		<div id="show_time" class="keep_left"></div>
-		<div class="track_info keep_left" id="history_progress"></div>
-	</div>
 	<div class="keep_left spacing">
 		<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
  	</div>
  	<div class="keep_left spacing">
 		<select id="vehicle_info">{{vehicle_list}}</select>
 	</div>
+	<div class="keep_left" id="speed_control"> 
+		<div class="speed keep_left">慢</div> 
+		<div id="cur_run_time" class="keep_left"></div>
+		<div id="show_time" class="keep_left"></div>
+		<div class="speed keep_left">进度</div> 
+		<div class="track_info keep_left" id="history_progress"></div>
+	</div>	
 	<div class="keep_left spacing">	
 		<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
 		<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
@@ -79,11 +80,25 @@
 				
 			</div>
 	</div>  
-	<div id="inquireing" class="inquireing">	
+	<div id="inquireing" class="inquireing" style="width:1370px;height:650px;border:0" >	
 		<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html"
-			 style="width:850px;height:345px;" 
-			marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe> 
+			 style="width:1350px;height:630px;" 
+			marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align='top'></iframe> 
 	</div>		
 
 </div>
 
+<script type="text/javascript">
+/**
+ * 开始加载首先加载车辆的最新定位，判断IFRAME是否加载完
+ */
+function position(){
+	 var state = document.history_track_frame.document.readyState;
+	 if(state=="complete"){
+		{{POSITION_VEHICLE}}
+	 }else{
+		setTimeout("position();",1000);
+	 }	 
+} 
+</script>
+<script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>

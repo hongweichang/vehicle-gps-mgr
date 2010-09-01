@@ -65,7 +65,7 @@ $(document).ready(function(){
 		 var state = document.history_track_frame.document.readyState;
 
 		 if(state === "complete"){
-			$("#location_info").show();
+			$("#inquireing").show();
 			$("#play_history").hide();
 			$("#suspend_history").show();
 			$("#location_info").show(); //显示定位信息
@@ -319,24 +319,12 @@ $(document).ready(function(){
 	function progress_assignment(progress_val){ 
 		$( "#history_progress" ).progressbar( "option", "value", progress_val );
 	} 
-	
-	/**
-	 * 开始加载首先加载车辆的最新定位，判断IFRAME是否加载完
-	 */
-	function position(){
-		 var state = document.history_track_frame.document.readyState;
-		 if(state=="complete"){
-			{{POSITION_VEHICLE}}
-		 }else{
-			setTimeout("position();",1000);
-		 }	 
-	} 
     
 	
 	//播放运行速度控制
 	function run_play(value){
 		
-		var speed_explain = new Array();
+		/*var speed_explain = new Array();
 		var play_speed = new Array();
 		
 		speed_explain[1] = "慢放2";
@@ -344,14 +332,17 @@ $(document).ready(function(){
 		speed_explain[3] = "正常";
 		speed_explain[4] = "快放1";
 		speed_explain[5] = "快放2";
-
+		*/
+		var speed_explain = "快";
+		var play_speed = new Array();
+		
 		play_speed[1] = 4000;
 		play_speed[2] = 2000;
 		play_speed[3] = 1000;
 		play_speed[4] = 500;
 		play_speed[5] = 250;
          
-		$("#show_time").html(speed_explain[value]);
+		$("#show_time").html(speed_explain);
 		 history_track_frame.speed = play_speed[value];
 		  
 	}	
