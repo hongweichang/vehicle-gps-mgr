@@ -30,15 +30,25 @@
 	 * 0 等待
 	 * 1 正常
 	 */
-	var wait_state = 1;
+	var wait_state = 1; 
+	
+	/**
+	 * 区域自动匹配用户查看设置
+	 * 0  非匹配
+	 * 1  匹配
+	 */
+	var chanage_state = 0;
+
+	onLoadMap();
+	 
 	 
 	onLoadMap(); 
-	 
+	  
 	/**
 	 * 加载地图
 	 */
-	function onLoadMap(){	
-		
+	function onLoadMap(){ 
+	
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
@@ -121,8 +131,7 @@
 							
 							var title = "<span class='span'>"+number_plate+"</span>";
 							addInfoWin(marker,title,vehicle_id);
-							
-							
+							 
 							//点添入地图中
 							map.addOverLay(marker);
 							
@@ -313,6 +322,7 @@
 			vehiclePosition(); 
 	}
 	 
+	 
 	 /**
 	  * 车辆请求定位
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
@@ -323,19 +333,37 @@
 				 loadCompanyVehicle();
 			 },1000);
 		}else{ 
-		if ($("#location_refresh",parent.document).attr('checked') && refresh_state===1) {
+		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state!=1)return false;
+		 
 		 $.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
 				dataType:"json",
 				success:function(data){ 
-				
-					var length = data.length; 
-					var points = new Array();
-					var run_index  = length;
+			 	   /**
+				 	 * 获取当前地图矩形范围
+				 	 **/
+					var bound = map.getBoundsLatLng(); //矩形范围对象
 					
+					var xmin = bound.getXmin(); // 最小经度
+					var ymin = bound.getYmin(); // 最小纬度
+					var xmax = bound.getXmax(); // 最大经度
+					var ymax = bound.getYmax(); // 最大纬度
+					/**
+					 * 验证切换区域字符数组(例：0,1,1,0,)
+					 * 0 当前车辆非移出地图矩形视图显示
+					 * 1 当前车辆已移出地图矩形视图显示
+					 */
+				  	var change_area = ""; 
+					
+					var length = data.length;  //数据长度
+					
+					var points = new Array(); //点队列数组 
+					var run_index  = length;  //当前运行数据队列索引
+					
+					//当前数据存在时，清除所有
 					if(length>0)clearOverLay();
-
+					 
 					for(var i=0;i<length;i++){        
 					 
 						var vehicle_id = data[i][0]; //车辆id
@@ -344,7 +372,15 @@
 						var file_path = data[i][4]; //文件目录
 						var img_name = data[i][3];  //图片名称
 						var number_plate = data[i][5]; //车牌号
-
+						 
+						/**
+						 *  车辆定位点范围验证计算算法
+						 * ((当前经度>频幕最小经度 && 当前经度<频幕最大经度) && (当前纬度>频幕最小纬度 && 当前纬度<频幕最大纬度)) ?"0":"1";
+						 */
+						change_area+=(((point_longitude>xmin && point_longitude<xmax)
+								&&(point_latitude>ymin && point_latitude<ymax))?"0":"1")+",";
+						 
+						//存入点数据队列中
 						points.push( new LTPoint(point_longitude,point_latitude));
 
 					 	//创建点对象
@@ -354,19 +390,39 @@
 						var title = "<span class='span'>"+number_plate+"</span>";
 						//点对象设置内容
 						addInfoWin(marker,title,vehicle_id);
-
+							
 						//点添入地图中
 						map.addOverLay(marker);
 
 						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 						text.setLabel(number_plate ); 
 						map.addOverLay( text ); 
+						
 						run_index --;
 					}
-					map.getBestMap(points);
 					 
+					/**
+					 * 显示最佳位置处理 
+					 */
+					if (change_area != "" && chanage_state === 1) {
+						change_area = change_area.substr(0,change_area.length-1);
+						
+						var change_point = change_area.split(","); 
+						for (var i = 0; i < change_point.length; i++) {
+							if (change_point[i] == 1) { 
+								//所有数据点显示最合适的比例视图
+								map.getBestMap(points);
+								break;
+							}
+						}
+					}
+					else if (chanage_state === 0) {
+							chanage_state = 1;
+							map.getBestMap(points); 
+						}
+					points = null; //清空数据队列
 					
-					wait_load_vehicle();
+					wait_load_vehicle();//等待队列加载完
 					
 					//等待加载完车辆定位，运行下一步
 					function wait_load_vehicle(){
@@ -379,8 +435,7 @@
 							 },1000); 
 					 }
 				 } 
-			 });
-		}
+			 }); 
 		}
 	 }
  
