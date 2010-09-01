@@ -240,7 +240,7 @@
 				dataType: "json",
 				success: function(data){
 					info.setLabel(get_data(data));
-					info.moveToShow();
+					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
 					
 					//还原当前操作前一次刷新状态
 					refresh_state = refresh_state_backup;
