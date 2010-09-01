@@ -37,6 +37,10 @@ $(document).ready(function() {
 		}
 	});
 	
+	/**处理告警**/
+	$('#addAdvice').click(function(e) {
+		showOpinion(id,alertType,vehicle_id);
+	});
 	/**展开动画效果**/
 	$('#dock2').Fisheye(
 			{
@@ -53,15 +57,7 @@ $(document).ready(function() {
 	
 		$("#location_info").draggable();
 		
-		$('#addAdvice').click(function(e) {
-			$("#opinion").html("");
-			$("#opinion").dialog("open");
-			$("#opinion").mask("处理中...");
-			$.post("index.php?a=903&id="+id,function(data){
-				$("#opinion").html(data);
-				$("#opinion").unmask();
-			});
-		});
+	
  
 		$( "#opinion" ).dialog({
 			   close: function(event, ui) { alertInfo(); }
@@ -79,24 +75,9 @@ $(document).ready(function() {
 		$('.showMeInDialog').click(function(e) {
 			e.preventDefault();
 			showOperationDialog(this, $(this).attr('url'));   
-		});
-
-		//禁止查看源码
-	/*$(document).bind("contextmenu",function(e){
-		        return false;
-	});*/
-				 		
-	$('#addAdvice').click(function(e) {
-		$("#opinion").html("");
-		$("#opinion").dialog("open");
-		$("#opinion").mask("处理中...");
-		$.post("index.php?a=903&id="+id,function(data){
-			$("#opinion").html(data);
-			$("#opinion").unmask(); 
-		})
-	});
-			
+		});	
 	/**动态生成车辆代表的速度**/		
+	$("#header").mask("车辆速度正在查询中,请耐心等候...");
 	$.post("index.php",{
 		 "a":5021}
 		,function(data){
@@ -119,41 +100,47 @@ $(document).ready(function() {
 		    }
 		}); 
 	 
-
 	alertInfo();
-	$("#content").mask("告警正在查询中,请耐心等候...");
-	$("#header").mask("车辆速度正在查询中,请耐心等候...");
 });
 
-	
-
- 	
+	 
 	var id=0;
-	/**获得24小时内未处理的告警记录**/
+	var alertType="";
+	var vehicle_id=0;
+	/**获得最新未处理的告警记录**/
 	function alertInfo(){
-		$.post("index.php",{
-			 "a":921}
-			,function(data){
-				
-				if("-1" == data){
-					$("#lamp").html("<img alt='警灯' src='images/lamp.png' style='height:56px; width:46px;'></img>");
-					$("#content").unmask();
-					$("#record").html("没有未处理的告警记录");
-					$("#operate").html("<a href='index?a=901'><img alt='查看更多' src='images/lookMore.jpg' style='width:20px; height:19px;margin-left:5px;'></a>");
-				}else
-				{   
-					var array=data.split("|");
-				    id=array[0];
-					$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-					$("#content").unmask();
-				  $("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
-					document.getElementById("operate").style.display="block";
-			     }
+		$("#content").mask("告警正在查询中,请耐心等候...");
+		$.ajax({
+			type:"POST",
+			url:"index.php?a=921", 
+			success:function(data){
+					if(data == "-1"){
+						no_alertInfo();
+					}else{   
+						var array=data.split("|");
+					    id=array[0];
+					    alertType=array[4];//获得告警类型的编号
+					    vehicle_id=array[5];//获得车辆id
+						$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
+						$("#content").unmask();
+						$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
+						document.getElementById("addAdvice").style.display="block";
+						document.getElementById("lookMore").style.display="block";
+				    }
+			 },
+			 error:function (){
+				 no_alertInfo();
 			 }
-		);
+		});
 	  setTimeout("alertInfo()",30000);
 	} 
 	
+	function no_alertInfo(){
+		$("#lamp").html("<img alt='警灯' src='images/lamp.png' style='height:56px; width:46px;'></img>");
+		$("#content").unmask();
+		$("#record").html("没有未处理的告警记录或没查询到告警");
+		document.getElementById("lookMore").style.display="block";
+	}
 	function showOperationDialog(htmlObj, url){ 
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;

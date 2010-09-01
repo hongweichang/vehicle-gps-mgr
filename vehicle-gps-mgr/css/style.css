@@ -110,7 +110,6 @@ img{border:none;}
 .operate{
 	float:left;
 	height:20px;
-	display: none;
 	margin-left:10px;
 }
 .addAdvice{
@@ -118,12 +117,14 @@ img{border:none;}
 	height:13px;
 	widht:80px;
 	margin-left:10px;
+	display:none;
 }
 .showMeInDialog{
 	float:left;
 	height:19px;
 	widht:80px;
 	margin-left:10px;
+	display:none;
 }
 a{
 	text-decoration:none;

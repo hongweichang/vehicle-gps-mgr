@@ -161,10 +161,10 @@ class Alert extends BASE {
 	/**
 	 * 获得最新未处理告警记录
 	 */
-    function get_newest_alert(){
+  function get_newest_alert(){
     	$company_id = get_session("company_id");
     	//格式化sql语句
-    	$sql ="select a.id,a.alert_time, v.number_plate, a.alert_type from  %s a inner join %s v where  v.id=a.vehicle_id  and v.company_id=%d  and (a.dispose_opinion is null or a.dispose_opinion='') order by a.alert_time desc limit 0,1" ;
+    	$sql ="select a.id,a.alert_time, v.number_plate, a.alert_type ,a.vehicle_id from  %s a inner join %s v where v.id=a.vehicle_id  and v.company_id=%d  and (a.dispose_opinion is null or a.dispose_opinion='') order by a.alert_time desc limit 0,1" ;
     	
     	$this->sql = sprintf($sql,$this->mysel_table_name,$this->vehicle_manage_table_name,$company_id);
     	
