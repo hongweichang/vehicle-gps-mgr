@@ -132,13 +132,13 @@ $(document).ready(function() {
 				 no_alertInfo();
 			 }
 		});
-	  setTimeout("alertInfo()",30000);
+	  setTimeout("alertInfo()",60000);
 	} 
 	
 	function no_alertInfo(){
 		$("#lamp").html("<img alt='警灯' src='images/lamp.png' style='height:56px; width:46px;'></img>");
 		$("#content").unmask();
-		$("#record").html("没有未处理的告警记录或没查询到告警");
+		$("#record").html("没有未处理的告警记录");
 		document.getElementById("lookMore").style.display="block";
 	}
 	function showOperationDialog(htmlObj, url){ 
