@@ -227,6 +227,7 @@
 	 * @param vehicle_id 车辆ID
 	 * @PARAM title 车牌号，用于标题显示
 	 */
+	var info_old; //上一次打开的信息浮窗
 	function addInfoWin(obj,title,vehicle_id){ 
 		
 		var info = new LTInfoWindow( obj );
@@ -238,6 +239,13 @@
 			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
 			
+			/**
+			 * 如果上一次打开的信息浮窗不为空，则关闭它
+			 */
+			if(info_old!=null){
+				info_old.closeInfoWindow();
+			}
+			
 			info.setLabel("<div id='show_info_div'>正在载入....</div>")
 			map.addOverLay(info); 
 			$.ajax({
@@ -247,6 +255,7 @@
 				success: function(data){
 					info.setLabel(get_data(data));
 					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
+					info_old = info; //将信息浮窗变量赋与info_old;
 					
 					//还原当前操作前一次刷新状态
 					refresh_state = refresh_state_backup;
