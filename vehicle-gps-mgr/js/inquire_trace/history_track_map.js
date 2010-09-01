@@ -131,8 +131,8 @@
 	 * @param {Object} vehicle_id 车辆编号
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
-	 	  
-		$("#inquireing",parent.document).mask("查询中...");
+	 	var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";  
+		$("#inquireing",parent.document).mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));
 		state = "search";
 		$.ajax({
 			type:"POST",
@@ -301,7 +301,7 @@
 		$("#speed",parent.document).html(vehicle_speed);
 		$("#longitude",parent.document).html(around(longitude));
 		$("#latitude",parent.document).html(around(latitude));
-		$("#location_time",parent.document).html(format_time(location_time));
+		$("#location_time",parent.document).html(format_time(location_time,"yyyy/MM/DD/HH:mm:ss"));
 		$("#address",parent.document).html("<a id='more' name="+longitude+" rel="+latitude+" href='javascript:history_track_frame.details();'>查看详情</a>")
 
 		//点添入地图中
@@ -325,14 +325,20 @@
 	 *  定位时间格式化
 	 *  @param location_time 定位时间
 	 */
-	 function  format_time(location_time){
+	 function  format_time(location_time,dataformat){
 		var year = location_time.substring(0,4);
 		var month = location_time.substring(4,6);
 		var day = location_time.substring(6,8);
 		var hour = location_time.substring(8,10);
 		var minutes = location_time.substring(10,12);
 		var seconds = location_time.substring(12,14);
-		var time = year+"/"+month+"/"+day+" "+hour+":"+minutes+":"+seconds;
+		
+		var ms = "";
+		if(dataformat=="yyyy/MM/DD/HH:mm:ss")
+			ms = ":"+minutes+":"+seconds; 
+		else if(dataformat=="yyyy/MM/DD/HH")
+			ms = ":00:00";
+		var time = year+"/"+month+"/"+day+" "+hour + ms;
 		return time;
 		 }
 
