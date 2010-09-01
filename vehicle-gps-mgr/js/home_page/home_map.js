@@ -240,6 +240,7 @@
 				dataType: "json",
 				success: function(data){
 					info.setLabel(get_data(data));
+					info.moveToShow();
 					
 					//还原当前操作前一次刷新状态
 					refresh_state = refresh_state_backup;
@@ -257,6 +258,7 @@
 					} */	
 				}
 			});
+			
 			
 			info.clear();//清除信息浮窗内容
 			map.addOverLay(info);//添加新内容			
