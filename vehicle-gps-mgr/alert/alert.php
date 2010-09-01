@@ -181,7 +181,9 @@ $vehicle_group = "";
 	case "newest_alert" : //查询没有处理的最新告警	
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();
-		
+		if($record=="undefined"){
+			echo "conn_fail";
+		}
 	 	if($record!=null || $record!="" || $record != false){	
 	 		
 	 		$alert_type_id=$record[3];//获得告警类型的编号
