@@ -19,7 +19,7 @@ $(document).ready(function() {
 		url: window.parent.host+"/index.php?a=103",
 		dataType: "json",
 		success: function(data){
-			if(data==null){
+			if(data==null || data==""){
 				$("#as_date").hide();
 			}else{
 				$("#as_date").show();
