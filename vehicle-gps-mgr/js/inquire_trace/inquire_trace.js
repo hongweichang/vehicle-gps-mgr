@@ -122,7 +122,7 @@ $(document).ready(function(){
 		$("#location_info").hide();
 		$("#his_info").show();
 		$("#his_infoes").show();
-		$("#history_track_frame").hide();
+		$("#inquireing").hide();
 	});
 
 	//历史轨迹查询
@@ -138,7 +138,7 @@ $(document).ready(function(){
 		$("#suspend_history").show();
 		$("#stop_history").show();
 		$("#areas").hide();
-		$("#history_track_frame").show();
+		$("#inquireing").show();
 		$("#select_mode").get(0).selectedIndex=0; //点击查询历史轨迹时查询默认切换成选择车辆
 	});
 
@@ -271,7 +271,7 @@ $(document).ready(function(){
 				$("#areas").unmask();
 				$("#areas").hide();
 				$("#his_infoes").hide();
-				$("#history_track_frame").hide();
+				$("#inquireing").hide();
 				$("#show_area").show();
 				var idList = "";
 				if(data != null){
@@ -564,7 +564,7 @@ $(document).ready(function(){
 		$("#suspend_history").show();
 		$("#stop_history").show();
 		$("#vehicle_info").show();
-		$("#history_track_frame").show();
+		$("#inquireing").show();
 		$("#vehicle_info").val(vehicle_id);
 		play_trace();
 	}
