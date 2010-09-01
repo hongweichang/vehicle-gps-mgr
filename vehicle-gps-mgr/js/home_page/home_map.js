@@ -246,6 +246,8 @@
 				info_old.closeInfoWindow();
 			}
 			
+			info_old = info; //将信息浮窗变量赋与info_old;
+			
 			info.setLabel("<div id='show_info_div'>正在载入....</div>")
 			map.addOverLay(info); 
 			$.ajax({
@@ -255,7 +257,6 @@
 				success: function(data){
 					info.setLabel(get_data(data));
 					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
-					info_old = info; //将信息浮窗变量赋与info_old;
 					
 					//还原当前操作前一次刷新状态
 					refresh_state = refresh_state_backup;
