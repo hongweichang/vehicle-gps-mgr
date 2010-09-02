@@ -26,6 +26,8 @@ switch ($act) {
 	case "select" ://选择车辆		
 		$str="";		
 		$arrayID=$_REQUEST ['array_ID'];
+		//$vehicle_request = $_REQUEST['vehicle_ids']; //获取首页地图上显示的所有车辆
+		$vehicles_request = explode(",",$vehicleIds); //生成数组
         /**获取所有车辆组*/
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
 		
@@ -74,11 +76,22 @@ switch ($act) {
 		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");
 		   		 	/*判断GPRS是否在线*/
 		   		 	if($vehicles[$m]['gprs_status']==1){
+		   		 		$is_ok=0;
+						for($k = 0;$k<count($vehicles_request);$k++){
+							if($vehicles[$m][0]==$vehicles_request[$k]){
+								$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
 
-		   		 		$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
+		   		 							" checked='checked' class='vehicle' name='" . $values [0] . "' 
+											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+								$is_ok=1;
+							}
+						}
+						if($is_ok==0){
+		   		 			$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
 
 		   		 							" class='vehicle' name='" . $values [0] . "' 
 											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+						}
 		   		 	}else{
 
 		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
@@ -93,12 +106,23 @@ switch ($act) {
 		   		 	(in_array($vehicles[$m][0],$vehicle_list)? $is_selected = "checked=true" : $is_selected = "");	 		
 		   		 	/*判断GPRS是否在线*/
 		   		 	if($vehicles[$m]['gprs_status']==1){
+		   		 		$is_right=0;
+						for($k = 0;$k<count($vehicles_request);$k++){
+							if($vehicles[$m][0]==$vehicles_request[$k]){
+								$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
 
-					$str = $str . "<td class='table_td'><input type='checkbox' ".$is_selected.
-
-										"  class='vehicle' name='" . $values [0] . "' 
-		
-						value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+		   		 							" checked='checked' class='vehicle' name='" . $values [0] . "' 
+											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+								$is_right=1;
+							}
+						}
+		   		 	if($is_right==0){
+						$str = $str . "<td class='table_td'><input type='checkbox' ".$is_selected.
+	
+											"  class='vehicle' name='" . $values [0] . "' 
+			
+							value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
+		   		 		}
 		   		 	}else{
 
 		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
@@ -111,6 +135,7 @@ switch ($act) {
 			}
 			$str = $str . "</table></div></div>";
 		}
+
 		$arr ['vehicle_group_data'] = $str;
 		echo $db->display ( $arr, "select" );//输出数据到页面
 

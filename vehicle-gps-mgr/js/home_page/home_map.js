@@ -106,7 +106,7 @@
 				dataType: "json",
 				success: function(data){ 
 					if (data != null) {
-						 
+						var ids=new Array()
 						var longitudeArray = new Array(); // 所有车辆经度保存数组
 						var latitudeArray = new Array();  // 所有车辆纬度保存数组
 					 
@@ -126,6 +126,8 @@
 							var alert_state = data[i]['alert_state'];// 告警状态
 							var img_name = data[i]['cur_direction']; //图片名
 							var file_path = data[i]['file_path']; //文件路径
+							
+							ids[i] = vehicle_id;
 							
 							//循环
 							//取得所有车的最大经度、最小经度、最大纬度、最小纬度
@@ -160,7 +162,9 @@
 							map.addOverLay(text);
 							
 							run_index--;
-						}  
+						}
+						
+						$("#vehicle_id_save",window.parent.document).val(ids);//将车辆信息保存在首页的隐藏域中
 						/**
 						 * 区域自动匹配用户查看设置
 						 * 1 匹配
@@ -377,7 +381,9 @@
 			 },1000);
 		}else{ 
 		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state!=1)return false;
-		 
+
+		$("#vehicle_id_save",window.parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
+		
 		 $.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
