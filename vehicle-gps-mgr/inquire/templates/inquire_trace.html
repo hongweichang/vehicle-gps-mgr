@@ -6,30 +6,30 @@
 	</div>
 	
 	
-	<div id="control_map" style="margin-top:5px;width:850px; height:23px;font-size:12px; font-weight:700;">
-			<div style="height:12px; width:70px; float:left; margin-top:5px;">开始时间：</div>
-			<div style="height:20px; width:140px; float:left;"><input type="text" id="inquire_startTime" class="input" /> </div> 
-			<div style="height:12px; width:70px; float:left; margin-top:5px;">结束时间：</div>
-			<div style="height:20px; width:140px; float:left;"> <input type="text" id="inquire_endTime" class="input"/> </div>
-			<div style="height:20px; width:80px; float:left;"><span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span></div>
-			<div style="height:20px; width:80px; float:left;"><select id="vehicle_info">{{vehicle_list}}</select></div>
-	</div>
-	
-	<div class="keep_left" id="speed_control" style="height:23px; width:850px; margin-top:5px;"> 
-		<div style="width:380px; height:20px; float:left;">
-			<div class="speed keep_left" style="width:40px; height:12px;">慢</div> 
-			<div id="cur_run_time"style="float:left;"></div>
-			<div id="show_time" class="keep_left" style="width:40px; height:12px;"></div>
-			<div class="speed keep_left" style="width:50px; height:12px;">进度</div> 
-			<div class="track_info keep_left" id="history_progress" style="margin-left:10px;"></div>
+	<div id="control_map" style="margin-top:5px;width:100%; height:23px;font-size:12px; font-weight:700;">
+		<div style="width:68%; height:22px; float:left;">
+			开始时间：<input type="text" id="inquire_startTime" class="input" />
+			结束时间： <input type="text" id="inquire_endTime" class="input"/>
+			<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
+			<select id="vehicle_info">{{vehicle_list}}</select>
 		</div>
- 
-		<div style="height:20px;float:left;"><input type="button" id="show_vehicles" value="显示区域内车辆"></input></div>
-		<div style="height:20px; width:20px;float:left;"><img alt="播放" id="play_history" src="images/play.png" class="hand"/></div>
-		<div style="height:20px; width:20px;float:left;"><img alt="暂停" id="suspend_history" src="images/suspend.png" class="suspend hand"/> </div>
-		<div style="height:20px; width:20px;float:left;"><img alt="停止" id="stop_history" src="images/stop.png" class="hand"/>  </div>
-		<div style="height:20px;float:left;"><input type="button" id="his_info" name="his_info" value="查询发布历史"></input></div>
-	</div>	
+		
+		<div style="width:15%; height:22px;float:left;">
+			<div style="width:100%; ">
+				<div style="height:100%; width:10%;" class="keep_left">慢</div>
+				<div id="cur_run_time" class="keep_left"></div>
+				<div style="height:100%; width:10%;" class="keep_left">快</div>
+			</div>
+		 
+		</div> 
+		<div style="width:15%; height:22px;float:left;">
+			<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
+			<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
+			<img alt="暂停" id="suspend_history" src="images/suspend.png" class="suspend hand"/> 
+			<img alt="停止" id="stop_history" src="images/stop.png" class="hand"/>
+			<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
+		</div>
+	</div>
 </div>
 <div class="keep_left spacing"></div>
 <div id="drag">
