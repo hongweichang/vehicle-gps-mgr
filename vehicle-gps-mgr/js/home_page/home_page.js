@@ -83,7 +83,7 @@ $(document).ready(function() {
 			showOperationDialog(this, $(this).attr('url'));   
 		});	
 	/**动态生成车辆代表的速度**/		
-	$("#header").mask("车辆速度正在查询中,请耐心等候...");
+	$("#header").mask("加载中...");
 	$.post("index.php",{
 		 "a":5021}
 		,function(data){

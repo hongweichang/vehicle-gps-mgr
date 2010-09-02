@@ -98,15 +98,16 @@
 			} 
 		}else{ //当画线队列数组不存在数据是，执行时间段取点  
 			 
-			if(arr_history.length>0){ 
+			if(arr_history.length>0){ //当时间数组还存在时间，连续查询 
 				cur_progress ++;
-				
+				//按比例计算进度条进度数值
 				var progress_val = round((cur_progress/progress_length)*100,0);
 				window.parent.progress_assignment(progress_val);
 				
 				var time = arr_history[0];  
-				arr_history.shift();
+				arr_history.shift();//删除已查询日期
 				
+				//查询
 				drawHistoryTrack(time,vehicle_id);
 			}
 		}
@@ -152,28 +153,28 @@
 			 
 			$("#inquireing",parent.document).unmask();
 			
-			if(data==0 || data == null || data == ""){ //请求失败，转入下一个请求时间点
+			/**
+			 * 日期请求查询路线为空操作
+			 */
+			if(data==0 || data == null || data == ""){ 
 			   if(arr_history == null) return false; //查询时间队列为空 
 			 
-			   if(arr_history.length>0){
+			   if(arr_history.length>0){ //如果日期数组存在日期数据，连续请求查询
 					runHistoryTrack();
 					return false;
-				}else
+				}else //否则进入停止状态
 					return end_history_line();
 			}
-			/**请求得到数据*/	
-			if(data!=null){ 
-				data_queue_state = 1;
-				
-				var points = new Array();
-				
-				for(var i=0;i<data.length;i++){
-					points.push( new LTPoint(data[i][0],data[i][1]));
-				} 
-			} 
+			/**
+			 * 日期请求查询路线存在操作
+			 */	
+			if(data!=null) 
+				data_queue_state = 1; //设置新数据状态
+			
+			//路线赋值
 			drawLine_arr = data; 
 			 
-			//新画线
+			//新画路线
 			newDrawLine();
 			
 			//线程等待
@@ -183,7 +184,7 @@
 		}); 
 	}
 	/**
-	 * 画新线
+	 * 画新路线
 	 */
 	function newDrawLine(){ 
 		 
@@ -229,6 +230,9 @@
 							break;
 			 		}
 			 		
+			 	/**
+			 	 * 设置画线下一个点经纬度
+			 	 */	
 				if(length>1){ //队列数据大于1
 					 
 					newLongitude = drawLine_arr[point_index][0];//线的终点经度
@@ -272,8 +276,8 @@
 	 */
 	function  end_history_line(){
 		 
-		$("#suspend_history",parent.document).hide();
-		$("#play_history",parent.document).show();
+		$("#suspend_history",parent.document).hide();//暂停隐藏
+		$("#play_history",parent.document).show();   //播放隐藏
 		 
 		window.parent.empty_cur_vhicle_history();
 		
@@ -343,10 +347,16 @@
 		polyLine.setLineArrow("None","None");
 		//将折线添加到地图
 		map.addOverLay( polyLine );
-
-		map.removeOverLay(marker); 
+		
+		//删除车辆显示上一个点对象
+		map.removeOverLay(marker);
+		
+		//新建车辆显示新一个点对象(注：实现车辆当前开动效果)
 		marker = new LTMarker( new LTPoint(longitude,latitude),new LTIcon(window.parent.host+"/"+img_path));
- 
+		
+		/**
+		 * 将最新点的信息数据载入‘定位信息’窗口中。
+		 */
 		$("#location_info").css("display","inline");
 
 		$("#direction",parent.document).html(direction_change(direction));
@@ -378,6 +388,7 @@
 	 *  @param location_time 定位时间
 	 */
 	 function  format_time(location_time,dataformat){
+		 
 		var year = location_time.substring(0,4);
 		var month = location_time.substring(4,6);
 		var day = location_time.substring(6,8);
@@ -409,6 +420,7 @@
 	  */
 	 function direction_change(direction){
 		 var directions = new Array(8);
+		 
 		 directions['north']="北";
 		 directions['east']="东";
 		 directions['west']="西";
@@ -451,7 +463,8 @@
 						var driver_name = data[i][9]; //驾驶员
 						var cur_speed = data[i][10];//速度
 						var location_desc = data[i][11];//地址
-
+						
+						//车辆点位置添入数组中，地图视图显示
 						points.push( new LTPoint(point_longitude,point_latitude));
 
 					 	

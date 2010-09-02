@@ -361,7 +361,7 @@
 			return context;
 		}
 	}
-	
+	//车辆刷新定位操作
 	function refresh_vehicle_position(str){
 			chanage_state=0; //非自动匹配
 			refresh_state=1; 

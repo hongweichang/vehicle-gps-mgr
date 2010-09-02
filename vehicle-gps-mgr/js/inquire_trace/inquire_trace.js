@@ -316,18 +316,10 @@ $(document).ready(function(){
 	//播放运行速度控制
 	function run_play(value){
 		
-		/*var speed_explain = new Array();
-		var play_speed = new Array();
-		
-		speed_explain[1] = "慢放2";
-		speed_explain[2] = "慢放1";
-		speed_explain[3] = "正常";
-		speed_explain[4] = "快放1";
-		speed_explain[5] = "快放2";
-		*/
 		var speed_explain = "快";
 		var play_speed = new Array();
 		
+		//初始化播放速度值
 		play_speed[1] = 4000;
 		play_speed[2] = 2000;
 		play_speed[3] = 1000;
@@ -344,22 +336,24 @@ $(document).ready(function(){
     }
     //清空当前运行历史轨迹
 	function empty_cur_vhicle_history(){
-		
-		history_track_frame.state = "normal"; 
-		history_track_frame.vehicle_id = -1;
-		history_track_frame.old_longitude = -1;
-		history_track_frame.old_latitude = -1;
-		history_track_frame.cur_progress = 0;
-		history_track_frame.progress_length=0;
-		history_track_frame.arr_history = null;
-		history_track_frame.drawLine_arr = null;
+		/**
+		 * 初始加载状态
+		 */
+		history_track_frame.state = "normal";   //初始当前操作为'正常'状态
+		history_track_frame.vehicle_id = -1;    //初始车辆未选择状态
+		history_track_frame.old_longitude = -1; //初始车辆经度未设置状态
+		history_track_frame.old_latitude = -1;  //初始车辆纬度未设置状态
+		history_track_frame.cur_progress = 0;	//初始当前进度值
+		history_track_frame.progress_length=0;  //初始当前进度长度
+		history_track_frame.arr_history = null; //初始历史时间数组为空
+		history_track_frame.drawLine_arr = null;//初始画线数组为空
 
-		$("#direction").html(" ");
-		$("#speed").html(" ");
-		$("#longitude").html(" ");
-		$("#latitude").html(" ");
-		$("#location_time").html(" ");
-		$("#address").html(" ");
+		$("#direction").html(" ");     //定位信息方向清空
+		$("#speed").html(" ");		   //定位信息速度清空
+		$("#longitude").html(" ");	   //定位信息经度清空
+		$("#latitude").html(" ");	   //定位信息纬度清空
+		$("#location_time").html(" "); //定位信息当前定位时间清空
+		$("#address").html(" ");	   //定位信息位置文字信息清空
 	}
 	
 	
@@ -404,11 +398,10 @@ $(document).ready(function(){
 						 $("#vehicle_id").html(gps_plate[0]);
 						 $("#gps_id").html(gps_plate[1]);
 						});
+					 //设置当前操作为’正常状态‘
 					 history_track_frame.state = "normal"; 
 					 //清除地图所有标签
-					 history_track_frame.clearOverLay();
-					 //设置正常运行速度
-					 //history_track_frame.speed = 1000;
+					 history_track_frame.clearOverLay(); 
 			}	 
 			 //运行历史轨迹
 			 history_track_frame.runHistoryTrack(); 
