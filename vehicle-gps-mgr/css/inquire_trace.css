@@ -4,6 +4,49 @@
 	height:25px;
 	margin-top:2px;border:1px red solid;
 }
+.body_div{
+	height:80px;
+	width:870px;
+}
+.radio_div{
+	height:20px; 
+	width:300px; 
+	font-size:12px; 
+	font-weight:700;
+}
+.select_time{
+	height:12px;
+	width:70px; 
+	float:left;
+	margin-top:5px;
+}
+.speed_control{
+	height:23px; 
+	width:850px;
+	margin-top:5px;
+}
+.speed_content{
+	width:380px;
+	height:20px; 
+	float:left;
+}
+.time_input{
+	height:20px;
+	width:140px;
+	float:left;
+}
+.select_area_vhicle{
+	height:20px;
+	width:80px;
+	float:left;
+}
+.control_map{
+	margin-top:5px;
+	width:850px;
+	height:23px;
+	font-size:12px;
+	font-weight:700;
+}
 .date_option{
 	width:350px;
 }
