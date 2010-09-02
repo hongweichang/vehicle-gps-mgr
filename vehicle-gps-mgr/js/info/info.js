@@ -60,6 +60,7 @@ $("#car").click(function(event) {
 //加载区域发布时的地图
 $("#area_issue").click(function() {
 	$("#info_Commit").hide();
+	$(".info_select").hide();
 	$("#da_user").hide();
 	$("#add_input").hide();
 	$("#area_Commit").show();
