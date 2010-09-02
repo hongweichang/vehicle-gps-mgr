@@ -5,8 +5,8 @@ $(document).ready(function() {
 function showOpinion(id,alertType,vehicle_id){
 	$("#opinion").html("");
 	$("#opinion").dialog({
-		  height: 320,   
-          width: 260
+		  height: 360,   
+          width: 230
 	});
 	$("#opinion").dialog("open");
 	$("#opinion").mask("处理中...");

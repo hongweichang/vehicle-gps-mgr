@@ -55,20 +55,32 @@
 .alert_advice_select{
 width:140px;
 }
-   .alert_advice_div{
-margin-top:8px;
+.alert_advice_div{
+	margin-top:8px;
    }
 .alert_advice_content{
-   font-weight:700;
+   	font-weight:700;
     font-size:12px;
 }
 .alert_advice_textarea{
-height:160px; 
-width:200px;
+	height:160px; 
+	width:200px;
 }
 .alert_button_div{
-font-size:12px;
- text-align:left;
- 
+	font-size:12px;
+	text-align:center;
+	margin:0 auto;
+	width:200px;
+	height:30px;
+	margin-top:10px;
+}
+.alert_advice_delete{
+	margin-top:3px; 
+	height:20px; 
+	width:160px;
+}
+.maskReuslt{
+	height:30px;
+	width:180px;
 }
 -->
