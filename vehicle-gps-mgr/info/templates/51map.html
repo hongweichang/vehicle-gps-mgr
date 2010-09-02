@@ -12,6 +12,8 @@
 <script language="javascript">
 var ifr = window.parent.document.getElementById("locate");
 
+//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
+window._LT_map_disableProgressBar=true;	
 var maps = new LTMaps( "myMap" );
 /*
 var lon_lat = window.parent.document.getElementsByName('lonlat');
