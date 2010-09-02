@@ -113,17 +113,21 @@
 	margin-top:8px;
 }
 .location_info_tile{
-	height:17px;
+	height:25px;
 	text-align:center;
 	width:100%;
 }
 .location_info_show{
 	width:73%;
-	height:18px;
+	height:12px;
+	margin-top:8px;
+	font-size:14px;
 }
 .location_info_operate{
 	width:27%;
-	height:15px;
+	height:12px;
+	margin-top:8px;
+	font-size:14px;
 }
 .input{
 	size:15;
