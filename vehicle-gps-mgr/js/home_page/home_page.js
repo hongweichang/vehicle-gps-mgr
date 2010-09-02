@@ -162,41 +162,24 @@ $(document).ready(function() {
 		var verticalPadding = 0;
 		$("#operation").html("");
 		
-		
-	
-		
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
 		$('#operation').css('overflow','hidden');//隐藏滚动条 
 		
-		if($this.attr("id")=='trace_ilook'){
-			$("#operation").dialog({
-				title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+		 
+		$("#operation").dialog({
+            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
     	            show:'blind',
         	        hide:'blind',
     	            width: showWidth,
     	            height: showHeight,
     	            modal: false,
-    	            position:[8,32],
+    	            position:'center',
     	            resizable: true,
     				autoResize: true
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-		}else{
-			$("#operation").dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	    	            autoOpen: true,
-	    	            show:'blind',
-	        	        hide:'blind',
-	    	            width: showWidth,
-	    	            height: showHeight,
-	    	            modal: false,
-	    	            position:'center',
-	    	            resizable: true,
-	    				autoResize: true
-	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-		}
-
+		
 		$( "#operation" ).dialog({
 			   close: function(event, ui) { $("#operation").html(""); }
 		});

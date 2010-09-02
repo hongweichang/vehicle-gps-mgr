@@ -25,12 +25,11 @@ $(document).ready(function(){
 		slide: function(event, ui) {
 		run_play(ui.value); 
 		}
-	});
-
+	}); 
+	
 	$("#his_info").hide();
 	$("#show_vehicles").hide();
-	$("#areas").hide();
-	$("#history_trace").attr("checked","checked");
+	$("#areas").hide(); 
 
 	var myDate = new Date();
 	$("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
@@ -87,6 +86,7 @@ $(document).ready(function(){
 			$("#speed_control").hide();
 			$("#suspend_history").hide();
 			$("#stop_history").hide();
+			$("#progress_content").hide();
 
 			$("#mode_area").attr("src","inquire/templates/51ditu.html"); //区域查询时加载地图
 		}else{
@@ -95,8 +95,9 @@ $(document).ready(function(){
 			$("#show_vehicles").hide();
 			$("#play_history").show();
 			$("#speed_control").show();
-			$("#suspend_history").show();
 			$("#stop_history").show();
+			$("#progress_content").show();
+			$("#suspend_history").hide();
 			}
 		});
 
@@ -115,6 +116,8 @@ $(document).ready(function(){
 		$("#his_info").show();
 		$("#his_infoes").show();
 		$("#inquireing").hide();
+		$("#progress_content").hide();
+		
 	});
 
 	//历史轨迹查询
@@ -132,6 +135,7 @@ $(document).ready(function(){
 		$("#areas").hide();
 		$("#inquireing").show();
 		$("#select_mode").get(0).selectedIndex=0; //点击查询历史轨迹时查询默认切换成选择车辆
+		$("#progress_content").show();
 	});
 
 	//定位信息窗口操作
