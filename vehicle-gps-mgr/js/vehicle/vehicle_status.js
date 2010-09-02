@@ -124,7 +124,10 @@ function  vehicle_position(vehicle_ids){
 /*显示车辆定位信息*/
 function locate_vehicle(){ 
 	$("#locates").show();
-	$("#locates").dialog({height:356,width:610,title:'定位',
+	if($("#locates").dialog('isOpen')){
+		$("#locates").dialog('close');
+	}
+	$("#locates").dialog({height:356,width:610,title:'定位',zIndex:10000000,
 			                 autoOpen:true,hide:'blind',show:'blind'});
 	//$("#locate").attr("src","info/templates/51map.html");
 	

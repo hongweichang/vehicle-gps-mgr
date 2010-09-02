@@ -33,41 +33,42 @@ maps.cityNameAndZoom( "beijing" , 12 );
 
 
 maps.addControl(new LTSmallMapControl());
+
 if(ifr==null){
-control = new LTZoomSearchControl();
-control.setTop(10);
-control.setLabel("选中矩形区域查询");
-maps.addControl( control );
-
-//选中区域
-LTEvent.addListener(control,"mouseup",drawRectangle);
-
-var over_lay;
-
-//手动画矩形
-function drawRectangle(){
-
-	maps.removeOverLay(over_lay,false);
-	//矩形地理区域的对象
-	var drawBounds = control.getBoundsLatLng();
+	control = new LTZoomSearchControl();
+	control.setTop(10);
+	control.setLabel("选中矩形区域查询");
+	maps.addControl( control );
 	
-	var lonMin = drawBounds.getXmin();//最小经度
-	var latMin = drawBounds.getYmin();//最小纬度
-	var lonMax = drawBounds.getXmax();//最大经度
-	var latMax = drawBounds.getYmax();//最大纬度
+	//选中区域
+	LTEvent.addListener(control,"mouseup",drawRectangle);
 	
+	var over_lay;
 	
-	//生成矩形地理区域
-	var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
+	//手动画矩形
+	function drawRectangle(){
 	
-	//在地图画出矩形图 
-	over_lay = new LTRect(rectangleBounds);
-	maps.addOverLay(over_lay);
-	
-	document.getElementById("lonMin").value=lonMin;
-	document.getElementById("latMin").value=latMin;
-	document.getElementById("lonMax").value=lonMax;
-	document.getElementById("latMax").value=latMax;
+		maps.removeOverLay(over_lay,false);
+		//矩形地理区域的对象
+		var drawBounds = control.getBoundsLatLng();
+		
+		var lonMin = drawBounds.getXmin();//最小经度
+		var latMin = drawBounds.getYmin();//最小纬度
+		var lonMax = drawBounds.getXmax();//最大经度
+		var latMax = drawBounds.getYmax();//最大纬度
+		
+		
+		//生成矩形地理区域
+		var rectangleBounds =new LTBounds(lonMin,latMin,lonMax,latMax);
+		
+		//在地图画出矩形图 
+		over_lay = new LTRect(rectangleBounds);
+		maps.addOverLay(over_lay);
+		
+		document.getElementById("lonMin").value=lonMin;
+		document.getElementById("latMin").value=latMin;
+		document.getElementById("lonMax").value=lonMax;
+		document.getElementById("latMax").value=latMax;
 	}
 }
 /**
@@ -96,7 +97,6 @@ function location(ids){
 				for(var i=0;i<length;i++){        					
 					var point_longitude = data[i][1]; //点经度
 					var point_latitude =  data[i][2]; //点纬度
-					var number_plate = data[i][5]; //车牌号
 					var file_path = data[i][4]; //文件目录
 					var img_name = data[i][3];  //图片名称				
 
@@ -106,39 +106,14 @@ function location(ids){
 					var marker = new LTMarker(new LTPoint(point_longitude,point_latitude),
 									 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
 
-					//点对象设置内容
-					var context = "车牌号："+number_plate;
-					//点对象设置内容
-					addInfoWin(marker,context);
-
 					//点添入地图中
 					maps.addOverLay(marker);
-					
-					var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
-					text.setLabel(number_plate ); 
-					maps.addOverLay( text ); 
 				}
 				maps.getBestMap(points);
 			 }
 			});
 
  }
-/**
- * 车辆提示信息
- * @param {Object} obj  点对象
- * @param {Object} context 对象提示内容
- */
-function addInfoWin(obj,context){
-	
-	var info = new LTInfoWindow( obj );
-
-	function shwoInfo(){
-		info.setLabel(context);
-		info.clear();
-		maps.addOverLay(info);
-	}
-	LTEvent.addListener(obj,"click",shwoInfo); 
-} 
 
 </script>
 
