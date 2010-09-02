@@ -93,6 +93,10 @@ switch($act)
 			$vehicle[0]['group_name']="未设置";
 		}
 		
+		if($vehicle[0]['driver_name']==null){
+			$vehicle[0]['driver_name']="未指定";
+		}
+		
 		echo json_encode(($vehicle[0]));
 		break;
 		
