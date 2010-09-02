@@ -80,6 +80,9 @@
 	width:300px;
 	margin-top:8px;
 }
+.font_weight{
+	font-weight:700;
+}
 /**************vehicle_console.php***************/
 .table_select_title{
 	font-weight:700;
