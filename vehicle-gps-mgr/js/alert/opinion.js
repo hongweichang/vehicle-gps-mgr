@@ -4,6 +4,10 @@ $(document).ready(function() {
 
 function showOpinion(id,alertType,vehicle_id){
 	$("#opinion").html("");
+	$("#opinion").dialog({
+		  height: 320,   
+          width: 260
+	});
 	$("#opinion").dialog("open");
 	$("#opinion").mask("处理中...");
 	$.get("index.php?a=903&id="+id+"&alertType="+alertType+"&vehicleId="+vehicle_id, function(data) {
@@ -11,3 +15,4 @@ function showOpinion(id,alertType,vehicle_id){
 		$("#opinion").unmask();
     });
 }
+
