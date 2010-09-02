@@ -28,6 +28,7 @@ function resetDialogSize(width,height){
 }
 //绑定事件处理 
 $("#car").click(function(event) {
+	$(".info_select").show();
 	$("#info_Commit").show();
 	$("#area_Commit").hide();
 	$("#issue_map").hide();
