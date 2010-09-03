@@ -35,7 +35,7 @@ switch ($act) {
 		 * 手动配置未分组的车辆组信息
 		 */
 		$vehicle_group_noset[0]=-1;
-		$vehicle_group_noset[1]="未设置";
+		$vehicle_group_noset[1]="未分组车辆";
 		
 		
 		$vehicle_group[count($vehicle_group)-1] = $vehicle_group_noset;//将未分组的车辆组加到所有车辆组里面
