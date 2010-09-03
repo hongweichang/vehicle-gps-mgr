@@ -38,7 +38,7 @@ switch ($act) {
 		$vehicle_group_noset[1]="未分组车辆";
 		
 		
-		$vehicle_group[count($vehicle_group)-1] = $vehicle_group_noset;//将未分组的车辆组加到所有车辆组里面
+		$vehicle_group[count($vehicle_group)] = $vehicle_group_noset;//将未分组的车辆组加到所有车辆组里面
 		
 		/**遍历车辆组，生成车辆组标题*/
 
