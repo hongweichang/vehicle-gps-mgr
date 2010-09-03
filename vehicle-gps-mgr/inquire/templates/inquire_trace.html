@@ -6,38 +6,38 @@
 			<input type="radio" name='history' id="history_post" />查询历史发布信息
 		</div>
 		
-		<div id="control_map" style="margin-top:5px;width:100%; height:23px;font-size:12px; font-weight:700;">
-			<div style="height:22px;float:left;">
-				<div style="height:12px;margin-top:3px; border:0px red solid; margin-right:2px;" class="keep_left">开始时间：</div>
-				<div class="keep_left" style="height:22px;border:0px red solid; margin-right:2px;">
+		<div id="control_map" class="control_map">
+			<div class="area_content">
+				<div class="start_div keep_left">开始时间：</div>
+				<div class="start_input keep_left">
 					<input type="text" id="inquire_startTime" size="16"/>
 				</div>
-				<div style="height:12px;margin-top:3px; border:0px red solid; margin-right:2px;" class="keep_left">结束时间：</div> 
-				<div class="keep_left" style="height:22px;border:0px red solid; margin-right:2px;">
+				<div class="end_time keep_left">结束时间：</div> 
+				<div class="end_div keep_left">
 					<input type="text" id="inquire_endTime" size="16"/>
 				</div>
 			</div>
 			
-			<div style="height:22px;float:left;">
-				<div style="height:20px;float:left;">
+			<div class="area_content">
+				<div class="area_content">
 					<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
 				</div>
-				<div style="height:22px; float:left;margin-top:2px;">
+				<div class="info_select_vehicle" >
 					<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
 				</div>
-				<div style="height:22px; margin-left:3px; float:left;margin-top:2px;">
+				<div class="vehicle_info">
 					<select id="vehicle_info">{{vehicle_list}}</select>
 				</div>
 			</div>
 			
-			<div id="progress_content" style="margin-left:3px; height:22px;float:left;border:0px green solid;">
-				 	<div style="height:12px;width:13px;margin-top:3px; border:0px red solid; margin-right:2px;" class="keep_left">慢</div>
+			<div id="progress_content" class="progress_content">
+				 	<div class="slow_div keep_left">慢</div>
 					<div id="cur_run_time" class="keep_left"></div>
-					<div style="height:12px; width:13px;margin-top:3px;border:0px red solid;margin-left:2px;" class="keep_left">快</div>
-					<div style="height:12px; width:26px;margin-top:3px;border:0px red solid;margin-left:4px;margin-right:2px;" class="keep_left">进度</div> 
+					<div class="fase_content keep_left">快</div>
+					<div class="jindu_div keep_left">进度</div> 
 					<div class="track_info keep_left" id="history_progress"></div>
 			</div> 
-			<div style="width:6%; height:22px;float:left; border:0px red solid;">
+			<div class="play_content">
 					<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
 					<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
 					<img alt="暂停" id="suspend_history" class="hand" style="display:none;" src="images/suspend.png" /> 
