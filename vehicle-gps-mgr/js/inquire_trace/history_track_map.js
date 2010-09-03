@@ -29,7 +29,8 @@
 	
 	/***
 	 * 操作状态 :处理画历史轨迹操作状态    
-	 * 	 'normal' 正常   
+	 * 	 'normal' 正常  
+	 * 	 'suspend' 暂停 
 	 * 	 'stop' 停止 
 	 */
 	var state = "stop"; 
