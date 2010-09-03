@@ -26,10 +26,19 @@ switch ($act) {
 	case "select" ://选择车辆		
 		$str="";		
 		$arrayID=$_REQUEST ['array_ID'];
-		//$vehicle_request = $_REQUEST['vehicle_ids']; //获取首页地图上显示的所有车辆
-		$vehicles_request = explode(",",$vehicleIds); //生成数组
+		$vehicles_request = explode(",",$vehicleIds); //获取首页地图上显示的所有车辆ID,生成数组
+		
         /**获取所有车辆组*/
 		$vehicle_group = $vehicle_console->get_all_vehicle_group ($company_id);
+		
+		/**
+		 * 手动配置未分组的车辆组信息
+		 */
+		$vehicle_group_noset[0]=-1;
+		$vehicle_group_noset[1]="未设置";
+		
+		
+		$vehicle_group[count($vehicle_group)-1] = $vehicle_group_noset;//将未分组的车辆组加到所有车辆组里面
 		
 		/**遍历车辆组，生成车辆组标题*/
 
@@ -41,7 +50,6 @@ switch ($act) {
 
 		}
 		$str = $str."</ul></div>";
-		
 		
 		$vehicle_list = explode(",",$arrayID);
 		$is_selected = "";
