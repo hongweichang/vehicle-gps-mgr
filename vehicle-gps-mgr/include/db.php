@@ -26,9 +26,10 @@ Class MySQL
 	*/
 	function error($text)
 	{
-	   $no = mysql_errno();
-	   $msg = mysql_error();
-	   echo "[$text] ( $no : $msg )<BR>\n";
+	   /*
+	    * 增加用户交互性，不提示后台错误，改为 ‘中文’提示
+	    * $no = mysql_errno();$msg = mysql_error();echo "[$text] ( $no : $msg )<BR>\n";*/
+	   echo $text;
 	   exit;
 	}
 
@@ -90,9 +91,11 @@ Class MySQL
 
 		$conn = mysql_connect($db_config["HOST"], $db_config["USERNAME"], $db_config["PASSWORD"]);
 		if(!$conn)
-		   $this->error("Connection attempt failed");
+		  // $this->error("Connection attempt failed");
+		   $this->error("服务端连接失败！");
 		if(!mysql_select_db($db_config["DB"], $conn))
-		   $this->error("Database Select failed");
+		   //$this->error("Database Select failed");
+		   $this->error("数据库配置参数错误！");
 		$this->CONN = $conn;
 		mysql_query("set names utf8");
 //		mysql_query("set names gb2312");
