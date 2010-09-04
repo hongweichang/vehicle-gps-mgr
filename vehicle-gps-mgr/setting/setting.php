@@ -42,7 +42,7 @@ switch($act)
 		$dis["speed_limit"] = $set->data["speed_astrict"];
 
 		// 疲劳
-		$dis["fatigue_remind_time"] = $set->data["fatigue_remind_time"];
+		$dis["fatigue_remind_time"] = $set->data["fatigue_remind_time"]/60;
 
 		//引入xml操作文件
 		require_once ("include/data_mapping_handler.php");
@@ -148,7 +148,7 @@ switch($act)
 			$parms["page_refresh_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["page_refresh_time"],"VARCHAR");
 			$parms["default_color"]		= $GLOBALS['db']->prepare_value(substr($_REQUEST["default_color"],1),"VARCHAR");
 			$parms["speed_astrict"]		= $GLOBALS['db']->prepare_value($_REQUEST["speed_limit"],"FLOAT");
-			$parms["fatigue_remind_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["fatigue_remind_time"],"FLOAT");
+			$parms["fatigue_remind_time"]		= floor($GLOBALS['db']->prepare_value($_REQUEST["fatigue_remind_time"],"FLOAT")*60);
 
 			$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 			$parms["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
