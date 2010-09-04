@@ -38,7 +38,7 @@
 	 * 1  匹配
 	 */
 	var chanage_state = 0; 
-	
+	  
 	var leftOffsetRatio = 0.05;  //	矩形左间距
 	var rightOffsetRatio = 0.1;  //	矩形右间距
 	var upOffsetRatio = 0.05;    //	矩形上间距
@@ -162,9 +162,7 @@
 							map.addOverLay(text);
 							
 							run_index--;
-						}
-						
-						$("#vehicle_id_save",window.parent.document).val(ids);//将车辆信息保存在首页的隐藏域中
+						} 
 						/**
 						 * 区域自动匹配用户查看设置
 						 * 1 匹配
@@ -381,10 +379,11 @@
 			 },1000);
 		}else{ 
 		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state!=1)return false;
-
-		$("#vehicle_id_save",window.parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
 		
-		 $.ajax({
+		//监控车辆状态时 可以默认选择上车辆 
+		$("#vehicle_id_save",window.parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
+	 
+		$.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
 				dataType:"json",
