@@ -183,7 +183,9 @@ $(document).ready(function() {
 		$( "#operation" ).dialog({
 			   close: function(event, ui) { 
 					$("#operation").html(""); 
-					clear_history_track();
+					if($this.attr('id') == "search_info" || $this.attr('id') == "trace_ilook"){ 
+						clear_history_track();
+					}
 			  }
 		});
 		$( "#operation" ).mask("载入中...");

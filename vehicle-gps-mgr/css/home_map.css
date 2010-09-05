@@ -59,6 +59,12 @@ A:hover {
 	margin-right:5px;
 	width:60px;
 }
+.real_time_monitor{
+	.oprate;
+	text-align:left;
+	margin-left:12px;
+	margin-top:8px;
+}
 .statistics_info{
 	float:left;
 	margin-right:5px;

@@ -354,7 +354,9 @@
 							
 					"<div class='look_history' id='trace_ilook' url='index.php?a=201' showWidth=\"915\" showHeight=\"500\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
 					vehicle_id +
-					"\")'><a href='#'>查看历史轨迹</a></div></div>";
+					"\")'><a href='#'>查看历史轨迹</a></div>" +
+							
+					"<div class='real_time_monitor'><a href='javascript:refresh_vehicle_position("+vehicle_id+")'>实时监控</a></div></div>";
 			
 			return context;
 		}
