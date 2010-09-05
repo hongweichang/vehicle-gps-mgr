@@ -181,7 +181,10 @@ $(document).ready(function() {
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
 		
 		$( "#operation" ).dialog({
-			   close: function(event, ui) { $("#operation").html(""); }
+			   close: function(event, ui) { 
+					$("#operation").html(""); 
+					clear_history_track();
+			  }
 		});
 		$( "#operation" ).mask("载入中...");
 			

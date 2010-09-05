@@ -271,6 +271,13 @@
 	</div>
 </div>
 <script type="text/javascript">
+
+/**
+ * 将变量声明此处，为了关闭窗口时，清除历史轨迹请求数据。
+ */
+var arr_history = null; //历史轨迹时间队列数组
+var drawLine_arr = null;  //画线队列
+
 /**
  * 开始加载首先加载车辆的最新定位，判断IFRAME是否加载完
  */
@@ -282,6 +289,13 @@ function position(){
 		setTimeout("position();",1000);
 	 }	 
 } 
+/**
+ * 清除历史轨迹数据
+ */
+function clear_history_track(){  
+		arr_history = null; //初始历史时间数组为空
+		drawLine_arr = null;//初始画线数组为空 
+}
 </script>
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
 	

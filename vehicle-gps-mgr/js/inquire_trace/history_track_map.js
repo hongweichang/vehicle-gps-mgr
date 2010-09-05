@@ -7,9 +7,7 @@
  * modifier
  */
 
-	var map = null; //历史轨迹地图对象
-	var arr_history = null; //历史轨迹时间队列数组
-	var drawLine_arr = null;  //画线队列
+	var map = null; //历史轨迹地图对象 
 	var vehicle_id = -1; //车辆ID
 	var speed = 1000;  //速度/ms
 	var progress_length = 0; //历史轨迹时间队列数组长度
@@ -92,21 +90,21 @@
 	 */
 	function runHistoryTrack(){   
 		//如果当前画线数组还存在数据，继续执行画线
-		if(drawLine_arr != null  && state === "normal"){
+		if(window.parent.drawLine_arr != null  && state === "normal"){
 			 
-			if(drawLine_arr.length > 0 ){ 
+			if(window.parent.drawLine_arr.length > 0 ){ 
 				newDrawLine();
 			} 
 		}else{ //当画线队列数组不存在数据是，执行时间段取点  
 			 
-			if(arr_history.length>0){ //当时间数组还存在时间，连续查询 
+			if(window.parent.arr_history.length>0){ //当时间数组还存在时间，连续查询 
 				cur_progress ++;
 				//按比例计算进度条进度数值
 				var progress_val = round((cur_progress/progress_length)*100,0);
 				window.parent.progress_assignment(progress_val);
 				
-				var time = arr_history[0];  
-				arr_history.shift();//删除已查询日期
+				var time = window.parent.arr_history[0];  
+				window.parent.arr_history.shift();//删除已查询日期
 				
 				//查询
 				drawHistoryTrack(time,vehicle_id);
@@ -126,9 +124,9 @@
 	function wait(){
 		
 		setTimeout(function(){
-			if(drawLine_arr!=null){//唤醒线程
-				if(drawLine_arr.length<=0){ 
-					drawLine_arr = null;
+			if(window.parent.drawLine_arr!=null){//唤醒线程
+				if(window.parent.drawLine_arr.length<=0){ 
+					window.parent.drawLine_arr = null;
 					runHistoryTrack(); 
 				}else{ //等待
 					wait();
@@ -158,9 +156,9 @@
 			 * 日期请求查询路线为空操作
 			 */
 			if(data==0 || data == null || data == ""){ 
-			   if(arr_history == null) return false; //查询时间队列为空 
+			   if(window.parent.arr_history == null) return false; //查询时间队列为空 
 			 
-			   if(arr_history.length>0){ //如果日期数组存在日期数据，连续请求查询
+			   if(window.parent.arr_history.length>0){ //如果日期数组存在日期数据，连续请求查询
 					runHistoryTrack();
 					return false;
 				}else //否则进入停止状态
@@ -173,7 +171,7 @@
 				data_queue_state = 1; //设置新数据状态
 			
 			//路线赋值
-			drawLine_arr = data; 
+			window.parent.drawLine_arr = data; 
 			 
 			//新画路线
 			newDrawLine();
@@ -189,19 +187,19 @@
 	 */
 	function newDrawLine(){ 
 		 
-		if(drawLine_arr!=null && state==="normal"){ //等于‘正常’状态
-			var length = drawLine_arr.length; 
+		if(window.parent.drawLine_arr!=null && state==="normal"){ //等于‘正常’状态
+			var length = window.parent.drawLine_arr.length; 
 			if(length>0){
 				 	
 			 		var points = new Array();
 			 		 
-			 		var longitude = drawLine_arr[0][0];  //经度
-			 		var latitude = drawLine_arr[0][1];  //纬度
-			 		var direction = drawLine_arr[0][2]; //方向
-			 		var vehicle_speed = drawLine_arr[0][3]; //车辆速度
-			 		var color = drawLine_arr[0][4]; //颜色
-					var img_path =  drawLine_arr[0][5]; //图片路径
-					var location_time = drawLine_arr[0][6]; //定位时间
+			 		var longitude = window.parent.drawLine_arr[0][0];  //经度
+			 		var latitude = window.parent.drawLine_arr[0][1];  //纬度
+			 		var direction = window.parent.drawLine_arr[0][2]; //方向
+			 		var vehicle_speed = window.parent.drawLine_arr[0][3]; //车辆速度
+			 		var color = window.parent.drawLine_arr[0][4]; //颜色
+					var img_path =  window.parent.drawLine_arr[0][5]; //图片路径
+					var location_time = window.parent.drawLine_arr[0][6]; //定位时间
 			 		var newLongitude = -1; //新线点经度
 			 		var newLatitude = -1; //新线点纬度
 			 		var point_index = -1; //数据点下标
@@ -236,8 +234,8 @@
 			 	 */	
 				if(length>1){ //队列数据大于1
 					 
-					newLongitude = drawLine_arr[point_index][0];//线的终点经度
-					newLatitude = drawLine_arr[point_index][1]; //线的终点纬度
+					newLongitude = window.parent.drawLine_arr[point_index][0];//线的终点经度
+					newLatitude = window.parent.drawLine_arr[point_index][1]; //线的终点纬度
 					
 					second_longitude = newLongitude;
 					second_latitude = newLatitude;
@@ -255,7 +253,7 @@
 					old_latitude = newLatitude; 
 					
 					//当历史轨迹画完之后，回到初始状态
-					if(arr_history.length <=0 || arr_history == null || arr_history == ""){
+					if(window.parent.arr_history.length <=0 || window.parent.arr_history == null || window.parent.arr_history == ""){
 						return end_history_line();
 					}
 				} 
@@ -265,7 +263,7 @@
 						data_queue_state = 0;
 				
 				//删除并返回数组的第一个元素
-				drawLine_arr.shift(); 
+				window.parent.drawLine_arr.shift(); 
 				//调用画线函数 
 				drawRunLine(points,newLongitude,newLatitude,direction,color,vehicle_speed,img_path,location_time,newLongitude,newLatitude);
 			} 

@@ -349,8 +349,8 @@ $(document).ready(function(){
 		history_track_frame.old_latitude = -1;  //初始车辆纬度未设置状态
 		history_track_frame.cur_progress = 0;	//初始当前进度值
 		history_track_frame.progress_length=0;  //初始当前进度长度
-		history_track_frame.arr_history = null; //初始历史时间数组为空
-		history_track_frame.drawLine_arr = null;//初始画线数组为空
+		arr_history = null; //初始历史时间数组为空
+		drawLine_arr = null;//初始画线数组为空
 
 		$("#direction").html(" ");     //定位信息方向清空
 		$("#speed").html(" ");		   //定位信息速度清空
@@ -390,7 +390,7 @@ $(document).ready(function(){
 					empty_cur_vhicle_history();
 					 
 					//设置时间队列数组
-					history_track_frame.arr_history = getHourList();   
+					arr_history = getHourList();   
 					//设置时间队列数组长度
 					history_track_frame.progress_length = getHourList().length;
 					//设置所选车辆编号
