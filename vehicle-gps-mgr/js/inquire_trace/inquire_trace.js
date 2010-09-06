@@ -36,22 +36,38 @@ $(document).ready(function(){
 	$("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
 
 	//暂停
-	$("#suspend_history").click(function(){
+	/*$("#suspend_history").click(function(){
 		$("#location_info").show();
 		$("#suspend_history").hide();
 		$("#play_history").show();
 		
 		history_track_frame.state="suspend"; 
-	});
+	});*/
 
 	//停止 
-	$("#stop_history").click(function(){
+	/*$("#stop_history").click(function(){
 			$("#inquireing").unmask();
 			history_track_frame.end_history_line();
+	});*/
+	$('#stop_history').button({
+		text: false,
+		icons: {
+			primary: 'ui-icon-stop'
+		}
+	})
+	.click(function() {
+		$('#play_history').button('option', {
+			label: 'play',
+			icons: {
+				primary: 'ui-icon-play'
+			}
+		});
+		$("#inquireing").unmask();
+		history_track_frame.end_history_line();
 	});
  
 	//播放
-	$("#play_history").click(function(){ 
+	/*$("#play_history").click(function(){ 
 
 		 var state = document.history_track_frame.document.readyState;
 
@@ -70,6 +86,47 @@ $(document).ready(function(){
 		 }else
 			 alert("地图未加载完，请等待地图加载完之后，点击操作！");
 		
+	});*/
+	$('#play_history').button({
+		text: false,
+		icons: {
+			primary: 'ui-icon-play'
+		}
+	})
+	.click(function() {
+		var options;
+		var state = document.history_track_frame.document.readyState;
+		if ($(this).text() == 'play') {
+			options = {
+				label: 'pause',
+				icons: {
+					primary: 'ui-icon-pause'
+				}
+			};
+			 if(state === "complete"){
+					$("#inquireing").show();
+					$("#location_info").show(); //显示定位信息
+					 
+					if(history_track_frame.state === "suspend"){
+						history_track_frame.state = "normal";
+					}
+					
+					progress_assignment(1);
+					play_trace();	
+				 }else
+					 alert("地图未加载完，请等待地图加载完之后，点击操作！");
+		} else {
+			options = {
+				label: 'play',
+				icons: {
+					primary: 'ui-icon-play'
+				}
+			};
+			$("#location_info").show();
+			
+			history_track_frame.state="suspend"; 
+		}
+		$(this).button('option', options);
 	});
 
 	//选择车辆查询和区域查询切换
