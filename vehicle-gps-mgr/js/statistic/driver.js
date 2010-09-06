@@ -101,7 +101,7 @@ function show_driver(id){
 jQuery("#statistic_driver_table").jqGrid( {
 		url : "index.php?a=408&begin_data="+$("#driver_begin_data").val()+"&end_data="+$("#driver_end_data").val(),			
 		datatype : "json",
-		colNames : ['driver_id','驾驶员姓名', '累计行驶距离', '累计行驶时间', '累计停车时间', '最早开车时间', '最晚开车时间','详细说明' ],
+		colNames : ['driver_id','驾驶员姓名', '累计行驶距离(公里)', '累计行驶时间(分钟)', '累计停车时间(分钟)', '最早开车时间', '最晚开车时间','详细说明' ],
 		colModel : [ {
 			name : 'driver_id',
 			index : 'driver_id',

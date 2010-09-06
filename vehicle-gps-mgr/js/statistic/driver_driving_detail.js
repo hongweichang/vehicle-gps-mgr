@@ -6,7 +6,7 @@ var driverID=$("#dri_driving_id").val();
 jQuery("#drive_begin_data").jqGrid( {
 		url : "index.php?a=411&drive_id="+driverID,
 		datatype : "json",
-		colNames : [ 'cds', '开车起始时间', '开车结束时间', '起止开车时间间隔(单位:分钟)', '起止开车路程(单位:公里)'],
+		colNames : [ 'cds', '开车起始时间', '开车结束时间', '起止开车时间间隔(分钟)', '起止开车路程(公里)'],
 		colModel : [{
 			name : 'cds',
 			index : 'cds',

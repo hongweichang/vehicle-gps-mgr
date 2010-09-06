@@ -3,7 +3,7 @@ var vel=$("#vs_stop_id").val();
 jQuery("#vehicle_stop_detail").jqGrid( {
 		url : "index.php?a=415&vehicle_id="+vel,
 		datatype : "json",
-		colNames : ['id','开车时间','停车时间','停车时间间隔'],
+		colNames : ['id','开车时间','停车时间','停车时间间隔(分钟)'],
 		colModel : [{
 			name : 'id',
 			index : 'id',
