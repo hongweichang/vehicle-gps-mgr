@@ -330,12 +330,13 @@
 					map.getBestMap(point);
 					//如果当前重新获得最佳位置比例非等于以前用户操作比较，还原用户操作比例
 					if(current_zoom !=map.getCurrentZoom())
-						map.zoomTo(current_zoom);
+						map.zoomTo(current_zoom==0?1:current_zoom);
 				}
 				break;
 			case 0:	//非匹配
 				chanage_state = 1;
 				map.getBestMap(point);
+				map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 				break;
 		} 
 		
@@ -479,6 +480,7 @@
 						map.addOverLay( text ); 
 					}
 					map.getBestMap(points);
+					map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 				 }
 				});
 	}
