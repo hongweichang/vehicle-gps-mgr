@@ -12,6 +12,13 @@
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
 	var marker;   //地图标记对象
+	
+	/**
+	 * 点击过点记录，根据点记录这次与上次的点记录是否一致，如果一致，不重新加载点最新信息
+	 */
+	var backup_longitude = -1; //经度
+	var backup_latitude = -1;  //纬度
+	
 	/**
 	 * 刷新状态(注：刷新不同操作，例：刷新公司车辆)
 	 * 0 刷新公司所有车辆
@@ -72,12 +79,21 @@
 		//初始化车辆定位
 		loadCompanyVehicle();
 	} 
-
-	
+	/**
+	 * 设置地图初始状态
+	 * @return
+	 */
+	function init_state(){
+		
+		/**初始点击过的经纬度*/
+		backup_longitude=-1;
+		backup_latitude=-1;
+	}
 	/**
 	 * 清除所有标点，重新加载新数据
 	 */
 	function clearOverLay(){
+		marker = null;
 		map.clearOverLays(); 
 	}
 	/**
@@ -106,6 +122,7 @@
 				dataType: "json",
 				success: function(data){ 
 					if (data != null) {
+						 
 						var ids=new Array()
 						var longitudeArray = new Array(); // 所有车辆经度保存数组
 						var latitudeArray = new Array();  // 所有车辆纬度保存数组
@@ -195,11 +212,13 @@
 								if (isOutofMapRange) {//超出范围
 									//重新获得最佳位置
 									map.getBestMap(points);
+									map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 								}
 								break;
 							case 0:	//非匹配
 								chanage_state = 1;
 								map.getBestMap(points);
+								map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 								break;
 						}
 						 
@@ -231,7 +250,8 @@
 	 */
 	function refresh_vehicle_info(){ 
 		if (!$("#location_refresh",parent.document).attr('checked') && refresh_state===2)  return false;
-		 
+		init_state();//设置地图初始状态
+		
 		switch(refresh_state){
 			case 0:    //'0'代表刷新所有车辆
 				refresh_state=0;
@@ -266,7 +286,12 @@
 		LTEvent.removeListener(moveLsitener);//删除事件注册
 		map.zoomIn();//放大地图
 	}
-	 
+	
+	//气泡
+	function LTInfoWindow_close(){
+		backup_longitude = -1;
+		backup_latitude = -1;
+	}
 	 
 	/**
 	 * 车辆提示信息
@@ -276,13 +301,21 @@
 	 */
 	var info_old; //上一次打开的信息浮窗
 	function addInfoWin(obj,title,vehicle_id){ 
-		
+		 
 		var info = new LTInfoWindow( obj );
 		var refresh_state_backup = refresh_state; //备份刷新 操作状态
 		
+		LTEvent.addListener(info,"close",LTInfoWindow_close);
+ 
 		wait_state=0; //停止其它函数块调用刷新公司车辆
 		
-		function shwoInfo(){
+		function shwoInfo(){  
+			 if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
+				  return false;
+			
+			backup_longitude = obj.getPoint().getLongitude();
+		    backup_latitude = obj.getPoint().getLatitude();
+				
 			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
 			
@@ -317,6 +350,11 @@
 			info.clear();//清除信息浮窗内容
 			map.addOverLay(info);//添加新内容			
 		}
+		function close(){
+			alert("close");
+		}
+		LTEvent.addListener(obj,"close",close);
+		
 		LTEvent.addListener(obj,"click",shwoInfo); 
 	} 
 	
@@ -476,11 +514,13 @@
 							if (isOutofMapRange) {//超出范围
 								//重新获得最佳位置
 								map.getBestMap(points);
+								map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 							}
 							break;
 						case 0:	//非匹配
 							chanage_state = 1;
 							map.getBestMap(points);
+							map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 							break;
 					}	
 					points = null; //清空数据队列
