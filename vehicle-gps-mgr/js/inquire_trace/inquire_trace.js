@@ -571,10 +571,10 @@ $(document).ready(function(){
 		var startdt0 = new Date(Date.parse(startTime));
 		var enddt0 = new Date(Date.parse(endTime));
 
-		startdt = startdt0.getTime();
-		enddt = enddt0.getTime();
+		startdt = startdt0.getTime(); //得到用毫秒数表示的起始时间
+		enddt = enddt0.getTime(); //得到用毫秒数表示的结束时间
 
-		var hourList = new Array();
+		var hourList = new Array(); //定义小时列表，用来向服务器获取相应小时内的历史轨迹数据
 		
 		while(startdt <  enddt){
 			var date = new Date();
@@ -584,7 +584,6 @@ $(document).ready(function(){
 			hourList.push(hourStr);
 			
 			startdt += 60*60*1000; //起始时间增加1小时
-			//startdt += 30*60*1000; //起始时间增加半小时
 		}
 		
 		return hourList;
@@ -599,20 +598,8 @@ $(document).ready(function(){
 			return padLeft("0" +str,lenght); 
 		}
 	} 
-
-	//位置信息类
-	function Position(){
-		var longitude;
-		var latitude;
-	}
-
-	//区域信息类
-	function AreaInfo(){
-		var positionList;
-		var radius = 0;
-		var type = 0; //0-矩形 1-圆形 2-多边形
-	}
  	
+	//展示历史轨迹显示区域，并播放历史轨迹
 	function show_trace_area(vehicle_id){
 		$("#show_area").hide();
 		$("#show_vehicles").hide();
