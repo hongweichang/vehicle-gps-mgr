@@ -129,6 +129,18 @@ $(document).ready(function(){
 		$(this).button('option', options);
 	});
 
+	$("#vehicle_info").change(function(){
+		$("#inquireing").unmask();
+		history_track_frame.end_history_line();
+		$("#location_info").hide();
+		$('#play_history').button('option', {
+			label: 'play',
+			icons: {
+				primary: 'ui-icon-play'
+			}
+		});
+	});
+	
 	//选择车辆查询和区域查询切换
 	$("#select_mode").change(function(){
 		
@@ -141,7 +153,6 @@ $(document).ready(function(){
 			$("#show_vehicles").show();
 			$("#play_history").hide();
 			$("#speed_control").hide();
-			$("#suspend_history").hide();
 			$("#stop_history").hide();
 			$("#progress_content").hide();
 
@@ -154,7 +165,12 @@ $(document).ready(function(){
 			$("#speed_control").show();
 			$("#stop_history").show();
 			$("#progress_content").show();
-			$("#suspend_history").hide();
+			$('#play_history').button({
+				text: false,
+				icons: {
+					primary: 'ui-icon-play'
+				}
+				});
 			}
 		});
 
@@ -165,7 +181,6 @@ $(document).ready(function(){
 		$("#info_select_vehicle").hide();
 		$("#play_history").hide();
 		$("#speed_control").hide();
-		$("#suspend_history").hide();
 		$("#stop_history").hide();
 		$("#areas").hide();
 		$("#show_vehicles").hide();
@@ -174,6 +189,13 @@ $(document).ready(function(){
 		$("#his_infoes").show();
 		$("#inquireing").hide();
 		$("#progress_content").hide();
+		$('#play_history').button({
+			text: false,
+			icons: {
+				primary: 'ui-icon-play'
+			}
+			});
+		$("#inquireing").unmask();
 		
 	});
 
@@ -186,8 +208,7 @@ $(document).ready(function(){
 		$("#info_select_vehicle").show();
 		$("#vehicle_info").show();
 		$("#play_history").show();
-		$("#speed_control").show();
-		$("#suspend_history").show();
+		$("#speed_control").show();	
 		$("#stop_history").show();
 		$("#areas").hide();
 		$("#inquireing").show();
@@ -597,7 +618,6 @@ $(document).ready(function(){
 		$("#show_vehicles").hide();
 		$("#speed_control").show();
 		$("#play_history").show();
-		$("#suspend_history").show();
 		$("#stop_history").show();
 		$("#vehicle_info").show();
 		$("#inquireing").show();
