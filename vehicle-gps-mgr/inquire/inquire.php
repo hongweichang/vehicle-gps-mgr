@@ -70,20 +70,14 @@ switch($act)
 		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		//$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
-		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+		$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
+		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
 		if(!file_exists($gps_info_path)){
 			echo json_encode(0);
 			break;
 		}
 			
-		/*if(!session_is_registered("readfile_finished"))
-		{
-			$_SESSION["readfile_finished"] = 1;
-		}*/
-		
 		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
-		//$parser = new Position_parser("1","tracedata/2010080312.log","3"); //测试数据
 		$datalist = $parser->getDataList();
 		
 		$point_info = array();
@@ -162,13 +156,7 @@ switch($act)
 	case "get_area_history": 
 		require_once 'areaInfo.php';
 		$areaInfo = new AreaInfo();
-		/*$_REQUEST["lonMin"] = "";
-		$_REQUEST["latMin"] = "";
-		$_REQUEST["lonMax"] = "";
-		$_REQUEST["latMax"] = "";
-		$_REQUEST["vehicle_list"] = "";
-		$_REQUEST["hour_list"] = "";
-		*/
+		
 		$position1 = new Position($_REQUEST["lonMin"], $_REQUEST["latMin"]);
 		$position2 = new Position($_REQUEST["lonMax"], $_REQUEST["latMax"]);
 		
