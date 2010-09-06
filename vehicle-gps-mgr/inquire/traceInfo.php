@@ -48,15 +48,6 @@ class Position_parser
 		$this->company_id = $company_id;
 		$this->time = $time;
 		$this->gps_id = $this->get_gps_id($vehicle_id);
-		//判断session中index是否存在，如果存在，则用session中的index
-		/*if($_SESSION["readfile_finished"] == 0)
-		{
-			$this->index = $_SESSION["gps_info_index"];
-		}
-		else 
-		{
-			$this->index = $this->get_file_index($this->gps_id,$this->time);
-		}*/
 		$this->index = $this->get_file_index($this->gps_id,$this->time);
 		$this->file = fopen($filepath, "r") or exit("Unable to open file!");
 		
@@ -114,19 +105,7 @@ class Position_parser
 			if($line_data)
 			{
 				$data_list = explode('~',$line_data);
-				
-				/*
-				if($_SESSION["readfile_finished"] == 1) //本次半小时处理尚未进行
-				{
-					if(intval(substr($data_list[6],2,2)) >= 30) //截取时间中的分钟部分和30分钟进行对比
-					{
-						$_SESSION["gps_info_index"] = $this->index;
-						return "pause";
-					}
-				}*/
-				
 				$this->index = $data_list[0];
-				
 				$trace_info = new TraceInfo();
 				
 				/**纬度*/
@@ -167,6 +146,7 @@ class Position_parser
 		
 		return $img_path;
 	}
+	
 	/**
 	 * 获取数据列表 
 	 */
@@ -182,17 +162,11 @@ class Position_parser
 					{
 						$this->readLineData();
 					}
-					//$_SESSION["readfile_finished"] = 1; //处理完一个文件后，设置完成标志位为1
 					break;
 				}
 				else
 				{
 					$this->readLineData();
-					/*if("pause" == $this->readLineData())
-					{
-						$_SESSION["readfile_finished"] = 0; //本次半小时处理已经进行
-						break;
-					}*/
 				}
 			}
 			return $this->info_list;
@@ -203,6 +177,10 @@ class Position_parser
 		}
 	}
 	
+	/**
+	 * 判断某辆车是否在指定区域内
+	 * @param unknown_type $areaInfo
+	 */
 	function is_in_area($areaInfo)
 	{
 		if($this->file)
@@ -237,6 +215,10 @@ class Position_parser
 		
 	}
 	
+	/**
+	 * 从文件中取出指定车辆的位置信息，并判断是否在指定区域内
+	 * @param $areaInfo
+	 */
 	function check_in_area($areaInfo)
 	{
 		if($this->file)
