@@ -131,7 +131,7 @@ $(document).ready(function() {
 					    alertType=array[4];//获得告警类型的编号
 					    vehicle_id=array[5];//获得车辆id
 					    
-						if(array[2]=="undefined"){
+						if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
 							no_alertInfo();
 						}else{
 					   
