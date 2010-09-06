@@ -111,37 +111,37 @@ jQuery("#statistic_driver_table").jqGrid( {
 		},{
 			name : 'name',
 			index : 'name',
-			width : 120,
+			width : 65,
 			align : "center",
 			editable : false
 		},{
 			name : 'distance',
 			index : 'distance',
-			width : 120,
+			width : 125,
 			align : "center",
 			editable : false
 		}, {
 			name : 'drive_time',
 			index : 'drive_time',
-			width : 120,
+			width : 125,
 			align : "center",
 			editable : false
 		}, {
 			name : 'stop_time',
 			index : 'stop_time',
-			width : 120,
+			width : 125,
 			align : "center",
 			editable : false
 		}, {
 			name : 'min_time',
 			index : 'min_time',
-			width : 120,
+			width : 125,
 			align : "center",
 			editable : false
 		}, {
 			name : 'max_time',
 			index : 'max_time',
-			width : 120,
+			width : 125,
 			align : "center",
 			editable : false
 		},{
@@ -157,7 +157,8 @@ jQuery("#statistic_driver_table").jqGrid( {
 		pager : '#statistic_driver_div',
 		viewrecords : true,
 		sortorder : "asc",
-		height : "230"
+		height : "230",
+		width:"800"
 	});
 	
 	jQuery("#statistic_driver_table").jqGrid('navGrid', '#statistic_driver_div', {
