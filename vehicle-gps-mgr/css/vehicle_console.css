@@ -27,16 +27,15 @@
 }
 /***********vehicle_console_select***************/
 .vehicle_select_bodydiv{
-	border:1px #cccccc solid;
 	width:619px; 
 	height:280px;
 	margin-top:20px;
+	border:1px #CCCCCC solid;
 }
 .vehicle_select_tab{
 	font-size:12px;
-	border-left:0px;
-	border-right:0px;
-	border-top:0px;
+	height:270px;
+	border:0px;
 }
 .vehicle_select_bottom{
 	width:620px; 
