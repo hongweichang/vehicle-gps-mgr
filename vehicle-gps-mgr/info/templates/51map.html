@@ -84,7 +84,9 @@
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+ids, 
 				dataType:"json",
-				success:function(data){ 			 
+				success:function(data){ 	
+			 	if(data==0 || data == null || data == "") return false;		 
+
 					var length = data.length; 
 					var points = new Array();
 
