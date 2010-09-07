@@ -56,3 +56,5 @@ function reloadGrid() {//给jqgrid 重新指向要查询数据的路径和参数
 		.val()+"&vehicle_id="+$("#vehicle_sel").val()+"&deal="+$("#data_condition").attr("checked"),page:1}).trigger("reloadGrid");
 
 }
+
+$(":button").button();
