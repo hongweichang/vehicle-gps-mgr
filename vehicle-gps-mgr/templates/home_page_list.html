@@ -7,7 +7,9 @@
 	<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
 	<link type="text/css" href="css/ui.jqgrid.css" media="screen" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
-	<title>GPS智能车辆监控调度系统</title>
+	<!-- 选车下拉框的css -->
+	<link type="text/css" href="css/dd.css"  media="screen" rel="stylesheet" />
+	<title>GPS车辆定位管理系统</title>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
 	<script language="javascript" src="js/interface.js" ></script>
 	<script src="js/i18n/grid.locale-cn.js" type="text/javascript"></script>
@@ -17,7 +19,9 @@
 	<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>
 	<script language="javascript" src="js/alert/common.js"></script> 
 	<script language="javascript" src="js/alert/opinion.js"></script>
-	<script language="javascript" src="js/alert/write_option.js"></script>  
+	<script language="javascript" src="js/alert/write_option.js"></script>
+	<!-- 选车下拉框的js -->
+    <script language="javascript" src="js/jquery.dd.js"></script>
 </head>
 <body>
 
@@ -27,6 +31,10 @@
     
 	<div id="opinion"></div>
 	<div id="operation"></div>
+	<!-- 统计分析中的子模式窗体 -->
+	<div id="statistic"></div><!-- 统计分析 -->
+    <div id="examine"></div><!-- 查看 -->
+	<div id="release"></div><!-- 发布 -->
 	<div id="header">
 		<div class="carInfo"> 
 			<div id="carInfor" class="carInfor"></div>
@@ -61,7 +69,7 @@
 					<span>发布信息</span>
 					<img src="images/sendInfo.png" alt="发布信息" class="dockimg" />
 			  </a> 
-			  <a class="dock-item2 console_btn" id="search_info" href="index.php?a=301" title="查询信息"  showWidth="915" showHeight="500">
+			  <a class="dock-item2 console_btn" href="index.php?a=301" id="search_info" title="查询信息"  showWidth="915" showHeight="500">
 					<span>查询信息</span>
 					<img src="images/select.png" alt="查询信息" class="dockimg" />
 			  </a> 
@@ -97,16 +105,13 @@
 			    </div>
 		</div>
 		<div id="as_date"></div>
-		<div><input type='hidden' id='vehicle_id_save'></input></div>
-</div>  
+</div>   
 	<script language="javascript">
 		var host = "{{HOST}}"; //主机
-		{{PAGE_REFRESH_TIME}}
-		
+		{{PAGE_REFRESH_TIME}}	
 		var width = document.documentElement.clientWidth;
 		var height = document.documentElement.clientHeight 
 		$("#home_map_frame").css({ "width": width+"px", "height": height*0.865+"px" });
-		
 	</script>
 	<script language="javascript" src="js/home_page/home_page.js"></script>
 </body> 

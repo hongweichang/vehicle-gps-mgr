@@ -134,11 +134,11 @@ switch($act)
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],
 												$driver[0]['name'],$alert_state,
-												"<a href='#' title='查询历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\")'>查看>></a>",
+												"<a href='#' title='查询历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\",\"examine\")'>查看>></a>",
 												
-												"<a href='#'  showWidth='850' showHeight='320' title='统计分析' onclick='showOperationDialog(this,\"index.php?a=402&vehicle_id=".$val['id']."\")'>统计>></a>",
+												"<a href='#'  showWidth='850' showHeight='320' title='统计分析' onclick='showOperationDialog(this,\"index.php?a=402&vehicle_id=".$val['id']."\", \"static\")'>统计>></a>",
 												
-												"<a href='#' title='发布信息' showWidth='230' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_ids=".$val['id']."\")'>发布>></a>",
+												"<a href='#' title='发布信息' showWidth='230' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_ids=".$val['id']."\",\"release\")'>发布>></a>",
 												$vehicle_position_str);
 		}
 

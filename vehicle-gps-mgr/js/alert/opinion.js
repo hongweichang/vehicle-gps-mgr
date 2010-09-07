@@ -12,7 +12,9 @@ function showOpinion(id,alertType,vehicle_id){
 	$("#opinion").mask("处理中...");
 	$.get("index.php?a=903&id="+id+"&alertType="+alertType+"&vehicleId="+vehicle_id, function(data) {
 		$("#opinion").html(data);
+
 		$("#opinion").unmask();
+		
     });
 }
 
