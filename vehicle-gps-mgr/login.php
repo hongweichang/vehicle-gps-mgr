@@ -87,7 +87,7 @@
 						</div>
 						<div class="commonCheck">
 							<input id="saveall" type="checkbox" value="" />
-							<span style="color:#CCCCCC; font-weight:normal;">记住</span>
+							<span style="color:#999999; font-weight:normal;">记住</span>
 						</div>
 					</div>
 				</div> 
