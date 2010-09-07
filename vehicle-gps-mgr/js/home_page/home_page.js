@@ -64,12 +64,6 @@ $(document).ready(function() {
 		});
 
 		$('.console_btn').click(function(e) {
-			if($(this).attr("id")=="sel_vehicle_btn"){
-				$("#vehicle_id_save").val();
-				var href = $(this).attr("href");
-				var ids = $("#vehicle_id_save").val();
-				$(this).attr("href",href+"&vehicleIds="+ids);
-			}
 			e.preventDefault();
 			showOperationDialog(this, $(this).attr('href'));
 		});
@@ -83,7 +77,7 @@ $(document).ready(function() {
 			showOperationDialog(this, $(this).attr('url'));   
 		});	
 	/**动态生成车辆代表的速度**/		
-	$("#header").mask("加载中...");
+	$("#header").mask("车辆速度正在查询中,请耐心等候...");
 	$.post("index.php",{
 		 "a":5021}
 		,function(data){
@@ -131,7 +125,7 @@ $(document).ready(function() {
 					    alertType=array[4];//获得告警类型的编号
 					    vehicle_id=array[5];//获得车辆id
 					    
-						if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
+						if(array[2]=="undefined"){
 							no_alertInfo();
 						}else{
 					   
@@ -156,44 +150,66 @@ $(document).ready(function() {
 		$("#record").html("没有未处理的告警记录");
 		document.getElementById("lookMore").style.display="block";
 	}
-	function showOperationDialog(htmlObj, url){ 
+	
+	function showOperationDialog(htmlObj, url,header){ 
+		if('static'==header){
+			var param='statistic'; 
+		}else if('examine'==header){
+			var param='examine'; 
+		}else if('release'==header){
+			var param='release'; 
+		}else{
+			var param='operation';
+		}
+		
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;
 		var verticalPadding = 0;
-		$("#operation").html("");
+		$("#"+param).html("");
 		
 		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
-		$('#operation').css('overflow','hidden');//隐藏滚动条 
+		$('#'+param).css('overflow','hidden');//隐藏滚动条 
 		
-		 
-		$("#operation").dialog({
-            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+		if($this.attr("id")=='trace_ilook'){
+			$("#"+param).dialog({
+				title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
     	            show:'blind',
         	        hide:'blind',
     	            width: showWidth,
     	            height: showHeight,
-    	            modal: false,
-    	            position:'center',
+    	            modal: true,  
+    	            position:[8,32],
     	            resizable: true,
     				autoResize: true
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-		
-		$( "#operation" ).dialog({
-			   close: function(event, ui) { 
-					$("#operation").html(""); 
-					if($this.attr('id') == "search_info" || $this.attr('id') == "trace_ilook"){ 
-						clear_history_track();
-					}
-			  }
+		}else{
+			$("#"+param).dialog({
+	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+	    	            autoOpen: true,
+	    	            show:'blind',
+	        	        hide:'blind',
+	    	            width: showWidth,
+	    	            height: showHeight,
+	    	            modal: false,
+	    	            position:'center',
+	    	            resizable: true,
+	    				autoResize: true
+	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
+		}
+
+		$( "#"+param ).dialog({
+			   close: function(event, ui) { 			       
+			         $("#"+param).html("");
+			   }
 		});
-		$( "#operation" ).mask("载入中...");
+		$( "#"+param ).mask("载入中...");
 			
 		$.post(url,function(data){
-			$("#operation").html(data);
+			$("#"+param).html(data);
 
-			$( "#operation" ).unmask();
+			$( "#"+param ).unmask();
 				 
 			if($this.attr('id') == "sel_vehicle_btn"){
 				$("#sel_vehicle_commit").click(function(){ 
@@ -209,7 +225,7 @@ $(document).ready(function() {
 		            	return false;
 		            }else{
 		            	home_map.refresh_vehicle_position(str.substr(0,str.length-1));
-				   		closeDialog();
+				   		closeDialog(param);
 		            }
 		            
 					});
@@ -220,8 +236,8 @@ $(document).ready(function() {
  	/**
 	 * 关闭窗口
 	 */
-	function closeDialog(){
-		$("#operation").dialog("close");
+	function closeDialog(param){
+		$("#"+param).dialog("close");
 	}
 	
 	function getSendInfoDialog(obj, url){
