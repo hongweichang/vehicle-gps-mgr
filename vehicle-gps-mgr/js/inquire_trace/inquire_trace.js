@@ -59,7 +59,7 @@ $(document).ready(function(){
 	})
 	.click(function() {
 		$('#play_history').button('option', {
-			label: 'play',
+			label: '播放',
 			icons: {
 				primary: 'ui-icon-play'
 			}
@@ -98,9 +98,9 @@ $(document).ready(function(){
 	.click(function() {
 		var options;
 		var state = document.history_track_frame.document.readyState;
-		if ($(this).text() == 'play') {
+		if ($(this).text() == '播放') {
 			options = {
-				label: 'pause',
+				label: '暂停',
 				icons: {
 					primary: 'ui-icon-pause'
 				}
@@ -119,7 +119,7 @@ $(document).ready(function(){
 					 alert("地图未加载完，请等待地图加载完之后，点击操作！");
 		} else {
 			options = {
-				label: 'play',
+				label: '播放',
 				icons: {
 					primary: 'ui-icon-play'
 				}
@@ -136,7 +136,7 @@ $(document).ready(function(){
 		history_track_frame.end_history_line();
 		$("#location_info").hide();
 		$('#play_history').button('option', {
-			label: 'play',
+			label: '播放',
 			icons: {
 				primary: 'ui-icon-play'
 			}
