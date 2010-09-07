@@ -38,6 +38,13 @@
 	 * 1  匹配
 	 */
 	var chanage_state = 0; 
+	
+	/**
+	 * 车辆定位状态
+	 * 0 不可定位状态
+	 * 1 可定位状态
+	 */
+	var position_vehicle_state = 1;
 	  
 	var leftOffsetRatio = 0.05;  //	矩形左间距
 	var rightOffsetRatio = 0.05;  //	矩形右间距
@@ -93,7 +100,8 @@
 	 * 定位刷新操作
 	 */
 	$("#location_refresh",parent.document).click(function(){ 
-		if($(this).attr('checked') ){  
+		if($(this).attr('checked') ){ 
+			position_vehicle_state=1;
 			refresh_vehicle_info();
 		}
 	}); 
@@ -101,9 +109,15 @@
 	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
-	function loadCompanyVehicle(){   
-		if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=0) return false;
-		 
+	function loadCompanyVehicle(){  
+		
+		//不可直接定位验证
+		if(position_vehicle_state == 0){
+			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=0) return false;
+		}
+		//点击选择车辆时第一次，设置可直接定位,然后第二次不可直接定位 
+		position_vehicle_state = 0;
+		
 			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=101",
@@ -377,6 +391,8 @@
 	function refresh_vehicle_position(str){
 			chanage_state=0; //非自动匹配
 			refresh_state=1; 
+			position_vehicle_state = 1; //车辆可定位状态
+			
 			refresh_vehicles = str;
 			vehiclePosition(); 
 	}
@@ -387,8 +403,14 @@
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
 	function vehiclePosition(){   
-		
-		if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
+		 
+		//不可直接定位验证
+		if(position_vehicle_state == 0){
+			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
+		}
+		 
+		//点击选择车辆时第一次，设置可直接定位,然后第二次不可直接定位 
+		position_vehicle_state = 0;
 		
 		//监控车辆状态时 可以默认选择上车辆 
 		$("#vehicle_id_save",parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
