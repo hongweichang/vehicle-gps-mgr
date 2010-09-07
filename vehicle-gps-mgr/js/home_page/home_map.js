@@ -300,15 +300,19 @@
 		var info = new LTInfoWindow( obj );
 		var refresh_state_backup = refresh_state; //备份刷新 操作状态
 		
+		//当前车辆点信息窗口添加关闭监控事件
 		LTEvent.addListener(info,"close",LTInfoWindow_close);
   
 		function shwoInfo(){  
+			
+			 //如果当前车辆点未发现改变时，不进行重新加载
 			 if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
 				  return false;
 			
+			//备份最新车辆点经纬度数据 
 			backup_longitude = obj.getPoint().getLongitude();
 		    backup_latitude = obj.getPoint().getLatitude();
-				
+			
 			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
 			
