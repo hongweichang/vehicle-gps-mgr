@@ -53,8 +53,12 @@ switch($act)
 		//获取车辆定位信息
 		foreach($vehicle as $value){
 			
-			$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
-			$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
+			//$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
+			//$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
+			
+			$lon = $ve_status->around($value['cur_longitude'],0);
+			$lat = $ve_status->around($value['cur_latitude'],0);
+			$ve_status->exact_lon_lat($lon, $lat);
 			
 			$arr_vehicle[$index]['id']= $value['id'];//车id
 			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号			

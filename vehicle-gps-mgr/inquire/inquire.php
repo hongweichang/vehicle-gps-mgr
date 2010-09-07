@@ -87,8 +87,12 @@ switch($act)
 		
 		foreach($datalist as $k=>$v)
 		{
-			$long = $ve_status->exact_lon($ve_status->around($v->longitude,0)); //经度
-			$lat = $ve_status->exact_lat($ve_status->around($v->latitude,0));//纬度
+			//$long = $ve_status->exact_lon($ve_status->around($v->longitude,0)); //经度
+			//$lat = $ve_status->exact_lat($ve_status->around($v->latitude,0));//纬度
+			
+			$long = $ve_status->around($ve_status->around($v->longitude,0));
+			$lat = $ve_status->around($ve_status->around($v->latitude,0));
+			$ve_status->exact_lon_lat($long, $lat);
 			
 			$point_info[0]= $long; //经度
 			$point_info[1]= $lat;  //纬度

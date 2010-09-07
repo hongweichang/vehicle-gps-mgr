@@ -349,7 +349,7 @@ class Vehicle_status extends BASE
 		return $long;
     }
     
-/**
+	/**
      *   精确定位纬度
      *   @param $lat 纬度 
      */
@@ -358,6 +358,18 @@ class Vehicle_status extends BASE
 		$lats = $GLOBALS['db']->query($this->sql);
 		$lat = $lats[0][0]+$lat;  	
 		return $lat;
+    }
+    
+    /**
+     *  精确定位经纬度
+     *  @param $long 经度 $lat纬度
+     */
+    function exact_lon_lat(&$long,&$lat){
+    	$this->sql = "select longdisp,latdisp from lingtu_map_info where
+    				 (minlong<=".$long." and maxlong>=".$long.") and (minlat<=".$lat." and maxlat>=".$lat.")";
+    	$result = $GLOBALS['db']->query($this->sql);
+    	$long = $result[0][0]+$long;
+    	$lat = $result[0][1]+$lat;
     }
     
     
