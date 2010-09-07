@@ -368,8 +368,10 @@ class Vehicle_status extends BASE
     	$this->sql = "select longdisp,latdisp from lingtu_map_info where
     				 (minlong<=".$long." and maxlong>=".$long.") and (minlat<=".$lat." and maxlat>=".$lat.")";
     	$result = $GLOBALS['db']->query($this->sql);
-    	$long = $result[0][0]+$long;
-    	$lat = $result[0][1]+$lat;
+    	if($result){
+    		$long = $result[0][0]+$long;
+    		$lat = $result[0][1]+$lat;
+    	}
     }
     
     

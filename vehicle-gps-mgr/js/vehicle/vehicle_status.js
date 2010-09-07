@@ -121,6 +121,7 @@ function  vehicle_position(vehicle_ids){
 		alert("请选择车辆");
 		return false;
 	}
+	$("#locates").mask("载入中.....");
 	vehicle_id_str="";
 	vehicle_id_str = vehicle_ids;
 	
