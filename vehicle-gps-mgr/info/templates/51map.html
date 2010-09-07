@@ -94,11 +94,13 @@ function location(ids){
 				 
 				if(length>0)clearOverLay();
 
-				for(var i=0;i<length;i++){        					
+				for(var i=0;i<length;i++){  
+					var vehicle_id = data[i][0]; //车辆id      					
 					var point_longitude = data[i][1]; //点经度
 					var point_latitude =  data[i][2]; //点纬度
 					var file_path = data[i][4]; //文件目录
-					var img_name = data[i][3];  //图片名称				
+					var img_name = data[i][3];  //图片名称	
+					var number_plate = data[i][5]; //车牌号	
 
 					points.push( new LTPoint(point_longitude,point_latitude));
 
@@ -106,14 +108,89 @@ function location(ids){
 					var marker = new LTMarker(new LTPoint(point_longitude,point_latitude),
 									 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
 
+					var title = "<span class='span'>"+number_plate+"</span>";
+					addInfoWin(marker,title,vehicle_id);
+					
 					//点添入地图中
 					maps.addOverLay(marker);
+
+					//点显示内容
+					var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
+					text.setLabel(number_plate ); 
+					maps.addOverLay( text ); 
 				}
 				maps.getBestMap(points);
 			 }
 			});
 
  }
+
+var info_old; //上一次打开的信息浮窗
+function addInfoWin(obj,title,vehicle_id){ 	 
+	var info = new LTInfoWindow( obj );
+
+	function shwoInfo(){  
+		info.setTitle(title);
+		
+		/**
+		 * 如果上一次打开的信息浮窗不为空，则关闭它
+		 */
+		if(info_old!=null){
+			info_old.closeInfoWindow();
+		}
+		
+		info_old = info; //将信息浮窗变量赋与info_old;
+		
+		info.setLabel("<div id='show_info_div'>正在载入....</div>");		
+		maps.addOverLay(info); 
+		info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
+		$.ajax({
+			type: "POST",
+			url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
+			dataType: "json",
+			success: function(data){
+				info.setLabel(get_data(data));
+				info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
+				 	
+			}
+		});
+		
+		
+		info.clear();//清除信息浮窗内容
+		maps.addOverLay(info);//添加新内容			
+	}  
+	
+	LTEvent.addListener(obj,"click",shwoInfo); 
+} 
+
+/*显示定位信息*/
+function get_data(data){
+	if (data != null) {		 
+		var vehicle_id = data['id']; //车辆id
+		var gps_id = data['gps_id']; //GPS编号
+		var location_time = data['location_time']; //当前定位时间 
+		var cur_speed = data['cur_speed'];//当前速度
+		var vehicle_group_name = data['group_name']; //车队
+		var driver_name = data['driver_name']; //驾驶员
+		var location_desc = data['location_desc']; //地址
+		
+		var context = 
+				"<div class='content_div'><div class='title'>GPS编号：</div>" +
+				"<div class='content'>"+gps_id + "</div></div>" +
+				"<div class='content_div'><div class='title'>车队：</div>" +
+				"<div class='content'>"+vehicle_group_name +"</div></div>" +
+				"<div class='content_div'><div class='title'>驾驶员：</div>" +
+				"<div class='content'>"+driver_name +"</div></div>"+
+				"<div class='content_div'><div class='title'>速度：</div> " +
+				"<div class='content'>"+cur_speed +"</div></div>" +
+				"<div class='content_div'><div class='title'>定位时间：</div>" +
+				"<div class='content'>"+location_time +"</div></div>" +
+				"<div class='content_div'><div class='title'>地址：</div> " +
+				"<div class='address_content'>"+location_desc +"</div></div>";
+						
+		return context;
+	}
+}
 
 </script>
 
