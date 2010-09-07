@@ -134,8 +134,7 @@ function locate_vehicle(){
 		$("#locates").dialog('close');
 	}
 	$("#locates").dialog({height:356,width:610,title:'定位',zIndex:10000000,
-			                 autoOpen:true,hide:'blind',show:'blind'});
-	//$("#locate").attr("src","info/templates/51map.html");
+			                 autoOpen:true,hide:'blind',show:'blind'}); 
 	
 	 var state = document.locate.document.readyState;
 	 if(state=="complete"){

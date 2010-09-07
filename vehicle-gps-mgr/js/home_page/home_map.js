@@ -350,7 +350,11 @@
 		LTEvent.addListener(obj,"click",shwoInfo); 
 	} 
 	
-	/*显示定位信息*/
+	/**
+	 * 显示定位信息
+	 * @param data 定位所有基本信息
+	 * @return
+	 */
 	function get_data(data){
 		if (data != null) {		 
 			var vehicle_id = data['id']; //车辆id
@@ -386,12 +390,16 @@
 					vehicle_id +
 					"\")'><a href='#'>查看历史轨迹</a></div>" +
 							
-					"<div class='real_time_monitor'><a href='javascript:refresh_vehicle_position("+vehicle_id+")'>实时监控</a></div></div>";
+					"<div class='real_time_monitor'><a href='javascript:refresh_vehicle_position("+vehicle_id+");save_cur_monitor_vehicles("+vehicle_id+")'>实时监控</a></div></div>";
 			
 			return context;
 		}
 	}
-	//车辆刷新定位操作
+	/**
+	 * 车辆刷新定位操作
+	 * @param str 车辆ID (例:1,2,3,4)
+	 * @return
+	 */
 	function refresh_vehicle_position(str){
 			chanage_state=0; //非自动匹配
 			refresh_state=1; 
@@ -400,7 +408,16 @@
 			refresh_vehicles = str;
 			vehiclePosition(); 
 	}
-	 
+	
+	/**
+	 * 保存当前监控车辆
+	 * @param vehicles 车辆ID (例:1,2,3,4)
+	 * @return 
+	 */
+	function save_cur_monitor_vehicles(vehicles){
+		//监控车辆状态时 可以默认选择上车辆 
+		$("#vehicle_id_save",parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
+	}
 	 
 	 /**
 	  * 车辆请求定位
@@ -416,8 +433,8 @@
 		//点击选择车辆时第一次，设置可直接定位,然后第二次不可直接定位 
 		position_vehicle_state = 0;
 		
-		//监控车辆状态时 可以默认选择上车辆 
-		$("#vehicle_id_save",parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
+		//保存当前监控车辆
+		save_cur_monitor_vehicles(refresh_vehicles);
 		 
 		$.ajax({
 				type:"POST",
