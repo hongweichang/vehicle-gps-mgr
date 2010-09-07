@@ -115,6 +115,8 @@ $("#area_result").click(function(){
 var vehicle_id_str = ""; //声明要定位车辆的ID
 //定位事件
 function  vehicle_position(vehicle_ids){
+	if(vehicle_ids==null || vehicle_ids=="") return false;
+	
 	vehicle_id_str="";
 	vehicle_id_str = vehicle_ids;
 	
