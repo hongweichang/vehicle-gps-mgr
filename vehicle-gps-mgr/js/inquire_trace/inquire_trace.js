@@ -9,6 +9,8 @@ $(document).ready(function(){
 	position(); //加载车辆最新定位
 	run_play(3);//正常速度
 	
+	$(":button").button();
+	
 	//初始始进度条
 	$("#history_progress").progressbar({
 			value:0

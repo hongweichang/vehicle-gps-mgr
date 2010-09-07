@@ -99,6 +99,8 @@ $("#add_commit").click(function(){
 	
 });
 
+$(":button").button();
+
 	/**
 	 * 正则表达式检验邮箱地址格式
 	 */
