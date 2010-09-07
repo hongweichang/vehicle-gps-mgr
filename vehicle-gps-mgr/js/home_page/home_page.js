@@ -84,7 +84,7 @@ $(document).ready(function() {
 			showOperationDialog(this, $(this).attr('url'));   
 		});	
 	/**动态生成车辆代表的速度**/		
-	$("#header").mask("车辆速度正在查询中,请耐心等候...");
+	$("#header").mask("加载中...");
 	$.post("index.php",{
 		 "a":5021}
 		,function(data){
@@ -127,20 +127,20 @@ $(document).ready(function() {
 					if(data == "-1"){
 						no_alertInfo();
 					}else{   
-						var array=data.split("|");
-						id=array[0];
-					    alertType=array[4];//获得告警类型的编号
-					    vehicle_id=array[5];//获得车辆id
-					    
-						if(array[2]=="undefined"){
-							no_alertInfo();
-						}else{
-					   
-						$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-						$("#content").unmask();
-						$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
-						document.getElementById("addAdvice").style.display="block";
-						document.getElementById("lookMore").style.display="block";
+							var array=data.split("|");
+							id=array[0];
+						    alertType=array[4];//获得告警类型的编号
+						    vehicle_id=array[5];//获得车辆id
+						    
+							if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
+								no_alertInfo();
+							}else{
+						   
+							$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
+							$("#content").unmask();
+							$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
+							$("#lookMore").show();
+							$("#addAdvice").show(); 
 						}
 					}
 			 },
@@ -155,7 +155,7 @@ $(document).ready(function() {
 		$("#lamp").html("<img alt='警灯' src='images/lamp.png' style='height:56px; width:46px;'></img>");
 		$("#content").unmask();
 		$("#record").html("没有未处理的告警记录");
-		document.getElementById("lookMore").style.display="block";
+		$("#lookMore").show();
 	}
 	
 	function showOperationDialog(htmlObj, url,header){ 
@@ -168,7 +168,7 @@ $(document).ready(function() {
 		}else{
 			var param='operation';
 		}
-		
+	 
 		var $this = $(htmlObj);
 		var horizontalPadding = 0;
 		var verticalPadding = 0;
@@ -178,33 +178,20 @@ $(document).ready(function() {
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
 		$('#'+param).css('overflow','hidden');//隐藏滚动条 
 		
-		if($this.attr("id")=='trace_ilook'){
-			$("#"+param).dialog({
-				title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
+ 
+		$("#"+param).dialog({
+            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
     	            show:'blind',
         	        hide:'blind',
     	            width: showWidth,
     	            height: showHeight,
-    	            modal: true,  
-    	            position:[8,32],
+    	            modal: false,
+    	            position:'center',
     	            resizable: true,
     				autoResize: true
     	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-		}else{
-			$("#"+param).dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	    	            autoOpen: true,
-	    	            show:'blind',
-	        	        hide:'blind',
-	    	            width: showWidth,
-	    	            height: showHeight,
-	    	            modal: false,
-	    	            position:'center',
-	    	            resizable: true,
-	    				autoResize: true
-	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-		}
+		 
 
 		$( "#"+param ).dialog({
 			   close: function(event, ui) { 			       
