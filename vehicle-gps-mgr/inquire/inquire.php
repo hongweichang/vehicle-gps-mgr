@@ -174,7 +174,11 @@ switch($act)
 	case "show_area_history":  //区域查询历史轨迹时显示该区域内的车辆
 		$inquire = new Inquire();
 		
-		$id_list = explode(",",$_REQUEST['id_list']); //获取车辆ID集合
+		if($_REQUEST['id_list']==""){
+			$id_list = null;
+		}else{		
+			$id_list = explode(",",$_REQUEST['id_list']); //获取车辆ID集合
+		}
 		$begin_time = $_REQUEST['begin_time']; //获取开始时间
 		$end_time = $_REQUEST['end_time']; //获取结束时间
 		

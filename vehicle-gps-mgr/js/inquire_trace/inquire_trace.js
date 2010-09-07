@@ -354,7 +354,7 @@ $(document).ready(function(){
 						idList += data[i];
 					}
 				}
-				
+
 				jQuery("#show_vehicles_page").jqGrid({
 					url:'index.php?a=356&begin_time='+begin_time
 						+'&end_time='+end_time+'&id_list='+data,
