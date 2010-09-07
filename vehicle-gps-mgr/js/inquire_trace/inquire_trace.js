@@ -261,7 +261,7 @@ $(document).ready(function(){
 		   		{name:'issue_time',index:'issue_time', width:140, align:"left"},   
 		   		{name:'begin_time',index:'begin_time', width:140, align:"left"},
 		   		{name:'end_time',index:'end_time', width:140, align:"left"},
-		   		{name:'content',index:'content', width:900, align:"left"}
+		   		{name:'content',index:'content', width:300, align:"left"}
 		   		
 		   	],
 		   	rowNum:10,
