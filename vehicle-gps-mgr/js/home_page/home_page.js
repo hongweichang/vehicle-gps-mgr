@@ -64,9 +64,16 @@ $(document).ready(function() {
 		});
 
 		$('.console_btn').click(function(e) {
+			if($(this).attr("id")=="sel_vehicle_btn"){
+				$("#vehicle_id_save").val();
+				var href = $(this).attr("href");
+				var ids = $("#vehicle_id_save").val();
+				$(this).attr("href",href+"&vehicleIds="+ids);
+			}
 			e.preventDefault();
 			showOperationDialog(this, $(this).attr('href'));
 		});
+		
 		$('.button_font').click(function(e) {
 			e.preventDefault();
 			showOperationDialog(this, $(this).attr('url'));

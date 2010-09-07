@@ -391,8 +391,8 @@
 		if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
 		
 		//监控车辆状态时 可以默认选择上车辆 
-		$("#vehicle_id_save",window.parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
-	 
+		$("#vehicle_id_save",parent.document).val(refresh_vehicles);//将车辆信息保存在首页的隐藏域中
+		 
 		$.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
