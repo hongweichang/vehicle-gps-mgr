@@ -420,6 +420,12 @@ $(document).ready(function(){
     }
     //清空当前运行历史轨迹
 	function empty_cur_vhicle_history(){
+		$('#play_history').button('option', {
+			label: '播放',
+			icons: {
+				primary: 'ui-icon-play'
+			}
+		});
 		/**
 		 * 初始加载状态
 		 */

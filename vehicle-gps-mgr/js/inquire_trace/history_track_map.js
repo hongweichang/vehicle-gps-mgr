@@ -274,10 +274,6 @@
 	 * @return 停止运行 返回上一级操作
 	 */
 	function  end_history_line(){
-		 
-		$("#suspend_history",parent.document).hide();//暂停隐藏
-		$("#play_history",parent.document).show();   //播放隐藏
-		 
 		window.parent.empty_cur_vhicle_history();
 		
 		state = "stop";
