@@ -113,6 +113,7 @@ $("#area_result").click(function(){
 });
 
 $(":button").button();
+$("#frame_map").hide();
 
 var vehicle_id_str = ""; //声明要定位车辆的ID
 //定位事件
