@@ -23,9 +23,10 @@
 			$("#loginCar").click(function(){
 				$("#body").mask("验证中，请稍候...");
 				$("#clue").html("");
+				var companyId=document.getElementById("companyId").value;
 				var userName=document.getElementById("userName").value;
 				var password=document.getElementById("password").value;
-				$.post("login_check.php?username="+userName+"&password="+password,function(data){
+				$.post("login_check.php?companyloginid="+companyId+"&username="+userName+"&password="+password,function(data){
 					$("#body").unmask();
 					if(data==1){
 						document.location= "index.php?a=1003";

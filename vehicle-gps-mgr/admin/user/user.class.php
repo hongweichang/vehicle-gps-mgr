@@ -58,7 +58,7 @@ class User extends BASE
 	*/
 	function login($user_name,$user_pass,$companyloginid)
 	{
-		$this->sql = sprintf("select u.* from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = %d and u.state = 1",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
+		$this->sql = sprintf("select u.* from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = '%s' and u.state = 1",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
 		//echo $this->sql;exit;
 		if(!$result = $GLOBALS['db']->query_once($this->sql))
 		{
