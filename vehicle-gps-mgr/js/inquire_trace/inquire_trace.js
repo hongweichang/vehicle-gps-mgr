@@ -598,22 +598,6 @@ $(document).ready(function(){
 		$("#vehicle_info").show();
 		$("#inquireing").show();
 		$("#vehicle_info").val(vehicle_id);	
-
-		/*if ($("#play_history").text() == '播放') {
-			options = {
-				label: '暂停',
-				icons: {
-					primary: 'ui-icon-pause'
-				}
-			};
-		}*/
-		
-		$("#play_history").button('option', {
-			label: '暂停',
-			icons: {
-				primary: 'ui-icon-pause'
-			}
-		});
 			
 		$("#location_info").show();
 		$("#select_mode").get(0).selectedIndex=0;
