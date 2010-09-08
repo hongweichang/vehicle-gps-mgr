@@ -13,8 +13,8 @@ $(".commit_new_date").click(function(){
 	}
 	$.get("index.php?a=104&vehicle_id="+id+"&new_date="+real_date,function(data){
 		alert(data);
+		$("#tijiao"+date_id/2).hide();
 	});
-	$("#tijiao"+id).hide();
 });
 
 $(".new_as_date").datetimepicker({

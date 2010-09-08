@@ -118,6 +118,11 @@ $("#frame_map").hide();
 var vehicle_id_str = ""; //声明要定位车辆的ID
 //定位事件
 function  vehicle_position(vehicle_ids){
+	 if(typeof(vehicle_ids)==="number"){
+		 vehicle_ids = vehicle_ids.toString();
+		 vehicle_ids = vehicle_ids.split(",");
+	 }
+
 	if(vehicle_ids==null || vehicle_ids=="") {
 		alert("请选择车辆");
 		return false;
