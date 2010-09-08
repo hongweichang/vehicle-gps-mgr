@@ -27,3 +27,5 @@ $(".new_as_date").datetimepicker({
 	 showSecond:false,
 	 createButton:false
  });	
+
+$(":button").button();

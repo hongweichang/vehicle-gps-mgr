@@ -27,11 +27,11 @@ $(document).ready(function() {
 				for(var i=0;i<data.length;i++){
 					str = str+data[i]['number_plate']+"的年检时间为:"+data[i]['next_AS_date']+"&nbsp;&nbsp;<input type='button' id="+(i+1)*3+" class='modify_as'" +
 							" value='修改时间'><br/><div id=tijiao"+(i+1)+" class='tijiao' style='display:none'><input type='text' id="+(i+1)*2+" class='new_as_date'><input type='button' id="+(i+1)+" class='commit_new_date'" +
-							" value='确定' name="+data[i]['id']+"></div><br/>";
+							" value='确定' style='height:24px;' name="+data[i]['id']+"></div><br/>";
 				}
 				str = str+"</div><script language='javascript' src='/js/home_page/as_date.js' ></script>"
 				$("#as_date").html(str);
-				$("#as_date").dialog({height:150,width:350,title:'年检提示',
+				$("#as_date").dialog({height:150,width:370,title:'年检提示',
 	                 autoOpen:true,position:[1200,900],hide:'blind',show:'blind'});
 			}
 		}
