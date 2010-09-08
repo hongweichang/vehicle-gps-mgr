@@ -67,28 +67,7 @@ $(document).ready(function(){
 		$("#inquireing").unmask();
 		history_track_frame.end_history_line();
 	});
- 
-	//播放
-	/*$("#play_history").click(function(){ 
 
-		 var state = document.history_track_frame.document.readyState;
-
-		 if(state === "complete"){
-			$("#inquireing").show();
-			$("#play_history").hide();
-			$("#suspend_history").show();
-			$("#location_info").show(); //显示定位信息
-			 
-			if(history_track_frame.state === "suspend"){
-				history_track_frame.state = "normal";
-			}
-			
-			progress_assignment(1);
-			play_trace();	
-		 }else
-			 alert("地图未加载完，请等待地图加载完之后，点击操作！");
-		
-	});*/
 	$('#play_history').button({
 		text: false,
 		icons: {
@@ -340,7 +319,8 @@ $(document).ready(function(){
 			hourListStr += hourList[i];
 		}
 
- 
+		$("#select_mode").get(0).selectedIndex=0;//下拉框切换成选择车辆，以便再次选择区域
+		
 		$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
 			"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
 			function(data){
@@ -465,6 +445,7 @@ $(document).ready(function(){
 				$("#endTime").focus();
 				return false;
 			}
+			
 			//获取车辆编号
 			var history_vehicle_id = $("#vehicle_info option:selected").val(); 
 			//当state为 stop时，点击播放为允许重新加载状态 
@@ -616,6 +597,26 @@ $(document).ready(function(){
 		$("#stop_history").show();
 		$("#vehicle_info").show();
 		$("#inquireing").show();
-		$("#vehicle_info").val(vehicle_id);
+		$("#vehicle_info").val(vehicle_id);	
+
+		/*if ($("#play_history").text() == '播放') {
+			options = {
+				label: '暂停',
+				icons: {
+					primary: 'ui-icon-pause'
+				}
+			};
+		}*/
+		
+		$("#play_history").button('option', {
+			label: '暂停',
+			icons: {
+				primary: 'ui-icon-pause'
+			}
+		});
+			
+		$("#location_info").show();
+		$("#select_mode").get(0).selectedIndex=0;
+		
 		play_trace();
 	}
