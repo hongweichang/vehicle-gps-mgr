@@ -102,8 +102,11 @@ switch($act)
 			$point_info[4]= $v->color; //颜色
 			$point_info[5]= $v->img_path; //图片路径
 			$point_info[6]= $v->location_time; //定位时间
-
-			array_push($trace_info,$point_info);
+			
+			//速度大于1 列入队列中
+			if($point_info[3]>=1){
+				array_push($trace_info,$point_info);
+			}	
 		}
 		
 		echo json_encode(array_reverse($trace_info));
