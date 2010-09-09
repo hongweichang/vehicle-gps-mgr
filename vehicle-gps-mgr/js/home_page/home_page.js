@@ -123,26 +123,27 @@ $(document).ready(function() {
 			success:function(data){
 					if(data=="conn_fail"){
 						no_alertInfo();
-					}
-					if(data == "-1"){
-						no_alertInfo();
-					}else{   
-							var array=data.split("|");
-							id=array[0];
-						    alertType=array[4];//获得告警类型的编号
-						    vehicle_id=array[5];//获得车辆id
-						    
-							if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
-								no_alertInfo();
-							}else{
-						   
-							$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
-							$("#content").unmask();
-							$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
-							$("#lookMore").show();
-							$("#addAdvice").show(); 
+					}else{
+						if(data == "-1"){
+							no_alertInfo();
+						}else{   
+								var array=data.split("|");
+								id=array[0];
+							    alertType=array[4];//获得告警类型的编号
+							    vehicle_id=array[5];//获得车辆id
+							    
+								if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
+									no_alertInfo();
+								}else{
+							   
+								$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
+								$("#content").unmask();
+								$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);
+								$("#lookMore").show();
+								$("#addAdvice").show(); 
+							}
 						}
-					}
+				  }
 			 },
 			 error:function (){
 				 no_alertInfo();
