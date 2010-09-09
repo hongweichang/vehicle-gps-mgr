@@ -50,7 +50,8 @@
 	var rightOffsetRatio = 0.05;  //	矩形右间距
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.05;   //	矩形下间距
-					
+	var company_position_state=0;
+
 	onLoadMap(); 
 	  
 	/**
@@ -71,7 +72,42 @@
 		var ltControl = new LTZoomInControl();
 		map.addControl( ltControl );
 		ltControl.setRight(240);
-
+		
+		/*添加标注控件*/
+		var ltmControl = new LTMarkControl(new LTIcon(window.parent.host+"/images/company.gif"));
+		map.addControl( ltmControl );
+		LTEvent.addListener( ltmControl , "mouseup" , getPoi );
+		
+		function getPoi(){
+			var poi = ltmControl.getMarkControlPoint();
+			var name=prompt("请输入公司名称","");
+			if (name!=null && name!=""){
+				$.ajax({
+					type: "POST",
+					url: window.parent.host+"/index.php?a=105&name="+encodeURI(name)+"&longitude="+poi.getLongitude()+"&latitude="+poi.getLatitude(),
+					dataType: "json",
+					success: function(data){
+					 
+						 var info = new Array();
+						 info[0]="标注失败!";
+						 info[1]="标注成功!";
+						 
+						 alert(info[parseInt(data)]);
+						 
+						 if(data==1){
+							 var company_text = new LTMapText(new LTPoint(poi.getLongitude(), poi.getLatitude()));
+							 company_text.setLabel(name);
+							 map.addOverLay(company_text);
+							 
+							 company_position_state=1;
+							 test(poi.getLongitude(),poi.getLatitude());
+						 }						  
+					}
+				});
+		    }else{
+		    	alert("请输入公司名");
+		    }
+		} 
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
@@ -79,6 +115,26 @@
 		//初始化车辆定位
 		loadCompanyVehicle();
 	} 
+	
+	function test(longitude,latitude){
+		 
+		 marker = new LTMarker(new LTPoint(longitude,latitude),
+			 	  new LTIcon(window.parent.host+"/images/company.gif"));
+		 map.addOverLay( marker ); 
+		 
+		 position_add_showinfo(marker);
+	}
+	function position_add_showinfo(obj){
+		var infoWin = new LTInfoWindow( obj );
+		
+		function show_maker_info(){
+			infoWin.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
+			infoWin.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div><div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div></div> " ); 
+			map.addOverLay( infoWin );
+		}
+
+		LTEvent.addListener(obj,"click",show_maker_info); 
+	}
 	/**
 	 * 设置地图初始状态
 	 * @return
@@ -125,7 +181,7 @@
 				success: function(data){ 
 					if (data != null) {
 						 
-						var ids=new Array()
+						var ids=new Array();
 						var longitudeArray = new Array(); // 所有车辆经度保存数组
 						var latitudeArray = new Array();  // 所有车辆纬度保存数组
 					 
@@ -134,6 +190,25 @@
 						 
 						if (length > 0) 
 							clearOverLay();
+
+						if(company_position_state==1){
+							$.ajax({
+								type:"get",
+								url:window.parent.host+"/index.php?a=106",
+								dataType:"json",
+								success:function(positiones){
+									for(var j = 0;j<positiones.length;j++){
+										var lon = positiones[j][3];
+										var lat = positiones[j][4];
+										var name = positiones[j][2];
+										var company_text = new LTMapText(new LTPoint(lon, lat));
+										company_text.setLabel(name);
+										map.addOverLay(company_text);
+										test(lon,lat);
+									}
+								}
+							});
+						}
 						 
 						var points = new Array();
 						for (var i = 0; i < length; i++) {
@@ -260,11 +335,8 @@
 					 vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
 				break; 
-		} 
-		
-	}
-	 
-	
+		} 		
+	} 
 	var moveLsitener;
 	
 	/**
@@ -424,7 +496,7 @@
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
 	function vehiclePosition(){   
-		 
+		
 		//不可直接定位验证
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
@@ -441,6 +513,26 @@
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
 				dataType:"json",
 				success:function(data){ 
+			
+				if(company_position_state==1){
+					$.ajax({
+						type:"get",
+						url:window.parent.host+"/index.php?a=106",
+						dataType:"json",
+						success:function(positiones){
+							for(var j = 0;j<positiones.length;j++){
+								var lon = positiones[j][3];
+								var lat = positiones[j][4];
+								var name = positiones[j][2];
+								var company_text = new LTMapText(new LTPoint(lon, lat));
+								company_text.setLabel(name);
+								map.addOverLay(company_text);
+								test(lon,lat);
+							}
+						}
+					});
+				}
+			
 			 	   /**
 				 	 * 获取当前地图矩形范围
 				 	 **/

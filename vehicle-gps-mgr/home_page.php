@@ -148,6 +148,35 @@ switch($act)
 		}
 		
 		break;
+		
+	case "company_position": //公司定位
+		require_once("home_page.class.php");
+		
+		$position_data['company_id'] = get_session("company_id");//公司编号 
+		$position_data['name'] = $_REQUEST['name']; //公司标注点名称 
+		$position_data['longitude'] = $_REQUEST['longitude'];//经度
+		$position_data['latitude'] = $_REQUEST['latitude']; //纬度
+		
+		//实例首页对象
+		$home_page = new home_page();
+		//添点标注点记录行
+		if($home_page->company_position($position_data))
+			echo "1"; //标注成功
+		else
+			echo "0";	//标注失败
+	break;
+	
+	case "get_company_position"://查询公司定位 
+		require_once("home_page.class.php");
+		$home_page = new home_page();
+		$companies = $home_page->get_company_position();
+		if($companies){
+			echo json_encode($companies);
+		}else{
+			echo "fail";
+		}				
+	break;
+		
 }
 
 

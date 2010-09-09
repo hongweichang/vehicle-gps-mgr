@@ -21,6 +21,13 @@ class home_page extends BASE{
 		 
 		return $GLOBALS['db']->insert_row($this->tablename_company_position,$company_position);
 	}
+	
+	function get_company_position(){
+		$company_id = get_session("company_id");
+		$sql = "select * from ".$this->tablename_company_position." where company_id=".$company_id;
+		$result = $GLOBALS['db']->query($sql);
+		return $result;
+	}
 }
 
 ?>
