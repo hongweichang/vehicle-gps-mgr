@@ -11,14 +11,17 @@
 	var longitude = 3991104;  // 经度
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
-	var marker;   //地图标记对象
+	
+	//标注点对象数组集合
+	var overLay = new Array(); 
+	var vehicleEvent =  new Array();
 	
 	/**
 	 * 点击过点记录，根据点记录这次与上次的点记录是否一致，如果一致，不重新加载点最新信息
 	 */
 	var backup_longitude = -1; //经度
 	var backup_latitude = -1;  //纬度
-	
+	  
 	/**
 	 * 刷新状态(注：刷新不同操作，例：刷新公司车辆)
 	 * 0 刷新公司所有车辆
@@ -52,7 +55,8 @@
 	var downOffsetRatio = 0.05;   //	矩形下间距
 	var company_position_state=1;
 	var poi=null; //公司标注位置信息
-
+	var info = null;				
+	
 	onLoadMap(); 
 	  
 	/**
@@ -74,7 +78,9 @@
 		map.addControl( ltControl );
 		ltControl.setRight(240);
 		
-		/*添加标注控件*/
+		info = new LTInfoWindow();
+		
+			/*添加标注控件*/
 		var ltmControl = new LTMarkControl(new LTIcon(window.parent.host+"/images/company.gif"));
 		map.addControl( ltmControl );
 		LTEvent.addListener( ltmControl , "mouseup" , getPoii );
@@ -92,8 +98,7 @@
 		
 		//初始化车辆定位
 		loadCompanyVehicle();
-	}
-	
+	} 
 	$("#commit",parent.document).click(function(){
 		var name = $("#name",parent.document).val();
 		parent.window.company_position_close();
@@ -148,6 +153,7 @@
 
 		LTEvent.addListener(obj,"click",show_maker_info); 
 	}
+	
 	/**
 	 * 设置地图初始状态
 	 * @return
@@ -158,13 +164,7 @@
 		backup_longitude=-1;
 		backup_latitude=-1;
 	}
-	/**
-	 * 清除所有标点，重新加载新数据
-	 */
-	function clearOverLay(){
-		marker = null;
-		map.clearOverLays(); 
-	}
+	 
 	/**
 	 * 定位刷新操作
 	 */
@@ -174,7 +174,25 @@
 			refresh_vehicle_info();
 		}
 	}); 
-	
+ 
+	/**
+	 * 清空所有标注点，并将内存中标注点清空
+	 * */
+	function clearAllMarker(){
+		
+		var length = overLay.length;
+		for(var i=0;i<length;i++){
+			map.removeOverLay(overLay[0],true);
+			overLay.shift();
+		}	
+		
+		var vehicleEventLength = vehicleEvent.length;
+		for(var i=0;i<vehicleEventLength;i++){ 
+			 LTEvent.removeListener(vehicleEvent[0]);
+			 vehicleEvent.shift();
+		} 
+	 
+	} 
 	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
@@ -201,9 +219,10 @@
 						var length = data.length;
 						var run_index = length;
 						 
+						
 						if (length > 0) 
-							clearOverLay();
-
+							clearAllMarker(); //清空所有标注点
+						
 						if(company_position_state==1){
 							$.ajax({
 								type:"get",
@@ -222,7 +241,7 @@
 								}
 							});
 						}
-						 
+						
 						var points = new Array();
 						for (var i = 0; i < length; i++) {
 						
@@ -242,11 +261,10 @@
 						 	latitudeArray[i] = point_latitude;
 
 							//创建点对象
-							marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png"));
-							
+							var marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png"));
+							 
 							points.push(new LTPoint(point_longitude, point_latitude));
-							//点对象设置内容
-							
+							//点对象设置内容 
 							marker.openInfoWinElement("车牌号:"+number_plate);
 							
 							var title = "<span class='span'>"+number_plate+"</span>";
@@ -254,6 +272,8 @@
 							 
 							//点添入地图中
 							map.addOverLay(marker);
+							
+							overLay.push(marker);
 							
 							var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
 							if(alert_state==0){
@@ -266,6 +286,7 @@
 								text.setBackgroundColor("yellow");//更改文字标签背景色
 								text.setLabel(number_plate+" 疲劳");
 							}
+							overLay.push(text);
 							map.addOverLay(text);
 							
 							run_index--;
@@ -317,10 +338,11 @@
 						function wait_load_vehicle(){
 							if(run_index==0){
 								refresh_vehicle_info();
-							 }else 
+							 }else{ 
 								 setTimeout(function(){
 									 wait_load_vehicle();
 								 },1000); 
+							 }	 
 						 }
 						
 					}
@@ -348,8 +370,11 @@
 					 vehiclePosition();
 				}, window.parent.page_refresh_time * 1000); 
 				break; 
-		} 		
-	} 
+		} 
+		
+	}
+	 
+	
 	var moveLsitener;
 	
 	/**
@@ -380,44 +405,45 @@
 	 * @PARAM title 车牌号，用于标题显示
 	 */
 	var info_old; //上一次打开的信息浮窗
-	function addInfoWin(obj,title,vehicle_id){ 
-		 
-		var info = new LTInfoWindow( obj );
-		var refresh_state_backup = refresh_state; //备份刷新 操作状态
+	function addInfoWin(obj,title,vehicle_id){  
 		
-		//当前车辆点信息窗口添加关闭监控事件
-		LTEvent.addListener(info,"close",LTInfoWindow_close);
-  
+		var refresh_state_backup = refresh_state; //备份刷新 操作状态
+	 
 		function shwoInfo(){  
-			
-			 //如果当前车辆点未发现改变时，不进行重新加载
-			 if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
-				  return false;
+			info.setPoint(obj);
+			//当前车辆点信息窗口添加关闭监控事件
+			LTEvent.addListener(info,"close",LTInfoWindow_close);
+			 
+		  //如果当前车辆点未发现改变时，不进行重新加载
+		  if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
+			  return false;
 			
 			//备份最新车辆点经纬度数据 
 			backup_longitude = obj.getPoint().getLongitude();
-		    backup_latitude = obj.getPoint().getLatitude();
+		  backup_latitude = obj.getPoint().getLatitude();
 			
 			refresh_state = 2; //设置操作状态为不刷新
 			info.setTitle(title);
 			
 			/**
 			 * 如果上一次打开的信息浮窗不为空，则关闭它
-			 */
+			*/   
 			if(info_old!=null){
 				info_old.closeInfoWindow();
 			}
 			
 			info_old = info; //将信息浮窗变量赋与info_old;
-			
+			 
 			info.setLabel("<div id='show_info_div'>正在载入....</div>");		
-			map.addOverLay(info); 
 			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
-			$.ajax({
+			map.addOverLay(info);//添加新内容	
+			
+			 $.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
 				dataType: "json",
 				success: function(data){
+				 	info.clear();//清除信息浮窗内容
 					info.setLabel(get_data(data));
 					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
 					
@@ -425,14 +451,11 @@
 					refresh_state = refresh_state_backup; 
 					 	
 				}
-			});
-			
-			
-			info.clear();//清除信息浮窗内容
-			map.addOverLay(info);//添加新内容			
+			}); 
+			overLay.push(info);
 		}  
-		
-		LTEvent.addListener(obj,"click",shwoInfo); 
+		var vehicle_event =	LTEvent.addListener(obj,"click",shwoInfo);  
+		vehicleEvent.push(vehicle_event);		
 	} 
 	
 	/**
@@ -509,7 +532,7 @@
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
 	function vehiclePosition(){   
-		
+		 
 		//不可直接定位验证
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
@@ -526,27 +549,25 @@
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+refresh_vehicles, 
 				dataType:"json",
 				success:function(data){ 
-			
-				if(company_position_state==1){
-					$.ajax({
-						type:"get",
-						url:window.parent.host+"/index.php?a=106",
-						dataType:"json",
-						success:function(positiones){
-							for(var j = 0;j<positiones.length;j++){
-								var lon = positiones[j][3];
-								var lat = positiones[j][4];
-								var name = positiones[j][2];
-								var company_text = new LTMapText(new LTPoint(lon, lat));
-								company_text.setLabel(name);
-								map.addOverLay(company_text);
-								test(lon,lat);
+					if(company_position_state==1){
+						$.ajax({
+							type:"get",
+							url:window.parent.host+"/index.php?a=106",
+							dataType:"json",
+							success:function(positiones){
+								for(var j = 0;j<positiones.length;j++){
+									var lon = positiones[j][3];
+									var lat = positiones[j][4];
+									var name = positiones[j][2];
+									var company_text = new LTMapText(new LTPoint(lon, lat));
+									company_text.setLabel(name);
+									map.addOverLay(company_text);
+									test(lon,lat);
+								}
 							}
-						}
-					});
-				}
-			
-			 	   /**
+						});
+					}
+			 	 /**
 				 	 * 获取当前地图矩形范围
 				 	 **/
 					var bound = map.getBoundsLatLng(); //矩形范围对象
@@ -570,7 +591,7 @@
 					var run_index  = length;  // 当前运行数据队列索引
 					
 					//当前数据存在时，清除所有
-					if(length>0)clearOverLay();
+					if(length>0)clearAllMarker();
 					 
 					for(var i=0;i<length;i++){        
 					 
@@ -591,7 +612,7 @@
 						points.push( new LTPoint(point_longitude,point_latitude));
 
 					 	//创建点对象
-						marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
+						var marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
 						//设置标题
 						var title = "<span class='span'>"+number_plate+"</span>";
@@ -601,6 +622,7 @@
 						//点添入地图中
 						map.addOverLay(marker);
 						
+						overLay.push(marker);
 						//点显示内容
 						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 						text.setLabel(number_plate ); 
