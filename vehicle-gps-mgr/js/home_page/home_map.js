@@ -218,8 +218,7 @@
 					 
 						var length = data.length;
 						var run_index = length;
-						 
-						
+						  
 						if (length > 0) 
 							clearAllMarker(); //清空所有标注点
 						
@@ -353,7 +352,7 @@
 	 * 刷新公司车辆信息
 	 * @return
 	 */
-	function refresh_vehicle_info(){ 
+	function refresh_vehicle_info(){  
 		if (!$("#location_refresh",parent.document).attr('checked') || refresh_state==2)  return false;
 		init_state();//设置地图初始状态
 		
@@ -405,57 +404,49 @@
 	 * @PARAM title 车牌号，用于标题显示
 	 */
 	var info_old; //上一次打开的信息浮窗
-	function addInfoWin(obj,title,vehicle_id){  
-		
-		var refresh_state_backup = refresh_state; //备份刷新 操作状态
-	 
-		function shwoInfo(){  
+	function addInfoWin(obj,title,vehicle_id){ 
+		 
+		function shwoInfo(){
 			info.setPoint(obj);
+			
 			//当前车辆点信息窗口添加关闭监控事件
-			LTEvent.addListener(info,"close",LTInfoWindow_close);
-			 
-		  //如果当前车辆点未发现改变时，不进行重新加载
-		  if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
+			var closeEvent = LTEvent.addListener(info,"close",LTInfoWindow_close);
+			vehicleEvent.push(closeEvent);//添入事件队列中，重新加载时，在内存中清空历史事件
+			
+			
+		    //如果当前车辆点未发现改变时，不进行重新加载
+		    if(backup_longitude == obj.getPoint().getLongitude() && backup_latitude == obj.getPoint().getLatitude())
 			  return false;
 			
 			//备份最新车辆点经纬度数据 
 			backup_longitude = obj.getPoint().getLongitude();
-		  backup_latitude = obj.getPoint().getLatitude();
-			
-			refresh_state = 2; //设置操作状态为不刷新
+		    backup_latitude = obj.getPoint().getLatitude();
+		    
 			info.setTitle(title);
 			
 			/**
 			 * 如果上一次打开的信息浮窗不为空，则关闭它
-			*/   
+			 */   
 			if(info_old!=null){
 				info_old.closeInfoWindow();
 			}
 			
 			info_old = info; //将信息浮窗变量赋与info_old;
-			 
-			info.setLabel("<div id='show_info_div'>正在载入....</div>");		
-			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
-			map.addOverLay(info);//添加新内容	
-			
-			 $.ajax({
+			info.setLabel("<div id='show_info_div'>正在载入....</div>") 
+			$.ajax({
 				type: "POST",
 				url: window.parent.host+"/index.php?a=102&vehicle_id="+vehicle_id,
 				dataType: "json",
 				success: function(data){
-				 	info.clear();//清除信息浮窗内容
+					info.clear();//清除信息浮窗内容
 					info.setLabel(get_data(data));
-					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示
-					
-					//还原当前操作前一次刷新状态
-					refresh_state = refresh_state_backup; 
-					 	
+					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
 				}
 			}); 
-			overLay.push(info);
-		}  
+			map.addOverLay(info);//添加新内容		
+		}
 		var vehicle_event =	LTEvent.addListener(obj,"click",shwoInfo);  
-		vehicleEvent.push(vehicle_event);		
+		vehicleEvent.push(vehicle_event); //添入事件队列中，重新加载时，在内存中清空历史事件
 	} 
 	
 	/**
