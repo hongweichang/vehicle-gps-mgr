@@ -28,6 +28,16 @@ class home_page extends BASE{
 		$result = $GLOBALS['db']->query($sql);
 		return $result;
 	}
+	
+	/**
+	 * 删除公司标注信息
+	 * @param $position_id 公司标注ID
+	 */
+	function delete_company_position($position_id){
+		$sql = "delete from ".$this->tablename_company_position." where id=".$position_id;
+		$result = $GLOBALS['db']->query($sql);
+		return $result;
+	}
 }
 
 ?>

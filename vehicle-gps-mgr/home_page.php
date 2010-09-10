@@ -53,9 +53,6 @@ switch($act)
 		//获取车辆定位信息
 		foreach($vehicle as $value){
 			
-			//$lon = $ve_status->exact_lon($ve_status->around($value['cur_longitude'],0)); //经度
-			//$lat = $ve_status->exact_lat($ve_status->around($value['cur_latitude'],0));//纬度
-			
 			$lon = $ve_status->around($value['cur_longitude'],0);
 			$lat = $ve_status->around($value['cur_latitude'],0);
 			$ve_status->exact_lon_lat($lon, $lat);
@@ -85,7 +82,6 @@ switch($act)
 		
 		$lon = $ve_status->exact_lon($ve_status->around($vehicle[0]['cur_longitude'],0)); //经度
 		$lat = $ve_status->exact_lat($ve_status->around($vehicle[0]['cur_latitude'],0));//纬度
-		//$vehicle[0]['location_desc']=$ve_status->get_location_desc($lon/100000,$lat/100000); //地址
 		$address = $ve_status->get_location_desc($lon/100000,$lat/100000); //地址
 		if($address!=false){
 			$vehicle[0]['location_desc'] = $address;
@@ -134,10 +130,8 @@ switch($act)
 		$vehicle_new['gprs_status']=$GLOBALS['db']->prepare_value($vehicle[0]['gprs_status'],"TINYINT");
 		$vehicle_new['cur_speed']=$GLOBALS['db']->prepare_value($vehicle[0]['cur_speed'],"FLOAT");
 		$vehicle_new['color']=$GLOBALS['db']->prepare_value($vehicle[0]['color'],"CHAR");
-		//$vehicle_new['location_time']=$vehicle[0]['location_time'];
 		$vehicle_new['location_time']=$GLOBALS['db']->prepare_value($vehicle[0]['location_time'],"VARCHAR");
 		$vehicle_new['next_AS_date']=$GLOBALS['db']->prepare_value($date,"VARCHAR");
-		//$vehicle_new['next_AS_date']=$date;
 		
 		$result = $vehicle_console->modify_as_date($vehicle_new);
 		
@@ -175,6 +169,19 @@ switch($act)
 		}else{
 			echo "fail";
 		}				
+	break;
+	
+	case "delete_position"://删除公司标注
+		require_once("home_page.class.php");
+		$home_page = new home_page();
+		$position_id = $_REQUEST['position_id'];
+
+		$result = $home_page->delete_company_position($position_id);
+		if($result){
+			echo "ok";
+		}else{
+			echo "fail";
+		}
 	break;
 		
 }
