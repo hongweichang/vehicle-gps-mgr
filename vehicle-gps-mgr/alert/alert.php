@@ -181,18 +181,22 @@ $vehicle_group = "";
 	case "newest_alert" : //查询没有处理的最新告警	
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();
+		echo $record;
 		if($record=="undefined"){
 			echo "conn_fail";
 		}else{
 		 	if($record!=null || $record!="" || $record != false ||$record!="undefined"){	
 		 		
 		 		$alert_type_id=$record[3];//获得告警类型的编号
-		 		$vehicle_id=$record[4];//获得用户的民的编号
+		 		$vehicle_id=$record[4];//获得用户的编号
 		 		
 				$dataMapping = new Data_mapping_handler ( $comm_setting_path );//初始要查询的xml文件名
 				$alert_type_display = $dataMapping->getMappingText ( $tableName, $colName, $record[3]);//根据xml中的value值查询对应的displayText(告警类型)的值
-				
-				echo $record[0]."|".$record[1]."|".$record[2]."|".$alert_type_display."|".$alert_type_id."|".$vehicle_id;
+				if($record[0]!=""||$record[1]!="" ||$record[2]!=""||$alert_type_display!="" ||$alert_type_id!=""||$vehicle_id!=""){
+					echo $record[0]."|".$record[1]."|".$record[2]."|".$alert_type_display."|".$alert_type_id."|".$vehicle_id;
+				}else{
+					echo "-1";
+				}
 			}
 			else{
 				echo "-1";
