@@ -50,7 +50,8 @@
 	var rightOffsetRatio = 0.05;  //	矩形右间距
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.05;   //	矩形下间距
-	var company_position_state=0;
+	var company_position_state=1;
+	var poi=null; //公司标注位置信息
 
 	onLoadMap(); 
 	  
@@ -76,45 +77,57 @@
 		/*添加标注控件*/
 		var ltmControl = new LTMarkControl(new LTIcon(window.parent.host+"/images/company.gif"));
 		map.addControl( ltmControl );
-		LTEvent.addListener( ltmControl , "mouseup" , getPoi );
+		LTEvent.addListener( ltmControl , "mouseup" , getPoii );
 		
-		function getPoi(){
-			var poi = ltmControl.getMarkControlPoint();
-			var name=prompt("请输入公司名称","");
-			if (name!=null && name!=""){
-				$.ajax({
-					type: "POST",
-					url: window.parent.host+"/index.php?a=105&name="+encodeURI(name)+"&longitude="+poi.getLongitude()+"&latitude="+poi.getLatitude(),
-					dataType: "json",
-					success: function(data){
-					 
-						 var info = new Array();
-						 info[0]="标注失败!";
-						 info[1]="标注成功!";
-						 
-						 alert(info[parseInt(data)]);
-						 
-						 if(data==1){
-							 var company_text = new LTMapText(new LTPoint(poi.getLongitude(), poi.getLatitude()));
-							 company_text.setLabel(name);
-							 map.addOverLay(company_text);
-							 
-							 company_position_state=1;
-							 test(poi.getLongitude(),poi.getLatitude());
-						 }						  
-					}
-				});
-		    }else{
-		    	alert("请输入公司名");
-		    }
-		} 
+		
+		
+		function getPoii(){
+			poi = ltmControl.getMarkControlPoint();
+			parent.window.company_position_show();
+		}
+		
 		map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblClick);
 		
 		//初始化车辆定位
 		loadCompanyVehicle();
-	} 
+	}
+	
+	$("#commit",parent.document).click(function(){
+		var name = $("#name",parent.document).val();
+		parent.window.company_position_close();
+		getPoi(name);
+	});
+
+	function getPoi(name){
+		if (name!=null && name!=""){
+			$.ajax({
+				type: "POST",
+				url: window.parent.host+"/index.php?a=105&name="+encodeURI(name)+"&longitude="+poi.getLongitude()+"&latitude="+poi.getLatitude(),
+				dataType: "json",
+				success: function(data){
+				 
+					 var info = new Array();
+					 info[0]="标注失败!";
+					 info[1]="标注成功!";
+					 
+					 alert(info[parseInt(data)]);
+					 
+					 if(data==1){
+						 var company_text = new LTMapText(new LTPoint(poi.getLongitude(), poi.getLatitude()));
+						 company_text.setLabel(name);
+						 map.addOverLay(company_text);
+						 
+						 company_position_state=1;
+						 test(poi.getLongitude(),poi.getLatitude());
+					 }						  
+				}
+			});
+	    }else{
+	    	alert("请输入公司名");
+	    }
+	}
 	
 	function test(longitude,latitude){
 		 

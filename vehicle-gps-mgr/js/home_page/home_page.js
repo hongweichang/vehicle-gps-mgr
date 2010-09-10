@@ -260,3 +260,20 @@ $(document).ready(function() {
 			});
 		});
 	}  
+	
+	$(":button").button();
+	
+	function company_position_show(){
+		$("#show_company_position").show();
+		$("#show_company_position").dialog({height:140,width:340,title:'添加公司标注',
+                autoOpen:true,position:[300,100],hide:'blind',show:'blind'});
+	}
+	
+	//关闭公司标注输入框
+	function company_position_close(){
+		$("#show_company_position").dialog('close');
+	}
+	
+	$("#cancle").click(function(){
+		$("#show_company_position").dialog('close');
+	});
