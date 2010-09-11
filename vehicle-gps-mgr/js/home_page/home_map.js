@@ -618,7 +618,7 @@
 						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 						text.setLabel(number_plate ); 
 						map.addOverLay( text ); 
-						
+						overLay.push(text);
 						run_index --;
 					}
 					 
