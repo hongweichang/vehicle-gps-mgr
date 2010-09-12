@@ -96,8 +96,7 @@
 		}
 		
 		map.handleMouseScroll();
-		//绑定事件注册
-		LTEvent.addListener(map,"dblclick",onDblClick);
+		LTEvent.addListener(map,"dblclick",onDblClick); 
 		
 		//初始化车辆定位
 		loadCompanyVehicle();
@@ -145,11 +144,21 @@
 	 */
 	function company_position(longitude,latitude){
 		 
-		 var marker = new LTMarker(new LTPoint(longitude,latitude),
-			 	  new LTIcon(window.parent.host+"/images/company.gif"));
-		 map.addOverLay( marker ); 
+		 var ltPoint = new LTPoint(longitude,latitude);//标注点对象
+		 var ltIcon = new LTIcon(window.parent.host+"/images/company.gif"); //标注点图标对象
 		 
+		 //创建标注点(结合 标注点对象与标注点图标对象)
+		 var marker = new LTMarker(ltPoint,ltIcon);
+		 
+		 //添入地图中
+		 map.addOverLay( marker ); 
+		
+		 overLay.push(marker);//将标注点,添入将删除标注点队列中,定期清除
 		 position_add_showinfo(marker);
+		 
+		 //内存释放对象
+		 ltPoint = null;
+		 ltIcon = null;
 	}
 	/**
 	 * 标注点定位显示信息
@@ -157,15 +166,17 @@
 	 * @return
 	 */
 	function position_add_showinfo(obj){
-		var infoWin = new LTInfoWindow( obj );
 		
 		function show_maker_info(){
-			infoWin.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
-			infoWin.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div><div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div></div> " ); 
-			map.addOverLay( infoWin );
+			info.setPoint(obj);
+			info.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
+			info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div><div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div></div> " ); 
+			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
+			map.addOverLay( info );
 		}
 		//标注点添加点击事件 
-		LTEvent.addListener(obj,"click",show_maker_info); 
+		var clickEvent = LTEvent.addListener(obj,"click",show_maker_info);
+		vehicleEvent.push(clickEvent); //添入事件队列中，重新加载时，在内存中清空历史事件
 	}
 	
 	/**
@@ -288,11 +299,14 @@
 							//取得所有车的最大经度、最小经度、最大纬度、最小纬度
 							longitudeArray[i] = point_longitude;
 						 	latitudeArray[i] = point_latitude;
-
+						 	
+						 	var ltPoint =  new LTPoint(point_longitude, point_latitude); 
+						 	var ltIcon = new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png");
 							//创建点对象
-							var marker = new LTMarker(new LTPoint(point_longitude, point_latitude), new LTIcon(window.parent.host + "/" + file_path + "/" + img_name + ".png"));
+							var marker = new LTMarker(ltPoint,ltIcon );
 							 
-							points.push(new LTPoint(point_longitude, point_latitude));
+							points.push(ltPoint); 
+							
 							//点对象设置内容 
 							marker.openInfoWinElement("车牌号:"+number_plate);
 							
@@ -300,10 +314,14 @@
 							addInfoWin(marker,title,vehicle_id);
 							 
 							//点添入地图中
-							map.addOverLay(marker);
+							map.addOverLay(marker); 
 							
 							overLay.push(marker);
 							
+							ltPoint = null;
+							ltIcon = null;
+							marker = null; 
+							 
 							var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
 							if(alert_state==0){
 								text.setLabel(number_plate+" 正常");
@@ -317,7 +335,7 @@
 							}
 							map.addOverLay(text);//标注点添入地图中
 							overLay.push(text);//将标注点,添入将删除标注点队列中,定期清除
-							
+ 							
 							run_index--;
 						} 
 						/**
@@ -325,7 +343,7 @@
 						 * 0 非匹配
 						 * 1 匹配
 						 */ 
-						switch (chanage_state) {
+						 switch (chanage_state) {
 							case 0:	//非匹配
 								chanage_state = 1;
 								map.getBestMap(points); 
@@ -359,7 +377,7 @@
 									map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 								}
 								break; 
-						}
+						} 
 						clearArray(longitudeArray); //清空矩形经度队列数组
 						clearArray(latitudeArray);  //清空矩形纬度队列数组
 						clearArray(points);			//清空当前显示标注点集合
