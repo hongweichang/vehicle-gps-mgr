@@ -12,10 +12,12 @@
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
 	
-	//标注点对象数组集合
-	var overLay = new Array(); 
-	var vehicleEvent =  new Array();
 	
+	var overLay = new Array(); 		  //标注点对象数组集合
+	var vehicleEvent =  new Array();  //车辆事件队列数组
+	var longitudeArray = new Array(); // 所有车辆经度保存数组
+	var latitudeArray = new Array();  // 所有车辆纬度保存数组
+	var points = new Array(); 		  //当前显示标注点数组集合
 	/**
 	 * 点击过点记录，根据点记录这次与上次的点记录是否一致，如果一致，不重新加载点最新信息
 	 */
@@ -54,8 +56,10 @@
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.05;   //	矩形下间距
 	var company_position_state=1;
+	
 	var poi=null; //公司标注位置信息
-	var info = null;				
+	var info = null;//信息弹框对象
+	
 	
 	onLoadMap(); 
 	  
@@ -85,8 +89,7 @@
 		map.addControl( ltmControl );
 		LTEvent.addListener( ltmControl , "mouseup" , getPoii );
 		
-		
-		
+		 
 		function getPoii(){
 			poi = ltmControl.getMarkControlPoint();
 			parent.window.company_position_show();
@@ -125,7 +128,7 @@
 						 map.addOverLay(company_text);
 						 
 						 company_position_state=1;
-						 test(poi.getLongitude(),poi.getLatitude());
+						 company_position(poi.getLongitude(),poi.getLatitude());
 					 }						  
 				}
 			});
@@ -134,14 +137,25 @@
 	    }
 	}
 	
-	function test(longitude,latitude){
+	/**
+	 * 标注点定位
+	 * @param longitude 经度
+	 * @param latitude  纬度
+	 * @return
+	 */
+	function company_position(longitude,latitude){
 		 
-		 marker = new LTMarker(new LTPoint(longitude,latitude),
+		 var marker = new LTMarker(new LTPoint(longitude,latitude),
 			 	  new LTIcon(window.parent.host+"/images/company.gif"));
 		 map.addOverLay( marker ); 
 		 
 		 position_add_showinfo(marker);
 	}
+	/**
+	 * 标注点定位显示信息
+	 * @param obj 标注点对象
+	 * @return
+	 */
 	function position_add_showinfo(obj){
 		var infoWin = new LTInfoWindow( obj );
 		
@@ -150,7 +164,7 @@
 			infoWin.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div><div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div></div> " ); 
 			map.addOverLay( infoWin );
 		}
-
+		//标注点添加点击事件 
 		LTEvent.addListener(obj,"click",show_maker_info); 
 	}
 	
@@ -194,10 +208,20 @@
 	 
 	} 
 	/**
+	 * 清空数组所有数据
+	 * @param arrObj 数组
+	 * @return
+	 */
+	 function clearArray(arrObj){ 
+		 while(arrObj.length>0){
+			 arrObj.pop(); 
+		 }
+	 }
+	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
 	function loadCompanyVehicle(){  
-		
+		 
 		//不可直接定位验证
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=0) return false;
@@ -211,11 +235,7 @@
 				dataType: "json",
 				success: function(data){ 
 					if (data != null) {
-						 
-						var ids=new Array();
-						var longitudeArray = new Array(); // 所有车辆经度保存数组
-						var latitudeArray = new Array();  // 所有车辆纬度保存数组
-					 
+					   //var ids=new Array();  
 						var length = data.length;
 						var run_index = length;
 						  
@@ -228,20 +248,30 @@
 								url:window.parent.host+"/index.php?a=106",
 								dataType:"json",
 								success:function(positiones){
+								
 									for(var j = 0;j<positiones.length;j++){
 										var lon = positiones[j][3];
 										var lat = positiones[j][4];
 										var name = positiones[j][2];
+										
 										var company_text = new LTMapText(new LTPoint(lon, lat));
 										company_text.setLabel(name);
 										map.addOverLay(company_text);
-										test(lon,lat);
-									}
+										
+										overLay.push(company_text);//将标注点,添入将删除标注点队列中,定期清除
+										//定位标注点
+										company_position(lon,lat);
+										
+										//标注完公司，清空公司数组队列
+										if(j==positiones.length-1) 
+												clearArray(positiones);  
+										 
+									} 
 								}
 							});
 						}
 						
-						var points = new Array();
+						//循环获取加载车辆的基本
 						for (var i = 0; i < length; i++) {
 						
 							var vehicle_id = data[i]['id']; //车辆id
@@ -252,7 +282,7 @@
 							var img_name = data[i]['cur_direction']; //图片名
 							var file_path = data[i]['file_path']; //文件路径
 							
-							ids[i] = vehicle_id;
+							//ids[i] = vehicle_id;
 							
 							//循环
 							//取得所有车的最大经度、最小经度、最大纬度、最小纬度
@@ -285,8 +315,8 @@
 								text.setBackgroundColor("yellow");//更改文字标签背景色
 								text.setLabel(number_plate+" 疲劳");
 							}
-							overLay.push(text);
-							map.addOverLay(text);
+							map.addOverLay(text);//标注点添入地图中
+							overLay.push(text);//将标注点,添入将删除标注点队列中,定期清除
 							
 							run_index--;
 						} 
@@ -330,12 +360,16 @@
 								}
 								break; 
 						}
-						 
+						clearArray(longitudeArray); //清空矩形经度队列数组
+						clearArray(latitudeArray);  //清空矩形纬度队列数组
+						clearArray(points);			//清空当前显示标注点集合
+						
 						wait_load_vehicle();
 						
 						//等待加载完车辆定位，运行下一步
 						function wait_load_vehicle(){
 							if(run_index==0){
+								clearArray(data); 
 								refresh_vehicle_info();
 							 }else{ 
 								 setTimeout(function(){
@@ -523,7 +557,7 @@
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
 	function vehiclePosition(){   
-		 
+		  
 		//不可直接定位验证
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=1)return false;
@@ -550,10 +584,19 @@
 									var lon = positiones[j][3];
 									var lat = positiones[j][4];
 									var name = positiones[j][2];
+									
 									var company_text = new LTMapText(new LTPoint(lon, lat));
+									
 									company_text.setLabel(name);
 									map.addOverLay(company_text);
-									test(lon,lat);
+									
+									overLay.push(company_text);//将标注点,添入将删除标注点队列中,定期清除
+									//标注点定位
+									company_position(lon,lat);
+									
+									//标注完公司，清空公司数组队列
+									if(j==positiones.length-1) 
+											clearArray(positiones);  
 								}
 							}
 						});
@@ -570,15 +613,10 @@
 					
 					var longitudeRange = xmax - xmin; // 矩形经度范围
 					var latitudeRange = ymax - ymin;  // 矩形纬度范围
-					
-					var longitudeArray = new Array(); // 所有车辆经度保存数组
-					var latitudeArray = new Array();  // 所有车辆纬度保存数组
-					
+					  
 					if(data == null || data =="")return false;
 					
 					var length = data.length;  // 数据长度
-					
-					var points = new Array(); // 点队列数组 
 					var run_index  = length;  // 当前运行数据队列索引
 					
 					//当前数据存在时，清除所有
@@ -597,8 +635,7 @@
 						//取得所有车的最大经度、最小经度、最大纬度、最小纬度
 						longitudeArray[i] = point_longitude;
 					 	latitudeArray[i] = point_latitude;
-						 
-					 
+						  
 						//存入点数据队列中
 						points.push( new LTPoint(point_longitude,point_latitude));
 
@@ -607,18 +644,19 @@
 										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
 						//设置标题
 						var title = "<span class='span'>"+number_plate+"</span>";
-						//点对象设置内容
-						addInfoWin(marker,title,vehicle_id);
-							
-						//点添入地图中
-						map.addOverLay(marker);
 						
-						overLay.push(marker);
+						addInfoWin(marker,title,vehicle_id);//点对象设置内容
+
+						map.addOverLay(marker);//点添入地图中
+						overLay.push(marker);//将标注点,添入将删除标注点队列中,定期清除
+						
 						//点显示内容
 						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
 						text.setLabel(number_plate ); 
 						map.addOverLay( text ); 
-						overLay.push(text);
+						
+						overLay.push(text);//将标注点,添入将删除标注点队列中,定期清除
+						
 						run_index --;
 					}
 					 
@@ -654,13 +692,17 @@
 							map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 							break;
 					}	
-					points = null; //清空数据队列
+					 
+					clearArray(longitudeArray); //清空矩形经度队列数组
+					clearArray(latitudeArray);  //清空矩形纬度队列数组
+					clearArray(points);			//清空当前显示标注点集合
 					
 					wait_load_vehicle();//等待队列加载完
 					
 					//等待加载完车辆定位，运行下一步
 					function wait_load_vehicle(){
 						if(run_index==0){ 
+							clearArray(data); 
 							refresh_vehicle_info();
 						 }else 
 							 setTimeout(function(){
@@ -670,7 +712,9 @@
 				 } 
 			 }); 
 	 }
- 
+	 
+	
+	
 	/**
 	 * 手动画矩形
 	 */
