@@ -200,18 +200,12 @@ switch($act)
 		$start = $limit*$page - $limit;
 		if ($start<0) $start = 0;
 		
-		if(empty($searchfil) or empty($searchstr))
-			$wh = "";
-		else
-		{
-			$type = $inquire->get_type($searchfil);
-			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
-		}
-
 		/*查询出所有车辆的信息保存在数组中*/
-		for($i = 0;$i<$count;$i++){
-			$infoes[$i] = $inquire->get_vehicle($wh,$sidx,$sord,$start,$limit,$id_list[$i]);
+		for($i = $start;$i<$count;$i++){
+			if($i >= ($start + $limit)){
+				break;
+			}
+			$infoes[$i-$start] = $inquire->get_vehicle($id_list[$i]);
 		}
 	
 		$response->page	= $page;
