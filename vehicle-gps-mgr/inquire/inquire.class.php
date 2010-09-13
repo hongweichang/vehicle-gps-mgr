@@ -57,25 +57,22 @@ class Inquire extends BASE
 	 * @param unknown_type $vehicle_list
 	 * @param unknown_type $areaInfo
 	 */
-	function check_in_area(&$vehicle_list, $areaInfo, $hour_list){
+	function check_in_area(&$vehicle_list, $areaInfo, $hour){
 		$vehicle_in_area = array();
 		
-		foreach($hour_list as $value_h){
-			$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$value_h.".log";
-			if(!file_exists($gps_info_path)){
-				continue;
-			}
-			
-			for($i=0;$i<count($vehicle_list);$i++){
-				if($this->is_vehicle_in_area($vehicle_list[$i], $areaInfo, $gps_info_path, $value_h)){
-					array_push($vehicle_in_area, $vehicle_list[$i]);
-					array_splice($vehicle_list,$i,1); 
-				    $i--; 
-				}
-			}
-			
+		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
+		if(!file_exists($gps_info_path)){
+			return "";
 		}
-		
+			
+		for($i=0;$i<count($vehicle_list);$i++){
+			if($this->is_vehicle_in_area($vehicle_list[$i], $areaInfo, $gps_info_path, $hour)){
+				array_push($vehicle_in_area, $vehicle_list[$i]);
+				array_splice($vehicle_list,$i,1); 
+			    $i--; 
+			}
+		}
+			
 		return $vehicle_in_area;
 	}
 	
