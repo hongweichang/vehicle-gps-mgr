@@ -286,12 +286,42 @@ $(document).ready(function(){
 		 showSecond:false,
 		 createButton:false
 	 });
+	
+	//从A列表中移除B列表中和A相同的元素
+	function removeElement(srcList, elementList){
+		if(srcList.length >0 && elementList.length >0){
+			for(i=0;i<srcList.length;i++){
+				for(j=0;j<elementList.length;j++){
+					if(srcList[i] === elementList[j]){
+						srcList.splice(i,1); //从列表中删除当前元素
+						i--;
+					}
+				}
+			}
+			return srcList;
+		}
+	}
+	
+	
+	//把数组转为指定字符分割的字符串
+	function convertArrayToStr(srcArray, seperator){
+		var str = "";
+		for(i=0;i<srcArray.length;i++){
+			if(str != ""){
+				str += seperator;
+			}
 
+			str += srcArray[i];
+		}
+		
+		return str;
+	}
+
+	
 	 //区域查询车辆历史轨迹
 	$("#show_vehicles").click(function(){
-		$("#areas").mask("查询中,请稍侯...");
-
-		/*获取经纬度范围*/
+	
+		//获取经纬度范围
 		var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
 		var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
 		var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
@@ -299,75 +329,89 @@ $(document).ready(function(){
 
 		var begin_time = $("#inquire_startTime").attr("value"); //获取开始时间
 		var end_time = $("#inquire_endTime").attr("value"); //获取结束时间
-
-		var idListStr = "";
+		
+		var idList = new Array();
 		$("#vehicle_info > option").each(function(){
-			if(idListStr != ""){
-				idListStr += "-";
-			}
-			idListStr += $(this).val();
+			idList.push($(this).val());
 		});
 
-			var hourList = getHourList();
+		var seperator = ",";
+		var hourList = getHourList();
+		var hourListStr = convertArrayToStr(hourList, seperator);
+		var idListStr = "";
 		
-		var hourListStr = "";
-		for(i=0;i<hourList.length;i++){
-			if(hourListStr != ""){
-				hourListStr += "-";
-			}
-
-			hourListStr += hourList[i];
-		}
-
 		$("#select_mode").get(0).selectedIndex=0;//下拉框切换成选择车辆，以便再次选择区域
 		
-		$.post("index.php",{"a":355,"hour_list":hourListStr,"lonMin":lonMin,"latMin":latMin,
-			"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
-			function(data){
-				$("#areas").unmask();
-				$("#areas").hide();
-				$("#his_infoes").hide();
-				$("#inquireing").hide();
-				$("#show_area").show();
-				var idList = "";
-				if(data != null){
-					for(i=0;i<data.length;i++){
-						idList += "-";
-						idList += data[i];
+		var idListInAreaStr = ""; //指定时间指定区域内的所有车辆的列表字符串
+		var idInAreaFound = 0;
+		
+		getCarInArea();
+		
+		//将获取到的车辆信息显示在列表中（内部函数）
+		function showCarInArea(){
+			jQuery("#show_vehicles_page").jqGrid({
+				url:'index.php?a=356&begin_time='+begin_time
+					+'&end_time='+end_time+'&id_list='+idListInAreaStr,
+						datatype: "json",
+					   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
+					   	colModel:[
+					   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
+																			{readonly:true,size:10}},
+					   		{name:'number_plate',index:'number_plate', width:190},
+					   		{name:'driver',index:'driver', width:190},
+					   		{name:'trace',index:'trace', width:190}
+					   		
+					   	],
+					   	rowNum:10,
+					   	rowList:[10,20,30],
+					   	pager: '#page_show',
+					   	sortname: 'id',
+					    viewrecords: true,
+					    sortorder: "desc",
+						height:290
+					});
+
+			jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
+			{edit:false,add:false,del:false,search:false});
+		};
+
+		
+		//利用递归来依次获取每个小时的数据信息（内部函数）
+		function getCarInArea(){
+			var aHour = hourList.shift(); //每次取一个小时的时间点进行查询
+			$("#areas").mask("查询中,请稍侯...（已查出车辆数："+ idInAreaFound + ")<br/>" + format_time(aHour,"yyyy/MM/DD/HH"));
+			idListStr = convertArrayToStr(idList, seperator);
+			$.post("index.php",{"a":355,"hour":aHour,"lonMin":lonMin,"latMin":latMin,
+				"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
+				function(data){
+					if(data.length != 0){
+						idInAreaFound += data.length;
+						if(idListInAreaStr != ""){
+							idListInAreaStr += seperator;
+							idListInAreaStr += convertArrayToStr(data, seperator);
+						}else{
+							idListInAreaStr = convertArrayToStr(data, seperator);
+						}
+						
+						//已经查出的车辆下次不用再查
+						removeElement(idList, data);
 					}
-				}
+					
+					if(hourList.length <= 0){ //递归结束
+						$("#areas").unmask();
+						$("#areas").hide();
+						$("#his_infoes").hide();
+						$("#inquireing").hide();
+						$("#show_area").show();
+						showCarInArea();
+					}else{
+						getCarInArea();
+					}
+				},"json");
+			};
+	}); //$("#show_vehicles").click
+}); //$(document).ready
 
-				jQuery("#show_vehicles_page").jqGrid({
-					url:'index.php?a=356&begin_time='+begin_time
-						+'&end_time='+end_time+'&id_list='+data,
-					  datatype: "json",
-				   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
-				   	colModel:[
-				   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
-																		{readonly:true,size:10}},
-				   		{name:'number_plate',index:'number_plate', width:190},
-				   		{name:'driver',index:'driver', width:190},
-				   		{name:'trace',index:'trace', width:190}
-				   		
-				   	],
-				   	rowNum:10,
-				   	rowList:[10,20,30],
-				   	pager: '#page_show',
-				   	sortname: 'id',
-				    viewrecords: true,
-				    sortorder: "desc",
-					height:290
-				});
-
-					jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
-					{edit:false,add:false,del:false,search:false});
-								
-			}
-			,"json");			
-	});
-	
-	
-}); 
 	/**
 	 * 进度条赋值
 	 * @progress_val 值
