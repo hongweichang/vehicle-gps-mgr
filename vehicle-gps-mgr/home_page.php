@@ -52,23 +52,23 @@ switch($act)
 		
 		//获取车辆定位信息
 		foreach($vehicle as $value){
-			
+			  
 			$lon = $ve_status->around($value['cur_longitude'],0);
 			$lat = $ve_status->around($value['cur_latitude'],0);
 			$ve_status->exact_lon_lat($lon, $lat);
 			
-			$arr_vehicle[$index]['id']= $value['id'];//车id
+			$arr_vehicle[$index]['id']= $value['id'];//车辆id
 			$arr_vehicle[$index]['number_plate']= $value['number_plate'];//车牌号			
-			$arr_vehicle[$index]['cur_longitude']	= $lon;
-			$arr_vehicle[$index]['cur_latitude']	= $lat;		
-			$arr_vehicle[$index]['alert_state']	= $value['alert_state'];		
+			$arr_vehicle[$index]['cur_longitude']	= $lon; //经度
+			$arr_vehicle[$index]['cur_latitude']	= $lat;	//纬度	 
+			$arr_vehicle[$index]['alert_state']	= $value['alert_state']; //告警状态		
 			$arr_vehicle[$index]['cur_direction']	= resolvingDirection($value['cur_direction']); //方向 
 							
 			//图片路径
 			if(!isset($value['color'])) 
-				$arr_vehicle[$index]['file_path']	= "images/vehicle/gray"; //未设置、设置  默认车辆
+				$arr_vehicle[$index]['file_path'] = "images/vehicle/gray"; //未设置、设置  默认车辆
 			 else 
-				$arr_vehicle[$index]['file_path']	= str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 
+				$arr_vehicle[$index]['file_path'] = str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color'])); 
 				
 			$index++; 
 		} 

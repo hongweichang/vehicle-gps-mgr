@@ -448,17 +448,13 @@
 					
 					for(var i=0;i<length;i++){        
 						  
-						var point_longitude = data[i][1]; //点经度
-						var point_latitude =  data[i][2]; //点纬度
-						var file_path = data[i][4]; //文件目录
-						var img_name = data[i][3];  //图片名称
-						var number_plate = data[i][5]; //车牌号
-						var gps_id = data[i][6]; //GPS编号 
-						var location_time = data[i][7];//定位时间
-						var vehcile_group_name = data[i][8];//车组名
-						var driver_name = data[i][9]; //驾驶员
-						var cur_speed = data[i][10];//速度
-						var location_desc = data[i][11];//地址
+						 vehicle_id = data[0]['id']; //车辆id
+						 number_plate = data[0]['number_plate']; //车牌号
+						 point_longitude = data[0]['cur_longitude']; //当前经度
+						 point_latitude = data[0]['cur_latitude']; //当前纬度 
+						 alert_state = data[0]['alert_state'];// 告警状态
+						 img_name = data[0]['cur_direction']; //图片名
+						 file_path = data[0]['file_path']; //文件路径 
 						
 						//车辆点位置添入数组中，地图视图显示
 						points.push( new LTPoint(point_longitude,point_latitude));
@@ -471,9 +467,28 @@
 						//点添入地图中
 						map.addOverLay(marker);
 
-						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
-						text.setLabel(number_plate ); 
-						map.addOverLay( text ); 
+						//车辆点添加标签
+						var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
+						
+						var labelText = "";
+						var backgroundColor = null;
+						switch(alert_state){//当前车辆状态
+							case 0: //正常状态
+								labelText = number_plate+" 正常";
+							 break; 
+							case 1: //超速状态
+								labelText = number_plate+" 超速";
+							 	backgroundColor = "red";//更改文字标签背景色  
+							 break;
+						  default:  //
+						  		labelText = number_plate+" 疲劳";
+						  	 	text.setBackgroundColor("yellow");//更改文字标签背景色
+						     break;	
+						}
+						//设置车辆点标签属性
+						text.setLabel(labelText);
+						text.setBackgroundColor(backgroundColor);
+						map.addOverLay(text);//车辆点添入地图中
 					}
 					map.getBestMap(points);
 					map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 

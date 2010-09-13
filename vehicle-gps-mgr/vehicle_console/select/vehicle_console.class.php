@@ -68,10 +68,9 @@ class vehicle_console extends BASE{
 			 * @param $company 公司ID
 			 */
 			function  get_vehicles($where=-1,$company=-1){
-				
-				
+				 
 				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,(case when s.color is null then c.default_color  else s.color end)as color,".
-						   " 		v.number_plate,v.gps_id,v.location_time,g.name as group_name,d.name as driver_name,v.cur_speed ".
+						   " 		v.number_plate,v.gps_id,v.location_time,g.name as group_name,d.name as driver_name,v.cur_speed,v.alert_state ".
 						   "				FROM ". 				
 						   "					".$this->tablename_vehicle_manage." as v ". 			
 						   "					LEFT JOIN ".

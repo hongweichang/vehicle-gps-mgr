@@ -162,29 +162,39 @@ switch ($act) {
 		$length = count($vehicle);
 		$ve_status = new Vehicle_status(); 
 		
-		for($row=0;$row<$length;$row++){   
+		$arr_vehicle = array(); //车辆数据数组
+		
+		$index = 0; //下标索引
+		 
+		foreach($vehicle as $value){		
 				
 				//获取车图标路径
-				if(!isset($vehicle[$row][4])){
-					$vehicle[$row][4] = "images/vehicle/gray";
+				if(!isset($value['color'])){
+					$value['color'] = "images/vehicle/gray";
 				}else{
-					$vehicle[$row][4] = str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$vehicle[$row][4]));	
-				} 
+					$value['color'] = str_ireplace("/west.png","",$xml_handler->getTextData("color","#".$value['color']));	
+				}
 				
-				$lon = $ve_status->around($vehicle[$row][1],0);
-				$lat = $ve_status->around($vehicle[$row][2],0);
+				//求精准经纬度
+				$lon = $ve_status->around($value['cur_longitude'],0);
+				$lat = $ve_status->around($value['cur_latitude'],0);
 				$ve_status->exact_lon_lat($lon, $lat);
 				
-				$vehicle[$row][1] = $lon; 
-				$vehicle[$row][2] = $lat;
-				 
-				$vehicle[$row][11] = $ve_status->get_location_desc($lon/100000,$lat/100000); //地址
-			   //获取当前车方向
-			   $cur_direction = $vehicle[$row][3];
-			   //分解度数换为方向
-			   $vehicle[$row][3] = resolvingDirection($cur_direction); 
+				 //分解度数换为方向
+			    $cur_direction = resolvingDirection($value['cur_direction']);
+			    
+			    //赋值
+				$arr_vehicle[$index]['id'] = $value['id']; //车辆ID
+				$arr_vehicle[$index]['number_plate'] = $value['number_plate']; //车辆号
+				$arr_vehicle[$index]['alert_state']	= $value['alert_state']; //告警状态
+				$arr_vehicle[$index]['file_path'] = $value['color'];  //路径
+				$arr_vehicle[$index]['cur_longitude'] = $lon;  //经度
+				$arr_vehicle[$index]['cur_latitude'] = $lat;   //纬度
+				$arr_vehicle[$index]['cur_direction'] = $cur_direction;  //方向
+			   
+			    $index++; 
 		}
-	    echo json_encode($vehicle); 
+	    echo json_encode($arr_vehicle); 
 		break;
 }
 
