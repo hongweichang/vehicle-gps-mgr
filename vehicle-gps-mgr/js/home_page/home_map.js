@@ -11,7 +11,7 @@
 	var longitude = 3991104;  // 经度
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
-	
+	var page_refresh_time = 30000; //地图页面刷新/30分钟
 	
 	var overLay = new Array(); 		  //标注点对象数组集合
 	var vehicleEvent =  new Array();  //车辆事件队列数组
@@ -67,7 +67,7 @@
 	 * 加载地图
 	 */
 	function onLoadMap(){ 
-	
+	 
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
 		map=new LTMaps("map");
@@ -98,12 +98,19 @@
 		map.handleMouseScroll();
 		LTEvent.addListener(map,"dblclick",onDblClick); 
 		
-		//初始化车辆定位
-		loadCompanyVehicle();
+		//初始运行刷新操作
+		init_run_refresh_operate();
 	} 
+	
+	//公司标注点‘确定’事件 
 	$("#commit",parent.document).click(function(){
+		
+		//获取公司名称
 		var name = $("#name",parent.document).val();
+		//关闭当前窗口
 		parent.window.company_position_close();
+		
+		//公司标注
 		getPoi(name);
 	});
 	/**
@@ -122,14 +129,21 @@
 					 info[0]="标注失败!";
 					 info[1]="标注成功!";
 					 
+					 //提示信息
 					 alert(info[parseInt(data)]);
 					 
-					 if(data==1){
+					 if(data==1){ //成功
+						 //创建标签点
 						 var company_text = new LTMapText(new LTPoint(poi.getLongitude(), poi.getLatitude()));
-						 company_text.setLabel(name);
-						 map.addOverLay(company_text);
-						  
+						 
+						 company_text.setLabel(name);  //添加标签
+						 map.addOverLay(company_text); //添入地图中
+						 
+						 //公司标注点定位
 						 company_position(poi.getLongitude(),poi.getLatitude());
+						 
+						 overLay.push(company_text);//将标签点,添入将删除标注点队列中,定期清除
+						 company_text = null;//释放内存
 					 }						  
 				}
 			});
@@ -224,7 +238,7 @@
 	$("#location_refresh",parent.document).click(function(){ 
 		if($(this).attr('checked') ){ 
 			position_vehicle_state=1;
-			refresh_vehicle_info();
+			refresh_map_page();
 		}
 	}); 
  
@@ -281,18 +295,99 @@
 				break; 
 		}  
 	}
+	
+	/**
+	 * 初始运行刷新操作
+	 * @return
+	 */
+	function init_run_refresh_operate(){
+		
+		//获取当前刷新页面状态值
+		var  cur_refresh_state = $("#cur_refresh_state",parent.document).val();
+		 
+		//判断当前刷新页面已开始状态
+		if(cur_refresh_state == "start"){
+			
+			//定时刷新未勾选上
+			if (!$("#location_refresh",parent.document).attr('checked'))return false;
+			
+			//获取经纬度、比例集合
+			var cur_longlat = $("#cur_longlat",parent.document).val();
+			var cur_longlat_arr = cur_longlat.split("|");//经纬度、比例数组
+			
+			var cur_longitude = cur_longlat_arr[0];//经度
+			var cur_latitude = cur_longlat_arr[1];//纬度
+			var cur_zoom = cur_longlat_arr[2];//比例
+			
+			//定位车辆点
+			var ltPoint = new LTPoint(cur_longitude,cur_latitude);
+			map.centerAndZoom(ltPoint,cur_zoom);
+			
+			//获取当前所有状态
+			var cur_states = $("#cur_states",parent.document).val();
+			var cur_states_arr = cur_states.split("|"); //状态数组
+			
+			position_vehicle_state = cur_states_arr[0]; //定位状态
+			refresh_state = cur_states_arr[1]; //刷新状态
+			
+			//获取监控车辆
+			refresh_vehicles = $("#refresh_vehicles",parent.document).val();
+			
+			switch(parseInt(refresh_state)){
+				case 0:    //'0'代表刷新所有车辆 
+					  loadCompanyVehicle();
+					break;
+				case 1:  //‘1’代表刷新选择监控车辆  
+					  vehiclePosition(); 
+					break; 
+			} 
+			
+			ltPoint = null;//内存释放点对象
+		}else{
+			//初始化车辆定位
+			loadCompanyVehicle();
+		}
+		
+		//地图页面刷新
+		setTimeout("refresh_map_page();",page_refresh_time);
+	}
+	
+	/**
+	 * 刷新地图页面
+	 * @return
+	 */
+	function refresh_map_page(){
+		
+		//定时刷新未勾选上
+		if (!$("#location_refresh",parent.document).attr('checked'))return false;
+		
+		//获取当前地图经纬度、比例相关信息
+		var centerPoint = map.getCenterPoint();
+		
+		//信息保存为：经度|纬度|当前比例
+		$("#cur_longlat",parent.document).val(centerPoint.getLongitude()+"|"+centerPoint.getLatitude()+"|"+map.getCurrentZoom());
+		//当前状态保存为：定位状态｜刷新状态
+		$("#cur_states",parent.document).val(position_vehicle_state+"|"+refresh_state);
+		//当前刷新车辆：当前刷新车辆集合
+		$("#refresh_vehicles",parent.document).val(refresh_vehicles);
+		//设置刷新地图页面为‘开始’状态
+		$("#cur_refresh_state",parent.document).val('start');
+		
+		window.location.reload();
+	}
+	
 	/**
 	 * 初始化当前公司所有车辆定位信息
 	 */
-	function loadCompanyVehicle(){  
-		 
+	function loadCompanyVehicle(){   
 		//不可直接定位验证
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=0) return false;
 		}
+		
 		//点击选择车辆时第一次，设置可直接定位,然后第二次不可直接定位 
 		position_vehicle_state = 0; 
-		 
+		  
 		//获取车辆定位数据
 		get_vehicle_location_data(0);   
 	} 
@@ -315,7 +410,7 @@
 		//获取车辆定位数据
 		get_vehicle_location_data(1);     
 	 }
-	 /**
+   /**
 	 * 获取车辆定位数据
 	 * @param {Object} operate 操作类型
 	 */ 
@@ -335,7 +430,7 @@
 			type: "POST",
 			url: window.parent.host+"/index.php"+request_param,
 			dataType: "json",
-			success: function(data){  
+			success: function(data){ 
 				if (data != null) { 
 					var length = data.length;
 					var run_index = length;
