@@ -43,6 +43,12 @@ LTEvent.addListener(control,"mouseup",drawRectangle);
 var ltControl = new LTZoomInControl();
 maps.addControl( ltControl );
 ltControl.setRight(280);
+LTEvent.addListener(ltControl,"draw",doit);
+
+//拉框完成后切换拉框按钮为非选中状态
+function doit(){
+	ltControl.btnClick();
+}
 
 var over_lay;
 
@@ -70,6 +76,8 @@ function drawRectangle(){
 	document.getElementById("latMin").value=latMin;
 	document.getElementById("lonMax").value=lonMax;
 	document.getElementById("latMax").value=latMax;
+
+	control.btnClick();
 }
 
 </script>
