@@ -189,11 +189,11 @@ a.dock-item2 {
 	float:left;margin-top:2px
 }
 .toggler {
-	width:200px;
+	width:280px;
 	position: relative; 
 	position: absolute;
 	z-index:100;
-	left:72%;
+	left:68%;
 	top:25%;
 	filter:alpha(opacity=80);
 	display:none;
