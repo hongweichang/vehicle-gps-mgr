@@ -1,10 +1,9 @@
-
 var driverID=$("#dri_driving_id").val();
+var begin_date = $("#vehicle_begin_data").val();
+var end_date = $("#vehicle_end_data").val();
 
-
-	
 jQuery("#drive_begin_data").jqGrid( {
-		url : "index.php?a=411&drive_id="+driverID,
+		url : "index.php?a=411&drive_id="+driverID+"&begin_data="+begin_date+"&end_data="+end_date,
 		datatype : "json",
 		colNames : [ 'cds', '开车起始时间', '开车结束时间', '起止开车时间间隔(分钟)', '起止开车路程(公里)'],
 		colModel : [{

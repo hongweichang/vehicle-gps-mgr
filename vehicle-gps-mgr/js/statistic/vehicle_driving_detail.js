@@ -1,7 +1,9 @@
 var vel=$("#ve_dring_id").val();
+var begin_date = $("#vehicle_begin_data").val();
+var end_date = $("#vehicle_end_data").val();
 
 jQuery("#vehicle_driving_detail").jqGrid( {
-		url : "index.php?a=414&vehicle_id="+vel,
+		url : "index.php?a=414&vehicle_id="+vel+"&begin_data="+begin_date+"&end_data="+end_date,
 		datatype : "json",
 		colNames : [ 'id',  '开始时间', '停止时间', '行驶时间(分钟)', '行驶距离(公里)'],
 		colModel : [{

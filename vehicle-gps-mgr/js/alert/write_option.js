@@ -11,7 +11,7 @@ function setAdvice(){
 
 		$("#addOpinion").click(function(){
 
-			$("#maskReuslt").mask("修改中,请耐心等候...");
+			$("#opinion").mask("修改中,请耐心等候...");
 			var totalDeal=$("#totalDeal").attr('checked');
 	         
 			//得到告警时间
@@ -26,8 +26,11 @@ function setAdvice(){
 				"totalDeal":totalDeal,
 				"advice":$("#advice").text()},
 				function(data){					 
-					$("#maskReuslt").unmask();
-					$("#result").text(data);
+					$("#opinion").unmask();
+					alert(data);
+					if("意见添加成功"==data){
+						$("#opinion").dialog('close');
+					}
 			});
 		});
 

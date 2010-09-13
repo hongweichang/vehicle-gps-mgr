@@ -1,7 +1,9 @@
 var driverID=$("#dri_stop_id").val();	
+var begin_date = $("#vehicle_begin_data").val();
+var end_date = $("#vehicle_end_data").val();
 
 jQuery("#drive_stop_data").jqGrid( {
-		url : "index.php?a=412&drive_id="+driverID,
+		url : "index.php?a=412&drive_id="+driverID+"&begin_data="+begin_date+"&end_data="+end_date,
 		datatype : "json",
 		colNames : ['id','开始停车时间','最后停车时间','停车时间间隔(分钟)'],
 		colModel : [{
