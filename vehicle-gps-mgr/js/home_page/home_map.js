@@ -11,7 +11,7 @@
 	var longitude = 3991104;  // 经度
 	var latitude = 11636160;  //纬度
 	var speed = 1000;  //速度/ms
-	var page_refresh_time = 30000; //地图页面刷新/30分钟
+	var page_refresh_time = (1000*60)*30; //地图页面刷新/30分钟
 	
 	var overLay = new Array(); 		  //标注点对象数组集合
 	var vehicleEvent =  new Array();  //车辆事件队列数组
