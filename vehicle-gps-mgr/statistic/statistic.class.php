@@ -185,6 +185,16 @@ class Statistic extends BASE {
 		
 		return $this->data = $GLOBALS ["db"]->query ( $this->sql );
 	}
+	
+	/*
+	 * 根据车辆id查车牌号
+	 * @param $vehicle_id车辆id
+	 */
+	function get_number_plate($vehicle_id){
+		$this->sql = "select number_plate from vehicle_manage where id=".$vehicle_id;
+		return $this->data = $GLOBALS['db']->query_once($this->sql);
+	}
+	
 	/*
 	 * 跟据时间段，公司id查询驾驶员数量
 	 */

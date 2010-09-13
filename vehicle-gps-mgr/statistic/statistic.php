@@ -80,6 +80,8 @@ switch ($act) {
 	case "vehicle_time_data" ://根据选择的车辆id,公司id和起始查询和结束查询时间,查询车辆信息
 		
 		$vehicle_array = $_REQUEST ['select_vehicle']; 	//得到所选择车辆id	
+		
+		$vehicle_count = explode(",",$vehicle_array);
 				
 		if (! $sidx)
 			$sidx = 1;
@@ -107,9 +109,23 @@ switch ($act) {
 		$response->total = $total_pages;
 		$response->records = $count;
 		
+		$id_array = null;
+		
 		foreach ( $dataList as $key => $value ) { //从xml文件中映射相应的数据库字段值
 			$response->rows [$key] ['vehicle_id'] = $value ['vehicle_id'];	
+			$id_array[$key]=$value['vehicle_id'];
 			$response->rows [$key] ['cell'] = array ($value ['vehicle_id'], $value ['number_plate'], $value ['distance'], $value ['drive_time'], $value ['stop_time'], $value ['min_time'], $value ['max_time'], "<a href='#' onclick='show_vehicle(" . $value ['vehicle_id'] . ")' style='text-decoration:none;color:#0099FF';font-size:12px;>详细内容</a>" );
+		}
+		
+		if($count<count($vehicle_count)){
+			foreach($vehicle_count as $value){
+				if(!in_array($value,$id_array)){
+					$number = count($response);
+					$number_plate_none = $driver->get_number_plate($value);
+					$response->rows[$number]['vehicle_id']=$value;
+					$response->rows[$number]['cell']=array($value,$number_plate_none['number_plate'],"无数据","无数据","无数据","无数据","无数据","无数据");
+				}
+			}
 		}
 		echo json_encode ( $response ); //打印json格式的数据	
 		break;
