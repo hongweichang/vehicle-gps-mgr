@@ -3,7 +3,7 @@ var vel=$("#ve_dring_id").val();
 jQuery("#vehicle_driving_detail").jqGrid( {
 		url : "index.php?a=414&vehicle_id="+vel,
 		datatype : "json",
-		colNames : [ 'id',  '开车时间', '停车时间', '车辆行驶时间(分钟)', '车辆行驶距离(公里)'],
+		colNames : [ 'id',  '开始时间', '停止时间', '行驶时间(分钟)', '行驶距离(公里)'],
 		colModel : [{
 			name : 'id',
 			index : 'id',
@@ -51,5 +51,6 @@ jQuery("#vehicle_driving_detail").jqGrid( {
 		del : false,
 		add : false,
 		edit : false,
+		search:false,
 		alerttext : "请选择需要操作的数据行!"
 	});

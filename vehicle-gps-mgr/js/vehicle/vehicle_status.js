@@ -42,7 +42,7 @@ jQuery("#vehicle_status_list").jqGrid({
 });
 
 jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
-{edit:false,add:false,del:false});
+{edit:false,add:false,del:false,search:false});
 
 /*批量发布信息*/
 jQuery("#m1").click( function() {
@@ -66,17 +66,17 @@ jQuery("#m3").click( function() {
 });
 
 //根据车牌号查询
-$("#commit").click(function(){
+$("#commit_vehicle").click(function(){
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val();
 	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid"); //获取新数据刷新JQGrid
 	$("#area_result").hide();
-	$("#commit").show();
+	$("#commit_vehicle").show();
 	$("#area_select").show();
 	$("#frame_map").hide();	
 	$("#select").show();
 	
 	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
-	$("#commit").show();
+	$("#commit_vehicle").show();
 	$("#area_result").hide();
 	$("#area_select").show();
 	$("#frame_map").hide();	
@@ -87,7 +87,7 @@ $("#commit").click(function(){
 $("#area_select").click(function(){
 	$("#area_select").hide();
 	$("#locates").hide();
-	$("#commit").hide();
+	$("#commit_vehicle").hide();
 	$("#area_result").show();
     $("#select").hide();
 	$("#frame_map").show();
@@ -96,7 +96,6 @@ $("#area_select").click(function(){
 
 //显示区域查询结果
 $("#area_result").click(function(){	
-	
 	/*获取经纬度范围*/
 	var lonMin = document.getElementById("frame_map").contentWindow.document.getElementById("lonMin").value;
 	var latMin = document.getElementById("frame_map").contentWindow.document.getElementById("latMin").value;
@@ -105,7 +104,7 @@ $("#area_result").click(function(){
 	
 	var url = 'index.php?a=502&number_plate='+$("#number_plate").val()+'&lonMin='+lonMin+'&latMin='+latMin+'&lonMax='+lonMax+'&latMax='+latMax;
 	jQuery("#vehicle_status_list").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");//获取结果刷新JqGrid显示数据
-	$("#commit").show();
+	$("#commit_vehicle").show();
 	$("#area_result").hide();
 	$("#area_select").show();
 	$("#frame_map").hide();	

@@ -324,18 +324,20 @@ class Statistic extends BASE {
 	/**
 	 * 根据车辆id得到停驶详细信息
 	 */
-	function vstop_detail_data($vehicle_id, $wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
+	function vstop_detail_data($vehicle_id,$begin_data,$end_data,$wh = "", $sidx = "", $sord = "", $start = "", $limit = ""){
 		$this->sql ="select ss.id, number_plate,start_time,end_time,stop_time  from vehicle_manage vm,stop_statistic ss
-                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id  ".  
-		             " order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
+                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id  and (ss.start_time>='".$begin_data."' and 
+                     ss.end_time<='".$end_data.  
+		             "') order by " . $sidx . " " . $sord . " LIMIT " . $start . " , " . $limit;
 	    return $this->data = $GLOBALS ["db"]->query ( $this->sql );	
 	}
 	/**
 	 *  根据车辆id得到停驶详细信息数量
 	 */
-	function vstop_detail_count($vehicle_id){
+	function vstop_detail_count($vehicle_id,$begin_data,$end_data){
 		$this->sql ="select count(*) from vehicle_manage vm,stop_statistic ss
-                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id  ";  
+                     where  ss.vehicle_id='".$vehicle_id."' and  vm.id=ss.vehicle_id and (ss.start_time>='"
+					 .$begin_data."' and ss.end_time<='".$end_data."')";  
 		            
 		  $count = $GLOBALS ["db"]->query_once ( $this->sql );
 		  return $count [0];	

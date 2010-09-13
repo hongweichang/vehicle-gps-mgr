@@ -247,7 +247,7 @@ switch ($act) {
 		$limit_length = 8; //设置处理意见字符串最多显示8个字符
 		$driver = new Statistic ();
 		
-		$count = $driver->vstop_detail_count($vehicle_id);
+		$count = $driver->vstop_detail_count($vehicle_id,$begin_data,$end_data);
 		
 		if ($count > 0) {
 			$total_pages = ceil ( $count / $limit );
@@ -260,7 +260,7 @@ switch ($act) {
 		if ($start < 0)
 			$start = 0;
 		
-		$dataList = $driver->vstop_detail_data($vehicle_id, $wh, $sidx, $sord, $start, $limit );
+		$dataList = $driver->vstop_detail_data($vehicle_id,$begin_data,$end_data, $wh, $sidx, $sord, $start, $limit );
 		
 		$response->page = $page; //分别赋值当前页,总页数，总数据条数
 		$response->total = $total_pages;

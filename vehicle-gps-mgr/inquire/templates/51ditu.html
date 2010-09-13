@@ -39,6 +39,11 @@ maps.addControl( control );
 //选中区域
 LTEvent.addListener(control,"mouseup",drawRectangle);
 
+/*添加拉框放大控件*/
+var ltControl = new LTZoomInControl();
+maps.addControl( ltControl );
+ltControl.setRight(280);
+
 var over_lay;
 
 //手动画矩形

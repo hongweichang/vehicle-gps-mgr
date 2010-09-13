@@ -60,5 +60,6 @@
 		del : false,
 		add : false,
 		edit : false,
+		search:false,
 		alerttext : "请选择需要操作的数据行!"
 	});

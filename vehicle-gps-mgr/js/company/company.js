@@ -83,7 +83,7 @@ jQuery("#navgrid_company").jqGrid({
 	width:"750"
 });
 jQuery("#navgrid_company").jqGrid('navGrid','#pagernav_company',
-{edit:true, add:true, del:true,view:true}, //options
+{edit:true, add:true, del:true,view:true,search:false}, //options
 //edit:false,add:false,del:false
 {
 afterSubmit:processAddEdit,

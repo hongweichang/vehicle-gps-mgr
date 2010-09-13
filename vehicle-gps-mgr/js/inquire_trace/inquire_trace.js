@@ -253,7 +253,7 @@ $(document).ready(function(){
 		});
 
 			jQuery("#infoes").jqGrid('navGrid','#pagernav_infoes',
-			{edit:false,add:false,del:false});
+			{edit:false,add:false,del:false,search:false});
 			step_info++;
 		}else{
 			var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()
@@ -360,7 +360,7 @@ $(document).ready(function(){
 				});
 
 					jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
-					{edit:false,add:false,del:false});
+					{edit:false,add:false,del:false,search:false});
 								
 			}
 			,"json");			

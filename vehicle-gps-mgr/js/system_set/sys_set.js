@@ -30,7 +30,7 @@ jQuery("#navgrid_system_set").jqGrid({
 		height:350
 });
 jQuery("#navgrid_system_set").jqGrid('navGrid','#pagernav_system_set',
-{edit:true,add:true,del:true}, //options
+{edit:true,add:true,del:true,search:false}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options

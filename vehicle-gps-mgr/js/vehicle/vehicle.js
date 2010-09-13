@@ -31,6 +31,6 @@ jQuery("#navgrid_vehicle").jqGrid({
 });
 
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
-{edit:true,add:true,del:true}, //options
+{edit:true,add:true,del:true,search:false}, //options
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
 

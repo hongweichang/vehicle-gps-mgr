@@ -22,7 +22,7 @@ jQuery("#navgrid_login_log").jqGrid({
 	width:750
 });
 jQuery("#navgrid_login_log").jqGrid('navGrid','#pagernav_login_log',
-{edit:false,add:false,del:false,view:true}, //options
+{edit:false,add:false,del:false,view:true,search:false}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:false,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options

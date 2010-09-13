@@ -34,7 +34,7 @@ jQuery("#navgrid2").jqGrid({
 });
 
 jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
-{edit:true,add:true,del:true,view:true}, //options
+{edit:true,add:true,del:true,view:true,search:false}, //options
 //edit:false,add:false,del:false
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
 /*{height:200,reloadAfterSubmit:false}, // edit options

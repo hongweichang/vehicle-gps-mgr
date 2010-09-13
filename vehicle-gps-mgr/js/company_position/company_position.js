@@ -18,7 +18,7 @@ jQuery("#company_position").jqGrid({
 	height:350
 });
 jQuery("#company_position").jqGrid('navGrid','#company_position_pager',
-{edit:false,add:false,del:false});
+{edit:false,add:false,del:false,search:false});
 
 function delete_position(id){
 	$.get("index.php?a=107&position_id="+id,function(data){

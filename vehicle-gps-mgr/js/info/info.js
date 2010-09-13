@@ -40,7 +40,7 @@ $("#car").click(function(event) {
 	$("#operation" ).mask("载入中...");
 	
 	$.post("index.php?a=1",function(data){
-		$( "#operation" ).unmask();
+		$("#operation" ).unmask();
 		$("#infodiv").html(data);
 		$("#sel_vehicle_commit").click(function(){
 				 	var vehicles = $(".vehicle:checked");
@@ -112,6 +112,10 @@ $(":button").button();
 	/*发布信息*/
 	function subInfo(){	
 	  var content=document.getElementById("info_content").value;
+	  if(""==content) {
+		  alert("请输入信息内容");
+		  return false;
+	  }
 	  var str="";
 	  var datalist=document.getElementById('email_list');
 	    for (i=0;i<datalist.length;i++) {
@@ -142,6 +146,12 @@ function subArea(){
 	var content=document.getElementById("info_content").value; //获取信息内容
 	var begin = document.getElementById("begin_time_area").value; //获取生效时间
 	var end = document.getElementById("end_time_area").value; //获取失效时间
+	
+	if(""==content){
+		$("#operation" ).unmask();
+		alert("请输入信息内容");
+		return false;
+	}
 
 	/*获取经纬度范围*/
 	var lonMin = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMin").value;
