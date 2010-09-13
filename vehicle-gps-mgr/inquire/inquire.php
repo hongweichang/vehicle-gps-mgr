@@ -87,9 +87,6 @@ switch($act)
 		
 		foreach($datalist as $k=>$v)
 		{
-			//$long = $ve_status->exact_lon($ve_status->around($v->longitude,0)); //经度
-			//$lat = $ve_status->exact_lat($ve_status->around($v->latitude,0));//纬度
-			
 			$long = $ve_status->around($v->longitude,0);
 			$lat = $ve_status->around($v->latitude,0);
 			$ve_status->exact_lon_lat($long, $lat);
@@ -170,11 +167,11 @@ switch($act)
 		array_push($areaInfo->positionList, $position1);
 		array_push($areaInfo->positionList, $position2);
 		
-		$vehile_list = explode("-", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以"-"为分割符
-		$hour_list = explode("-",$_REQUEST["hour_list"]);
+		$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
+		$hour = $_REQUEST["hour"];
 		
 		$inquire = new Inquire();
-		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour_list);
+		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour);
 		echo json_encode($vehicle_in_area);
 		break;
 		
