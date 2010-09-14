@@ -205,7 +205,7 @@
 			 		var point_index = -1; //数据点下标
 			 		 
 			 		//初始始画线点1
-			 		switch(data_queue_state){
+			 		switch(parseInt(data_queue_state)){
 						case 0: //非新数据队列状态
 							
 							point_index = 1;//非新数据队列状态，队列点2为终点线坐标
@@ -302,7 +302,7 @@
 		 * 1 匹配
 		 * 0 非匹配
 		 */
-		switch (chanage_state) {
+		switch (parseInt(chanage_state)) {
 			case 1: //匹配
 				
 				var bound = map.getBoundsLatLng(); //矩形范围对象 
@@ -451,7 +451,7 @@
 						
 						var labelText = "";
 						var backgroundColor = null;
-						switch(alert_state){//当前车辆状态
+						switch(parseInt(alert_state)){//当前车辆状态
 							case 0: //正常状态
 								labelText = number_plate+" 正常";
 							 break; 
