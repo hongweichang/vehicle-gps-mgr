@@ -331,6 +331,20 @@
 			 vehicleEvent.shift();
 		} 
 	} 
+	
+	/**
+	 * 清空指定标注点
+	 * @param obj_arr 标注点数组
+	 * @return 
+	 */
+	function clearAssignMarker(obj_arr){
+		
+		var length = obj_arr.length;
+		for(var i=0;i<length;i++){
+			map.removeOverLay(obj_arr[0],true);
+			obj_arr.shift();
+		}
+	}
 	/**
 	 * 清空数组所有数据
 	 * @param arrObj 数组
