@@ -211,14 +211,41 @@
 		
 		function show_maker_info(){
 			info.setPoint(obj);
+			$.get("index.php?a=");
 			info.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
-			info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div><div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div><div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div></div> " ); 
+			info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div>" +
+							"<div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div>" +
+							"<div class='lable'><div class='lable_title'>编辑：</div><div class='lable_content'><a href='javascript:modify_position()'>修改</a></div></div>" +
+							"<div class='lable'><div class='lable_title'>删除：</div><div class='lable_content'><a href='javascript:delete_position()'>删除</a></div></div>" +
+							"</div> " ); 
 			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
 			map.addOverLay( info );
 		}
 		//标注点添加点击事件 
 		var clickEvent = LTEvent.addListener(obj,"click",show_maker_info);
 		vehicleEvent.push(clickEvent); //添入事件队列中，重新加载时，在内存中清空历史事件
+	}
+	
+	function modify_position(){
+		alert(34321);
+	}
+	
+	function delete_position(){
+		alert("删除");
+		$.get("index.php?a=107&position_id="+id,function(data){
+			alert(data);
+			if("ok"==data){
+				alert("删除成功");
+				jQuery("#company_position").jqGrid('setGridParam',{url:"index.php?a=5023"}).trigger("reloadGrid");
+			}else{
+				alert("删除失败");
+			}
+		});
 	}
 	
 	/**
@@ -417,7 +444,7 @@
 	function get_vehicle_location_data(operate){
 		
 		var request_param = null;//请求参数
-		switch(operate){
+		switch(parseInt(operate)){
 			case 0: //获取公司所有车辆
 			  	request_param ="?a=101";
 			  break;
@@ -521,7 +548,7 @@
 			
 			var labelText = "";
 			var backgroundColor = null;
-			switch(alert_state){//当前车辆状态
+			switch(parseInt(alert_state)){//当前车辆状态
 				case 0: //正常状态
 					labelText = number_plate+" 正常";
 				 break; 
@@ -567,7 +594,7 @@
 				 * 1 匹配
 				 * 0 非匹配
 				 */
-				switch (chanage_state) {
+				switch (parseInt(chanage_state)) {
 					case 1: //匹配
 					
 				//获取当前地图矩形范围

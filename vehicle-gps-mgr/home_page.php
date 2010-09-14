@@ -183,6 +183,15 @@ switch($act)
 			echo "fail";
 		}
 	break;
+	
+	case "find_company_position"://根据经纬度查询公司标注信息
+		require_once("home_page.class.php");
+		$home_page = new home_page();
+		$result = $home_page->find_company_positon($_REQUEST['longitude'],$_REQUEST['latitude']);
+		
+		echo json_encode($result);
+		
+		break;
 		
 }
 
