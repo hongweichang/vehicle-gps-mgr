@@ -251,8 +251,6 @@
 	}
 	
 	function delete_position(id){
-		alert("进来了");
-		alert(id);
 		$.get("/index.php?a=107&position_id="+id,function(data){
 			if("ok"==data){
 				alert("删除成功");
