@@ -26,19 +26,27 @@
 				var companyId=document.getElementById("companyId").value;
 				var userName=document.getElementById("userName").value;
 				var password=document.getElementById("password").value;
-				$.post("login_check.php?companyloginid="+companyId+"&username="+userName+"&password="+password,function(data){
+				
+				var pat=new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i"); 
+				if(pat.test(companyId)==true|| pat.test(userName)==true||pat.test(password)==true) 
+				{ 
 					$("#body").unmask();
-					if(data==1){
-						document.location= "index.php?a=1003";
-						$("#body").mask("页面跳转中，请稍候...");
-					}else{
-						$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码错误！");
-					}
-				});
+					$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码含有非法字符!"); 
+				}else {
+					 $.post("login_check.php?companyloginid="+companyId+"&username="+userName+"&password="+password,function(data){
+							$("#body").unmask();
+							if(data==1){
+								document.location= "index.php?a=1003";
+								$("#body").mask("页面跳转中，请稍候...");
+							}else{
+								$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码错误！");
+							}
+						});
+				 }
+				
 			});
 			
 		});
-		
 	</script>
 </head>
 
