@@ -1,4 +1,4 @@
-
+{{HEADER}}
 <style>
 	.map_control{width:100%;height:25px;margin-top:2px; }
 	.body_div{width:110%;}
@@ -172,6 +172,7 @@
  */
 var arr_history = null; //历史轨迹时间队列数组
 var drawLine_arr = null;  //画线队列
+var host = "{{HOST}}"; //主机
 
 /**
  * 开始加载首先加载车辆的最新定位，判断IFRAME是否加载完
@@ -194,4 +195,4 @@ function clear_history_track(){
 </script>
 <script language="javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
-	
+{{FOOTER}}	
