@@ -132,7 +132,7 @@ $vehicle_group = "";
 			$options_str = $options_str."<option value=\"".$key."\">".$value."</option>";
 		}		
 		$options["option"] = $options_str;		
-		$options["id"] = $_REQUEST ['id'];
+		$options["ID"] = $_REQUEST ['id'];
 		$options["ALERTTYPE"]=$_REQUEST["alertType"];
 		$options["VEHICLEID"]=$_REQUEST["vehicleId"];
 		$options["VEHICLENUMBER"]=$number_plate;
@@ -185,7 +185,6 @@ $vehicle_group = "";
 	case "newest_alert" : //查询没有处理的最新告警	
 		$alert = new Alert ();
 		$record = $alert->get_newest_alert ();
-		echo $record;
 		if($record=="undefined"){
 			echo "conn_fail";
 		}else{
