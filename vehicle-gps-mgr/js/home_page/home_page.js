@@ -39,7 +39,7 @@ $(document).ready(function() {
 	
 	/**处理告警**/
 	$('#addAdvice').click(function(e) {
-		showOpinion(id,alertType,vehicle_id);
+		showOpinion(id,alertTypeId,vehicle_id,alert_vehicle_num,alertType);
 	});
 	/**展开动画效果**/
 	$('#dock2').Fisheye(
@@ -112,7 +112,9 @@ $(document).ready(function() {
 
 	 
 	var id=0;
+	var alertTypeId="";
 	var alertType="";
+	var alert_vehicle_num="";
 	var vehicle_id=0;
 	/**获得最新未处理的告警记录**/
 	function alertInfo(){
@@ -129,13 +131,14 @@ $(document).ready(function() {
 						}else{   
 								var array=data.split("|");
 								id=array[0];
-							    alertType=array[4];//获得告警类型的编号
-							    vehicle_id=array[5];//获得车辆id
-							    
+								alertTypeId=array[4];//获得告警类型的编号
+								vehicle_id=array[5];//获得车辆id
+								alertType=array[3];//告警类型
+								alert_vehicle_num=array[2];//车牌号
+								
 								if(array[0]=="undefined" || array[1]=="undefined"||array[2]=="undefined" || array[3]=="undefined" || array[4]=="undefined" || array[5]=="undefined"){
 									no_alertInfo();
 								}else{
-							   
 								$("#lamp").html("<img alt='警灯' src='images/lamp.gif' style='height:56px; width:46px;'></img>");
 								$("#content").unmask();
 								$("#record").html("告警时间："+array[1]+"&nbsp;&nbsp;&nbsp;&nbsp;车牌号："+array[2]+"&nbsp;&nbsp;&nbsp;&nbsp;告警类型："+array[3]);

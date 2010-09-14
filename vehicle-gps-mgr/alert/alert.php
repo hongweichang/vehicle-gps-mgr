@@ -102,7 +102,6 @@ $vehicle_group = "";
 			$user_name = $alert->get_user_name ( $value ['dispose_id'] );//**************批注人的姓名
 			
 			$response->rows [$key] ['id'] = $value ['id'];
-					
 			if (strlen(trim($value['dispose_opinion']))!=0)
 			 { 			
 				if (strlen($value ['dispose_opinion']) > $limit_length) {
@@ -112,7 +111,9 @@ $vehicle_group = "";
 				}	   
 			    $response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name,  $shortString );
 			} else {
-				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name,  "<a href='#' onclick=\"showOpinion(".$value ['id'].",".$value ['alert_type'].",".$value ['vehicle_id'].")\" style='text-decoration:none;color:#0099FF'>未处理</a>");
+				$response->rows [$key] ['cell'] = array ($value ['id'], $value ['alert_time'], $alert_type_display, $vehicle_number, $user_name,  
+				"<a href='#' onclick=\"showOpinion(".$value ['id'].",".$value ['alert_type'].",".$value ['vehicle_id'].",
+				'".$vehicle_number."','".$alert_type_display."')\" style='text-decoration:none;color:#0099FF'>未处理</a>");
 			}
 		
 		}
@@ -120,6 +121,9 @@ $vehicle_group = "";
 		break;
 		
 	case "write_opinion":
+		$number_plate = iconv("gb2312","utf-8",$_REQUEST['vehicle_number']);
+		$number_alert_display = iconv("gb2312","utf-8",$_REQUEST['alert_type_display']);
+		
 		$dataMapping = new Data_mapping_handler ( $treatment_advice ); //从xml配置信息中读取告警处理意见   
 		$data_list_advicer = $dataMapping->getTextDataList ( $lableName );
 		$options_str = "";
@@ -131,9 +135,9 @@ $vehicle_group = "";
 		$options["id"] = $_REQUEST ['id'];
 		$options["ALERTTYPE"]=$_REQUEST["alertType"];
 		$options["VEHICLEID"]=$_REQUEST["vehicleId"];
-		
-		
-		
+		$options["VEHICLENUMBER"]=$number_plate;
+		$options["ALERTTYPEDISPLAY"]=$number_alert_display;
+		 
 		echo $GLOBALS ['db']->display ( $options, $act );
 		break;
 		
