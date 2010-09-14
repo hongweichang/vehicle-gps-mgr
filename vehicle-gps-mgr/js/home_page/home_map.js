@@ -250,12 +250,12 @@
 		
 	}
 	
-	function delete_position(iddd){
-		$.get("index.php?a=107&position_id="+id,function(data){
-			alert(data);
+	function delete_position(id){
+		alert("进来了");
+		alert(id);
+		$.get("/index.php?a=107&position_id="+id,function(data){
 			if("ok"==data){
 				alert("删除成功");
-				jQuery("#company_position").jqGrid('setGridParam',{url:"index.php?a=5023"}).trigger("reloadGrid");
 			}else{
 				alert("删除失败");
 			}
