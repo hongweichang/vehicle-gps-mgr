@@ -42,8 +42,8 @@ class home_page extends BASE{
 	/**
 	 * 根据经纬度查找标注点信息
 	 */
-	function find_company_positon($longitude,$latitude){
-		$sql = "select co.contact,zipcode,tel,fax,email,site_url,address from ".$this->tablename_company_position.
+	function find_company_position($longitude,$latitude){
+		$sql = "select co.contact,zipcode,tel,fax,email,site_url,address,cp.id from ".$this->tablename_company_position.
 				" cp left join company co on cp.company_id=co.id where cp.longitude=".$longitude." and cp.latitude=".$latitude;
 		$result =  $GLOBALS['db']->query_once($sql);
 		return $result;

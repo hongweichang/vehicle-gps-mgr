@@ -184,11 +184,16 @@ switch($act)
 		}
 	break;
 	
-	case "find_company_position"://根据经纬度查询公司标注信息
+	case "find_position"://根据经纬度查询公司标注信息
 		require_once("home_page.class.php");
 		$home_page = new home_page();
-		$result = $home_page->find_company_positon($_REQUEST['longitude'],$_REQUEST['latitude']);
-		
+		$result = $home_page->find_company_position($_REQUEST['longitude'],$_REQUEST['latitude']);
+		foreach($result as $key=>$value){
+			if($value==null || $value=""){
+				$result[$key] = "未设置";
+			}
+		}
+
 		echo json_encode($result);
 		
 		break;

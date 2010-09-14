@@ -73,6 +73,7 @@ switch ($act) {
 		$parms["type"]		= $GLOBALS['db']->prepare_value(0,"TINYINT");
 		$parms["issue_time"]		= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
 		$parms["content"]		= $GLOBALS['db']->prepare_value($_REQUEST["content"],"TEXT");
+		$parms["company_id"] = $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
 		
 		//通过url中的begin_time参数确定是否是区域信息
 		if($_REQUEST['begin_time']!="" or $_REQUEST['begin_time']!=null){

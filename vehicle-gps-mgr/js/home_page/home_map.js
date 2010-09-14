@@ -211,32 +211,46 @@
 		
 		function show_maker_info(){
 			info.setPoint(obj);
-			$.get("index.php?a=");
-			info.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
-			info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>未填 </div></div>" +
-							"<div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>未填</div></div>" +
-							"<div class='lable'><div class='lable_title'>编辑：</div><div class='lable_content'><a href='javascript:modify_position()'>修改</a></div></div>" +
-							"<div class='lable'><div class='lable_title'>删除：</div><div class='lable_content'><a href='javascript:delete_position()'>删除</a></div></div>" +
-							"</div> " ); 
-			info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
-			map.addOverLay( info );
+			var poi = obj.getPoint();
+			var longitude= poi.getLongitude();
+			var latitude = poi.getLatitude();
+
+			$.get("/index.php?a=108&longitude="+longitude+"&latitude="+latitude,function(positions){
+				var data = eval("("+positions+")");
+				var contact = data[0];
+				var zipcode = data[1];
+				var tel = data[2];
+				var fax = data[3];
+				var mail = data[4];
+				var url = data[5];
+				var address = data[6];
+				var id = data[7];
+				
+				info.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
+				info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>"+contact+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>邮编：</div><div class='lable_content'>"+zipcode+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>电话：</div><div class='lable_content'>"+tel+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>传真：</div><div class='lable_content'>"+fax+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>邮箱：</div><div class='lable_content'>"+mail+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>网址：</div><div class='lable_content'>"+url+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>地址：</div><div class='lable_content'>"+address+"</div></div>" +
+								"<div class='lable'><div class='lable_title'>编辑：</div><div class='lable_content'><a href='javascript:modify_position("+id+")'>修改</a></div></div>" +
+								"<div class='lable'><div class='lable_title'>删除：</div><div class='lable_content'><a href='javascript:delete_position("+id+")'>删除</a></div></div>" +
+								"</div> " ); 
+				info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
+				map.addOverLay( info );
+			});
 		}
 		//标注点添加点击事件 
 		var clickEvent = LTEvent.addListener(obj,"click",show_maker_info);
 		vehicleEvent.push(clickEvent); //添入事件队列中，重新加载时，在内存中清空历史事件
 	}
 	
-	function modify_position(){
-		alert(34321);
+	function modify_position(id){
+		
 	}
 	
-	function delete_position(){
-		alert("删除");
+	function delete_position(iddd){
 		$.get("index.php?a=107&position_id="+id,function(data){
 			alert(data);
 			if("ok"==data){
