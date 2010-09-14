@@ -199,9 +199,9 @@ $(document).ready(function(){
 
 	//定位信息窗口操作
 	$("#dragger").click(function(){
-		$("#location_info .location_info").toggle(); //切换展开与隐藏状态
+		$("#location_info .location_info_content").toggle(); //切换展开与隐藏状态
 
-		if($("#location_info .location_info").is(":hidden")){
+		if($("#location_info .location_info_content").is(":hidden")){
 			$("#dragger").html("[展开]");
 		 }else {
 			$("#dragger").html("[隐藏]");
