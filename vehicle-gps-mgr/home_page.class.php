@@ -41,12 +41,34 @@ class home_page extends BASE{
 	
 	/**
 	 * 根据经纬度查找标注点信息
+	 * @param $longitude 经度 $latitude纬度
 	 */
 	function find_company_position($longitude,$latitude){
 		$sql = "select co.contact,zipcode,tel,fax,email,site_url,address,cp.id from ".$this->tablename_company_position.
 				" cp left join company co on cp.company_id=co.id where cp.longitude=".$longitude." and cp.latitude=".$latitude;
 		$result =  $GLOBALS['db']->query_once($sql);
 		return $result;
+	}
+	
+	/**
+	 * 根据ID查找标注点信息
+	 * @param $id ID
+	 */
+	function find_company_position_id($id){
+		$sql = "select * from company_position where id=".$id;
+		$result =  $GLOBALS['db']->query_once($sql);
+		return $result;
+	}
+	
+	/**
+	 * 修改公司标注名称
+	 * @param $company_position 公司标注
+	 */
+	function update_company_position($company_position){
+		if(!$GLOBALS['db']->update_row("company_position",$company_position,"id")){
+				return false;
+			}
+			return true;
 	}
 }
 

@@ -280,3 +280,20 @@ $(document).ready(function() {
 	$("#cancle").click(function(){
 		$("#show_company_position").dialog('close');
 	});
+	
+	function update_position_show(){
+		$("#update_company_position").show();
+		$("#update_company_position").dialog({height:140,width:340,title:'修改公司标注',
+                autoOpen:true,position:[300,100],hide:'blind',show:'blind'});
+	}
+	
+	//关闭公司标注输入框
+	function update_position_close(){
+		$("#update_company_position").dialog('close');
+	}
+	
+	$("#update_cancle").click(function(){
+		$("#update_company_position").dialog('close');
+	});
+	
+	

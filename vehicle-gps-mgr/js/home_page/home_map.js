@@ -23,6 +23,8 @@
 	 */
 	var backup_longitude = -1; //经度
 	var backup_latitude = -1;  //纬度
+	
+	var position_id = 0;//修改公司标注时保存的公司标注ID
 	  
 	/**
 	 * 刷新状态(注：刷新不同操作，例：刷新公司车辆)
@@ -225,6 +227,7 @@
 				var url = data[5];
 				var address = data[6];
 				var id = data[7];
+				position_id = id;
 				
 				info.setTitle("<div style='font-weight:700;font-size:12px;'>北京龙菲业</div>");
 				info.setLabel( "<div><div class='lable'><div class='lable_title'>联系人：</div><div class='lable_content'>"+contact+"</div></div>" +
@@ -246,7 +249,34 @@
 		vehicleEvent.push(clickEvent); //添入事件队列中，重新加载时，在内存中清空历史事件
 	}
 	
-	function modify_position(id){
+	$("#update_commit",parent.document).click(function(){
+		
+		//获取公司名称
+		var name = $("#update_name",parent.document).val();
+		//关闭当前窗口
+		parent.window.update_position_close();
+		//公司标注
+		update_position(name,position_id);
+	});
+	
+	/**
+	 * 修改公司标注
+	 * @return
+	 */
+	function modify_position(){
+		parent.window.update_position_show();
+	}
+	
+	function update_position(name,id){
+		$.get("/index.php?a=109&position_id="+id+"&name="+encodeURI(name),function(data){
+			if("ok"==data){
+				alert("修改成功");
+			}else{
+				alert("修改失败");
+			}
+		});
+		
+		refresh_map_page();//刷新页面
 		
 	}
 	
@@ -258,6 +288,7 @@
 				alert("删除失败");
 			}
 		});
+		refresh_map_page();//刷新页面
 	}
 	
 	/**

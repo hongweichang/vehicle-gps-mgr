@@ -198,6 +198,26 @@ switch($act)
 		
 		break;
 		
+	case "update_position": //更新公司标注信息
+		require_once("home_page.class.php");
+		$home_page = new home_page();
+		$company_position = $home_page->find_company_position_id($_REQUEST['position_id']);
+		
+		$position['id'] = $company_position['id'];
+		$position['company_id'] = get_session("company_id");
+		$position['name'] = $GLOBALS['db']->prepare_value($_REQUEST['name'],"VARCHAR");
+		$position['longitude'] = $company_position['longitude'];
+		$position['latitude'] = $company_position['latitude'];
+		
+		$result = $home_page->update_company_position($position);
+		if($result){
+			echo "ok";
+		}else{
+			echo "fail";
+		}
+		
+		break;
+		
 }
 
 
