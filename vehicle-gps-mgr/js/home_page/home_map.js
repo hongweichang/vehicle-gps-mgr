@@ -270,25 +270,23 @@
 	function update_position(name,id){
 		$.get("/index.php?a=109&position_id="+id+"&name="+encodeURI(name),function(data){
 			if("ok"==data){
-				alert("修改成功");
+				alert("修改成功");				
+				refresh_map_page();//刷新页面
 			}else{
 				alert("修改失败");
 			}
-		});
-		
-		refresh_map_page();//刷新页面
-		
+		});		
 	}
 	
 	function delete_position(id){
 		$.get("/index.php?a=107&position_id="+id,function(data){
 			if("ok"==data){
 				alert("删除成功");
+				refresh_map_page();//刷新页面
 			}else{
 				alert("删除失败");
 			}
 		});
-		refresh_map_page();//刷新页面
 	}
 	
 	/**
