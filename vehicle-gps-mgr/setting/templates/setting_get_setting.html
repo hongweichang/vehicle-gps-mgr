@@ -172,6 +172,7 @@ function update_set(){
 		data: "page_refresh_time="+page_refresh_time_val+"&default_color="+de_color+"&speed_limit="+speed_limit+"&fatigue_remind_time="+fatigue_remind_time,
 		success: function(msg){
 			alert("配置更新成功！");
+			window.parent.closeDialog("operation");
 			page_refresh_time =page_refresh_time_val;
 			$.post("index.php",{
 				 "a":5021}
@@ -229,6 +230,7 @@ function change_speed(obj)
 	}
 	return judgeResult;
 }
+$(":submit").button();
 
 //-->
 </SCRIPT>
