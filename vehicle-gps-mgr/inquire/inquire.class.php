@@ -57,11 +57,8 @@ class Inquire extends BASE
 	 * @param unknown_type $vehicle_list
 	 * @param unknown_type $areaInfo
 	 */
-	function check_in_area(&$vehicle_list, $areaInfo, $hour){
+	function check_in_area(&$vehicle_list, $areaInfo, $hour, $gps_info_path){
 		$vehicle_in_area = array();
-		
-		$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
-		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
 		
 		if(!file_exists($gps_info_path)){
 			return "";
