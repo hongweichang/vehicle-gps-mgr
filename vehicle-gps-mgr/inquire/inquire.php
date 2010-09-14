@@ -50,15 +50,37 @@ switch($act)
 									"<option value='vehicle_mode'>选择车辆</option>".
 									"<option value='area_mode'>选择区域</option>".
 							  "</select>";	
-		}else if($logic ==0){ //首页地图查看历史轨迹状态下
+		}else if($logic == 0){ //首页地图查看历史轨迹状态下
 			$function_operate ="<div style='margin-top:5px'>选择车辆: </div>";
 			$position_vehicle  =  "history_track_frame.vehiclePosition(".$id.");";
-								 
-		}	
+		}
 		
-		$data['FUNCTION_OPERATE']=$function_operate;
+		$have_header = $_REQUEST['have_header'];
+		$header_str = "";
+		$foot_str = "";
+		if("1" == $have_header){
+			$header_str = 
+			'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">'
+			.'<html xmlns="http://www.w3.org/1999/xhtml">'
+			.'<head>'
+			.'<meta http-equiv="content-type" content="text/html; charset=utf-8"/>'
+			.'<link type="text/css" href="css/style.css" rel="stylesheet" />'
+			.'<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />'
+			.'<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />'
+			.'<script language="javascript" src="js/jquery-1.4.2.js" ></script>'
+			.'<script language="javascript" src="js/jquery-ui-1.8.1.custom.min.js" ></script>'
+			.'<script language="javascript" src="js/jquery.loadmask.min.js" ></script>'
+			.'<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>'
+			.'</head><body style="BACKGROUND-COLOR: transparent">';
+			$foot_str ='</body></html>';
+		}
+		
+		$data['HEADER'] = $header_str;
+		$data['FOOTER'] = $foot_str;
+		$data['FUNCTION_OPERATE'] = $function_operate;
 		$data["VEHICLE_LIST"] = $options;
 		$data['POSITION_VEHICLE']=$position_vehicle;
+		$data['HOST']= "http://".$_SERVER ['HTTP_HOST']; //主机
 		
 		echo $GLOBALS['db']->display($data,$act);
 		break;
@@ -70,8 +92,8 @@ switch($act)
 		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
-		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+		//$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
+		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
 		if(!file_exists($gps_info_path)){
 			echo json_encode(0);
 			break;
