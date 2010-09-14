@@ -278,11 +278,11 @@
 	 */
 	function refresh_vehicle_info(){  
 		if (!$("#location_refresh",parent.document).attr('checked') || refresh_state==2)  return false;
-		init_state();//设置地图初始状态
+		init_state();//设置地图初始状态 
 		
-		switch(refresh_state){
+		switch(parseInt(refresh_state)){
 			case 0:    //'0'代表刷新所有车辆
-				refresh_state=0;
+				refresh_state=0; 
 				setTimeout(function(){ 
 					loadCompanyVehicle();
 				}, window.parent.page_refresh_time * 1000);
@@ -334,7 +334,7 @@
 			refresh_vehicles = $("#refresh_vehicles",parent.document).val();
 			
 			switch(parseInt(refresh_state)){
-				case 0:    //'0'代表刷新所有车辆 
+				case 0:    //'0'代表刷新所有车辆  
 					  loadCompanyVehicle();
 					break;
 				case 1:  //‘1’代表刷新选择监控车辆  
@@ -384,7 +384,7 @@
 		if(position_vehicle_state == 0){
 			if (!$("#location_refresh",parent.document).attr('checked') || refresh_state!=0) return false;
 		}
-		
+		 
 		//点击选择车辆时第一次，设置可直接定位,然后第二次不可直接定位 
 		position_vehicle_state = 0; 
 		  
