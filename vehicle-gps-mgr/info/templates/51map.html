@@ -96,12 +96,14 @@
 					var latitudeArray = new Array();  // 所有车辆纬度保存数组
 					   
 					for(var i=0;i<length;i++){  
-						var vehicle_id = data[i][0]; //车辆id      					
-						var point_longitude = data[i][1]; //点经度
-						var point_latitude =  data[i][2]; //点纬度
-						var file_path = data[i][4]; //文件目录
-						var img_name = data[i][3];  //图片名称	
-						var number_plate = data[i][5]; //车牌号	
+						
+						 vehicle_id = data[0]['id']; //车辆id
+						 number_plate = data[0]['number_plate']; //车牌号
+						 point_longitude = data[0]['cur_longitude']; //当前经度
+						 point_latitude = data[0]['cur_latitude']; //当前纬度 
+						 alert_state = data[0]['alert_state'];// 告警状态
+						 img_name = data[0]['cur_direction']; //图片名
+						 file_path = data[0]['file_path']; //文件路径 
 
 						//循环
 						//取得所有车的最大经度、最小经度、最大纬度、最小纬度
@@ -121,10 +123,29 @@
 						//点添入地图中
 						maps.addOverLay(marker);
 	
-						//点显示内容
-						var text = new LTMapText( new LTPoint(point_longitude,point_latitude ) );
-						text.setLabel(number_plate ); 
-						maps.addOverLay( text ); 
+						//车辆点添加标签
+						var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
+						
+						var labelText = "";
+						var backgroundColor = null;
+						switch(parseInt(alert_state)){//当前车辆状态
+							case 0: //正常状态
+								labelText = number_plate+" 正常";
+							 break; 
+							case 1: //超速状态
+								labelText = number_plate+" 超速";
+							 	backgroundColor = "red";//更改文字标签背景色  
+							 break;
+						  default:  //
+						  		labelText = number_plate+" 疲劳";
+						  	 	text.setBackgroundColor("yellow");//更改文字标签背景色
+						     break;	
+						}
+						//设置车辆点标签属性
+						text.setLabel(labelText);
+						text.setBackgroundColor(backgroundColor);
+						 
+						maps.addOverLay(text);//车辆点添入地图中
 					}
 					//重新获得最佳位置
 					maps.getBestMap(points);

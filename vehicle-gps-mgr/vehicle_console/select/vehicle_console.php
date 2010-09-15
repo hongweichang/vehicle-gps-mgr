@@ -1,6 +1,6 @@
 <?php
 /** 
- * 用户处理
+ * 车辆当前状态
  * @copyright		秦运恒, 2010
  * @author			叶稳
  * @create date		2010.07.30
