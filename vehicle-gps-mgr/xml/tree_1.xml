@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding="utf-8"?>
+<rows>
+    <page>1</page>
+    <total>1</total>
+    <records>1</records>
+
+	<!-- 公司管理 -->
+	<row><cell>1</cell><cell>公司管理</cell><cell></cell><cell>0</cell><cell>21</cell><cell>30</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>2</cell><cell>公司</cell><cell>index.php?a=5003</cell><cell>1</cell><cell>22</cell><cell>23</cell><cell>true</cell><cell>true</cell></row>
+</rows>
