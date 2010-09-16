@@ -28,8 +28,8 @@ switch($act)
 			$dis['commit_set'] = "none";
 		}else{
 			$sel_html = "<select name = 'page_refresh_time' id = 'page_refresh_time'>";
-			$dis['display'] = "disabled=false";
-			$dis['driver'] = "disabled=false";
+			$dis['display'] = "";
+			$dis['driver'] = "";
 			$dis['set_color'] = "";
 			$dis['commit_set'] = "";
 		}
