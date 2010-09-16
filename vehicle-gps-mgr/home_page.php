@@ -10,7 +10,8 @@
 */
 $act = $GLOBALS["all"]["operate"];
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
-$company_id = get_session("company_id"); //获取当前公司ID 
+$company_id = get_session("company_id"); //获取当前公司ID
+$role_id = get_session("role_id"); //获取角色ID
 $arr['host']= "http://".$_SERVER ['HTTP_HOST']; //主机
 
 if(!$sidx) $sidx =1;
@@ -21,8 +22,15 @@ switch($act)
 	case "list":	//首页加载
 		
 		$common_setting =  new Setting ($company_id);
-		
-		$arr['url_manage'] = URL('user','user.php','manage_list'); //管理中心链接
+		if($role_id == 4){
+			$arr['manage_begin'] = "<!--";
+			$arr['manage_end'] = "-->";
+			$arr['url_manage'] = "";
+		}else{
+			$arr['url_manage'] = URL('user','user.php','manage_list'); //管理中心链接
+			$arr['manage_begin'] = "";
+			$arr['manage_end'] = "";
+		}
 		$arr['url_logout'] = URL('user','user.php','logout'); //退出链接
 		
 		$page_refresh_time = $common_setting->data["page_refresh_time"];

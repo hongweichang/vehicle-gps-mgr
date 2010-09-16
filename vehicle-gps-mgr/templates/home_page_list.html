@@ -41,10 +41,12 @@
 		    <div class="location_refresh">
 		    	<input type="checkbox" id="location_refresh" checked="checked" />定位刷新
 		    </div>
+		    {{MANAGE_BEGIN}}
 			<div class="hearder_div">
 				<a href="{{URL_MANAGE}}" target="_blank">
 					<img alt="管理" src="images/manager.png" class="mamagerImg" />管理中心</a>
 			</div>
+			{{MANAGE_END}}
 			<div class="hearder_div">
 					<a href="{{URL_LOGOUT}}" onclick="window.close();" target="_blank">
 						<img alt="退出" src="images/exit.png" class="exitImg" />退出</a>

@@ -145,6 +145,9 @@
 			case "user_name":
 				return $_SESSION["user_name"] = $value ;
 				break;
+			case "role_id":
+				return $_SESSION["role_id"] = $value;
+				break;
 		}
 	}
 
@@ -169,6 +172,9 @@
 				break;
 			case "user_name":
 				return $_SESSION["user_name"];
+				break;
+			case "role_id":
+				return $_SESSION["role_id"];
 				break;
 		}
 	}

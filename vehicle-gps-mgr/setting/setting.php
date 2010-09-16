@@ -19,8 +19,20 @@ switch($act)
 
 		//刷时间 5 10 15 30 45 60
 		$sj = array(5,10,15,30,45,60);
-
-		$sel_html = "<select name = 'page_refresh_time' id = 'page_refresh_time'>";
+	
+		if(get_session("role_id")!=2){
+			$sel_html = "<select disabled=true' name = 'page_refresh_time' id = 'page_refresh_time'>";
+			$dis['display'] = "disabled=true";
+			$dis['driver'] = "disabled=true";
+			$dis['set_color'] = "none";
+			$dis['commit_set'] = "none";
+		}else{
+			$sel_html = "<select name = 'page_refresh_time' id = 'page_refresh_time'>";
+			$dis['display'] = "disabled=false";
+			$dis['driver'] = "disabled=false";
+			$dis['set_color'] = "";
+			$dis['commit_set'] = "";
+		}
 		foreach($sj as $temp_sj)
 		{
 			if($temp_sj == $set->data["page_refresh_time"])
@@ -50,26 +62,37 @@ switch($act)
 		$color_xml = "xml/color.xml"; //定义xml映射文件局对路径
 		$dataMapping = new Data_mapping_handler ( $color_xml ); //从xml配置信息中读取颜色
 	    $data_list_color=$dataMapping->getTextDataList('color');
-
-		//颜色选择
-		$i = 0;
-		foreach($data_list_color as $key=>$temp_color)
-		{
-			$i++;
-
-			$new .= '
-			
-				  <TR   onmouseover=this.style.backgroundColor="#0099ff"  onmouseout=this.style.backgroundColor="">   
-						<TD   onclick="do_click_{{func}}(this);" id="color_{{selectedValue}}'.$i.'" value="'.$key.'">
-							<IMG  hspace=2   src="'.$temp_color.'"   align=absMiddle   border=0>
+	    
+	    if(get_session("role_id")!=2){
+	    	$new .= '
+				    <TR onmouseover=this.style.backgroundColor="#0099ff"  onmouseout=this.style.backgroundColor="">   
+						<TD  id="color_{{selectedValue}}'."0".'" value="'."0".'">
+							<IMG  hspace=2   src="'.$data_list_color[0].'"   align=absMiddle   border=0>
 						</TD>
 					</TR> 
 			
 			';
-		}
+	    	
+			$dis_sp["default_color"] = $new;
+	    }else{
 
-		$a = file_get_contents("setting/templates.php");
-
+			//颜色选择
+			$i = 0;
+			foreach($data_list_color as $key=>$temp_color)
+			{
+				$i++;
+	
+				$new .= '
+				
+					  <TR   onmouseover=this.style.backgroundColor="#0099ff"  onmouseout=this.style.backgroundColor="">   
+							<TD   onclick="do_click_{{func}}(this);" id="color_{{selectedValue}}'.$i.'" value="'.$key.'">
+								<IMG  hspace=2   src="'.$temp_color.'"   align=absMiddle   border=0>
+							</TD>
+						</TR> 
+				
+				';
+			}
+			
 		$dis_sp["default_color"] = $new;
 		$dis_sp["dropdownOption"] = "_l";
 		$dis_sp["selectedValue"] = "_l";
@@ -77,6 +100,9 @@ switch($act)
 		$dis_sp["func"] = "l";
 
 		$dis["selectedValue"] = "_l";
+	    }
+		$a = file_get_contents("setting/templates.php");
+
 
 		//显示当前已有的
 		if(!empty($set->data["default_color"]))

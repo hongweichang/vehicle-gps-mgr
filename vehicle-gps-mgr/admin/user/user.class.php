@@ -59,7 +59,6 @@ class User extends BASE
 	function login($user_name,$user_pass,$companyloginid)
 	{
 		$this->sql = sprintf("select u.* from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = '%s' and u.state = 1",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
-		//echo $this->sql;exit;
 		if(!$result = $GLOBALS['db']->query_once($this->sql))
 		{
 			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
@@ -69,6 +68,7 @@ class User extends BASE
 		set_session("login_id",$companyloginid);
 		set_session("company_id",$result['company_id']);
 		set_session("user_name",$result['login_name']);
+		set_session("role_id",$result['role_id']);
 		//记录登陆日志
 		$ip = get_user_ip();
 		$log['user_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
