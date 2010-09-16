@@ -9,6 +9,7 @@
 * @modify describe	修改内容
 */
 $act = $GLOBALS["all"]["operate"];
+$comm_setting_path = $all ["BASE"] . "xml/tree.xml";
 
 $page = $_REQUEST['page']; // get the requested page
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
@@ -19,6 +20,7 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $foper = $_REQUEST['searchOper'];
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
+$role_id = get_session("role_id");
 
 if(!$sidx) $sidx =1;
 
@@ -93,6 +95,7 @@ switch($act)
 		break;
 	case "manage_list":			//模拟管理页面
 		$data["user_name"] = get_session("user_name");
+		$data['role_id'] = $role_id;
 		echo $db->display($data,"manage_list");
 		break;
 	case "login_success":	 
@@ -167,6 +170,7 @@ switch($act)
 				break;
 		}
 		echo $html;
+		break;
 }
 
 

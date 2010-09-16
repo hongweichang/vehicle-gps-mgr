@@ -29,9 +29,9 @@ jQuery(document).ready(function(){
     var caption_info ="<div><div style='float:left'>欢迎 {{user_name}}</div>"+
         			  "<div style='width:110px;float:left;text-align:right'>"+
         			  "<a href='index.php?a=1005'>安全退出</a></div></div>"; 
-
+     var tree_url = "xml/tree_"+$("#role_id").attr("name")+".xml";
      jQuery("#west-grid").jqGrid({
-        url: "xml/tree.xml",
+        url: tree_url,
         datatype: "xml",
         height: "auto",
         pager: false,
@@ -75,9 +75,9 @@ jQuery(document).ready(function(){
     });	
 
 
-     
+if(2==$("#role_id").attr("name")){     
 //加载页面以后得到驾驶员数据信息   
-document.getElementById('tabs-1').style.display="none";
+	document.getElementById('tabs-1').style.display="none";
     var maintab =jQuery('#tabs','#RightPane').tabs({
          add: function(e, ui) {
              // append close thingy
@@ -100,6 +100,7 @@ document.getElementById('tabs-1').style.display="none";
 			try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
 		}
 	});
+  }
   	
 });
 </script>
@@ -118,11 +119,11 @@ document.getElementById('tabs-1').style.display="none";
 			<ul>
 				<li><a id="tabs-1" href="#tabs-1"></a></li>
 			</ul>
-			<div id="tabs-1" style="font-size:12px;">
-			            
+			<div id="tabs-1" style="font-size:12px;">			            
 			</div>
 		</div>
 	</div> 
+	<input id="role_id" type='hidden' name="{{ROLE_ID}}"></input>
 	<!-- #RightPane -->
 </body>
 
