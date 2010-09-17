@@ -134,7 +134,11 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				$user->add_user($arr);
+				if($user->check_login_name($_REQUEST['login_name'])){
+					$user->add_user($arr);
+				}else{
+					exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
+				}
 				break;
 			case "edit":		//修改
 				$user->edit_user($arr);

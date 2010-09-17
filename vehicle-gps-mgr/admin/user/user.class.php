@@ -218,6 +218,21 @@ class User extends BASE
 	}
 	
 	/**
+	 *  验证用户名是否存在
+	 *  @param $login_name 用户名
+	 */
+	function check_login_name($login_name){
+		$company_id = get_session("company_id");
+		$this->sql = "select id from user where company_id=".$company_id." and login_name='".$login_name."'";
+		$this->data = $GLOBALS['db']->query_once($this->sql);
+		if($this->data){
+			return false;
+		}else{
+			return true;
+		}
+	}
+	
+	/**
 	*		得到指定字段类型
 	*		@param $searchfield 字段名
 	*		@return mixed

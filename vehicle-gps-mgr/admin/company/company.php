@@ -81,81 +81,82 @@ switch($act)
 		{
 			// 添加数据
 			case "add":
-
-				//获取各种数据
-				$parms["id"]				= $GLOBALS['db']->prepare_value($_REQUEST["id"],"INT"); 
-				$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"INT"); 
-				$parms["name"]				= $GLOBALS['db']->prepare_value($_REQUEST["name"],"VARCHAR");
-				$parms["register_num"]		= $GLOBALS['db']->prepare_value($_REQUEST["register_num"],"VARCHAR");
-				/******************************* 暂时都是 0 */
-				$parms["area1"]				= 0;
-				$parms["area2"]				= 0;
-				$parms["area3"]				= 0;
-				/******************************* 暂时都是 0 */
-				$parms["description"]		= $GLOBALS['db']->prepare_value($_REQUEST["description"],"VARCHAR");
-				$parms["contact"]			= $GLOBALS['db']->prepare_value($_REQUEST["contact"],"VARCHAR");
-				$parms["address"]			= $GLOBALS['db']->prepare_value($_REQUEST["address"],"VARCHAR");
-				$parms["zipcode"]			= $GLOBALS['db']->prepare_value($_REQUEST["zipcode"],"VARCHAR");
-				$parms["tel"]				= $GLOBALS['db']->prepare_value($_REQUEST["tel"],"VARCHAR");
-				$parms["fax"]				= $GLOBALS['db']->prepare_value($_REQUEST["fax"],"VARCHAR");
-				$parms["mobile"]			= $GLOBALS['db']->prepare_value($_REQUEST["mobile"],"VARCHAR");
-				$parms["email"]				= $GLOBALS['db']->prepare_value($_REQUEST["email"],"VARCHAR");
-				$parms["site_url"]			= $GLOBALS['db']->prepare_value($_REQUEST["site_url"],"VARCHAR");
-				$parms["state"]				= $GLOBALS['db']->prepare_value($_REQUEST["state"],"INT");
-				if(!empty($_REQUEST["service_start_time"]) && !empty($_REQUEST["service_end_time"]))
-				{	
-					$parms["service_start_time"]= $GLOBALS['db']->prepare_value($_REQUEST["service_start_time"],"VARCHAR");
-					$parms["service_end_time "]	= $GLOBALS['db']->prepare_value($_REQUEST["service_end_time"],"VARCHAR");
-				}
-				$parms["charge_standard"]	= $GLOBALS['db']->prepare_value($_REQUEST["charge_standard"],"VARCHAR");
-
-				$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
-				$parms["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
-				$parms["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
-				$parms["update_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
-				$comp	= new Company();
-
-				//检查 login_id 是否重复
-				$login = $comp->checkLoignid($_REQUEST["login_id"]);
-				if($login)
 				{
-					exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
-				}
-				
-				//执行更新
-				$rtn = $comp->add_data($parms,"id");
-
-				if($rtn > 1)
-				{
-					//查一下是否已经车辆组，如果没有，则添加一个默认的
-					//添加默认车辆组
-					$vehicle = new Vehicle_group();
-
-					$result = $vehicle->add_vehicle_group_by_company($rtn,$_REQUEST["name"]);
-
-					if($result == 1)		//对应的公司已经有车辆组
-					{
-						//也要显示给用户添加成功。添加的只是公司数据
-						echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+					//获取各种数据
+					$parms["id"]				= $GLOBALS['db']->prepare_value($_REQUEST["id"],"INT"); 
+					$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"INT"); 
+					$parms["name"]				= $GLOBALS['db']->prepare_value($_REQUEST["name"],"VARCHAR");
+					$parms["register_num"]		= $GLOBALS['db']->prepare_value($_REQUEST["register_num"],"VARCHAR");
+					/******************************* 暂时都是 0 */
+					$parms["area1"]				= 0;
+					$parms["area2"]				= 0;
+					$parms["area3"]				= 0;
+					/******************************* 暂时都是 0 */
+					$parms["description"]		= $GLOBALS['db']->prepare_value($_REQUEST["description"],"VARCHAR");
+					$parms["contact"]			= $GLOBALS['db']->prepare_value($_REQUEST["contact"],"VARCHAR");
+					$parms["address"]			= $GLOBALS['db']->prepare_value($_REQUEST["address"],"VARCHAR");
+					$parms["zipcode"]			= $GLOBALS['db']->prepare_value($_REQUEST["zipcode"],"VARCHAR");
+					$parms["tel"]				= $GLOBALS['db']->prepare_value($_REQUEST["tel"],"VARCHAR");
+					$parms["fax"]				= $GLOBALS['db']->prepare_value($_REQUEST["fax"],"VARCHAR");
+					$parms["mobile"]			= $GLOBALS['db']->prepare_value($_REQUEST["mobile"],"VARCHAR");
+					$parms["email"]				= $GLOBALS['db']->prepare_value($_REQUEST["email"],"VARCHAR");
+					$parms["site_url"]			= $GLOBALS['db']->prepare_value($_REQUEST["site_url"],"VARCHAR");
+					$parms["state"]				= $GLOBALS['db']->prepare_value($_REQUEST["state"],"INT");
+					if(!empty($_REQUEST["service_start_time"]) && !empty($_REQUEST["service_end_time"]))
+					{	
+						$parms["service_start_time"]= $GLOBALS['db']->prepare_value($_REQUEST["service_start_time"],"VARCHAR");
+						$parms["service_end_time "]	= $GLOBALS['db']->prepare_value($_REQUEST["service_end_time"],"VARCHAR");
 					}
-					else if($result == 2)
+					$parms["charge_standard"]	= $GLOBALS['db']->prepare_value($_REQUEST["charge_standard"],"VARCHAR");
+	
+					$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+					$parms["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+					$parms["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+					$parms["update_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+					$comp	= new Company();
+	
+					//检查 login_id 是否重复
+					$login = $comp->checkLoignid($_REQUEST["login_id"]);
+					if($login)
 					{
-						//成功，添加的是公司和车辆组
-						echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+						exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
+					}
+					
+					//执行更新
+					$rtn = $comp->add_data($parms,"id");
+	
+					if($rtn > 1)
+					{
+						//查一下是否已经车辆组，如果没有，则添加一个默认的
+						//添加默认车辆组
+						$vehicle = new Vehicle_group();
+	
+						$result = $vehicle->add_vehicle_group_by_company($rtn,$_REQUEST["name"]);
+	
+						if($result == 1)		//对应的公司已经有车辆组
+						{
+							//也要显示给用户添加成功。添加的只是公司数据
+							echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+						}
+						else if($result == 2)
+						{
+							//成功，添加的是公司和车辆组
+							echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+						}
+						else
+						{
+							//删掉添加成功的公司
+							$parms["id"] = $GLOBALS['db']->prepare_value($rtn,"INT"); 
+							$comp->delete_data($parms);
+							echo json_encode(array('success'=>false,'errors'=>'添加失败，请重试!'));
+						}
+	
 					}
 					else
 					{
-						//删掉添加成功的公司
-						$parms["id"] = $GLOBALS['db']->prepare_value($rtn,"INT"); 
-						$comp->delete_data($parms);
+						
 						echo json_encode(array('success'=>false,'errors'=>'添加失败，请重试!'));
 					}
-
-				}
-				else
-				{
-					
-					echo json_encode(array('success'=>false,'errors'=>'添加失败，请重试!'));
 				}
 
 				break;
