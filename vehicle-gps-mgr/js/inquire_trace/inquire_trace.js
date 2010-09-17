@@ -5,6 +5,13 @@
 	var step_info = 0;
 
 $(document).ready(function(){
+	//是否要从父窗口继承设置值
+	var isInherit = $("#inherit").attr("value");
+	if(isInherit){
+		$('#his').hide();
+		$('#info_select_vehicle').hide();
+		$("#vehicle_info").hide();
+	}
 	
 	position(); //加载车辆最新定位
 	run_play(3);//正常速度
@@ -34,9 +41,16 @@ $(document).ready(function(){
 	$("#areas").hide(); 
 
 	var myDate = new Date();
-	$("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
-	$("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
-
+	if(isInherit){
+		var startTime = $(window.parent.document).find("#inquire_startTime").attr("value");
+		var endTime =$(window.parent.document).find("#inquire_endTime").attr("value");
+		$("#inquire_startTime").val(startTime);
+		$("#inquire_endTime").val(endTime);
+	}else{
+		$("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
+		$("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
+	}
+	
 	//暂停
 	/*$("#suspend_history").click(function(){
 		$("#location_info").show();
@@ -379,7 +393,7 @@ $(document).ready(function(){
 		//利用递归来依次获取每个小时的数据信息（内部函数）
 		function getCarInArea(){
 			var aHour = hourList.shift(); //每次取一个小时的时间点进行查询
-			$("#areas").mask("查询中,请稍侯...（已查出车辆数："+ idInAreaFound + ")<br/>" + format_time(aHour,"yyyy/MM/DD/HH"));
+			$("#areas").mask("查询中,请稍侯...(已查出车辆数："+ idInAreaFound + ")<br/>" + format_time(aHour,"yyyy/MM/DD/HH"));
 			idListStr = convertArrayToStr(idList, seperator);
 			$.post("index.php",{"a":355,"hour":aHour,"lonMin":lonMin,"latMin":latMin,
 				"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
@@ -633,7 +647,7 @@ $(document).ready(function(){
  	
 	//展示历史轨迹显示区域，并播放历史轨迹
 	function show_trace_area(vehicle_id){
-		$("<iframe id='trace_in_area_frame' name='trace_in_area_frame' src='index.php?a=352&logic=0&have_header=1&vehicle_id="+ vehicle_id +"' style='width:100%;height:400px;background-color:transparent;'"+ 
+		$("<iframe id='trace_in_area_frame' name='trace_in_area_frame' src='index.php?a=352&logic=0&have_header=1&inherit=1&vehicle_id="+ vehicle_id +"' style='width:100%;height:400px;background-color:transparent;'"+ 
 				" marginwidth='0' marginheight='0' scrolling='no' allowTransparency='true' frameborder='0' align='top'/>").dialog({
 			 title: "历史轨迹",
 	         utoOpen: true,
