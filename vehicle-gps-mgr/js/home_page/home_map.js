@@ -7,6 +7,7 @@
  * modifier
  */
 	var map;  //声明51地图对象
+	var initZoom; //初始Zoom等级
 	var control; //声明51地图控件
 	var longitude = 3991104;  // 经度
 	var latitude = 11636160;  //纬度
@@ -418,6 +419,7 @@
 			switch(parseInt(refresh_state)){
 				case 0:    //'0'代表刷新所有车辆  
 					  loadCompanyVehicle();
+					  initZoom = getCurrentZoom();
 					break;
 				case 1:  //‘1’代表刷新选择监控车辆  
 					  vehiclePosition(); 
