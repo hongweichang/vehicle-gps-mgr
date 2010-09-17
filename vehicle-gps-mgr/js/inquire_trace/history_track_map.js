@@ -41,16 +41,6 @@
 	var downOffsetRatio = 0.1;   //	矩形下间距
 	
 	history_map();
-	setBestMap();
-	
-	function setBestMap(){
-		var bound = window.parent.document.getElementById("home_map_frame").contentWindow.map.getBoundsLatLng(); //矩形范围对象
-		var zoom =  window.parent.document.getElementById("home_map_frame").contentWindow.initZoom;
-		var xcenter = (bound.getXmin() +  bound.getXmax()) / 2;
-		var ycenter = (bound.getYmin() +  bound.getYmax()) / 2;
-		var point = new LTPoint(xcenter,ycenter);
-		map.centerAndZoom(point,zoom);
-	}
 	  
 	/**
 	 * 初始化历史轨迹
