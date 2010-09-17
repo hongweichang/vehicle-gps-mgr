@@ -37,7 +37,13 @@ switch($act)
 		$inquire_info = new Inquire();
 		$vehicle_list = $inquire_info->get_all_vehicles(); //查询所有车辆
 		
-		//车辆列表
+		$inherit_str = "";
+		$inherit = $_REQUEST['inherit']; //在iframe调用时，是否从父页面继承设定值
+		if("1" == $inherit){
+			$inherit_str = "<input id='inherit' name='inherit' type='hidden' value='1'/>";
+		}
+		
+		//填充车辆列表
 		foreach($vehicle_list as $value){
 			if($id && $value["id"] == $id)
 				$options = $options."<option name='have' value=".$value["id"]." selected>".$value["number_plate"]."</option>";
@@ -71,12 +77,14 @@ switch($act)
 			.'<script language="javascript" src="js/jquery-ui-1.8.1.custom.min.js" ></script>'
 			.'<script language="javascript" src="js/jquery.loadmask.min.js" ></script>'
 			.'<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>'
+			//.'<script language="javascript" src="js/jquery.selectboxes.min.js" ></script>'
 			.'</head><body style="BACKGROUND-COLOR: transparent">';
 			$foot_str ='</body></html>';
 		}
 		
 		$data['HEADER'] = $header_str;
 		$data['FOOTER'] = $foot_str;
+		$data['INHERIT'] = $inherit_str;
 		$data['FUNCTION_OPERATE'] = $function_operate;
 		$data["VEHICLE_LIST"] = $options;
 		$data['POSITION_VEHICLE']=$position_vehicle;
@@ -192,8 +200,8 @@ switch($act)
 		$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
 		$hour = $_REQUEST["hour"];
 		
-		$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
-		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
+		//$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
+		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
 		
 		$inquire = new Inquire();
 		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour, $gps_info_path);
