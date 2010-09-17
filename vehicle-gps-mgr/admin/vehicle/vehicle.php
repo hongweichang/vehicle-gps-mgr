@@ -20,12 +20,20 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 
+$role_id = get_session('role_id');
+
 if(!$sidx) $sidx =1;
 
 switch($act)
 {
 	case "list":			//加载车辆管理的html页面
-		echo $db->display(null,"list");
+		if(3==$role_id){
+			$arr['is_role3'] = "role_3";
+			echo $db->display($arr,"list");			
+		}else{
+			$arr['is_role3'] = "not_role_3";
+			echo $db->display($arr,"list");
+		}
 		break;
 	case "list_data":		//车辆管理html中，js文件会加载这个case，取得并输出数据
 		$vehicle	= new Vehicle();
@@ -140,9 +148,7 @@ switch($act)
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 																					$val['gps_id'],$vehicle_group_name,
-																					$driver_name,$type_name,$val['cur_longitude'],
-																					$val['cur_latitude'],$val['cur_speed'],
-																					$val['cur_direction'],$alert_state,$val['color'],
+																					$driver_name,$type_name,$alert_state,$val['color'],
 																					$val['running_time']
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
