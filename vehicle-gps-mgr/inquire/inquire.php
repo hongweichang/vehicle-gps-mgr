@@ -130,8 +130,8 @@ switch($act)
 			$point_info[5]= $v->img_path; //图片路径
 			$point_info[6]= $v->location_time; //定位时间
 			
-			//速度大于1 列入队列中
-			if($point_info[3]>=1){
+			//速度大于1 的数据（节省时间）或者每个文件中最后一个数据（确保每个小时的位置信息）列入队列中
+			if($point_info[3]>=1 || $k == (count($datalist)-1)){
 				array_push($trace_info,$point_info);
 			}	
 		}
@@ -200,8 +200,8 @@ switch($act)
 		$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
 		$hour = $_REQUEST["hour"];
 		
-		//$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
-		$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
+		$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
+		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
 		
 		$inquire = new Inquire();
 		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour, $gps_info_path);
