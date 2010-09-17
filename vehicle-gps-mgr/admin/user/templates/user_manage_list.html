@@ -26,9 +26,10 @@ jQuery(document).ready(function(){
             maintab.tabs('select', '#' + ui.panel.id);
         }
     });
-    var caption_info ="<div><div style='float:left'>欢迎 {{user_name}}</div>"+
+   	 var caption_info ="<div><div style='float:left'>欢迎 {{user_name}}</div>"+
         			  "<div style='width:110px;float:left;text-align:right'>"+
         			  "<a href='index.php?a=1005'>安全退出</a></div></div>"; 
+	  
      var tree_url = "xml/tree_"+$("#role_id").attr("name")+".xml";
      jQuery("#west-grid").jqGrid({
         url: tree_url,
@@ -46,7 +47,6 @@ jQuery(document).ready(function(){
 		caption: caption_info,
         ExpandColumn: "menu",
         autowidth: true,
-        //width: 180,
         rowNum: 200,
         ExpandColClick: true,
         treeIcons: {leaf:'ui-icon-document-b'},
@@ -75,8 +75,8 @@ jQuery(document).ready(function(){
     });	
 
 
-if(2==$("#role_id").attr("name")){     
-//加载页面以后得到驾驶员数据信息   
+	if(2==$("#role_id").attr("name")){     
+	//加载页面以后得到驾驶员数据信息   
 	document.getElementById('tabs-1').style.display="none";
     var maintab =jQuery('#tabs','#RightPane').tabs({
          add: function(e, ui) {
@@ -90,7 +90,7 @@ if(2==$("#role_id").attr("name")){
              maintab.tabs('select', '#' + ui.panel.id);
          }
      });
- 	maintab.tabs('add','#t4', '驾驶员'); 
+ 	maintab.tabs('add','#t4','驾驶员'); 
   	$.ajax({
 		url: 'index.php?a=5001',
 		type: "GET",
@@ -101,6 +101,59 @@ if(2==$("#role_id").attr("name")){
 		}
 	});
   }
+	if(3==$("#role_id").attr("name")){     
+		//加载页面以后得到车辆数据信息   
+		document.getElementById('tabs-1').style.display="none";
+	    var maintab =jQuery('#tabs','#RightPane').tabs({
+	         add: function(e, ui) {
+	             // append close thingy
+	             $(ui.tab).parents('li:first')
+	                 .append('<span class="ui-tabs-close ui-icon ui-icon-close" title="关闭"></span>')
+	                 .find('span.ui-tabs-close')
+	                 .click(function() {
+	                     maintab.tabs('remove', $('li', maintab).index($(this).parents('li:first')[0]));
+	                 });
+	             maintab.tabs('select', '#' + ui.panel.id);
+	         }
+	     });
+	 	maintab.tabs('add','#t4','车辆'); 
+	  	$.ajax({
+			url: 'index.php?a=1010',
+			type: "GET",
+			dataType: "html",
+			complete : function (req, err) {
+				$('#t4',"#tabs").append(req.responseText);
+				try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
+			}
+		});
+	  }
+
+	if(1==$("#role_id").attr("name")){     
+		//加载页面以后得到公司数据信息   
+		document.getElementById('tabs-1').style.display="none";
+	    var maintab =jQuery('#tabs','#RightPane').tabs({
+	         add: function(e, ui) {
+	             // append close thingy
+	             $(ui.tab).parents('li:first')
+	                 .append('<span class="ui-tabs-close ui-icon ui-icon-close" title="关闭"></span>')
+	                 .find('span.ui-tabs-close')
+	                 .click(function() {
+	                     maintab.tabs('remove', $('li', maintab).index($(this).parents('li:first')[0]));
+	                 });
+	             maintab.tabs('select', '#' + ui.panel.id);
+	         }
+	     });
+	 	maintab.tabs('add','#t4','公司'); 
+	  	$.ajax({
+			url: 'index.php?a=5003',
+			type: "GET",
+			dataType: "html",
+			complete : function (req, err) {
+				$('#t4',"#tabs").append(req.responseText);
+				try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
+			}
+		});
+	  }
   	
 });
 </script>
