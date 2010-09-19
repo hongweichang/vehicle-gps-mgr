@@ -28,4 +28,8 @@
 	 【‘	<!-- 车辆类型管理 -->
 	<row><cell>13</cell><cell>车辆类型管理</cell><cell></cell><cell>0</cell><cell>71</cell><cell>80</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>14</cell><cell>车辆类型</cell><cell>index.php?a=1030</cell><cell>1</cell><cell>72</cell><cell>73</cell><cell>true</cell><cell>true</cell></row>
+    
+     <!-- 修改密码 -->
+	<row><cell>15</cell><cell>密码管理</cell><cell></cell><cell>0</cell><cell>31</cell><cell>40</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>16</cell><cell>修改密码</cell><cell>index.php?a=5024</cell><cell>1</cell><cell>32</cell><cell>33</cell><cell>true</cell><cell>true</cell></row>
 </rows>

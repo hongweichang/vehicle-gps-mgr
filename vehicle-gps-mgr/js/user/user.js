@@ -6,7 +6,7 @@ jQuery("#navgrid2").jqGrid({
    	colModel:[
    		{name:'id',index:'id', align:"center",width:55,editable:false,hidden:true,editoptions:{size:10}},
    		{name:'login_name',index:'login_name',align:"center", width:80,editable:true,editrules:{required:true},editoptions:{size:15}},
-   		{name:'password',index:'password', align:"center",width:40,hidden:true,editrules:{required:true,edithidden:true},editable:true,editoptions:{size:15}},
+   		{name:'password',index:'password', align:"center",width:40,hidden:true,editrules:{required:true,edithidden:true},editable:false,editoptions:{size:15}},
    		{name:'name',index:'name', width:60, align:"center",editrules:{required:true},editable:true,editoptions:{size:15}},
    		{name:'company_id',index:'company_id', width:60, hidden:true,align:"center",editable:true,editoptions:{size:10}},
    		{name:'role_id',index:'role_id', width:60, hidden:true,align:"center",editable:true,editoptions:{size:10}},
