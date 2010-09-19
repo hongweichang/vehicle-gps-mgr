@@ -83,20 +83,19 @@ jQuery("#navgrid_company").jqGrid({
 	width:"750"
 });
 jQuery("#navgrid_company").jqGrid('navGrid','#pagernav_company',
-{edit:true, add:true, del:true,view:true,search:false}, //options
-//edit:false,add:false,del:false
-{
-afterSubmit:processAddEdit,
-closeAfterAdd:true,
-closeAfterEdit:true,
-reloadAfterSubmit:true
-},
-{
-afterSubmit:processAddEdit ,
-closeAfterAdd:true,
-closeAfterEdit:true,
-reloadAfterSubmit:true
-}
+	{edit:true, add:true, del:true,view:true,search:false}, //options
+	{
+		afterSubmit:processAddEdit,
+		closeAfterAdd:true,
+		closeAfterEdit:true,
+		reloadAfterSubmit:true
+	},
+	{
+		afterSubmit:processAddEdit ,
+		closeAfterAdd:true,
+		closeAfterEdit:true,
+		reloadAfterSubmit:true
+	}
 );
 
 //处理添加，编辑的返回信息

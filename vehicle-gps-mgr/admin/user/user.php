@@ -133,11 +133,13 @@ switch($act)
 		$user = new User($_REQUEST['id']);
 		switch($oper)
 		{
-			case "add":		//增加
+			case "add":		//增加			
 				if($user->check_login_name($_REQUEST['login_name'])){
-					$user->add_user($arr);
-				}else{
 					exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
+				}
+				
+				if($user->add_user($arr)){
+					echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
 				}
 				break;
 			case "edit":		//修改

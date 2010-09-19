@@ -84,7 +84,7 @@ switch($act)
 				{
 					//获取各种数据
 					$parms["id"]				= $GLOBALS['db']->prepare_value($_REQUEST["id"],"INT"); 
-					$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"INT"); 
+					$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"VARCHAR"); 
 					$parms["name"]				= $GLOBALS['db']->prepare_value($_REQUEST["name"],"VARCHAR");
 					$parms["register_num"]		= $GLOBALS['db']->prepare_value($_REQUEST["register_num"],"VARCHAR");
 					/******************************* 暂时都是 0 */

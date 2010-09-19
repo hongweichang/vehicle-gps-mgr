@@ -35,12 +35,35 @@ jQuery("#navgrid2").jqGrid({
 
 jQuery("#navgrid2").jqGrid('navGrid','#pagernav2',
 {edit:true,add:true,del:true,view:true,search:false}, //options
-//edit:false,add:false,del:false
-{del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
+{
+	afterSubmit:processAddEdit,
+	closeAfterAdd:true,
+	closeAfterEdit:true,
+	reloadAfterSubmit:true
+},
+{
+	afterSubmit:processAddEdit ,
+	closeAfterAdd:true,
+	closeAfterEdit:true,
+	reloadAfterSubmit:true
+}
+);
 /*{height:200,reloadAfterSubmit:false}, // edit options
 {height:280,reloadAfterSubmit:false}, // add options
 {reloadAfterSubmit:false}, // del options
 {} // search options 
 );*/
 //jQuery("#navgrid2").jqGrid('editGridRow', rowid, properties );
+//处理添加，编辑的返回信息
+function processAddEdit(response){
+	var success =true;
+	var message ="";
+	var json = eval('('+ response.responseText + ')');
+
+	if(!json.success){
+	   success =json.success;
+	   message =json.errors;
+	}
+	return [success,message,0];
+}
 

@@ -225,11 +225,7 @@ class User extends BASE
 		$company_id = get_session("company_id");
 		$this->sql = "select id from user where company_id=".$company_id." and login_name='".$login_name."'";
 		$this->data = $GLOBALS['db']->query_once($this->sql);
-		if($this->data){
-			return false;
-		}else{
-			return true;
-		}
+		return $this->data;
 	}
 	
 	/**

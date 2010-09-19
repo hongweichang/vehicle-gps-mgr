@@ -118,8 +118,8 @@ class Company
 	*/
 	function checkLoignid($login_id)
 	{
-		$this->sql = 'select * from '.$this->tablename.' where login_id = '.$login_id;
-		$result = $GLOBALS["db"]->query($this->sql);
+		$this->sql = "select * from ".$this->tablename." where login_id = '".$login_id."'";
+		$result = $GLOBALS["db"]->query_once($this->sql);
 		return $result;
 	}
 }
