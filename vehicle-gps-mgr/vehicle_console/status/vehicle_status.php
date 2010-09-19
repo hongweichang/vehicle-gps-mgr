@@ -138,7 +138,7 @@ switch($act)
 												
 												"<a href='#'  showWidth='850' showHeight='320' title='统计分析' onclick='showOperationDialog(this,\"index.php?a=402&vehicle_id=".$val['id']."\", \"inquire_modal_win\")'>统计>></a>",
 												
-												"<a href='#' title='发布信息' showWidth='230' onclick='showOperationDialog(this,\"index.php?a=201&vehicle_ids=".$val['id']."\",\"inquire_modal_win\")'>发布>></a>",
+												"<a href='#' title='发布信息' showHeight='300' showWidth='230' onclick='showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids=".$val['id']."\",\"inquire_modal_win\")'>发布>></a>",
 												$vehicle_position_str);
 		}
 

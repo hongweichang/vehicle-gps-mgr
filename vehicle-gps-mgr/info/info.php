@@ -39,6 +39,11 @@ switch ($act) {
 			$attr = $attr."<option value=".$val.">".$dis."</option>";
 		}
 		$param['day_list']=$attr; 
+		if($_REQUEST['hidden']==1){
+			$param['is_hidden'] = 1;
+		}else{
+			$param['is_hidden'] = "";
+		}
 		echo $GLOBALS ['db']->display ( $param, $act );
 		break;
 	

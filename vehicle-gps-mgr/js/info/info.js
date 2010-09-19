@@ -4,6 +4,13 @@ $("#area_end_time").hide();
 $("#issue_map").hide();
 $("#add_input").hide();
 
+if($("#is_hidden").val()==1){
+	$("#car").hide();
+	$("#area_issue").hide();
+	$("#add_user").hide();
+	$("#delete_user").hide();
+}
+
 function fillMailList(str){
 str = str.substr(0,str.length-1);
 	if(str.length!=0){
