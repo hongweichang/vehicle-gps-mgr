@@ -96,8 +96,16 @@ class Company
 	{
 		$pk = array_keys($parms);
 		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;
-		$result = $GLOBALS["db"]->query($this->sql);
-		return $result;
+		$r1 = $GLOBALS["db"]->query($this->sql);
+		
+		$this->sql = "delete from user where company_id = ".$parms['id'];
+		$r2 = $GLOBALS["db"]->query($this->sql);
+		
+		if($r1 && $r2){
+			return true;
+		}
+		
+		return false;
 	}
 
 	/**
@@ -121,6 +129,30 @@ class Company
 		$this->sql = "select * from ".$this->tablename." where login_id = '".$login_id."'";
 		$result = $GLOBALS["db"]->query_once($this->sql);
 		return $result;
+	}
+	
+	/**
+	 * 	添加默认公司平台管理员和公司内部管理人员
+	 * @$rtn 公司ID
+	 */
+	function add_admin($rtn){
+		$admin['login_name'] = $GLOBALS['db']->prepare_value("company_admin","VARCHAR");
+		$admin['password'] = $GLOBALS['db']->prepare_value("123","VARCHAR");
+		$admin['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
+		$admin['role_id'] = $GLOBALS['db']->prepare_value(2,"INT");
+		$admin['state'] = $GLOBALS['db']->prepare_value(1,"INT");
+		
+		$normal['login_name'] = $GLOBALS['db']->prepare_value("admin","VARCHAR");
+		$normal['password'] = $GLOBALS['db']->prepare_value("123","VARCHAR");
+		$normal['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
+		$normal['role_id'] = $GLOBALS['db']->prepare_value(3,"INT");
+		$normal['state'] = $GLOBALS['db']->prepare_value(1,"INT");
+		
+		$r1 = $GLOBALS['db']->insert_row("user",$admin);
+		$r2 = $GLOBALS['db']->insert_row("user",$normal);
+		if($r1 && $r2)
+			return true;
+		return false;
 	}
 }
 ?>
