@@ -19,8 +19,24 @@ jQuery("#navgrid_vehicle").jqGrid({
    		{name:'type_id',index:'type_id', width:60, align:"center",editable:true,edittype:"select",editrules:{required:true},editoptions:{disabled:gps_edit,dataUrl:'index.php?a=1013&p=type_id'}},
    		{name:'alert_state',index:'alert_state', width:60, align:"center",editable:true,edittype:"select",editoptions:{disabled:gps_edit,dataUrl:'index.php?a=1013&p=alert_state'}},
    		{name:'color',index:'color', width:60, align:"center",editable:true,editoptions:{disabled:gps_edit,size:10}},
-   		{name:'running_time',index:'running_time', width:80,align:"center",editable:true,editoptions:{disabled:gps_edit,size:30}}，
-   		{name:'next_AS_date',index:'next_AS_date',align:"center", width:55,editable:true,hidden:true}
+   		{name:'running_time',index:'running_time', width:80,align:"center",editable:true,editoptions:{disabled:gps_edit,size:30}},
+   		{name:'next_AS_date',index:'next_AS_date',align:"center", width:55,editable:true,editoptions:{disabled:gps_edit,size:30,
+   			dataInit:function(el){
+				$(el).datetimepicker({
+					 ampm: false,//上午下午是否显示  
+					 timeFormat: 'hh:mm:ss',//时间模式  
+					 stepHour: 1,//拖动时间时的间隔  
+					 stepMinute: 1,//拖动分钟时的间隔  
+					 stepSecond: 1,//拖动秒时的间隔
+					 dateFormat:"yy-mm-dd", //日期格式设定  
+					 showHour: true,//是否显示小时，默认是true  
+					 showMinute:true,
+					 showSecond:true,
+						 createButton:false
+				});
+   			},
+   			defaultValue: ""
+   		}}
    	],
    	width:750,
    	rowNum:10,

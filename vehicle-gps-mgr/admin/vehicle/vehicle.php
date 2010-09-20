@@ -163,6 +163,9 @@ switch($act)
 		
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
+		$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
+		$next_as_date = $next_date[0];
+		
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
 		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");
 		$arr["gps_id"] = $db->prepare_value($_REQUEST['gps_id'],"VARCHAR");
@@ -177,6 +180,7 @@ switch($act)
 		$arr["alert_state"] = $db->prepare_value($_REQUEST['alert_state'],"INT");
 		$arr["color"] = $db->prepare_value($_REQUEST['color'],"VARCHAR");
 		$arr["running_time"] = $db->prepare_value($_REQUEST['running_time'],"INT");
+		$arr["next_AS_date"] = $db->prepare_value($next_as_date,"VARCHAR");
 //		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
 //		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
 //		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
