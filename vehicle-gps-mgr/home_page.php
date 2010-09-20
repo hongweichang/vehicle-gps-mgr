@@ -22,15 +22,8 @@ switch($act)
 	case "list":	//首页加载
 		
 		$common_setting =  new Setting ($company_id);
-		if($role_id == 4){
-			$arr['manage_begin'] = "<!--";
-			$arr['manage_end'] = "-->";
-			$arr['url_manage'] = "";
-		}else{
-			$arr['url_manage'] = URL('user','user.php','manage_list'); //管理中心链接
-			$arr['manage_begin'] = "";
-			$arr['manage_end'] = "";
-		}
+		$arr['url_manage'] = URL('user','user.php','manage_list'); //管理中心链接
+
 		$arr['url_logout'] = URL('user','user.php','logout'); //退出链接
 		
 		$page_refresh_time = $common_setting->data["page_refresh_time"];

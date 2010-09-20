@@ -154,6 +154,33 @@ jQuery(document).ready(function(){
 			}
 		});
 	  }
+
+	if(4==$("#role_id").attr("name")){
+		//加载页面以后得到密码修改信息   
+		document.getElementById('tabs-1').style.display="none";
+	    var maintab =jQuery('#tabs','#RightPane').tabs({
+	         add: function(e, ui) {
+	             // append close thingy
+	             $(ui.tab).parents('li:first')
+	                 .append('<span class="ui-tabs-close ui-icon ui-icon-close" title="关闭"></span>')
+	                 .find('span.ui-tabs-close')
+	                 .click(function() {
+	                     maintab.tabs('remove', $('li', maintab).index($(this).parents('li:first')[0]));
+	                 });
+	             maintab.tabs('select', '#' + ui.panel.id);
+	         }
+	     });
+	 	maintab.tabs('add','#t4','修改密码'); 
+	  	$.ajax({
+			url: 'index.php?a=5024',
+			type: "GET",
+			dataType: "html",
+			complete : function (req, err) {
+				$('#t4',"#tabs").append(req.responseText);
+				try { var pageTracker = _gat._getTracker("UA-5463047-4"); pageTracker._trackPageview(); } catch(err) {};
+			}
+		});
+		}
   	
 });
 </script>
