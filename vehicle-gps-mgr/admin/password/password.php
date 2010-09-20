@@ -37,7 +37,7 @@ switch($act)
 		$new = $_REQUEST['new_pass'];
 		
 		if(!$password->check_old($old)){
-			echo "旧密码错误";
+			echo "old_wrong";
 			break;
 		}
 		
