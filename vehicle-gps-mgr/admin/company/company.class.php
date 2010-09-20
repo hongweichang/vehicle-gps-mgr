@@ -136,7 +136,7 @@ class Company
 	 * @$rtn 公司ID
 	 */
 	function add_admin($rtn){
-		$admin['login_name'] = $GLOBALS['db']->prepare_value("company_admin","VARCHAR");
+		$admin['login_name'] = $GLOBALS['db']->prepare_value("comadmin","VARCHAR");
 		$admin['password'] = $GLOBALS['db']->prepare_value("123","VARCHAR");
 		$admin['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
 		$admin['role_id'] = $GLOBALS['db']->prepare_value(2,"INT");

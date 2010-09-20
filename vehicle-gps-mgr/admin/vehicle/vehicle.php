@@ -148,8 +148,7 @@ switch($act)
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 																					$val['gps_id'],$vehicle_group_name,
-																					$driver_name,$type_name,$alert_state,$val['color'],
-																					$val['running_time'],
+																					$driver_name,$type_name,$val['color'],
 																					$val['next_AS_date']
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
