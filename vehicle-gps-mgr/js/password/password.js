@@ -18,16 +18,20 @@ $("#pass_commit").click(function(){
 		alert("两次密码不一致");
 		return;
 	}else{
+		$("#delay").mask("正在处理........");
 		$.post("index.php?a=5025",{old_pass:old_password,new_pass:new_password_one},function(data){
 			if("ok"==data){
 				//$("#old_show").hide();
+				$("#delay").unmask();
 				alert("修改成功");
 			}else if("old_wrong"==data){
 				//$("#old_show").show();
 				//$("#old_show").text("旧密码错误");
+				$("#delay").unmask();
 				alert("旧密码错误");
 			}else{
 				//$("#old_show").hide();
+				$("#delay").unmask();
 				alert("修改失败");
 			}
 		});

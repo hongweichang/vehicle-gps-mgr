@@ -324,7 +324,7 @@ switch($act)
 			"<input readonly  style='border:1px solid #EFEFEF; text-align:center; background-color:#EFEFEF'  type='text' size='5' name='speed_".(2*$key)."'  id='speed_".(2*$key)."' value='".$va."' ></td>".
 			"<td align='center'> -- </td>".
 			"<td align='center'>".
-			"<input type='text' onKeyUp='change_speed(this);' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'>".
+			"<input type='text' onKeyUp='change_speed(this);' onchange='check_speed(this)' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'>".
 			"</td>".
 			"<td id='td".$key."' name='td_c[]'>".$a."</td>";
 			$html .= "</tr>";

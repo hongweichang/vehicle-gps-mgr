@@ -208,7 +208,11 @@ function change_speed(obj)
 	ss = speed_id.split("_");
 
 	//得到当前值的上一个值
-	var forward_tow = $("#speed_"+(parseInt(ss[1])-parseInt(2))).attr("value"); 
+	var forward_tow = $("#speed_"+(parseInt(ss[1])-parseInt(2))).attr("value");
+	if(forward_tow=="" && ss[1]!=0){
+		alert("上一级速度不能为空");
+		$("#speed_"+(parseInt(ss[1]))).attr("value","");
+	}
 	//得到当前值 
 	var my_value=  $("#speed_"+(parseInt(ss[1]))).attr("value");
 
@@ -230,6 +234,27 @@ function change_speed(obj)
 	}
 	return judgeResult;
 }
+
+function check_speed(obj){
+	var ss;
+	var speed_id = obj.id;
+	ss = speed_id.split("_");
+
+	//得到当前值的上一个值
+	var forward_tow = $("#speed_"+parseInt(ss[1])).attr("value");
+	var forward_tow_old = $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value");
+
+	if(forward_tow_old>=forward_tow){
+		alert("当前速度不能小于最大速度！");
+		//$("#speed_"+parseInt(ss[1])).focus();
+		$("#speed_"+parseInt(ss[1])).attr("value","");
+		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
+		$(this).focus();
+		//var ct = document.getElementById("speed_"+parseInt(ss[1]));
+		//ct.focus();
+	}
+}
+
 $(":submit").button();
 
 //-->
