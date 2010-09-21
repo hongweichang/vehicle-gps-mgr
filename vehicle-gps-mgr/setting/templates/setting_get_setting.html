@@ -243,17 +243,32 @@ function check_speed(obj){
 	//得到当前值的上一个值
 	var forward_tow = $("#speed_"+parseInt(ss[1])).attr("value");
 	var forward_tow_old = $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value");
-
-	if(forward_tow_old>=forward_tow){
-		alert("当前速度不能小于最大速度！");
-		//$("#speed_"+parseInt(ss[1])).focus();
+	
+	if(!checkIsInteger(forward_tow) || !checkIsInteger(forward_tow_old)){
 		$("#speed_"+parseInt(ss[1])).attr("value","");
 		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
 		$(this).focus();
-		//var ct = document.getElementById("speed_"+parseInt(ss[1]));
-		//ct.focus();
+		alert("请输入整数");
+	}
+
+	if(forward_tow_old>=forward_tow){		
+		$("#speed_"+parseInt(ss[1])).attr("value","");
+		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
+		$(this).focus();
+		alert("当前速度不能小于等于最大速度！");
 	}
 }
+
+function checkIsInteger(str) 
+{ 
+        //如果为空，则通过校验 
+        if(str == "") 
+        return true; 
+       if(/^(\-?)(\d+)$/.test(str)) 
+       return true; 
+     else 
+       return false; 
+ } 
 
 $(":submit").button();
 
