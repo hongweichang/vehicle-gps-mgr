@@ -143,8 +143,13 @@ switch($act)
 				}
 				break;
 			case "edit":		//修改
-				$user->edit_user($arr);
+				$result = $user->edit_user($arr);
 //				file_put_contents("a.txt",$db->sql);
+				if($result){
+					echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+				}else{
+					exit(json_encode(array('success'=>false,'errors'=>'编辑失败!')));
+				}
 				break;
 			case "del":		//删除
 				$user->del_user($arr);
