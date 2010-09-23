@@ -16,20 +16,6 @@ window._LT_map_disableProgressBar=true;
 var maps = new LTMaps( "myMap" );
 maps.cityNameAndZoom( "beijing" , 6 ); 
 
-/*var lon_lat = window.parent.document.getElementsByName('lonlat');
-var points = new Array();
-for(var i = 0 ; i <lon_lat.length;i++){
-	points.push(new LTPoint(lon_lat[i].title,lon_lat[i].value));
-}
-
-maps.getBestMap( points );
-
-for(var i=0 ; i<points.length ; i++)
-{
-var marker = new LTMarker( points[i] );
-maps.addOverLay( marker );
-}*/
-
 maps.addControl(new LTSmallMapControl());
 control = new LTZoomSearchControl();
 control.setTop(10);
