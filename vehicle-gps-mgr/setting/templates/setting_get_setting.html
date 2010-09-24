@@ -251,7 +251,7 @@ function check_speed(obj){
 		alert("请输入整数");
 	}
 
-	if(forward_tow_old>=forward_tow){		
+	if(parseInt(forward_tow_old)>=parseInt(forward_tow)){		
 		$("#speed_"+parseInt(ss[1])).attr("value","");
 		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
 		$(this).focus();
