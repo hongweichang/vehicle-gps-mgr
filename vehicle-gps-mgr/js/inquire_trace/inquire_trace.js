@@ -152,7 +152,8 @@ $(document).ready(function(){
 			$("#stop_history").hide();
 			$("#progress_content").hide();
 
-			$("#mode_area").attr("src","inquire/templates/51ditu.html"); //区域查询时加载地图
+			//$("#mode_area").attr("src","inquire/templates/51ditu.html"); //区域查询时加载地图
+			$("#mode_area").attr("src","templates/51map.html"); //区域查询时加载地图
 		}else{
 			$("#vehicle_info").show();
 			$("#areas").hide();

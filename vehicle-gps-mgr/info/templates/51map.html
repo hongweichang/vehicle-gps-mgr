@@ -80,7 +80,6 @@
 	function location(ids){  	
 		//清空所有地图点
 		clearOverLay();
-		
 		 $.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+ids, 
@@ -97,13 +96,13 @@
 					   
 					for(var i=0;i<length;i++){  
 						
-						 vehicle_id = data[0]['id']; //车辆id
-						 number_plate = data[0]['number_plate']; //车牌号
-						 point_longitude = data[0]['cur_longitude']; //当前经度
-						 point_latitude = data[0]['cur_latitude']; //当前纬度 
-						 alert_state = data[0]['alert_state'];// 告警状态
-						 img_name = data[0]['cur_direction']; //图片名
-						 file_path = data[0]['file_path']; //文件路径 
+						 vehicle_id = data[i]['id']; //车辆id
+						 number_plate = data[i]['number_plate']; //车牌号
+						 point_longitude = data[i]['cur_longitude']; //当前经度
+						 point_latitude = data[i]['cur_latitude']; //当前纬度 
+						 alert_state = data[i]['alert_state'];// 告警状态
+						 img_name = data[i]['cur_direction']; //图片名
+						 file_path = data[i]['file_path']; //文件路径 
 
 						//循环
 						//取得所有车的最大经度、最小经度、最大纬度、最小纬度
