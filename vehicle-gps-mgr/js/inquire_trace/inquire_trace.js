@@ -3,6 +3,7 @@
 
 
 	var step_info = 0;
+	var is_vehicle_in_area_list_showed = false; //在查询指定时间经过指定区域车辆的时候，确认车辆列表是否已经产生过。
 
 $(document).ready(function(){
 	//是否要从父窗口继承设置值
@@ -363,30 +364,36 @@ $(document).ready(function(){
 		
 		//将获取到的车辆信息显示在列表中（内部函数）
 		function showCarInArea(){
-			jQuery("#show_vehicles_page").jqGrid({
-				url:'index.php?a=356&begin_time='+begin_time
-					+'&end_time='+end_time+'&id_list='+idListInAreaStr,
-						datatype: "json",
-					   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
-					   	colModel:[
-					   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
-																			{readonly:true,size:10}},
-					   		{name:'number_plate',index:'number_plate', width:190},
-					   		{name:'driver',index:'driver', width:190},
-					   		{name:'trace',index:'trace', width:190}
-					   		
-					   	],
-					   	rowNum:10,
-					   	rowList:[10,20,30],
-					   	pager: '#page_show',
-					   	sortname: 'id',
-					    viewrecords: true,
-					    sortorder: "desc",
-						height:290
-					});
-
-			jQuery("#show_vehicles").jqGrid('navGrid','#page_show',
-			{edit:false,add:false,del:false,search:false});
+			if(!is_vehicle_in_area_list_showed){
+				is_vehicle_in_area_list_showed = true;
+				$("#show_vehicles_page").jqGrid({
+					url:'index.php?a=356&begin_time='+begin_time
+						+'&end_time='+end_time+'&id_list='+idListInAreaStr,
+							datatype: "json",
+						   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
+						   	colModel:[
+						   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
+																				{readonly:true,size:10}},
+						   		{name:'number_plate',index:'number_plate', width:190},
+						   		{name:'driver',index:'driver', width:190},
+						   		{name:'trace',index:'trace', width:190}
+						   		
+						   	],
+						   	rowNum:10,
+						   	rowList:[10,20,30],
+						   	pager: '#page_show',
+						   	sortname: 'id',
+						    viewrecords: true,
+						    sortorder: "desc",
+							height:290
+						});
+	
+				$("#show_vehicles").jqGrid('navGrid','#page_show',
+				{edit:false,add:false,del:false,search:false});
+			}else{
+				$("#show_vehicles_page").jqGrid().setGridParam({url : 'index.php?a=356&begin_time='+begin_time
+					+'&end_time='+end_time+'&id_list='+idListInAreaStr,page:1}).trigger("reloadGrid");
+			}
 		};
 
 		
