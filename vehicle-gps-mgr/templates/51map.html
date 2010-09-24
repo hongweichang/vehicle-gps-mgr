@@ -18,7 +18,7 @@
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.1;   //	矩形下间距
 
-	//var ifr = window.parent.document.getElementById("is_locate");
+	var mode_area = window.parent.document.getElementById("mode_area");
 	
 	//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 	window._LT_map_disableProgressBar=true;	
@@ -28,15 +28,17 @@
 	
 	maps.addControl(new LTSmallMapControl());
 
-	/*添加拉框放大控件*/
-	var ltControl = new LTZoomInControl();
-	maps.addControl( ltControl );
-	ltControl.setRight(280);
-	LTEvent.addListener(ltControl,"draw",doit);
-
-	//拉框完成后切换拉框按钮为非选中状态
-	function doit(){
-		ltControl.btnClick();
+	if(mode_area!=null){
+		/*添加拉框放大控件*/
+		var ltControl = new LTZoomInControl();
+		maps.addControl( ltControl );
+		ltControl.setRight(280);
+		LTEvent.addListener(ltControl,"draw",doit);
+	
+		//拉框完成后切换拉框按钮为非选中状态
+		function doit(){
+			ltControl.btnClick();
+		}
 	}
 	
 	control = new LTZoomSearchControl();
