@@ -241,8 +241,9 @@
 								"<div class='lable'><div class='lable_title'>编辑：</div><div class='lable_content'><a href='javascript:modify_position("+id+")'>修改</a></div></div>" +
 								"<div class='lable'><div class='lable_title'>删除：</div><div class='lable_content'><a href='javascript:delete_position("+id+")'>删除</a></div></div>" +
 								"</div> " ); 
-				info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
+				
 				map.addOverLay( info );
+				info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
 			});
 		}
 		//标注点添加点击事件 
