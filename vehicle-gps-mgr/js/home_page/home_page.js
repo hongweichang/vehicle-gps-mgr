@@ -34,12 +34,6 @@ $(document).ready(function() {
 			});
 	
 		$("#location_info").draggable();
-		
-	
- 
-		$( "#opinion" ).dialog({
-			   close: function(event, ui) { alertInfo(); }
-		});
 
 		$('.console_btn').click(function(e) {
 			if($(this).attr("id")=="sel_vehicle_btn"){
@@ -169,7 +163,7 @@ function show_as_date(){
 	
 	function showOperationDialog(htmlObj, url, div_name){ 
 		var div_param = "operation";
-		
+		 
 		if(div_name){
 			div_param = div_name;
 		}
