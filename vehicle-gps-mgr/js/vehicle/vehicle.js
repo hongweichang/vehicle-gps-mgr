@@ -13,7 +13,7 @@ jQuery("#navgrid_vehicle").jqGrid({
    	colModel:[
    		{name:'id',index:'id',align:"center", width:55,editable:true,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate',align:"center", width:80,editable:true,editrules:{required:true},editoptions:{size:10,disabled:gps_edit}},
-   		{name:'gps_id',index:'gps_id',align:"center", width:60,editable:true,editrules:{required:true},editoptions:{size:25,disabled:is_gps}},
+   		{name:'gps_id',index:'gps_id',align:"center", width:60,editable:true,editoptions:{size:25,disabled:is_gps}},
    		{name:'vehicle_group_id',index:'vehicle_group_id', width:60, align:"center",editrules:{required:true},editable:true,edittype:"select",editoptions:{disabled:gps_edit,dataUrl:'index.php?a=1013&p=vehicle_group_id'}},
    		{name:'driver_id',index:'driver_id', width:60, align:"center",editable:true,editrules:{required:true},edittype:"select",editoptions:{disabled:gps_edit,dataUrl:'index.php?a=1013&p=driver_id'}},
    		{name:'type_id',index:'type_id', width:60, align:"center",editable:true,edittype:"select",editrules:{required:true},editoptions:{disabled:gps_edit,dataUrl:'index.php?a=1013&p=type_id'}},
