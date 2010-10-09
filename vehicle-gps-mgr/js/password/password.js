@@ -1,4 +1,5 @@
 $(":button").button();
+$("#reset_password").button();
 
 
 $("#pass_commit").click(function(){
@@ -10,6 +11,11 @@ $("#pass_commit").click(function(){
 		$("#two_show").hide();
 		$("#old_show").hide();
 	}*/
+	
+	if(old_password=="" || new_password_one=="" || new_password_two==""){
+		alert("密码不能为空");
+		return;
+	}
 	
 	if(new_password_one!=new_password_two){
 		/*$("#old_show").hide();
