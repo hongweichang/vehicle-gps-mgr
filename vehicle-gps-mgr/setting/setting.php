@@ -20,7 +20,7 @@ switch($act)
 		//刷时间 5 10 15 30 45 60
 		$sj = array(5,10,15,30,45,60);
 	
-		if(get_session("role_id")!=2){
+		if(get_session("role_sense")!="admin"){
 			$sel_html = "<select disabled=true' name = 'page_refresh_time' id = 'page_refresh_time'>";
 			$dis['display'] = "disabled=true";
 			$dis['driver'] = "disabled=true";
@@ -63,7 +63,7 @@ switch($act)
 		$dataMapping = new Data_mapping_handler ( $color_xml ); //从xml配置信息中读取颜色
 	    $data_list_color=$dataMapping->getTextDataList('color');
 	    
-	    if(get_session("role_id")!=2){
+	    if(get_session("role_sense")!="admin"){
 	    	$new .= '
 				    <TR onmouseover=this.style.backgroundColor="#0099ff"  onmouseout=this.style.backgroundColor="">   
 						<TD  id="color_{{selectedValue}}'."0".'" value="'."0".'">

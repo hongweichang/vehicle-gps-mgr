@@ -20,14 +20,14 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 
-$role_id = get_session('role_id');
+$role_sense = get_session('role_sense');
 
 if(!$sidx) $sidx =1;
 
 switch($act)
 {
 	case "list":			//加载车辆管理的html页面
-		if(3==$role_id){
+		if("sysadmin"==$role_sense){
 			$arr['is_role3'] = "role_3";
 			echo $db->display($arr,"list");			
 		}else{

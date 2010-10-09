@@ -20,7 +20,7 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 
-$role_id = get_session('role_id');
+$role_sense = get_session('role_sense');
 $user_id = get_session("user_id");
 
 if(!$sidx) $sidx =1;

@@ -22,6 +22,7 @@ class User extends BASE
 	
 	private $user_id = false;		//用户ID
 	private $tablename_company = "company";		//公司表
+	private $tablename_role = "role";		//公司表
 	private $tablename_log = "login_log";		//登录、登出日志
 	/**
 	*		构造函数
@@ -58,7 +59,7 @@ class User extends BASE
 	*/
 	function login($user_name,$user_pass,$companyloginid)
 	{
-		$this->sql = sprintf("select u.* from %s u,%s c where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = '%s' and u.state = 1",$this->tablename,$this->tablename_company,$user_name,$user_pass,$companyloginid);
+		$this->sql = sprintf("select u.*,r.role_sense from %s u,%s c,%s r where u.login_name = '%s' and u.password = '%s' and u.company_id = c.id and c.login_id = '%s' and u.state = 1 and u.role_id=r.id",$this->tablename,$this->tablename_company,$this->tablename_role,$user_name,$user_pass,$companyloginid);
 		if(!$result = $GLOBALS['db']->query_once($this->sql))
 		{
 			$this->message = "公司登录ID、用户名或密码错误，登录失败！";
@@ -68,7 +69,7 @@ class User extends BASE
 		set_session("login_id",$companyloginid);
 		set_session("company_id",$result['company_id']);
 		set_session("user_name",$result['login_name']);
-		set_session("role_id",$result['role_id']);
+		set_session("role_sense",$result['role_sense']);
 		//记录登陆日志
 		$ip = get_user_ip();
 		$log['user_id'] = $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
