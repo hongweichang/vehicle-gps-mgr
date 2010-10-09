@@ -36,7 +36,7 @@ $("#pass_commit").click(function(){
 				$("#delay").unmask();
 				alert("修改成功");
 			}else if("old_wrong"==data){
-				$("#old_show").html("旧密码错误");
+				$("#old_show").html("原密码错误");
 				$("#delay").unmask();
 			}else{
 				$("#delay").unmask();

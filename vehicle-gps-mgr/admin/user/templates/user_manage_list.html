@@ -30,7 +30,7 @@ jQuery(document).ready(function(){
         			  "<div style='width:110px;float:left;text-align:right'>"+
         			  "<a href='index.php?a=1005'>安全退出</a></div></div>"; 
 	  
-     var tree_url = "xml/tree_"+$("#role_sense").attr("name")+".xml";
+     var tree_url = "xml/tree_"+$("#identify_id").attr("name")+".xml";
      jQuery("#west-grid").jqGrid({
         url: tree_url,
         datatype: "xml",
@@ -75,7 +75,7 @@ jQuery(document).ready(function(){
     });	
 
 
-	if("admin"==$("#role_sense").attr("name")){     
+	if("admin"==$("#identify_id").attr("name")){     
 	//加载页面以后得到驾驶员数据信息   
 	document.getElementById('tabs-1').style.display="none";
     var maintab =jQuery('#tabs','#RightPane').tabs({
@@ -101,7 +101,7 @@ jQuery(document).ready(function(){
 		}
 	});
   }
-	if("sysadmin"==$("#role_sense").attr("name")){     
+	if("sysadmin"==$("#identify_id").attr("name")){     
 		//加载页面以后得到车辆数据信息   
 		document.getElementById('tabs-1').style.display="none";
 	    var maintab =jQuery('#tabs','#RightPane').tabs({
@@ -128,7 +128,7 @@ jQuery(document).ready(function(){
 		});
 	  }
 
-	if("system"==$("#role_sense").attr("name")){     
+	if("system"==$("#identify_id").attr("name")){     
 		//加载页面以后得到公司数据信息   
 		document.getElementById('tabs-1').style.display="none";
 	    var maintab =jQuery('#tabs','#RightPane').tabs({
@@ -155,7 +155,7 @@ jQuery(document).ready(function(){
 		});
 	  }
 
-	if("normal"==$("#role_sense").attr("name")){
+	if("normal"==$("#identify_id").attr("name")){
 		//加载页面以后得到密码修改信息   
 		document.getElementById('tabs-1').style.display="none";
 	    var maintab =jQuery('#tabs','#RightPane').tabs({
@@ -203,7 +203,7 @@ jQuery(document).ready(function(){
 			</div>
 		</div>
 	</div> 
-	<input id="role_sense" type='hidden' name="{{ROLE_SENSE}}"></input>
+	<input id="identify_id" type='hidden' name="{{IDENTIFY_ID}}"></input>
 	<!-- #RightPane -->
 </body>
 

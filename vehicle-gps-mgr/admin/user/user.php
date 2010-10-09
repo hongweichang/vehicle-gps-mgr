@@ -20,7 +20,7 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $foper = $_REQUEST['searchOper'];
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
-$role_sense = get_session("role_sense");
+$identify_id = get_session("identify_id");
 
 if(!$sidx) $sidx =1;
 
@@ -95,7 +95,7 @@ switch($act)
 		break;
 	case "manage_list":			//模拟管理页面
 		$data["user_name"] = get_session("user_name");
-		$data['role_sense'] = $role_sense;
+		$data['identify_id'] = $identify_id;
 		echo $db->display($data,"manage_list");
 		break;
 	case "login_success":	 

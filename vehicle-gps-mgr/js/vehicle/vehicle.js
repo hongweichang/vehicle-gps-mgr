@@ -1,6 +1,6 @@
 var is_gps = true;
 var gps_edit = false;
-if("role_3"==$("#gps_role").val()){
+if("sysadmin"==$("#gps_role").val()){
 	is_gps = false;
 	gps_edit = true;
 }
