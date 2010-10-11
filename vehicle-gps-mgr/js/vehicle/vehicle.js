@@ -50,5 +50,31 @@ jQuery("#navgrid_vehicle").jqGrid({
 
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
 {edit:true,add:is_gps,del:is_gps,search:false}, //options
-{del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
+{
+	afterSubmit:processAddEdit,
+	closeAfterAdd:true,
+	closeAfterEdit:true,
+	reloadAfterSubmit:true
+},
+{
+	afterSubmit:processAddEdit ,
+	closeAfterAdd:true,
+	closeAfterEdit:true,
+	reloadAfterSubmit:true
+});
+
+
+//处理添加，编辑的返回信息
+function processAddEdit(response){
+	var success =true;
+	var message ="";
+	var json = eval('('+ response.responseText + ')');
+
+	if(!json.success){
+	   success =json.success;
+	   message =json.errors;
+	}
+	return [success,message,0];
+}
+
 

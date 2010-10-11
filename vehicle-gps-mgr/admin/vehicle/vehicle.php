@@ -195,7 +195,12 @@ switch($act)
 				$vehicle->add_vehicle($arr);
 				break;
 			case "edit":		//修改
-				$vehicle->edit_vehicle($arr);
+				if(strlen($_REQUEST['gps_id']."")!=11 || !is_numeric($_REQUEST['gps_id']."")){
+					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
+				}else{
+					$vehicle->edit_vehicle($arr);
+					echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+				}
 				break;
 			case "del":		//删除
 				$vehicle->del_vehicle($arr);
