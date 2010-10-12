@@ -162,9 +162,14 @@ switch($act)
 		
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
+		/*if($_REQUEST['next_AS_date']==""){
+			$next_as_date = null;
+		}else{
+			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
+			$next_as_date = $next_date[0];
+		}*/
 		$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
 		$next_as_date = $next_date[0];
-		
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
 		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");
 		$arr["gps_id"] = $db->prepare_value($_REQUEST['gps_id'],"VARCHAR");
@@ -192,7 +197,11 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				$vehicle->add_vehicle($arr);
+				if($vehicle->add_vehicle($arr)){
+					echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+				}else{
+					exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
+				}
 				break;
 			case "edit":		//修改
 				if(strlen($_REQUEST['gps_id']."")!=11 || !is_numeric($_REQUEST['gps_id']."")){
@@ -203,7 +212,11 @@ switch($act)
 				}
 				break;
 			case "del":		//删除
-				$vehicle->del_vehicle($arr);
+				if($vehicle->del_vehicle($arr)){
+					echo json_encode(array('success'=>true,'errors'=>'删除成功!'));
+				}else{
+					exit(json_encode(array('success'=>false,'errors'=>'删除失败!')));
+				}
 				break;
 		}
 		break;
