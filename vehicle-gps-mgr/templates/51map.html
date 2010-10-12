@@ -11,12 +11,14 @@
 </head>
 <body>
 <div id="myMap" style="position:relative; width:100%; height:115%;"></div>
-
+<input type="hidden" id="city"></input>
 <script language="javascript">
 	var leftOffsetRatio = 0.05;  //	矩形左间距
 	var rightOffsetRatio = 0.1;  //	矩形右间距
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.1;   //	矩形下间距
+
+	var city_mode = window.parent.document.getElementById("post_city_name");
 
 	var mode_area = window.parent.document.getElementById("mode_area");
 	
@@ -24,7 +26,12 @@
 	window._LT_map_disableProgressBar=true;	
 	var maps = new LTMaps( "myMap" ); 
 	maps.setMapCursor("hand","hand");
-	maps.cityNameAndZoom( "beijing" , 6 ); 
+	if(city_mode!=null && city_mode.value!=null && city_mode.value!=""){
+		var city_name = city_mode.value;
+		maps.cityNameAndZoom( city_name , 6 ); 
+	}else{
+		maps.cityNameAndZoom( "beijing" , 6 ); 
+	}
 	
 	maps.handleMouseScroll();
 	maps.addControl(new LTSmallMapControl());

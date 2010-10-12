@@ -18,6 +18,7 @@ $(document).ready(function(){
 	run_play(3);//正常速度
 	
 	$(":button").button();
+	$("#select_city").button();
 	
 	//初始始进度条
 	$("#history_progress").progressbar({
@@ -152,7 +153,6 @@ $(document).ready(function(){
 			$("#stop_history").hide();
 			$("#progress_content").hide();
 
-			//$("#mode_area").attr("src","inquire/templates/51ditu.html"); //区域查询时加载地图
 			$("#mode_area").attr("src","templates/51map.html"); //区域查询时加载地图
 		}else{
 			$("#vehicle_info").show();
@@ -332,7 +332,6 @@ $(document).ready(function(){
 		
 		return str;
 	}
-
 	
 	 //区域查询车辆历史轨迹
 	$("#show_vehicles").click(function(){

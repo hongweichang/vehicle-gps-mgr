@@ -39,6 +39,7 @@
 	.location_info_operate{width:25%;height:12px;margin-top:8px;font-size:14px;}
 	.hand{cursor:hand;}
 </style>
+
 <div style="left:0px;height:100%;width:110%;">
 	<div class="body_div" >
 		<div id='his' class="radio_div">
@@ -104,9 +105,24 @@
 			<table id="show_vehicles_page" style="width:880px;"></table>
 			<div id="page_show"></div>
 		</div>
-		<div id="areas">
-			<iframe id="mode_area"  style="width:900px;height:410px;" marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
-			<div id="area_vehicles"></div>
+		<div id="areas" style="height:400px; width:600px;">
+			<div id="city_mode" style="float:left;width:25%; height:100%;">
+				<div  style="border:0px red solid; height:18px; width:90%;margin-top:10px; font-weight:700; font-size:12px;">
+					<label for="fromcity">点击选择城市：</label>
+				</div>
+				<div style="border:0px red solid; height:25px; width:95%; margin-top:10px;">
+					<INPUT id=city style="COLOR: #c1c1c1" 
+					 onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
+     			</div>
+     			<!-- <div style="border:0px red solid; height:25px; width:90%; margin-top:10px; text-align:center;">
+     				<input type="submit" id="select_city" value="查询"></input>
+     			</div>	 
+     			 -->
+			</div>  
+			<div style="float:left;height:100%;width:70%;">
+				<iframe id="mode_area"  style="width:800px;height:410px;"  marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
+			</div>
+			<input type='hidden' id="post_city_name"></input>
 		</div>
 		<div class="toggler" id="location_info">
 				<div id="effect" class="ui-widget-content ui-corner-all">
@@ -195,4 +211,6 @@ function clear_history_track(){
 </script>
 <script language="javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
+<SCRIPT src="js/inquire_trace/popdg_div.js" type=text/javascript></SCRIPT>
+
 {{FOOTER}}	

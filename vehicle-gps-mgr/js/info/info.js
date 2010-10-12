@@ -1,7 +1,7 @@
 $("#area_Commit").hide();
 $("#area_begin_time").hide();
 $("#area_end_time").hide();
-$("#issue_map").hide();
+$("#sel_vehicle_cotainer").hide();
 $("#add_input").hide();
 
 if($("#is_hidden").val()==1){
@@ -38,7 +38,7 @@ $("#car").click(function(event) {
 	$(".info_select").show();
 	$("#info_Commit").show();
 	$("#area_Commit").hide();
-	$("#issue_map").hide();
+	$("#sel_vehicle_cotainer").hide();
 	$("#infodiv").show();
 	$("#list_user").show();
 	$("#da_user").show();
@@ -73,7 +73,7 @@ $("#area_issue").click(function() {
 	$("#add_input").hide();
 	$("#area_Commit").show();
 	$("#infodiv").hide();
-	$("#issue_map").show();
+	$("#sel_vehicle_cotainer").show();
 	$("#list_user").hide();
 	$("#area_begin_time").show();
 	$("#area_end_time").show();
