@@ -147,15 +147,6 @@ class Vehicle extends BASE
 		return true;
 	}
 	
-	/**
-	 *  根据车辆ID与驾驶员ID查询车辆与驾驶员的对应关系
-	 *  @param $vehicle_id 车辆ID $driver_id 驾驶员ID
-	 */
-/*	function get_vehicle_driver($vehicle_id,$driver_id){
-		$this->sql = "select id from driver_vehicle where vehicle_id = ".$vehicle_id." and driver_id=".$driver_id;
-		$result = $GLOBALS["db"]->query_once($this->sql);
-		return $result;
-	}*/
 	
 	/**
 	*	实体函数的render，车辆对指定的列名称（字符串）进行润色、翻译
@@ -240,13 +231,34 @@ class Vehicle extends BASE
 	*		@param $tablename 外键对应的表名 $fieldname 字段名
 	*		@return mixed
 	*/
-	function get_select($tablename,$fieldname,$vehicle_id)
+	/*function get_select_driver($tablename,$fieldname,$vehicle_id)
 	{
 		//$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
 		//file_put_contents("a.txt",$this->sql);
 		$this->sql = sprintf("select distinct dr.id,dr.%s from %s dr left join driver_vehicle  dv on dr.id = dv.driver_id
 								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle)) and company_id = %d"
 								,$fieldname,$tablename,$vehicle_id,get_session('company_id'));
+		$result = $GLOBALS['db']->query($this->sql);
+		$select = '<select id="driver_options">
+								<option value="-1">请选择</option>
+								';
+		foreach($result as $temp)
+		{
+			$select .= "<option value='".$temp['id']."'>".$temp['name']."</option>";
+		}
+		$select .= '<select>';
+		return $select;
+	}*/
+	
+	/**
+	*		得到外键对应的所有name选择下拉列表（有选定状态）
+	*		@param $tablename 外键对应的表名 $fieldname 字段名
+	*		@return mixed
+	*/
+	function get_select($tablename,$fieldname)
+	{
+		$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
+		file_put_contents("a.txt",$this->sql);
 		$result = $GLOBALS['db']->query($this->sql);
 		$select = '<select id="driver_options">
 								<option value="-1">请选择</option>
