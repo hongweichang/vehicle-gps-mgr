@@ -36,7 +36,7 @@ switch($act)
 		}
 		break;
 	case "list_data":		//车辆管理html中，js文件会加载这个case，取得并输出数据
-		$vehicle = new Vehicle();
+		$vehicle	= new Vehicle();
 		$count = $vehicle->get_vehicle_count();
 
 		if( $count >0 ) {
@@ -149,7 +149,7 @@ switch($act)
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 																					$val['gps_id'],$vehicle_group_name,
 																					$driver_name,$type_name,$val['color'],
-																					$val['next_AS_date'],"<a href='#' style='color:#0099FF;text-decoration:none;' id=".$val['id']."  onclick='change_driver(".$val['id'].")'>更改>></a>"
+																					$val['next_AS_date']
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
 																					//$val['create_time'],$val['update_id'],$val['update_time']
@@ -162,12 +162,6 @@ switch($act)
 		
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
-		/*if($_REQUEST['next_AS_date']==""){
-			$next_as_date = null;
-		}else{
-			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
-			$next_as_date = $next_date[0];
-		}*/
 		$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
 		$next_as_date = $next_date[0];
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
@@ -197,8 +191,17 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				if($vehicle->add_vehicle($arr)){
-					echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+				$result = $vehicle->add_vehicle($arr);
+				if($result){
+					$vehicle_driver['vehicle_id'] = $db->prepare_value($result,"INT");;
+					$vehicle_driver['driver_id'] = $db->prepare_value($_REQUEST['driver_id'],"INT");
+					if($vehicle->set_authority($vehicle_driver)){
+						echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+					}else{
+						$vehicle['id'] = $db->prepare_value($result,"INT");
+						$vehicle->del_vehicle($vehicle);
+						exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
+					}
 				}else{
 					exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
 				}
@@ -213,6 +216,7 @@ switch($act)
 				break;
 			case "del":		//删除
 				if($vehicle->del_vehicle($arr)){
+					$vehicle->remove_vehicle_driver($_REQUEST['id']);
 					echo json_encode(array('success'=>true,'errors'=>'删除成功!'));
 				}else{
 					exit(json_encode(array('success'=>false,'errors'=>'删除失败!')));
@@ -229,7 +233,8 @@ switch($act)
 				$html = $vehicle->get_select("vehicle_group","name");
 				break;
 			case "driver_id":
-				$html = $vehicle->get_select("driver_manage","name");
+				$vehicle_id = $_REQUEST['vehicle_id'];
+				$html = $vehicle->get_select("driver_manage","name",$vehicle_id);
 				break;
 			case "type_id":
 				$html = $vehicle->get_select("vehicle_type_manage","name");
@@ -245,18 +250,6 @@ switch($act)
 				break;
 		}
 		echo $html;
-		break;
-		
-	case "change_driver": //更改驾驶员
-		$vehicle_id = $_REQUEST['vehicle_id'];
-		$driver_id = $_REQUEST['driver_id'];
-		$vehicle = new Vehicle();
-		$result = $vehicle->change_driver($vehicle_id,$driver_id);
-		if($result){
-			echo "ok";
-		}else{
-			echo "fail";
-		}
 		break;
 }
 
