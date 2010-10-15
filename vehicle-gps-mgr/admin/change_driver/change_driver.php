@@ -25,7 +25,7 @@ switch($act)
 		$vehicle_id = $_REQUEST['vehicle_id'];
 		require_once("admin/vehicle/vehicle.class.php");
 		$vehicle = new vehicle();
-		$drivers = $vehicle->get_select("driver_manage","name",$vehicle_id);
+		$drivers = $vehicle->get_select_driver("driver_manage","name",$vehicle_id);
 		//$arr['drivers'] = $drivers;
 		//echo $GLOBALS['db']->display($arr,"list");
 		

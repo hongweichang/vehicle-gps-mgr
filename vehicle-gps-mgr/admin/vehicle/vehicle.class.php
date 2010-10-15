@@ -231,7 +231,7 @@ class Vehicle extends BASE
 	*		@param $tablename 外键对应的表名 $fieldname 字段名
 	*		@return mixed
 	*/
-	/*function get_select_driver($tablename,$fieldname,$vehicle_id)
+	function get_select_driver($tablename,$fieldname,$vehicle_id)
 	{
 		//$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
 		//file_put_contents("a.txt",$this->sql);
@@ -248,7 +248,7 @@ class Vehicle extends BASE
 		}
 		$select .= '<select>';
 		return $select;
-	}*/
+	}
 	
 	/**
 	*		得到外键对应的所有name选择下拉列表（有选定状态）
