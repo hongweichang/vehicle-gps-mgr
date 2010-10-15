@@ -9,7 +9,7 @@ if("sysadmin"==$("#gps_role").val()){
 jQuery("#navgrid_vehicle").jqGrid({
    	url:'index.php?a=1011',
 		datatype: "json",
-   	colNames:['ID','车牌号', 'GPS设备编号', '车辆组','驾驶员','车型','颜色','年检时间'],
+   	colNames:['ID','车牌号', 'GPS设备编号', '车辆组','驾驶员','车型','颜色','年检时间','更改驾驶员'],
    	colModel:[
    		{name:'id',index:'id',align:"center", width:55,editable:true,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate',align:"center", width:80,editable:true,editrules:{required:true},editoptions:{size:10,disabled:gps_edit}},
@@ -30,11 +30,11 @@ jQuery("#navgrid_vehicle").jqGrid({
 					 showHour: true,//是否显示小时，默认是true  
 					 showMinute:true,
 					 showSecond:true,
-						 createButton:false
+					 createButton:false
 				});
    			},
    			defaultValue: ""
-   		}}
+   		}},{name:'change_driver',index:'change_driver',width:60,align:'center'}
    	],
    	width:750,
    	rowNum:10,
@@ -45,7 +45,7 @@ jQuery("#navgrid_vehicle").jqGrid({
     sortorder: "desc",
     caption:"车辆管理",
     editurl:"index.php?a=1012",
-	height:350
+	height:360
 });
 
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
@@ -76,5 +76,30 @@ function processAddEdit(response){
 	}
 	return [success,message,0];
 }
+
+function change_driver(vehicle_id){
+	$.get("index.php?a=6001&vehicle_id="+vehicle_id,function(data){
+		var drivers = eval("("+data+")");
+		$("#drivers").html("<div style='text-align:center;margin-top:2px'>" + drivers+ "<button style='margin-left:14px' value='change' onclick='update_driver("+vehicle_id+")'>更改</button></div>" +
+				"<p><ul>列表中驾驶员包括：<li>已经分配给该车辆的驾驶员</li><li>没有分配给任何车辆的驾驶员</li></ul></p>");
+		$("#drivers").dialog({height:150,width:230,title:'更换驾驶员',
+             autoOpen:true,position:[500,150],hide:'blind',show:'blind'});
+	});
+}
+
+function update_driver(vehicle_id){
+	var driver_id = $("#driver_options").val();
+	$.get("index.php?a=1014&vehicle_id="+vehicle_id+"&driver_id="+driver_id,function(data){
+		alert(data);
+		if("ok"==data){
+			$("#drivers").dialog('close');
+			jQuery("#navgrid_vehicle").jqGrid('setGridParam',{url:'index.php?a=1011'}).trigger("reloadGrid");
+		}else{
+			alert("修改失败");
+		}
+	});
+}
+
+$(":button").button();
 
 
