@@ -36,7 +36,7 @@ switch($act)
 		}
 		break;
 	case "list_data":		//车辆管理html中，js文件会加载这个case，取得并输出数据
-		$vehicle	= new Vehicle();
+		$vehicle = new Vehicle();
 		$count = $vehicle->get_vehicle_count();
 
 		if( $count >0 ) {
@@ -149,7 +149,7 @@ switch($act)
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
 																					$val['gps_id'],$vehicle_group_name,
 																					$driver_name,$type_name,$val['color'],
-																					$val['next_AS_date']
+																					$val['next_AS_date'],"<a href='#' style='color:#0099FF;text-decoration:none;' id=".$val['id']."  onclick='change_driver(".$val['id'].")'>更改>></a>"
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
 																					//$val['create_time'],$val['update_id'],$val['update_time']
@@ -245,6 +245,18 @@ switch($act)
 				break;
 		}
 		echo $html;
+		break;
+		
+	case "change_driver": //更改驾驶员
+		$vehicle_id = $_REQUEST['vehicle_id'];
+		$driver_id = $_REQUEST['driver_id'];
+		$vehicle = new Vehicle();
+		$result = $vehicle->change_driver($vehicle_id,$driver_id);
+		if($result){
+			echo "ok";
+		}else{
+			echo "fail";
+		}
 		break;
 }
 

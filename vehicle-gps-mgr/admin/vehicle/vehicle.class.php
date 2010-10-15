@@ -9,7 +9,6 @@
 * @modify  　　　 n/a
 * @modify date　　n/a
 * @modify describe   2010.07.24 18:45	文件生成
-* @todo			  n/a
 */
 class Vehicle extends BASE
 {
@@ -64,13 +63,32 @@ class Vehicle extends BASE
 			$this->message = "error,object must be not empty!";
 			return false;
 		}
-		if(!$GLOBALS['db']->insert_row($this->tablename,$vehicle))
+		$result = $GLOBALS['db']->insert_row($this->tablename,$vehicle);
+		if(!$result)
+		{
+			$this->message = "error,insert data failed!";
+			return false;
+		}
+		//return true;
+		return $result;
+	}
+	
+	/**
+	 * 	添加车辆时给车辆授权驾驶员
+	 * 	@param  $vehicle_id 车辆ID $driver_id 驾驶员ID
+	 */
+	function set_authority($vehicle_driver){
+		if(!$vehicle_driver){
+			$this->message = "error,object must be not empty!";
+			return false;
+		}
+		if(!$GLOBALS['db']->insert_row("driver_vehicle",$vehicle_driver))
 		{
 			$this->message = "error,insert data failed!";
 			return false;
 		}
 		return true;
-	}
+	} 
 	
 	/**
 	*	修改车辆
@@ -114,6 +132,30 @@ class Vehicle extends BASE
 		}
 		return true;
 	}
+	
+	/**
+	 *  解除车辆与驾驶员的关系 
+	 *  @param $vehicle_id 车辆ID $driver_id 驾驶员ID
+	 */
+	function remove_vehicle_driver($vehicle_id){
+		$this->sql = sprintf("delete from driver_vehicle where vehicle_id = %d",$vehicle_id);
+		if(!$GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "error,delete data failed!";
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 *  根据车辆ID与驾驶员ID查询车辆与驾驶员的对应关系
+	 *  @param $vehicle_id 车辆ID $driver_id 驾驶员ID
+	 */
+/*	function get_vehicle_driver($vehicle_id,$driver_id){
+		$this->sql = "select id from driver_vehicle where vehicle_id = ".$vehicle_id." and driver_id=".$driver_id;
+		$result = $GLOBALS["db"]->query_once($this->sql);
+		return $result;
+	}*/
 	
 	/**
 	*	实体函数的render，车辆对指定的列名称（字符串）进行润色、翻译
@@ -198,12 +240,15 @@ class Vehicle extends BASE
 	*		@param $tablename 外键对应的表名 $fieldname 字段名
 	*		@return mixed
 	*/
-	function get_select($tablename,$fieldname)
+	function get_select($tablename,$fieldname,$vehicle_id)
 	{
-		$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
+		//$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
 		//file_put_contents("a.txt",$this->sql);
+		$this->sql = sprintf("select distinct dr.id,dr.%s from %s dr left join driver_vehicle  dv on dr.id = dv.driver_id
+								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle))"
+								,$fieldname,$tablename,$vehicle_id);
 		$result = $GLOBALS['db']->query($this->sql);
-		$select = '<select>
+		$select = '<select id="driver_options">
 								<option value="-1">请选择</option>
 								';
 		foreach($result as $temp)
@@ -223,6 +268,19 @@ class Vehicle extends BASE
 	{
 		$this->sql = "select id,number_plate from ".$this->tablename." where vehicle_group_id = ".$vehicle_group_id;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql); 
+	}
+	
+	/**
+	 *  更换驾驶员
+	 */
+	function change_driver($vehicle_id,$driver_id){
+		$this->sql = sprintf("update vehicle_manage set driver_id=".$driver_id." where id=".$vehicle_id);
+		if(!$GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "error,delete data failed!";
+			return false;
+		}
+		return true;
 	}
 }
 
