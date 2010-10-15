@@ -90,7 +90,6 @@ function change_driver(vehicle_id){
 function update_driver(vehicle_id){
 	var driver_id = $("#driver_options").val();
 	$.get("index.php?a=1014&vehicle_id="+vehicle_id+"&driver_id="+driver_id,function(data){
-		alert(data);
 		if("ok"==data){
 			$("#drivers").dialog('close');
 			jQuery("#navgrid_vehicle").jqGrid('setGridParam',{url:'index.php?a=1011'}).trigger("reloadGrid");
