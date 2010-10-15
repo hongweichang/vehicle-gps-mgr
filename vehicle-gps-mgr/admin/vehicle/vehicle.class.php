@@ -245,8 +245,8 @@ class Vehicle extends BASE
 		//$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
 		//file_put_contents("a.txt",$this->sql);
 		$this->sql = sprintf("select distinct dr.id,dr.%s from %s dr left join driver_vehicle  dv on dr.id = dv.driver_id
-								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle))"
-								,$fieldname,$tablename,$vehicle_id);
+								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle)) and company_id = %d"
+								,$fieldname,$tablename,$vehicle_id,get_session('company_id'));
 		$result = $GLOBALS['db']->query($this->sql);
 		$select = '<select id="driver_options">
 								<option value="-1">请选择</option>
