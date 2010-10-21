@@ -253,7 +253,7 @@
 	function get_data(data){
 		if (data != null) {		 
 			var vehicle_id = data['id']; //车辆id
-			var gps_id = data['gps_id']; //GPS编号
+			var gps_number = data['gps_number']; //GPS编号
 			var location_time = data['location_time']; //当前定位时间 
 			var cur_speed = data['cur_speed'];//当前速度
 			var vehicle_group_name = data['group_name']; //车队
@@ -262,7 +262,7 @@
 			
 			var context = 
 					"<div class='content_div'><div class='title'>GPS编号：</div>" +
-					"<div class='content'>"+gps_id + "</div></div>" +
+					"<div class='content'>"+gps_number + "</div></div>" +
 					"<div class='content_div'><div class='title'>车队：</div>" +
 					"<div class='content'>"+vehicle_group_name +"</div></div>" +
 					"<div class='content_div'><div class='title'>驾驶员：</div>" +

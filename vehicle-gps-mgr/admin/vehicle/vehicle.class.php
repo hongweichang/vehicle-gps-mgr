@@ -147,6 +147,46 @@ class Vehicle extends BASE
 		return true;
 	}
 	
+	/**
+	 * 设置gps设备号为使用中
+	 * @gps_id ID
+	 * 
+	 */
+	function change_gps_state($gps_id){
+		$this->sql = sprintf("update gps_equipment set state=1 where id=".$gps_id);
+		if(!$GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "error,delete data failed!";
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 设置gps设备号为未使用
+	 * @gps_id ID
+	 * 
+	 */
+	function remove_gps_state($gps_id){
+		$this->sql = sprintf("update gps_equipment set state=0 where id=".$gps_id);
+		if(!$GLOBALS['db']->query($this->sql))
+		{
+			$this->message = "error,delete data failed!";
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * 查询gps设备号是否被使用
+	 */
+	function get_gps_state($gps_id){
+		$this->sql = sprintf("select state from %s where id = %d","gps_equipment",$gps_id);
+		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
+			return $this->data[0];
+		else
+			return false;
+	}
 	
 	/**
 	*	实体函数的render，车辆对指定的列名称（字符串）进行润色、翻译
@@ -200,7 +240,8 @@ class Vehicle extends BASE
 	function get_all_vehicles($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
 		//$this->sql = "select * from ".$this->tablename." ".$wh." and vehicle_group_id in(select id from ".$this->tablename_vehicle_group." where company_id = ".get_session("company_id").") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
-		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;
+		//$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;		
+		$this->sql = "select vm.*,ge.gps_number from ".$this->tablename." vm left join gps_equipment ge on vm.gps_id = ge.id ".$wh." and vm.company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
@@ -239,7 +280,7 @@ class Vehicle extends BASE
 								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle)) and company_id = %d"
 								,$fieldname,$tablename,$vehicle_id,get_session('company_id'));
 		$result = $GLOBALS['db']->query($this->sql);
-		$select = '<select id="driver_options">
+		$select = '<select id="driver_option">
 								<option value="-1">请选择</option>
 								';
 		foreach($result as $temp)
@@ -257,19 +298,52 @@ class Vehicle extends BASE
 	*/
 	function get_select($tablename,$fieldname)
 	{
+		$select_id = false;
+		if("vehicle_group" == $tablename){
+			$select_id = "group_options";
+		}else if("driver_manage" == $tablename){
+			$select_id = "driver_options";
+		}else if("vehicle_type_manage" == $tablename){
+			$select_id = "type_options";
+		}
+		
 		$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
 		file_put_contents("a.txt",$this->sql);
 		$result = $GLOBALS['db']->query($this->sql);
-		$select = '<select id="driver_options">
+		$select = '<select id='.$select_id.'>
 								<option value="-1">请选择</option>
 								';
 		foreach($result as $temp)
 		{
 			$select .= "<option value='".$temp['id']."'>".$temp['name']."</option>";
 		}
+
 		$select .= '<select>';
 		return $select;
 	}
+	
+	/**
+	*		得到外键对应的所有gps设备号选择下拉列表（有选定状态）
+	*		@param $tablename 外键对应的表名 $fieldname 字段名
+	*		@return mixed
+	*/
+	function get_select_gps($tablename,$fieldname)
+	{
+		$this->sql = sprintf("select id,%s from %s where company_id = %d and state = 0",$fieldname,$tablename,get_session("company_id"));
+		file_put_contents("a.txt",$this->sql);
+		$result = $GLOBALS['db']->query($this->sql);
+		$select = '<select id="gps_select">
+								<option value="-1">请选择</option>
+								';
+		foreach($result as $temp)
+		{
+			$select .= "<option value='".$temp['id']."'>".$temp['gps_number']."</option>";
+		}
+
+		$select .= '<select>';
+		return $select;
+	}
+	
 
 	/**
 	*		根据组ID 查出所有的车辆
@@ -293,6 +367,26 @@ class Vehicle extends BASE
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 根据车辆表中的gps_id查出gps设备中的id号
+	 * @param gps_id 车辆表中的gps_id
+	 */
+	function get_gps_id($gps_number){
+		$this->sql = "select id from gps_equipment where gps_number = '".$gps_number."'";
+		$this->data = $GLOBALS['db']->query_once($this->sql);
+		return $this->data[0];
+	}
+	
+	/**
+	 * 根据id查出gps设备号
+	 * @id gps_equipment表中的id
+	 */
+	function get_gps_number($gps_id){
+		$this->sql = "select gps_number from gps_equipment where id = ".$gps_id;
+		$this->data = $GLOBALS['db']->query_once($this->sql);
+		return $this->data[0];
 	}
 }
 

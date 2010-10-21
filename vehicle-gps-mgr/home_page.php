@@ -109,14 +109,14 @@ switch($act)
 			
 	case "update_as_date": //修改年检时间
 		$vehicle_id = $_REQUEST['vehicle_id'];
-		$vehicle = $vehicle_console->get_vehicle_once($vehicle_id);
+		//$vehicle = $vehicle_console->get_vehicle_once($vehicle_id);
 		
 		$new_date = $_REQUEST['new_date'];
 		$r_date = str_replace("/","-",$new_date);
 		$date_array = explode(" ",$r_date,2);
 		$date = $date_array[0];
 		
-		$vehicle_new['id']=$GLOBALS['db']->prepare_value($vehicle[0]['id'],"INT");
+		/*$vehicle_new['id']=$GLOBALS['db']->prepare_value($vehicle[0]['id'],"INT");
 		$vehicle_new['number_plate']=$GLOBALS['db']->prepare_value($vehicle[0]['number_plate'],"CHAR");
 		$vehicle_new['gps_id']=$GLOBALS['db']->prepare_value($vehicle[0]['gps_id'],"CHAR");
 		$vehicle_new['alert_state']=$GLOBALS['db']->prepare_value($vehicle[0]['alert_state'],"TINYINT");
@@ -133,8 +133,10 @@ switch($act)
 		$vehicle_new['color']=$GLOBALS['db']->prepare_value($vehicle[0]['color'],"CHAR");
 		$vehicle_new['location_time']=$GLOBALS['db']->prepare_value($vehicle[0]['location_time'],"VARCHAR");
 		$vehicle_new['next_AS_date']=$GLOBALS['db']->prepare_value($date,"VARCHAR");
+		*/
 		
-		$result = $vehicle_console->modify_as_date($vehicle_new);
+		//$result = $vehicle_console->modify_as_date($vehicle_new);
+		$result = $vehicle_console->modify_as_date($vehicle_id,$GLOBALS['db']->prepare_value($date,"VARCHAR"));
 		
 		if($result){
 			echo "修改成功";

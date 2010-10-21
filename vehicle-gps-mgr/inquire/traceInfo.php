@@ -69,7 +69,8 @@ class Position_parser
 	 */
 	function get_gps_id($vehicle_id)
 	{
-		$sql = "select gps_id from vehicle_manage where id = ".$vehicle_id." Limit 1";
+		//$sql = "select gps_id from vehicle_manage where id = ".$vehicle_id." Limit 1";
+		$sql = "select gps_number from gps_equipment where id=(select gps_id from vehicle_manage where id = ".$vehicle_id." Limit 1)";
 		$data = $GLOBALS["db"]->query_once($sql);
 		return $data[0];		
 	}

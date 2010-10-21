@@ -69,7 +69,7 @@ class vehicle_console extends BASE{
 			 */
 			function  get_vehicles($where=-1,$company=-1){
 				 
-				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,(case when s.color is null then c.default_color  else s.color end)as color,".
+				/*$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,(case when s.color is null then c.default_color  else s.color end)as color,".
 						   " 		v.number_plate,v.gps_id,v.location_time,g.name as group_name,d.name as driver_name,v.cur_speed,v.alert_state ".
 						   "				FROM ". 				
 						   "					".$this->tablename_vehicle_manage." as v ". 			
@@ -85,6 +85,27 @@ class vehicle_console extends BASE{
 						   "					LEFT JOIN ".
 						   "						".$this->tablename_driver_manage." d ". 
 						   "					   ON d.id= v.driver_id ".	 
+						   "			WHERE v.id in(".$where.") group by v.id";*/
+				
+				$this->sql="SELECT v.id,v.cur_longitude,v.cur_latitude,v.cur_direction,(case when s.color is null then c.default_color  else s.color end)as color,".
+						   " 		v.number_plate,ge.gps_number,v.location_time,g.name as group_name,d.name as driver_name,v.cur_speed,v.alert_state ".
+						   "				FROM ". 				
+						   "					".$this->tablename_vehicle_manage." as v ". 			
+						   "					LEFT JOIN ".
+						   "						".$this->tablename_speed_color." as s ". 			
+						   "					    ON  s.company_id = ".$company."  AND  v.company_id = s.company_id  AND (v.cur_speed>=s.min AND v.cur_speed<s.max) ". 
+						   "					LEFT JOIN ". 				
+						   "						".$this->tablename_common_setting." c ". 			
+						   "					    ON  c.company_id = s.company_id".		 
+						   "					LEFT JOIN ".
+						   "						".$this->tablename_vehicle_group." g ". 
+						   "					    ON g.company_id=c.company_id and g.id=v.vehicle_group_id".  
+						   "					LEFT JOIN ".
+						   "						".$this->tablename_driver_manage." d ". 
+						   "					   ON d.id= v.driver_id ".	
+						   "                    LEFT JOIN ". 
+						   "                        gps_equipment ge ".
+						   "                       ON v.gps_id = ge.id ".
 						   "			WHERE v.id in(".$where.") group by v.id";
 				  
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
@@ -95,11 +116,11 @@ class vehicle_console extends BASE{
 			 * @param $vehicle_id 车辆ID
 			 */
 			function get_vehicle($vehicle_id){
-				$this->sql = "select vm.id,vm.gps_id,vm.location_time,vm.cur_speed,vm.cur_longitude,
-								vm.cur_latitude,dm.name as driver_name,vg.name as group_name from "
+				$this->sql = "select vm.id,vm.location_time,vm.cur_speed,vm.cur_longitude,
+								vm.cur_latitude,ge.gps_number,dm.name as driver_name,vg.name as group_name from "
 								.$this->tablename_vehicle_manage." as vm left join "
 								.$this->tablename_driver_manage." as dm on vm.driver_id=dm.id left join ".$this->tablename_vehicle_group
-								." as vg on vm.vehicle_group_id=vg.id where vm.id=".$vehicle_id;
+								." as vg on vm.vehicle_group_id=vg.id left join gps_equipment ge on vm.gps_id=ge.id where vm.id=".$vehicle_id;
 				return $this->data_list = $GLOBALS['db']->query($this->sql);
 			}
 			
@@ -118,11 +139,25 @@ class vehicle_console extends BASE{
 			 * 	修改年检时间
 			 *  @param $vehicle 车辆
 			 */
-			function modify_as_date($vehicle){
+			/*function modify_as_date($vehicle){
 				if(!$GLOBALS['db']->update_row("vehicle_manage",$vehicle,"id")){
 					return false;
 				}
 				return true;				
+			}*/
+			
+			/**
+			 *  更换驾驶员
+			 */
+			function modify_as_date($vehicle_id,$date){
+				//$this->sql = sprintf("update vehicle_manage set driver_id=".$driver_id." where id=".$vehicle_id);
+				$this->sql = sprintf("update vehicle_manage set next_AS_date =".$date." where id = ".$vehicle_id);
+				if(!$GLOBALS['db']->query($this->sql))
+				{
+					$this->message = "error,delete data failed!";
+					return false;
+				}
+				return true;
 			}
 			
 			/**

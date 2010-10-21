@@ -43,7 +43,8 @@ class Vehicle_status extends BASE
 	*/
 	private function retrieve_data()
 	{
-		$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->id);
+		//$this->sql = sprintf("select * from %s where id = %d",$this->tablename,$this->id);
+		$this->sql = sprintf("select vm.*,ge.gps_number from %s vm left join gps_equipment ge on vm.gps_id = ge.id where vm.id = %d",$this->tablename,$this->id);
 		if ($this->data = $GLOBALS["db"]->query_once($this->sql))
 			return $this->data;
 		else

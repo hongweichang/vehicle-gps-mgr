@@ -157,7 +157,7 @@ switch($act)
 		
 		/*将车牌号和gps编号放入数组*/
 		$attr[0]=$vehicle_status->data['number_plate'];
-		$attr[1]=$vehicle_status->data['gps_id'];
+		$attr[1]=$vehicle_status->data['gps_number'];
 		
 		//打印数据
 		echo json_encode($attr);

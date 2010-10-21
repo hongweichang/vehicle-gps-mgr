@@ -147,12 +147,13 @@ switch($act)
 			$alert_state = $vehicle2->get_data("v_alert_state");
 			$response->rows[$key]['id']=$val['id'];
 			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
-																					$val['gps_id'],$vehicle_group_name,
+																					$val['gps_number'],$vehicle_group_name,
 																					$driver_name,$type_name,$val['color'],
-																					$val['next_AS_date'],"<a href='#' style='color:#0099FF;text-decoration:none;' id=".$val['id']."  onclick='change_driver(".$val['id'].")'>更改>></a>"
+																					$val['next_AS_date']/*,"<a href='#' style='color:#0099FF;text-decoration:none;' id=".$val['id']."  onclick='change_driver(".$val['id'].")'>更改>></a>"*/
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
 																					//$val['create_time'],$val['update_id'],$val['update_time']
+																					,$val['gps_id'],$val['vehicle_group_id'],$val['type_id'],$val['driver_id']
 																					);
 		}
 
@@ -162,57 +163,67 @@ switch($act)
 		
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
-		/*if($_REQUEST['next_AS_date']==""){
-			$next_as_date = null;
+		$vehicle = new Vehicle();
+		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null){
+			$next_as_date = "0000-00-00";
 		}else{
 			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
 			$next_as_date = $next_date[0];
-		}*/
-		$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
-		$next_as_date = $next_date[0];
+		}
+		
+		$type_id = $_REQUEST['type_id'];
+		$vehicle_group_id = $_REQUEST['vehicle_group_id'];
+		$driver_id = $_REQUEST['driver_id'];
+		$gps_id = $_REQUEST['gps_number'];
+			
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
-		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");
-		$arr["gps_id"] = $db->prepare_value($_REQUEST['gps_id'],"VARCHAR");
+		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");	
+		$arr['gps_id'] = $db->prepare_value($gps_id,"INT");
 		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
-		$arr["vehicle_group_id"] = $db->prepare_value($_REQUEST['vehicle_group_id'],"INT");
-		$arr["driver_id"] = $db->prepare_value($_REQUEST['driver_id'],"INT");
-		$arr["type_id"] = $db->prepare_value($_REQUEST['type_id'],"INT");
-		//$arr["cur_longitude"] = $db->prepare_value($_REQUEST['cur_longitude'],"INT");
-		//$arr["cur_latitude"] = $db->prepare_value($_REQUEST['cur_latitude'],"INT");
-		//$arr["cur_speed"] = $db->prepare_value($_REQUEST['cur_speed'],"INT");
-		//$arr["cur_direction"] = $db->prepare_value($_REQUEST['cur_direction'],"INT");
-		//$arr["alert_state"] = $db->prepare_value($_REQUEST['alert_state'],"INT");
+		$arr["vehicle_group_id"] = $db->prepare_value($vehicle_group_id,"INT");
+		$arr["driver_id"] = $db->prepare_value($driver_id,"INT");
+		$arr["type_id"] = $db->prepare_value($type_id,"INT");
 		$arr["color"] = $db->prepare_value($_REQUEST['color'],"VARCHAR");
-		//$arr["running_time"] = $db->prepare_value($_REQUEST['running_time'],"INT");
 		$arr["next_AS_date"] = $db->prepare_value($next_as_date,"VARCHAR");
-//		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
-//		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
-//		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
-//		$arr["backup4"] = $db->prepare_value($_REQUEST['backup4'],"VARCHAR");
-//		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
-//		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
-//		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
-//		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
+		
 		$vehicle = new Vehicle($_REQUEST['id']);
 		switch($oper)
 		{
 			case "add":		//增加
-				if($vehicle->add_vehicle($arr)){
-					echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+				$new_vehicle_id = $vehicle->add_vehicle($arr);
+				if($new_vehicle_id){
+					$vehicle->change_gps_state($_REQUEST['gps_number']);
+					if($driver_id!="" && $driver_id!=false){
+						$parms["driver_id"]	= $GLOBALS['db']->prepare_value($driver_id,"INT");
+						$parms["vehicle_id"]= $GLOBALS['db']->prepare_value($new_vehicle_id,"INT");
+						$vehicle->set_authority($parms);
+					}
+					//echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+					echo "success";
 				}else{
-					exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
+					//exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
+					echo "fail";
 				}
 				break;
 			case "edit":		//修改
-				if(strlen($_REQUEST['gps_id']."")!=11 || !is_numeric($_REQUEST['gps_id']."")){
-					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
-				}else{
-					$vehicle->edit_vehicle($arr);
-					echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
+				$vehicle->edit_vehicle($arr);
+				$gps_state = $vehicle->get_gps_state($gps_id);
+				if($gps_state==0){
+					$vehicle->change_gps_state($gps_id);
 				}
+				
+				$old_gps_id = $_REQUEST['old_gps_id'];
+				if($old_gps_id!=false && $old_gps_id!=""){
+					$vehicle->remove_gps_state($old_gps_id);
+				}
+				echo "success";
 				break;
 			case "del":		//删除
 				if($vehicle->del_vehicle($arr)){
+					$new_gps_id = $vehicle->data['gps_id'];
+					$vehicle->remove_gps_state($new_gps_id);
+					$new_driver_id = $vehicle->data['driver_id'];
+					$vehicle->remove_vehicle_driver($_REQUEST['id'],$new_driver_id);
 					echo json_encode(array('success'=>true,'errors'=>'删除成功!'));
 				}else{
 					exit(json_encode(array('success'=>false,'errors'=>'删除失败!')));
@@ -229,10 +240,14 @@ switch($act)
 				$html = $vehicle->get_select("vehicle_group","name");
 				break;
 			case "driver_id":
-				$html = $vehicle->get_select("driver_manage","name");
+				//$html = $vehicle->get_select("driver_manage","name");
+				$html = $vehicle->get_select_driver("driver_manage","name",$_REQUEST['vehicle_id']);
 				break;
 			case "type_id":
 				$html = $vehicle->get_select("vehicle_type_manage","name");
+				break;
+			case "gps_number":
+				$html = $vehicle->get_select_gps("gps_equipment","gps_number");
 				break;
 			case "alert_state":
 				if(!$par or !$child)

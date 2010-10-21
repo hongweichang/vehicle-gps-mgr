@@ -1,10 +1,66 @@
 {{top}}
-
+<link type="text/css" href="css/vehicle_list.css"  media="screen" rel="stylesheet" />
 <table id="navgrid_vehicle"></table>
 <div id="pagernav_vehicle"></div>
 
 <input type='hidden' id='gps_role' value="{{is_sysadmin}}"></input>
 <div id="drivers"></div>
 
-<!-- 加载用户 js 文件库 -->
-<script src="js/vehicle/vehicle.js" type="text/javascript"></script>
+<div id="gpses" class="gpses">
+	<div class="content border">
+		<div class="content_title">
+			<label for="plate_number">车牌号</label>
+		</div>
+		<div class="content_value">
+			<input type="text" id="plate_number" />
+		</div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="number_gps">GPS设备编号</label>
+		</div>
+		<div id="number_gps" class="content_value"></div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="group_vehicle">车辆组</label>
+		</div>
+		<div id="group_vehicle" class="content_value"></div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="drivers_vehicle">驾驶员</label>
+		</div>
+		<div id="drivers_vehicle" class="content_value"></div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="vehicle_style">车型</label>
+		</div>
+		<div id="vehicle_style" class="content_value"></div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="color_vehicle">颜色</label>
+		</div>
+		<div class="content_value">
+			<input type="text" id="color_vehicle" class="input"/>
+		</div>
+	</div>
+	<div class="content bb">
+		<div class="content_title">
+			<label for="date_as">年检时间</label>
+		</div>
+		<div class="content_value">
+			<input type="text" id="date_as" class="input"/>
+		</div>
+	</div>
+	<div class="submit_pass">
+		<button id="commit_edit">提交</button>
+	</div>
+			
+	<!-- 加载用户 js 文件库 -->
+	<script src="js/vehicle/vehicle.js" type="text/javascript"></script>	
+</div>
+
+<input type="hidden" id="add_edit"></input>
