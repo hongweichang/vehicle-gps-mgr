@@ -13,7 +13,7 @@
 class add_gps extends BASE
 {
 	//	以下为每个类都必须有的变量
-	public $tablename = "user";
+	public $tablename = "gps_equipment";
 	public $data = false;                //数据
 	public $data_list = false;					 //数据集合
 	public $sql;                         //SQL语句
@@ -50,6 +50,28 @@ class add_gps extends BASE
 	}
 	
 	/**
+	*		得到指定字段类型
+	*		@param $searchfield 字段名
+	*		@return mixed
+	*/
+	function get_type($searchfield=false)
+	{
+		
+		if(!$searchfield)
+		{
+			$this->message = 'error,Searchfield is not exists!';
+			return false;
+		}
+		$type = $GLOBALS["db"]->get_field_type($this->tablename,$searchfield);
+		if(!$type)
+		{
+			$this->message = 'error,Get Field type failed!';
+			return false;
+		}
+		return $type;
+	}
+	
+	/**
 	 *  添加GPS设备
 	 *  @gps gps设备信息
 	 */
@@ -66,6 +88,40 @@ class add_gps extends BASE
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * 查询所有的GPS设备
+	 */
+	function get_all_gps($wh,$sidx,$sord,$start,$limit){
+		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		return $this->data = $GLOBALS["db"]->query($this->sql);
+	}
+	
+	/**
+	 * 查询所有GPS总数
+	 */
+	function get_count_gps(){
+		$this->sql = "select count(*) from gps_equipment where company_id=".get_session("company_id");
+		$this->data = $GLOBALS["db"]->query_once($this->sql);
+		return $this->data[0];
+	}
+	
+	/**
+	 * 删除gps设备
+	 * @gps_id ID
+	 */
+	function delete_gps($gps_id){
+		$this->sql = "delete from gps_equipment where id=".$gps_id;
+		return $result = $GLOBALS["db"]->query($this->sql);
+	}
+	
+	/**
+	 * 修改GPS设备
+	 */
+	function edit_gps($gps_number,$gps_id){
+		$this->sql = "update gps_equipment set gps_number=".$gps_number." where id=".$gps_id;
+		return $result = $GLOBALS['db']->query($this->sql);
 	}
 
 }

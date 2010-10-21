@@ -98,7 +98,7 @@ switch($act)
 			case "add":		//增加
 				$group->add_vehicle_group($arr);
 				break;
-			case "edit":		//修改
+			case "edit":	//修改
 				$group->edit_vehicle_group($arr);
 				break;
 			case "del":		//删除
@@ -128,7 +128,7 @@ switch($act)
 //				}
 //				$xml = new Xml($par,$child);
 //				$html = $xml->get_html_xml();
-				break;
+//				break;
 		}
 		echo $html;
 		break;
