@@ -35,12 +35,12 @@
 			</div>
 			<div class="info_select_vehicle" >
 				<div class="info_select_vehicle_div">
-				    <a id="car" name="sel_vehicle" onclick="resetDialogSize(860,400)" href="#">
+				    <a id="car" name="sel_vehicle" onclick="resetDialogSize(880,400)" href="#">
 				    	<img alt="选择车辆"  src="images/infoSelectCar.png"/>选择车辆
 				    </a>
 				</div>
 				<div class="info_send_area">
-					<a id="area_issue" name="issue_area" onclick="resetDialogSize(1010,400)" href="#">
+					<a id="area_issue" name="issue_area" onclick="resetDialogSize(1020,400)" href="#">
 				    	<img alt="区域发布"  src="images/area.png"/>区域发布
 				    </a>
 				</div>
@@ -77,19 +77,20 @@
 		    </div>
 		</div>
 		 -->
-		 <div id="sel_vehicle_cotainer" class="info_sel_vehicle_cotainer" style="height:400px; width:780px;">
-			<div id='infodiv'></div>
-			<div id="issue_map" style="float:left;height:285px;width:622px;">
-		      <iframe id="issue_frame" height="285px" width="622px" marginwidth="0" marginheight="0" scrolling='no' frameborder="0"></iframe>
+		 <div id='infodiv' class="info_sel_vehicle"></div>
+		 <div id="sel_vehicle_cotainer" class="info_sel_vehicle_cotainer" style="">
+		
+			<div id="issue_map" style="float:left;height:400px;width:600px;margin-left:15px;">
+		      <iframe id="issue_frame" height="330px" width="622px" marginwidth="0" marginheight="0" scrolling='no' frameborder="0"></iframe>
 		    </div>
-		    <div id="city_mode" style="float:left;width:150px; height:285px;margin-left:3px;">
+		    <div id="city_mode" style="float:left;width:150px; height:285px; margin-left:25px;">
 				<div  style="border:0px red solid; height:18px; width:90%;margin-top:10px; font-weight:700; font-size:12px;">
 					<label for="fromcity">点击选择城市：</label>
 				</div>
 				<div style="border:0px red solid; height:25px; width:95%; margin-top:10px;">
 					<INPUT id=city style="COLOR: #c1c1c1" 
 					 onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
-     		</div>
+     			</div>
 			</div>  
 			<input type='hidden' id="post_city_name"></input>
 		 </div>
