@@ -85,7 +85,7 @@ function edit_vehicle(){
 	var grid = $("#navgrid_vehicle");
 	 //选择选中的行
 	var rowid = grid.jqGrid('getGridParam', 'selrow');
-	var gps_number = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'gps_number');
+	var gps_id = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'gps_number');
 	var number_plate = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'number_plate');
 	var color = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'color');
 	var vehicle_group_name =  jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'vehicle_group_id');
@@ -97,9 +97,9 @@ function edit_vehicle(){
 
 	$.get("index.php?a=1013&p=gps_number",function(data){
 		$("#number_gps").html(data);
-		if(gps_number!=null && gps_number!=""){
+		if(gps_id!=null && gps_id!=""){
 			var gps_id_two = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'gps_id_two');
-			$("<option value="+gps_id_two+">"+gps_number+"</option>").appendTo($("#gps_select"));
+			$("<option value="+gps_id_two+">"+gps_id+"</option>").appendTo($("#gps_select"));
 			$("#gps_select").attr("value",gps_id_two);
 		}else{
 			$("#gps_select").get(0).selectedIndex=0;
@@ -109,28 +109,16 @@ function edit_vehicle(){
 		$("#group_vehicle").html(data);
 		if(vehicle_group_name!=null && vehicle_group_name!=""){
 			var vehicle_group_id_two = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'vehicle_group_id_two');
-			$("<option value="+vehicle_group_id_two+">"+vehicle_group_name+"</option>").appendTo($("#group_options"));
 			$("#group_options").attr("value",vehicle_group_id_two);
 		}else{
 			$("#group_options").get(0).selectedIndex=0;
 		}
 	});
-	/*$.get("index.php?a=1013&p=driver_id",function(data){
-		$("#drivers_vehicle").html(data);
-		if(driver_name!=null && driver_name!=""){
-			var driver_id_two = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'driver_id_two');
-			$("<option value="+driver_id_two+">"+driver_name+"</option>").appendTo($("#driver_options"));
-			$("#driver_options").attr("value",driver_id_two);
-		}else{
-			$("#driver_options").get(0).selectedIndex=0;
-		}
-	});*/
 	
 	$.get("index.php?a=1013&p=driver_id&vehicle_id="+rowid,function(data){
 		$("#drivers_vehicle").html(data);
 		if(driver_name!=null && driver_name!=""){
 			var driver_id_two = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'driver_id_two');
-			$("<option value="+driver_id_two+">"+driver_name+"</option>").appendTo($("#driver_option"));
 			$("#driver_option").attr("value",driver_id_two);
 		}else{
 			$("#driver_option").get(0).selectedIndex=0;
@@ -141,7 +129,6 @@ function edit_vehicle(){
 		$("#vehicle_style").html(data);
 		if(type_name!=null && type_name!=""){
 			var type_id_two = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'type_id_two');
-			$("<option value="+type_id_two+">"+type_name+"</option>").appendTo($("#type_options"));
 			$("#type_options").attr("value",type_id_two);
 		}else{
 			$("#type_options").get(0).selectedIndex=0;
@@ -154,10 +141,8 @@ function edit_vehicle(){
 	
 	$("#add_edit").val("edit");
 	
-
 	$("#gpses").dialog({height:300,width:280,title:'编辑车辆',
         autoOpen:true,position:[500,150],hide:'blind',show:'blind'});
-	
 }
 
 function add_vehicle(){
@@ -199,12 +184,13 @@ $("#commit_edit").click(function(){
 		rowid = grid.jqGrid('getGridParam', 'selrow');
 	}
 	var number_plate = $("#plate_number").val();
-	var gps_number = $("#gps_select option:selected").val();
+	var gps_index_id = $("#gps_select option:selected").val();
 	var vehicle_group_id = $("#group_options option:selected").val();
 	var type_id = $("#type_options option:selected").val();
 	var driver_id = $("#driver_option option:selected").val();
 	var color = $("#color_vehicle").val();
 	var next_AS_date = $("#date_as").val();
+	var gps_id = $("#gps_select option:selected").text();
 	
 	var add_edit = null;
 	if($("#add_edit").val()=="add"){
@@ -213,7 +199,7 @@ $("#commit_edit").click(function(){
 		add_edit = "edit";
 	}
 	
-	$.post("index.php?a=1012",{oper:add_edit,id:rowid,number_plate:number_plate,gps_number:gps_number,old_gps_id:old_gps_id,vehicle_group_id:vehicle_group_id,type_id:type_id,driver_id:driver_id,color:color,next_AS_date:next_AS_date},function(data){
+	$.post("index.php?a=1012",{oper:add_edit,id:rowid,number_plate:number_plate,gps_index_id:gps_index_id,gps_id:gps_id,old_gps_id:old_gps_id,vehicle_group_id:vehicle_group_id,type_id:type_id,driver_id:driver_id,color:color,next_AS_date:next_AS_date},function(data){
 		if("success"==data){
 			$("#gpses").dialog('close');
 			jQuery("#navgrid_vehicle").jqGrid('setGridParam',{url:'index.php?a=1011'}).trigger("reloadGrid");
