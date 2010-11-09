@@ -138,10 +138,18 @@ img{
 	height:32px;
 }
 .info_sel_vehicle_cotainer{
-	width:622px;
+	height:400px;
+	width:790px;
 	font-size:12px;
 	margin:0px auto;
 	margin-left:3px;
-	height:285px; 
+	float:left;
+}
+.info_sel_vehicle{
+	width:622px;
+	font-size:12px;
+	margin:0px auto;
+	margin-left:20px;
+	height:400px; 
 	float:left;
 }
