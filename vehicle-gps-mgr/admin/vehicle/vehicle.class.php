@@ -241,7 +241,7 @@ class Vehicle extends BASE
 	{
 		//$this->sql = "select * from ".$this->tablename." ".$wh." and vehicle_group_id in(select id from ".$this->tablename_vehicle_group." where company_id = ".get_session("company_id").") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		//$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;		
-		$this->sql = "select vm.*,ge.gps_number from ".$this->tablename." vm left join gps_equipment ge on vm.gps_id = ge.id ".$wh." and vm.company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;
+		$this->sql = "select vm.*,ge.gps_number from ".$this->tablename." vm left join gps_equipment ge on vm.gps_index_id = ge.id ".$wh." and vm.company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	

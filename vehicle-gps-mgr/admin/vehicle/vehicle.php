@@ -153,7 +153,7 @@ switch($act)
 																					//$val['backup1'],$val['backup2'],
 																					//$val['backup3'],$val['backup4'],$val['create_id'],
 																					//$val['create_time'],$val['update_id'],$val['update_time']
-																					,$val['gps_id'],$val['vehicle_group_id'],$val['type_id'],$val['driver_id']
+																					,$val['gps_index_id'],$val['vehicle_group_id'],$val['type_id'],$val['driver_id']
 																					);
 		}
 
@@ -174,11 +174,13 @@ switch($act)
 		$type_id = $_REQUEST['type_id'];
 		$vehicle_group_id = $_REQUEST['vehicle_group_id'];
 		$driver_id = $_REQUEST['driver_id'];
-		$gps_id = $_REQUEST['gps_number'];
+		$gps_index_id = $_REQUEST['gps_index_id'];
+		$gps_id = $_REQUEST['gps_id'];
 			
 		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
 		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");	
-		$arr['gps_id'] = $db->prepare_value($gps_id,"INT");
+		$arr['gps_index_id'] = $db->prepare_value($gps_index_id,"INT");
+		$arr['gps_id'] = $db->prepare_value($gps_id,"CHAR");
 		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
 		$arr["vehicle_group_id"] = $db->prepare_value($vehicle_group_id,"INT");
 		$arr["driver_id"] = $db->prepare_value($driver_id,"INT");
@@ -192,7 +194,7 @@ switch($act)
 			case "add":		//增加
 				$new_vehicle_id = $vehicle->add_vehicle($arr);
 				if($new_vehicle_id){
-					$vehicle->change_gps_state($_REQUEST['gps_number']);
+					$vehicle->change_gps_state($_REQUEST['gps_index_id']);
 					if($driver_id!="" && $driver_id!=false){
 						$parms["driver_id"]	= $GLOBALS['db']->prepare_value($driver_id,"INT");
 						$parms["vehicle_id"]= $GLOBALS['db']->prepare_value($new_vehicle_id,"INT");
@@ -207,9 +209,9 @@ switch($act)
 				break;
 			case "edit":		//修改
 				$vehicle->edit_vehicle($arr);
-				$gps_state = $vehicle->get_gps_state($gps_id);
+				$gps_state = $vehicle->get_gps_state($gps_index_id);
 				if($gps_state==0){
-					$vehicle->change_gps_state($gps_id);
+					$vehicle->change_gps_state($gps_index_id);
 				}
 				
 				$old_gps_id = $_REQUEST['old_gps_id'];
@@ -220,7 +222,7 @@ switch($act)
 				break;
 			case "del":		//删除
 				if($vehicle->del_vehicle($arr)){
-					$new_gps_id = $vehicle->data['gps_id'];
+					$new_gps_id = $vehicle->data['gps_index_id'];
 					$vehicle->remove_gps_state($new_gps_id);
 					$new_driver_id = $vehicle->data['driver_id'];
 					$vehicle->remove_vehicle_driver($_REQUEST['id'],$new_driver_id);
