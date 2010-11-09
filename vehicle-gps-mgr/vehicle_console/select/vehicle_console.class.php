@@ -105,7 +105,7 @@ class vehicle_console extends BASE{
 						   "					   ON d.id= v.driver_id ".	
 						   "                    LEFT JOIN ". 
 						   "                        gps_equipment ge ".
-						   "                       ON v.gps_id = ge.id ".
+						   "                       ON v.gps_index_id = ge.id ".
 						   "			WHERE v.id in(".$where.") group by v.id";
 				  
 				return $this->data_list = $GLOBALS["db"]->query($this->sql);
@@ -120,7 +120,7 @@ class vehicle_console extends BASE{
 								vm.cur_latitude,ge.gps_number,dm.name as driver_name,vg.name as group_name from "
 								.$this->tablename_vehicle_manage." as vm left join "
 								.$this->tablename_driver_manage." as dm on vm.driver_id=dm.id left join ".$this->tablename_vehicle_group
-								." as vg on vm.vehicle_group_id=vg.id left join gps_equipment ge on vm.gps_id=ge.id where vm.id=".$vehicle_id;
+								." as vg on vm.vehicle_group_id=vg.id left join gps_equipment ge on vm.gps_index_id=ge.id where vm.id=".$vehicle_id;
 				return $this->data_list = $GLOBALS['db']->query($this->sql);
 			}
 			
