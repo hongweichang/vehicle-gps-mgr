@@ -33,6 +33,7 @@ class Position_parser
 	private $index; //该gps_id前一条数据的索引值（代表从文件头偏移到该行数据的字节偏移量）
 	private $first_gps_id;
 	private $time; //时间
+	private $TIME_BASE_LINE = "2010-11-10 22:00:00"; //从2010年11月11日起，轨迹信息文件按照gps设备的尾号分别存储。
 	
 	private $info_list = array();
 	
@@ -43,26 +44,52 @@ class Position_parser
 	 * @param unknown_type $vehicle_id 车辆id
 	 * @param unknown_type $time 时间
 	 */
-	function __construct($company_id,$filepath,$vehicle_id,$time)
+	function __construct($company_id, $vehicle_id, $time)
 	{
 		$this->company_id = $company_id;
 		$this->time = $time;
 		$this->gps_id = $this->get_gps_id($vehicle_id);
 		$this->index = $this->get_file_index($this->gps_id,$this->time);
-		$this->file = fopen($filepath, "r") or exit("Unable to open file!");
 		
-		if($this->file)
-		{
-			rewind($this->file);
-			$line_data = fgets($this->file);
-			if($line_data)
+		$filepath = $this->get_logfile_path($time, $this->gps_id);
+		
+		//当文件存在的时候采取读，直接打开有时候服务器会长时间无反应
+		if(file_exists($filepath)){
+			$this->file = fopen($filepath, "r");
+				
+			if($this->file)
 			{
-				$data_list = explode('~',$line_data);
-				$this->first_gps_id = $data_list[1];
+				rewind($this->file);
+				$line_data = fgets($this->file);
+				if($line_data)
+				{
+					$data_list = explode('~',$line_data);
+					$this->first_gps_id = $data_list[1];
+				}
 			}
 		}
-		
 	}
+	
+   /**
+     * TIME_BASE_LINE之后的轨迹信息按照时间和设备编号的尾号查找数据文件
+     * 之前的轨迹信息只按照时间来查找数据文件
+     * @param $time
+     * @param $id
+     */
+    function get_logfile_path($time, $gps_id){
+    	require('include/config.php');
+    	$time_str = substr($time, 0, 4)."-".substr($time, 4, 2)."-".substr($time, 6, 2)
+    	." ".substr($time, 8 ,2).":00:00";
+    	$t1 = strtotime($time_str);
+    	$t2 = strtotime($this->TIME_BASE_LINE);
+    	if(strtotime($time_str) >= strtotime($this->TIME_BASE_LINE)){
+    		$time = $time."_".substr($gps_id,-1);
+    	}
+    	
+    	return $server_path_config["gps_info_path"]."/".$time.".log";
+    	//return $gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+    }
+	
 	/**
 	 * 获取GPS编号
 	 * @param $vehicle_id 车辆id
@@ -89,7 +116,10 @@ class Position_parser
 	
 	function __destruct()
 	{
-		fclose($this->file);
+		//当文件已经被打开的时候才进行关闭！
+		if($this->file){
+			fclose($this->file);
+		}
 	}
 	
 	/**

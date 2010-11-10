@@ -1,8 +1,6 @@
 <?php
 class Inquire extends BASE
 {
-	
-	
 	/**
 	*		查询所有车辆
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
@@ -57,15 +55,11 @@ class Inquire extends BASE
 	 * @param unknown_type $vehicle_list
 	 * @param unknown_type $areaInfo
 	 */
-	function check_in_area(&$vehicle_list, $areaInfo, $hour, $gps_info_path){
+	function check_in_area(&$vehicle_list, $areaInfo, $hour){
 		$vehicle_in_area = array();
 		
-		if(!file_exists($gps_info_path)){
-			return "";
-		}
-			
 		for($i=0;$i<count($vehicle_list);$i++){
-			if($this->is_vehicle_in_area($vehicle_list[$i], $areaInfo, $gps_info_path, $hour)){
+			if($this->is_vehicle_in_area($vehicle_list[$i], $areaInfo, $hour)){
 				array_push($vehicle_in_area, $vehicle_list[$i]);
 				array_splice($vehicle_list,$i,1); 
 			    $i--; 
@@ -80,10 +74,10 @@ class Inquire extends BASE
 	 * @param unknown_type $vehicle_id
 	 * @param unknown_type $areaInfo
 	 */
-	function is_vehicle_in_area($vehicle_id, $areaInfo, $gps_info_path, $time){
+	function is_vehicle_in_area($vehicle_id, $areaInfo, $time){
 		require_once 'traceInfo.php';
 		$company_id = get_session("company_id"); //获取当前公司ID
-		$parser = new Position_parser($company_id,$gps_info_path,$vehicle_id, $time);
+		$parser = new Position_parser($company_id, $vehicle_id, $time);
 		return $parser->is_in_area($areaInfo);
 	}
 	
@@ -106,6 +100,6 @@ class Inquire extends BASE
     	$driver = $GLOBALS['db']->query($this->sql);
     	return $driver;
     }
-	
+ 
 }
 ?>

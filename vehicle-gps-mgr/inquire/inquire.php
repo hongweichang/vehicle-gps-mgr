@@ -100,15 +100,12 @@ switch($act)
 		$company_id = get_session("company_id"); //获取当前公司ID  
 		$time = $_REQUEST['time'];
 		
-		$gps_info_path = $server_path_config["gps_info_path"]."/".$time.".log";
-		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
-		if(!file_exists($gps_info_path)){
+		$parser = new Position_parser($company_id,$id,$time);
+		$datalist = $parser->getDataList();
+		if($datalist == null){
 			echo json_encode(0);
 			break;
 		}
-			
-		$parser = new Position_parser($company_id,$gps_info_path,$id,$time);
-		$datalist = $parser->getDataList();
 		
 		$point_info = array();
 		$trace_info = array();
@@ -200,11 +197,8 @@ switch($act)
 		$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
 		$hour = $_REQUEST["hour"];
 		
-		$gps_info_path = $server_path_config["gps_info_path"]."/".$hour.".log";
-		//$gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$hour.".log";
-		
 		$inquire = new Inquire();
-		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour, $gps_info_path);
+		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour);
 		echo json_encode($vehicle_in_area);
 		break;
 		
