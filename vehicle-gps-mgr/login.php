@@ -7,6 +7,10 @@
 	<link href="css/login.css" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
+	<style type="text/css">
+	img, div, a, input { behavior: url(/css/resources/iepngfix.htc) }
+	</style> 
+	
 	<script language="javascript" src="js/login/cookie.js"></script>
 	<script language="javascript" src="js/login/login.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
