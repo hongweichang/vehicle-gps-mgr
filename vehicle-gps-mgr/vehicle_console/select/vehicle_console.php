@@ -61,8 +61,7 @@ switch ($act) {
 							"<input type='checkbox'  value=" . $values [0] . " name='selectall' class='selectall' id='selectall" . $values [0] . 
 
 							"'/><span class='table_select_title'>选择本组车辆</span>
-							<div class='table_div'><table width='600' height='25' bordercolor='#CCCCCC' cellpadding='0' cellspacing='0' 
-								   class='table vehicle_status_font' >";
+							<div class='table_div'><table class='table vehicle_status_font' >";
 
 			
 			$count = count($vehicles);  //获取该组车辆总数
