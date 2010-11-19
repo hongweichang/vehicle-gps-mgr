@@ -1,14 +1,28 @@
-$("#area_Commit").hide();
-$("#area_begin_time").hide();
-$("#area_end_time").hide();
-$("#sel_vehicle_cotainer").hide();
-$("#add_input").hide();
+initStatus();
 
-if($("#is_hidden").val()==1){
-	$("#car").hide();
-	$("#area_issue").hide();
-	$("#add_user").hide();
-	$("#delete_user").hide();
+function initStatus(){
+	$(".info_select").show();
+	$("#info_Commit").show();
+	$("#da_user").show();
+	
+	$("#area_Commit").hide();
+	$("#area_begin_time").hide();
+	$("#area_end_time").hide();
+	$("#issue_map").hide();
+	$("#add_input").hide();
+	$("#city_mode").hide();
+	
+	if($("#is_hidden").val()==1){
+		$("#car").hide();
+		$("#area_issue").hide();
+		$("#add_user").hide();
+		$("#delete_user").hide();
+	}
+}
+
+function returnInfo(){
+	resetDialogSize(300,390);
+	initStatus();
 }
 
 function fillMailList(str){
@@ -28,23 +42,28 @@ str = str.substr(0,str.length-1);
 		});
   	}
 }
+
 function resetDialogSize(width,height){
 	$( "#operation" ).dialog( "option", "width", width );
 	$( "#operation" ).dialog( "option", "height", height );
 	$( "#operation" ).dialog({ position : "center" });
 }
+
 //绑定事件处理 
 $("#car").click(function(event) {
 	$(".info_select").show();
 	$("#info_Commit").show();
 	$("#area_Commit").hide();
-	$("#sel_vehicle_cotainer").hide();
+	$("#issue_map").hide();
 	$("#infodiv").show();
 	$("#list_user").show();
 	$("#da_user").show();
 	$("#area_begin_time").hide();
 	$("#area_end_time").hide();
-	$("#operation" ).mask("载入中...");
+	
+	resetDialogSize(800,400);
+	$("#sendNews").hide();
+	$("#operation").mask("车辆信息载入中...");
 	
 	$.post("index.php?a=1",function(data){
 		$("#operation" ).unmask();
@@ -60,31 +79,39 @@ $("#car").click(function(event) {
 			      	$("#infodiv").html("");
 			      	$("#infodiv").css("height","1");
 			      	
-			     	resetDialogSize(220,390);
+			     	resetDialogSize(300,390);
+			     	$("#sendNews").show();
+			     	initStatus();
 		});
 	});
 });
 
 //加载区域发布时的地图
 $("#area_issue").click(function() {
+	$("#city_mode").show();
 	$("#info_Commit").hide();
 	$(".info_select").hide();
 	$("#da_user").hide();
 	$("#add_input").hide();
 	$("#area_Commit").show();
 	$("#infodiv").hide();
-	$("#sel_vehicle_cotainer").show();
+	$("#issue_map").show();
 	$("#list_user").hide();
 	$("#area_begin_time").show();
 	$("#area_end_time").show();
 	$("#begin_time_area").val(getNowFormatDate()); //生效时间赋默认值
 	$("#end_time_area").val(day_date()); //失效时间赋默认值
-	//$("#issue_frame").attr("src","info/templates/51map.html"); //iframe加载地图
 	$("#issue_frame").attr("src","templates/51map.html"); //iframe加载地图
 });
 
 $("#addUser").click(function(){
+	resetDialogSize(300,440);
 	$("#add_input").show();
+});
+
+$("#cancle_commit").click(function(){
+	resetDialogSize(300,390);
+	$("#add_input").hide();
 });
 
 //删除驾驶员邮箱

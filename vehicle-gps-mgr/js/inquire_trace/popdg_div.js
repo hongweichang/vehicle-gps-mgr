@@ -79,7 +79,8 @@ function popUp(abc){
     if(issue==null){
     	position = "top:-220px; left:-40px;";
     }else{
-    	position = "top:-220px; left:-340px;";
+    	//position = "top:-220px; left:-340px;";
+    	position = "top:-220px; left:70px;";
     }
   
     popup_int0=0;
@@ -170,7 +171,6 @@ function fix_div_coordinate(obj)
 			leftpos	+= aTag.offsetLeft;
 			toppos += aTag.offsetTop;
 		}while(aTag.id!="city_mode");
-        //alert("leftpos=["+leftpos+"]--toppos=["+toppos+"]--obj.offsetTop=["+obj.offsetTop+"]--obj.offsetLeft=["+obj.offsetLeft+"]--obj.offsetHeight=["+obj.offsetHeight+"]");
 		if(document.layers){
 			document.getElementById("city_popup").style.left = obj.offsetLeft	+ parseInt(leftpos) + "px";
 			document.getElementById("city_popup").style.top = obj.offsetTop +	parseInt(toppos) + obj.offsetHeight + 2 + "px";
@@ -178,7 +178,6 @@ function fix_div_coordinate(obj)
 			document.getElementById("city_popup").style.left =obj.offsetLeft	+ parseInt(leftpos)  +"px";
 			document.getElementById("city_popup").style.top = obj.offsetTop +	parseInt(toppos) + obj.offsetHeight + 2 + "px";
 		}
-		//alert("left=["+document.getElementById("city_popup").style.left+"] top=["+document.getElementById("city_popup").style.top+"]");
 }
 
 function popup_hide()

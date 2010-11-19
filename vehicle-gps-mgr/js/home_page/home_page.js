@@ -177,7 +177,6 @@ function show_as_date(){
 		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
 		$('#'+div_param).css('overflow','hidden');//隐藏滚动条 
 		
- 
 		$("#"+div_param).dialog({
             title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
     	            autoOpen: true,
@@ -187,11 +186,15 @@ function show_as_date(){
     	            height: showHeight,
     	            modal: false,
     	            position:'center',
-    	            resizable: true,
-    				autoResize: true
-    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
+    	            resizable: false,
+    				autoResize: false
+    	        });//.width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
 		 
-
+		//Firefox不支持链式操作设置尺寸，所以改为显式设置尺寸
+		$( "#"+div_param ).dialog( "option", "width", showWidth - horizontalPadding );
+		$( "#"+div_param ).dialog( "option", "height", showHeight - verticalPadding );
+		
+		
 		$( "#"+div_param ).dialog({
 			   close: function(event, ui) { 			       
 			         $("#"+div_param).html("");
