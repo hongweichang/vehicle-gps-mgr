@@ -27,18 +27,18 @@
 }
 /***********vehicle_console_select***************/
 .vehicle_select_bodydiv{
-	width:619px; 
+	width:780px;
 	height:280px;
 	margin-top:20px;
 	border:1px #CCCCCC solid;
 }
 .vehicle_select_tab{
+	width:750px;
 	font-size:12px;
-	height:270px;
-	border:0px;
+	height:270px; 
 }
 .vehicle_select_bottom{
-	width:620px; 
+	width:750px; 
 	height:30px;
 	position:absolute;
 	bottom:25px;
@@ -83,7 +83,7 @@
 	overflow-x:hidden;
 	overflow-y:scroll;
 	font-size:12px;
-	width:600px; 
+	width:730px; 
 	height:160px; 
 	margin-top:10px;
 }
