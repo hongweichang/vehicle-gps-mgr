@@ -7,7 +7,8 @@
 }
 .info_font_weight{
 	font-weight:700;
-	height:15px; 
+	height:15px;
+	margin-top:10px;
 }
 .info_textarea{
 	font-size:12px;
@@ -44,10 +45,16 @@ img{
 }
 .info_add_input{
 	float:left; 
-	width:200px; 
-	height:40px;
+	width:300px; 
 	margin-bottom:20px;
 }
+
+.info_add_input ul li{
+	float:left;
+	display:inline;
+	text-align:left;
+}
+
 .info_addInput{
 	float:left;
 	width:130px;
@@ -56,17 +63,11 @@ img{
 .addInput{
 	width:120px;
 }
-.addsubmit{
-	float:left;
-	width:50px; 
-	height:20px;
-	font-size:12px;
-	margin-top:15px;
-}
+
 .info_select{
 	font-size:12px;
 	float:left; 
-	width:216px; 
+	width:250px; 
 	height:90px;
 	text-align:left;
 }
@@ -75,7 +76,7 @@ img{
 	height:85px;
 	size:4;
 }
-.info_select_vehicle{
+.info_select_area{
 	width:250px; 
 	height:38px;
 	margin:10px auto;
@@ -85,12 +86,7 @@ img{
 	width:100%;
 	height:78px;
 }
-.info_select_vehicle_div{
-	float:left;
-	width:100px; 
-	height:32px;
-	font-size:12px;
-}
+
 .info_send_area{
 	float:right;
 	width:100px;
@@ -134,22 +130,19 @@ img{
 }
 .info_area_Commit{
 	float:left;
-	width:100px;
+	width:300px;
 	height:32px;
 }
-.info_sel_vehicle_cotainer{
-	height:400px;
-	width:790px;
-	font-size:12px;
-	margin:0px auto;
-	margin-left:3px;
+
+.info_area_Commit ul li{
 	float:left;
+	display:inline;
 }
+ 
 .info_sel_vehicle{
 	width:622px;
 	font-size:12px;
-	margin:0px auto;
-	margin-left:20px;
+	margin-left:0px;
 	height:400px; 
 	float:left;
 }
