@@ -26,20 +26,19 @@
 	            <input type="button" id="m3" title='统计分析' value="统计分析" showHeight="320" showWidth="850"></input>
             </div>
 		</div>
-			<!-- 加载用户 js 文件库 -->
-			<script src="js/vehicle/vehicle_status.js" type="text/javascript"></script>
+
 	</div>
 		
 		<!-- 查询信息中的子模式窗体 -->
 		<div id="inquire_modal_win"></div>
-		<!-- 
-		<div id="locates" class="vehicle_status_locates">
-			<iframe id="locate" name='locate' src="info/templates/51map.html" marginwidth="0" marginheight="0" scrolling='no' frameborder='0' height="290px" width="570px"></iframe>
-		</div>  
-		 -->
 		 <div id="locates" class="vehicle_status_locates">
 			<iframe id="locate" name='locate' src="templates/51map.html" marginwidth="0" marginheight="0" scrolling='no' frameborder='0' height="290px" width="570px"></iframe>
-		</div>  
+		</div> 
+		
+		<iframe id="frame_map" scrolling='no' frameborder='0' height="380px" width="850px"></iframe> 
 	</div>
-<iframe id="frame_map" scrolling='no' frameborder='0' height="460px" width="900px"></iframe>
+
 <div>{{lon_lat}}</div>
+
+<!-- 加载用户 js 文件库 -->
+<script src="js/vehicle/vehicle_status.js" type="text/javascript"></script>
