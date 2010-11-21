@@ -42,7 +42,9 @@ $(document).ready(function() {
 				var ids = $("#vehicle_id_save").val();
 				$(this).attr("href",href+"&vehicleIds="+ids);
 			}
-			e.preventDefault();
+			if ( e && e.preventDefault ){
+				e.preventDefault(); //阻止浏览器默认动作
+			}
 			showOperationDialog(this, $(this).attr('href'));
 		});
 		
@@ -197,7 +199,7 @@ function show_as_date(){
 		
 		$( "#"+div_param ).dialog({
 			   close: function(event, ui) { 			       
-			         $("#"+div_param).html("");
+				$("#"+div_param).html("");
 			   }
 		});
 		$( "#"+div_param ).mask("载入中...");
@@ -235,36 +237,6 @@ function show_as_date(){
 	function closeDialog(param){
 		$("#"+param).dialog("close");
 	}
-	
-	function getSendInfoDialog(obj, url){
-		var $this = obj;
-		var horizontalPadding = 0;
-		var verticalPadding = 0;
-
-		var showWidth = ($this.attr('showWidth')) ? $this.attr('showWidth') : '1000';
-		var showHeight = ($this.attr('showHeight')) ? $this.attr('showHeight') : '400';
-		$.post(url,function(data){
-			$("#operation").html(data);
-
-			$("#operation").dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	    	            autoOpen: true,
-	    	            width: showWidth,
-	    	            height: showHeight,
-	    	            modal: true,
-	    	            resizable: true,
-	    				autoResize: true,
-	    	            overlay: {
-	                    opacity: 0.5,
-	                    background: "black"
-	    	            }
-	    	        }).width(showWidth - horizontalPadding).height(showHeight - verticalPadding);
-
-			$( "#operation" ).dialog({
-				   close: function(event, ui) { $("#operation").html(""); }
-			});
-		});
-	}  
 	
 	$(":button").button();
 	

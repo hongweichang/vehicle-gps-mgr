@@ -700,6 +700,7 @@
 				url:window.parent.host+"/index.php?a=106",
 				dataType:"json",
 				success:function(positiones){
+					if(positiones == null) return;
 				 
 					for(var j = 0;j<positiones.length;j++){
 						var lon = positiones[j][3];
@@ -803,7 +804,7 @@
 					"<div class='content'>"+location_time +"</div></div>" +
 					"<div class='content_div'><div class='title'>地址：</div> " +
 					"<div class='address_content'>"+location_desc +"</div></div></div>" +
-					"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"230\" showHeight=\"300\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids=" +
+					"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"300\" showHeight=\"350\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids=" +
 					vehicle_id +
 					"\")'><a href='#'>发布信息</a></div>" +
 									
