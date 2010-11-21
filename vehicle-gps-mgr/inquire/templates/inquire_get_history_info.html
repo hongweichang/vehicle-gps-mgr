@@ -1,0 +1,75 @@
+<div class="area_content">
+	<div class="start_div keep_left">开始时间：</div>
+		<div class="start_input keep_left">
+			<input type="text" id="inquire_startTime" size="16"/>
+		</div>
+		<div class="end_time keep_left">结束时间：</div> 
+		<div class="end_div keep_left">
+			<input type="text" id="inquire_endTime" size="16"/>
+		</div>
+		
+		<input type="button" id="inquire_info_btn" name="his_info" value="查询发布历史">
+		
+		<div id='his_infolist_container' >
+			<table id='his_infolist'></table>
+			<div id="pagernav_his_infolist"></div>
+		</div>
+</div>
+
+<script language="javascript" src="/js/inquire_trace/inquire_common.js"></script>
+<script type="text/javascript">
+var isLoaded = false;
+
+$("#inquire_info_btn").click(function(){
+	var startTime = $("#inquire_startTime").attr("value"); //获取开始时间
+	 
+	if(startTime == ""){
+		alert("开始时间不能为空!");
+		$("#inquire_startTime").focus();
+		return false;
+	}
+	var endTime = $("#inquire_endTime").attr("value");
+	if(endTime == ""){
+		alert("结束时间不能为空!");
+		$("#inquire_endTime").focus();
+		return false;
+	}
+	
+	if(!isLoaded){
+	jQuery("#his_infolist").jqGrid({
+		url:'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+			+'&end_date='+$("#inquire_endTime").val(),
+		  datatype: "json",
+	   	colNames:['ID','发布人', '类型', '发布时间','生效时间','失效时间','信息内容'],
+	   	colModel:[
+	   		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:
+															{readonly:true,size:10}},
+	   		{name:'issuer_id',index:'issuer_id', width:80},
+	   		{name:'type',index:'type', width:70},
+	   		{name:'issue_time',index:'issue_time', width:140, align:"left"},   
+	   		{name:'begin_time',index:'begin_time', width:140, align:"left"},
+	   		{name:'end_time',index:'end_time', width:140, align:"left"},
+	   		{name:'content',index:'content', width:300, align:"left"}
+	   		
+	   	],
+	   	rowNum:10,
+	   	rowList:[10,20,30],
+	   	pager: '#pagernav_his_infolist',
+	   	sortname: 'id',
+	    viewrecords: true,
+	    sortorder: "desc",
+		height:290
+	});
+
+		jQuery("#his_infolist").jqGrid('navGrid','#pagernav_his_infolist',
+		{edit:false,add:false,del:false,search:false});
+		isLoaded = true;
+	}else{
+		var url = 'index.php?a=354&begin_date='+$("#inquire_startTime").val()
+					+'&end_date='+$("#inquire_endTime").val();
+		jQuery("#his_infolist").jqGrid('setGridParam',{url:url}).trigger("reloadGrid");
+		}
+
+});
+
+</script>

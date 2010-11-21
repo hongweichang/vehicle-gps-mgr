@@ -1,5 +1,5 @@
 {{HEADER}}
-<style>
+<style type="text/css">
 	.map_control{width:100%;height:25px;margin-top:2px; }
 	.body_div{width:110%;}
 	.track_info{width:85px;margin-top:5px;height:10px;}
@@ -42,11 +42,6 @@
 
 <div style="left:0px;height:100%;width:110%;">
 	<div class="body_div" >
-		<div id='his' class="radio_div">
-			<input type="radio" name='history' id='history_trace' checked/>查询历史轨迹
-			<input type="radio" name='history' id="history_post" />查询历史发布信息
-		</div>
-		
 		<div id="control_map" class="control_map">
 			<div class="area_content">
 				<div class="start_div keep_left">开始时间：</div>
@@ -60,11 +55,8 @@
 			</div>
 			
 			<div class="area_content">
-				<div class="area_content">
-					<input type="button" id="his_info" name="his_info" value="查询发布历史"></input>
-				</div>
 				<div class="info_select_vehicle" >
-					<span id='info_select_vehicle'>{{FUNCTION_OPERATE}}</span>
+					<span id='info_select_vehicle'>选择车辆</span>
 				</div>
 				<div class="vehicle_info">
 					<select id="vehicle_info">{{vehicle_list}}</select>
@@ -78,16 +70,7 @@
 					<div class="jindu_div keep_left">进度</div> 
 					<div class="track_info keep_left" id="history_progress"></div>
 			</div> 
-			<!-- <div class="play_content">
-					<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
-					<img alt="播放" id="play_history" src="images/play.png" class="hand"/>
-					<img alt="暂停" id="suspend_history" class="hand" style="display:none;" src="images/suspend.png" /> 
-					<img alt="停止" id="stop_history" src="images/stop.png" class="hand"/> 
-			</div>
-			 -->
-			 
 			 <div class="play_content">
-			 	<input type="button" id="show_vehicles" value="显示区域内车辆"></input>
 				<button id="play_history" style="width:20px;height:20px;">播放</button>
 				<button id="stop_history" style="width:20px;height:20px;">停止</button> 
 			 </div>
@@ -101,29 +84,6 @@
 			<div id="pagernav_infoes"></div>
 		</div>
 		
-		<div id="show_area" style="display:none">
-			<table id="show_vehicles_page" style="width:880px;"></table>
-			<div id="page_show"></div>
-		</div>
-		<div id="areas" style="height:400px; width:600px;">
-			<div id="city_mode" style="float:left;width:25%; height:100%;">
-				<div  style="border:0px red solid; height:18px; width:90%;margin-top:10px; font-weight:700; font-size:12px;">
-					<label for="fromcity">点击选择城市：</label>
-				</div>
-				<div style="border:0px red solid; height:25px; width:95%; margin-top:10px;">
-					<INPUT id=city style="COLOR: #c1c1c1" 
-					 onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
-     			</div>
-     			<!-- <div style="border:0px red solid; height:25px; width:90%; margin-top:10px; text-align:center;">
-     				<input type="submit" id="select_city" value="查询"></input>
-     			</div>	 
-     			 -->
-			</div>  
-			<div style="float:left;height:100%;width:70%;">
-				<iframe id="mode_area"  style="width:800px;height:410px;"  marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
-			</div>
-			<input type='hidden' id="post_city_name"></input>
-		</div>
 		<div class="toggler" id="location_info">
 				<div id="effect" class="ui-widget-content ui-corner-all">
 					<div class="ui-widget-header ui-corner-all cursor_style">
@@ -210,7 +170,7 @@ function clear_history_track(){
 }
 </script>
 <script language="javascript" src="/js/common.js"></script>
+<script language="javascript" src="/js/inquire_trace/inquire_common.js"></script>
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
-<SCRIPT src="js/inquire_trace/popdg_div.js" type=text/javascript></SCRIPT>
 
 {{FOOTER}}	

@@ -1,0 +1,149 @@
+
+<style type="text/css">
+</style>
+
+<SCRIPT src="js/inquire_trace/popdg_div.js" type=text/javascript></SCRIPT>
+
+<div class="area_content" style="width:850px">
+		<div id="option_container">
+			<div class="start_div keep_left">开始时间：</div>
+			<div class="start_input keep_left">
+				<input type="text" id="inquire_startTime" size="16"/>
+			</div>
+			<div class="end_time keep_left">结束时间：</div> 
+			<div class="end_div keep_left">
+				<input type="text" id="inquire_endTime" size="16"/>
+			</div>
+			
+			<input type="button" id="show_vehicles" name="his_info" value="显示区域内车辆">
+			<div id="city_mode" style="float:left;">
+						<label for="fromcity">点击选择城市：</label>
+						<INPUT id="city" style="COLOR: #c1c1c1" onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
+	     	</div>
+     	</div>
+		
+		<div id="areas" style="width:800px;">
+     			<div style="float:left;width:90%">
+				<iframe id="mode_area"  style="width:800px;height:350px;"  marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
+			</div>
+		</div>  
+			
+			<input type='hidden' id="post_city_name"></input>
+			
+			<div id="show_area" style="display:none">
+			<table id="show_vehicles_page" style="width:800px;"></table>
+			<div id="page_show"></div>
+			<input id="return_to_area_inquire" type="button" value="返回"/>
+			</div>
+	</div>
+	
+<script language="javascript" src="/js/inquire_trace/inquire_common.js"></script>
+
+<script type="text/javascript">
+var is_vehicle_in_area_list_showed = false; //在查询指定时间经过指定区域车辆的时候，确认车辆列表是否已经产生过。
+
+$("#mode_area").attr("src","templates/51map.html"); //区域查询时加载地图
+
+//区域查询车辆历史轨迹
+$("#show_vehicles").click(function(){
+	//获取经纬度范围
+	var lonMin = document.getElementById("mode_area").contentWindow.document.getElementById("lonMin").value;
+	var latMin = document.getElementById("mode_area").contentWindow.document.getElementById("latMin").value;
+	var lonMax = document.getElementById("mode_area").contentWindow.document.getElementById("lonMax").value;
+	var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
+	var begin_time = $("#inquire_startTime").attr("value"); //获取开始时间
+	var end_time = $("#inquire_endTime").attr("value"); //获取结束时间
+	
+	var idList = new Array();
+	$("#vehicle_info > option").each(function(){
+		idList.push($(this).val());
+	});
+
+	var seperator = ",";
+	var hourList = getHourList();
+	var hourListStr = convertArrayToStr(hourList, seperator);
+	var idListStr = "";
+	var idListInAreaStr = ""; //指定时间指定区域内的所有车辆的列表字符串
+	var idInAreaFound = 0;
+	
+	getCarInArea();
+
+	//将获取到的车辆信息显示在列表中（内部函数）
+	function showCarInArea(){
+		if(!is_vehicle_in_area_list_showed){
+			is_vehicle_in_area_list_showed = true;
+			$("#show_vehicles_page").jqGrid({
+				url:'index.php?a=356&begin_time='+begin_time
+					+'&end_time='+end_time+'&id_list='+idListInAreaStr,
+						datatype: "json",
+					   	colNames:['ID','车牌号','驾驶员','历史轨迹'],
+					   	colModel:[
+					   		{name:'id',index:'id', width:255,editable:false,hidden:true,editoptions:
+																			{readonly:true,size:10}},
+					   		{name:'number_plate',index:'number_plate', width:190},
+					   		{name:'driver',index:'driver', width:190},
+					   		{name:'trace',index:'trace', width:190}
+					   		
+					   	],
+					   	rowNum:10,
+					   	rowList:[10,20,30],
+					   	pager: '#page_show',
+					   	sortname: 'id',
+					    viewrecords: true,
+					    sortorder: "desc",
+						height:290
+					});
+			$("#show_vehicles_page").jqGrid('navGrid','#page_show',
+			{edit:false,add:false,del:false,search:false});
+		}else{
+			$("#show_vehicles_page").jqGrid().setGridParam({url : 'index.php?a=356&begin_time='+begin_time
+				+'&end_time='+end_time+'&id_list='+idListInAreaStr,page:1}).trigger("reloadGrid");
+		}
+	};
+
+	
+	//利用递归来依次获取每个小时的数据信息（内部函数）
+	function getCarInArea(){
+		var aHour = hourList.shift(); //每次取一个小时的时间点进行查询
+		$("#areas").mask("查询中,请稍侯...(已查出车辆数："+ idInAreaFound + ")<br/>" + format_time(aHour,"yyyy/MM/DD/HH"));
+		idListStr = convertArrayToStr(idList, seperator);
+		$.post("index.php",{"a":355,"hour":aHour,"lonMin":lonMin,"latMin":latMin,
+			"lonMax":lonMax,"latMax":latMax,"vehicle_list":idListStr},
+			function(data){
+				if(data.length != 0){
+					idInAreaFound += data.length;
+					if(idListInAreaStr != ""){
+						idListInAreaStr += seperator;
+						idListInAreaStr += convertArrayToStr(data, seperator);
+					}else{
+						idListInAreaStr = convertArrayToStr(data, seperator);
+					}
+					
+					//已经查出的车辆下次不用再查
+					removeElement(idList, data);
+				}
+				
+				//递归结束条件
+				//1.所有的时间都检测过
+				//2.所有的车辆都已经被检测出来
+				if(hourList.length <= 0 || idList.length <= 0){ 
+					$("#areas").unmask();
+					$("#option_container").hide();
+					$("#areas").hide();
+					$("#show_area").show();
+					showCarInArea();
+				}else{
+					getCarInArea();
+				}
+			},"json");
+		};
+}); //$("#show_vehicles").click
+
+// 返回到区域查询画面
+$("#return_to_area_inquire").click(function(){
+	$("#option_container").show();
+	$("#areas").show();
+	$("#show_area").hide();
+});
+</script>
+

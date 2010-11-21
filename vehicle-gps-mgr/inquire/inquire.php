@@ -51,13 +51,7 @@ switch($act)
 				$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
 		}
 			
-		if($logic == 1){  //查看信息状态下
-			$function_operate="<select id='select_mode'>".
-									"<option value='vehicle_mode'>选择车辆</option>".
-									"<option value='area_mode'>选择区域</option>".
-							  "</select>";	
-		}else if($logic == 0){ //首页地图查看历史轨迹状态下
-			$function_operate ="<div style='margin-top:5px'>选择车辆: </div>";
+		if($id){
 			$position_vehicle  =  "history_track_frame.vehiclePosition(".$id.");";
 		}
 		
@@ -73,11 +67,11 @@ switch($act)
 			.'<link type="text/css" href="css/style.css" rel="stylesheet" />'
 			.'<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />'
 			.'<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />'
+			//.'<link type="text/css" href="css/inquire_trace.css"  media="screen" rel="stylesheet" />'
 			.'<script language="javascript" src="js/jquery-1.4.2.js" ></script>'
 			.'<script language="javascript" src="js/jquery-ui-1.8.1.custom.min.js" ></script>'
 			.'<script language="javascript" src="js/jquery.loadmask.min.js" ></script>'
 			.'<script type="text/javascript" src="js/jquery-ui-timepicker-addon-0.5.js"></script>'
-			//.'<script language="javascript" src="js/jquery.selectboxes.min.js" ></script>'
 			.'</head><body style="BACKGROUND-COLOR: transparent">';
 			$foot_str ='</body></html>';
 		}
@@ -137,69 +131,77 @@ switch($act)
 		break;
 		
 	case "get_history_info": //查询历史发布信息
-		$inquire = new Inquire();
-		
-		$count = $inquire->get_history_info_count($_REQUEST['begin_date'],$_REQUEST['end_date']); //获取历史信息总数
-		if( $count >0 ) {
-			$total_pages = ceil($count/$limit); //获取总页数
-		} else {
-			$total_pages = 0;
-		}
-		
-		if ($page > $total_pages) $page=$total_pages;
-		$start = $limit*$page - $limit;
-		if ($start<0) $start = 0;
-		
-		if(empty($searchfil) or empty($searchstr))
-			$wh = "";
-		else
-		{
-			$type = $inquire->get_type($searchfil);
-			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
-		}
-
-		//查询指定时间内的历史 发布信息
-		$infoes = $inquire->get_history_info($wh,$sidx,$sord,$start,$limit,$_REQUEST['begin_date'],$_REQUEST['end_date']); 
-		
-		$response->page	= $page;
-		$response->total = $total_pages;
-		$response->records = $count;
-		
-		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
-		
-		//遍历历史发布信息
-		foreach($infoes as	$key => $val)
-		{ 
+		if($_REQUEST['begin_date'] == null){ //返回页面
+			echo $GLOBALS['db']->display(null,$act);
+		} else { //返回历史数据信息
+			$inquire = new Inquire();
 			
-			$info_type= $dataMapping->getMappingText ( "info_issue", "type", $val ['type'] ); //从XML中获取信息类型
-			$response->rows[$key]['id']=$val['id'];
-			$response->rows[$key]['cell']=array($val['id'],$val['login_name'],
-												$info_type,$val['issue_time'],$val['begin_time'],$val['end_time'],
-												$val['content']);
+			$count = $inquire->get_history_info_count($_REQUEST['begin_date'],$_REQUEST['end_date']); //获取历史信息总数
+			if( $count >0 ) {
+				$total_pages = ceil($count/$limit); //获取总页数
+			} else {
+				$total_pages = 0;
+			}
+			
+			if ($page > $total_pages) $page=$total_pages;
+			$start = $limit*$page - $limit;
+			if ($start<0) $start = 0;
+			
+			if(empty($searchfil) or empty($searchstr))
+				$wh = "";
+			else
+			{
+				$type = $inquire->get_type($searchfil);
+				$searchstr = $db->prepare_value($searchstr,$type);
+				$wh = "where ".$searchfil." = ".$searchstr;
+			}
+	
+			//查询指定时间内的历史 发布信息
+			$infoes = $inquire->get_history_info($wh,$sidx,$sord,$start,$limit,$_REQUEST['begin_date'],$_REQUEST['end_date']); 
+			
+			$response->page	= $page;
+			$response->total = $total_pages;
+			$response->records = $count;
+			
+			$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
+			
+			//遍历历史发布信息
+			foreach($infoes as	$key => $val)
+			{ 
+				$info_type= $dataMapping->getMappingText ( "info_issue", "type", $val ['type'] ); //从XML中获取信息类型
+				$response->rows[$key]['id']=$val['id'];
+				$response->rows[$key]['cell']=array($val['id'],$val['login_name'],
+													$info_type,$val['issue_time'],$val['begin_time'],$val['end_time'],
+													$val['content']);
+			}
+	
+			//打印json格式的数据
+			echo json_encode($response);
 		}
-
-		//打印json格式的数据
-		echo json_encode($response);
 		
 		break;
 		
 	case "get_area_history": 
-		require_once 'areaInfo.php';
-		$areaInfo = new AreaInfo();
+		if($_REQUEST["lonMin"] == null){ //返回页面
+			echo $GLOBALS['db']->display(null,$act);
+		} else {
+			require_once 'areaInfo.php';
+			$areaInfo = new AreaInfo();
 		
-		$position1 = new Position($_REQUEST["lonMin"], $_REQUEST["latMin"]);
-		$position2 = new Position($_REQUEST["lonMax"], $_REQUEST["latMax"]);
-		
-		array_push($areaInfo->positionList, $position1);
-		array_push($areaInfo->positionList, $position2);
-		
-		$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
-		$hour = $_REQUEST["hour"];
-		
-		$inquire = new Inquire();
-		$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour);
-		echo json_encode($vehicle_in_area);
+			$position1 = new Position($_REQUEST["lonMin"], $_REQUEST["latMin"]);
+			$position2 = new Position($_REQUEST["lonMax"], $_REQUEST["latMax"]);
+			
+			array_push($areaInfo->positionList, $position1);
+			array_push($areaInfo->positionList, $position2);
+			
+			$vehile_list = explode(",", $_REQUEST["vehicle_list"]);//将字符串转换成数组，以","为分割符
+			$hour = $_REQUEST["hour"];
+			
+			$inquire = new Inquire();
+			$vehicle_in_area = $inquire->check_in_area($vehile_list, $areaInfo, $hour);
+			echo json_encode($vehicle_in_area);
+		}
+
 		break;
 		
 	case "show_area_history":  //区域查询历史轨迹时显示该区域内的车辆
