@@ -91,7 +91,6 @@ $("#area_select").click(function(){
 	$("#area_result").show();
     $("#select").hide();
 	$("#frame_map").show();
-	//$("#frame_map").attr("src","inquire/templates/51ditu.html"); //Iframe加载地图
 	$("#frame_map").attr("src","templates/51map.html"); //Iframe加载地图
 });
 
