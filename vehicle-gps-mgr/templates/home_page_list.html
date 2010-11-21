@@ -17,9 +17,9 @@
 	</style>
 	
 	<script language="javascript" src="/js/jquery-1.4.2.js" ></script>
-	  
+	<script language="javascript" defer="defer" src="/js/iutil.js"></script>
+	<script language="javascript" defer="defer" src="/js/fisheye.js" ></script>
 	<script language="javascript" defer="defer" src="/js/jquery-ui-1.8.1.custom.min.js" ></script>
-	<script language="javascript" defer="defer" src="/js/interface.js" ></script>
 	<script language="javascript" defer="defer" src="/js/jquery.loadmask.min.js" ></script>
 	<script language="javascript" defer="defer" src="/js/home_page/home_page.js"></script>
 	<script type="text/javascript" defer="defer" src="/js/jquery-ui-timepicker-addon-0.5.js"></script>
@@ -31,6 +31,7 @@
 	<script language="javascript" defer="defer" src="/js/alert/opinion.js"></script>
 	<script language="javascript" defer="defer" src="/js/alert/write_option.js"></script>
 	
+	<script language="javascript" src="/js/common.js" ></script>
 </head>
 <body>
 
@@ -38,6 +39,7 @@
     <div id="driver_statistic_content"></div><!-- 驾驶员详细信息内容 -->
     <div id="select_statistic_content" class="height:330px; width:700px;"></div><!-- 选择车辆内容 -->
     
+	<div id="inquire_type_container"></div>
 	<div id="opinion"></div>
 	<div id="operation"></div>
 	
@@ -75,7 +77,7 @@
 					<span>发布信息</span>
 					<img src="images/sendInfo.png" alt="发布信息" class="dockimg" />
 			  </a> 
-			  <a class="dock-item2 console_btn" href="index.php?a=301" id="search_info" title="查询信息"  showWidth="915" showHeight="500">
+			  <a class="dock-item2 console_btn" href="index.php?a=301" id="search_info" title="查询信息"  showWidth="830" showHeight="300">
 					<span>查询信息</span>
 					<img src="images/select.png" alt="查询信息" class="dockimg" />
 			  </a> 
