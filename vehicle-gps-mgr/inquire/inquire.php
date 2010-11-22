@@ -82,7 +82,7 @@ switch($act)
 		$data['FUNCTION_OPERATE'] = $function_operate;
 		$data["VEHICLE_LIST"] = $options;
 		$data['POSITION_VEHICLE']=$position_vehicle;
-		$data['HOST']= "http://".$_SERVER ['HTTP_HOST']; //主机
+		$data['HOST']= "http://".$_SERVER ['HTTP_HOST'].$server_path_config["subfolder"]; //主机
 		
 		echo $GLOBALS['db']->display($data,$act);
 		break;
@@ -183,7 +183,16 @@ switch($act)
 		
 	case "get_area_history": 
 		if($_REQUEST["lonMin"] == null){ //返回页面
-			echo $GLOBALS['db']->display(null,$act);
+			$inquire_info = new Inquire();
+			$vehicle_list = $inquire_info->get_all_vehicles(); //查询所有车辆
+			
+			$options = ""; //车辆下拉框
+			//填充车辆列表
+			foreach($vehicle_list as $value){
+				$options = $options."<option value=".$value["id"].">".$value["number_plate"]."</option>";
+			}
+			$data["VEHICLE_LIST"] = $options;
+			echo $GLOBALS['db']->display($data,$act);
 		} else {
 			require_once 'areaInfo.php';
 			$areaInfo = new AreaInfo();
