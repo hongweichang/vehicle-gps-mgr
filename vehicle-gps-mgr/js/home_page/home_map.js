@@ -384,10 +384,10 @@
 	 * @return
 	 */
 	function init_run_refresh_operate(){
-		
+		 
 		//获取当前刷新页面状态值
 		var  cur_refresh_state = $("#cur_refresh_state",parent.document).val();
-		 
+		
 		//判断当前刷新页面已开始状态
 		if(cur_refresh_state == "start"){
 			
