@@ -57,7 +57,7 @@ $(document).ready(function(){
 				primary: 'ui-icon-play'
 			}
 		});
-		$("#inquireing").unmask();
+		history_track_frame.cancle_mask();
 		history_track_frame.end_history_line();
 	});
 
@@ -104,7 +104,7 @@ $(document).ready(function(){
 	});
 
 	$("#vehicle_info").change(function(){
-		$("#inquireing").unmask();
+		history_track_frame.cancle_mask();
 		history_track_frame.end_history_line();
 		$("#location_info").hide();
 		$('#play_history').button('option', {

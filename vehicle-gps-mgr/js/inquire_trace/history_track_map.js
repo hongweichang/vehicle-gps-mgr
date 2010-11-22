@@ -485,3 +485,12 @@
 			}
 			LTEvent.addListener(obj,"click",shwoInfo); 
 		} 
+		
+		/**
+		 * 取消遮罩效果。
+		 * 为了父窗口控制用。
+		 * @return
+		 */
+		function cancle_mask(){
+			$("#map").unmask();
+		}
