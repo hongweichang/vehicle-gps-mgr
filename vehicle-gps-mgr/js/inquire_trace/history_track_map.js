@@ -6,7 +6,6 @@
  * update 
  * modifier
  */
-
 	var map = null; //历史轨迹地图对象 
 	var vehicle_id = -1; //车辆ID
 	var speed = 1000;  //速度/ms
@@ -88,27 +87,25 @@
 	/**
 	 * 运行历史轨迹
 	 */
-	function runHistoryTrack(){   
+	function runHistoryTrack(){  
 		//如果当前画线数组还存在数据，继续执行画线
 		if(window.parent.drawLine_arr != null  && state === "normal"){
-			 
 			if(window.parent.drawLine_arr.length > 0 ){ 
 				newDrawLine();
 			} 
-		}else{ //当画线队列数组不存在数据是，执行时间段取点  
+		}else{ //当画线队列数组不存在数据时，执行时间段取点  
 			 
 			if(window.parent.arr_history.length>0){ //当时间数组还存在时间，连续查询 
 				cur_progress ++;
 				//按比例计算进度条进度数值
 				var progress_val = round((cur_progress/progress_length)*100,0);
 				window.parent.progress_assignment(progress_val);
-				
 				var time = window.parent.arr_history[0];  
 				window.parent.arr_history.shift();//删除已查询日期
-				
 				//查询
 				drawHistoryTrack(time,vehicle_id);
 			}
+			
 		}
 	}
 	
@@ -118,7 +115,6 @@
 	function clearOverLay(){
 		map.clearOverLays(); 
 	}
-	 
 	 
 	//等待线程
 	function wait(){
@@ -141,8 +137,9 @@
 	 * @param {Object} vehicle_id 车辆编号
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
-	 	var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";  
-		$("#inquireing",parent.document).mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH")); 
+	 	 
+		var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";   
+		$("#map").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
@@ -150,16 +147,15 @@
 			success:function(data){    
 			if(state == "stop") return false; //停止状态不能运行
 			 
-			$("#inquireing",parent.document).unmask();
+			$("#map").unmask();
 			
 			/**
 			 * 日期请求查询路线为空操作
 			 */
 			if(data==0 || data == null || data == ""){ 
 			   if(window.parent.arr_history == null) return false; //查询时间队列为空 
-			 
 			   if(window.parent.arr_history.length>0){ //如果日期数组存在日期数据，连续请求查询
-					runHistoryTrack();
+				   runHistoryTrack();
 					return false;
 				}else //否则进入停止状态
 					return end_history_line();
@@ -438,7 +434,6 @@
 						//车辆点位置添入数组中，地图视图显示
 						points.push( new LTPoint(point_longitude,point_latitude));
 
-					 	
 						//创建点对象
 						marker =new LTMarker(new LTPoint(point_longitude,point_latitude),
 										 	  new LTIcon(window.parent.host+"/"+file_path+"/"+img_name+".png"));
