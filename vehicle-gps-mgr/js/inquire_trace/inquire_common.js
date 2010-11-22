@@ -23,6 +23,36 @@ $("#inquire_endTime").datetimepicker({
 $("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
 $("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
 
+
+//获取系统当天零点时间并格式化为yyyy/mm/dd hh:mm:ss
+function getTodayFormatDate()
+{
+   	var day = new Date();
+
+   	var Year = 0;
+   	var Month = 0;
+   	var Day = 0;
+	var CurrentDate = "";
+   //初始化时间
+   	Year= day.getFullYear();
+   	Month= day.getMonth()+1;
+   	Day = day.getDate();
+   	CurrentDate += Year + "/";
+   	if (Month >= 10){
+    	CurrentDate += Month + "/";
+   	}else{
+    	CurrentDate += "0" + Month + "/";
+   	}
+   	if (Day >= 10 ){
+    	CurrentDate += Day +" ";
+   	}else{
+    	CurrentDate += "0" + Day+" " ;
+   	}
+   	CurrentDate+="00:00:00";
+   	return CurrentDate;
+}
+
+
 //获取系统当前时间并格式化为yyyy/mm/dd hh:mm:ss
 function getNowFormatDate()
 {
