@@ -1,9 +1,3 @@
-
-<style type="text/css">
-</style>
-
-<SCRIPT src="js/inquire_trace/popdg_div.js" type=text/javascript></SCRIPT>
-
 <div class="area_content" style="width:850px">
 		<div id="option_container">
 			<div class="start_div keep_left">开始时间：</div>
@@ -35,9 +29,14 @@
 			<div id="page_show"></div>
 			<input id="return_to_area_inquire" type="button" value="返回"/>
 			</div>
+			
+			<div class="vehicle_info_container" style="display:none">
+				<select id="vehicle_info">{{vehicle_list}}</select>
+			</div>
 	</div>
 	
-<script language="javascript" src="/js/inquire_trace/inquire_common.js"></script>
+<script language="javascript" src="js/inquire_trace/inquire_common.js"></script>
+<script language="javascript" src="js/inquire_trace/popdg_div.js"></script>
 
 <script type="text/javascript">
 var is_vehicle_in_area_list_showed = false; //在查询指定时间经过指定区域车辆的时候，确认车辆列表是否已经产生过。
@@ -145,5 +144,23 @@ $("#return_to_area_inquire").click(function(){
 	$("#areas").show();
 	$("#show_area").hide();
 });
+
+//展示历史轨迹显示区域，并播放历史轨迹
+function show_trace_area(vehicle_id){
+	$("<iframe id='trace_in_area_frame' name='trace_in_area_frame' src='index.php?a=352&logic=0&have_header=1&inherit=1&vehicle_id="+ vehicle_id +"' style='width:100%;height:400px;background-color:transparent;'"+ 
+			" marginwidth='0' marginheight='0' scrolling='no' allowTransparency='true' frameborder='0' align='top'/>").dialog({
+		 title: "历史轨迹",
+         utoOpen: true,
+         width: 900,
+         height: 500,
+         modal: false,
+         resizable: true,
+         autoResize: true,
+         overlay: {
+         opacity: 0.5,
+         background: "black"
+	 	}
+        }).width(900).height(500);	      
+}
 </script>
 
