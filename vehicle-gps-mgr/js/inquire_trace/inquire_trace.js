@@ -207,6 +207,7 @@ $(document).ready(function(){
 			
 			//获取车辆编号
 			var history_vehicle_id = $("#vehicle_info option:selected").val(); 
+			
 			//当state为 stop时，点击播放为允许重新加载状态 
 			if(history_track_frame.state === "stop"){  
 				//设置state正常操作状态
@@ -234,22 +235,4 @@ $(document).ready(function(){
 			 //运行历史轨迹
 			history_track_frame.runHistoryTrack(); 
 		  }
-	  
-	//展示历史轨迹显示区域，并播放历史轨迹
-	function show_trace_area(vehicle_id){
-		$("<iframe id='trace_in_area_frame' name='trace_in_area_frame' src='index.php?a=352&logic=0&have_header=1&inherit=1&vehicle_id="+ vehicle_id +"' style='width:100%;height:400px;background-color:transparent;'"+ 
-				" marginwidth='0' marginheight='0' scrolling='no' allowTransparency='true' frameborder='0' align='top'/>").dialog({
-			 title: "历史轨迹",
-	         utoOpen: true,
-	         width: 900,
-	         height: 500,
-	         modal: false,
-	         resizable: true,
-	         autoResize: true,
-	         overlay: {
-             opacity: 0.5,
-             background: "black"
-		 	}
-	        }).width(900).height(500);	      
-	}
-	
+	 
