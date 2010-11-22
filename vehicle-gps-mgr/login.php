@@ -8,7 +8,7 @@
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
 	<style type="text/css">
-	img, div, a, input { behavior: url(/css/resources/iepngfix.htc) }
+	img, div, a, input { behavior: url(css/resources/iepngfix.htc) }
 	</style> 
 	
 	<script language="javascript" src="js/login/cookie.js"></script>
