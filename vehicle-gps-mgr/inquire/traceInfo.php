@@ -87,7 +87,7 @@ class Position_parser
     	}
     	
     	return $server_path_config["gps_info_path"]."/".$time.".log";
-    	//return $gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log";
+    	//return $gps_info_path = $GLOBALS["all"]["BASE"]."/log/".$time.".log"; //本地测试用路径
     }
 	
 	/**
