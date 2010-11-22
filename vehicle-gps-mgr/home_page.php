@@ -12,7 +12,7 @@ $act = $GLOBALS["all"]["operate"];
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
 $company_id = get_session("company_id"); //获取当前公司ID
 $identify_id = get_session("identify_id"); //获取角色ID
-$arr['host']= "http://".$_SERVER ['HTTP_HOST']; //主机
+$arr['host']= "http://".$_SERVER ['HTTP_HOST'].$server_path_config["subfolder"]; //主机
 
 if(!$sidx) $sidx =1;
 
