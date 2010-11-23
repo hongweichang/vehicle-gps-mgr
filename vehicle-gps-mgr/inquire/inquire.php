@@ -31,8 +31,6 @@ switch($act)
 		$position_vehicle = ""; //定位车辆脚本 
 		
 		$id = $_REQUEST['vehicle_id']; //车辆ID
-		$logic = $_REQUEST['logic']; //逻辑判断   1是查看信息 0是历史轨迹
-		
 		
 		$inquire_info = new Inquire();
 		$vehicle_list = $inquire_info->get_all_vehicles(); //查询所有车辆
