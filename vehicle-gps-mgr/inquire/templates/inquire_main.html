@@ -1,114 +1,24 @@
-<link type="text/css" href="css/inquire_trace.css"  media="screen" rel="stylesheet" />
+<link type="text/css" href="css/func_select.css"  media="screen" rel="stylesheet" />
 
-<style type="text/css">
-/*	#inquiretype a img {
-		FILTER: gray;		
-	}	
-	
-	#inquiretype a:hover img{
-		filter:;
-		cursor:hand;
-	}*/
-
-	#inquiretype{
-		margiin-top：50px;
-	}
-	#inquiretype a:link {
-		color: #0088FF;
-        text-decoration: none; 
-	}
-	#inquiretype a:visited {
-		color: #0088FF;
-        text-decoration: none; 
-	}
-	#inquiretype a:hover {
-		color: #0000FF;
-        text-decoration: none; 
-		font-weight:bold;
-	}
-	
-	#inquiretype a:active {
-		color: #0088FF;
-        text-decoration: none; 
-	}
-	
-	#inquiretype ul{
-		margin-left:50px;
-		margin-top:50px;
-		margin-bottom:50px;
-	}
-	
-	#inquiretype ul li{
-		float:left;
-		display:inline;
-		text-align:left;
-		margin-right:50px;
-	}
-	
-	.shade{position:relative;} 
-	
-	.inquire_type_text{
-		margin-top:15px;
-		text-align:center;
-		font-size:14px;
-	}
-}
-
-</style>
-
-<div id="inquiretype">
+<div class="func-type">
 <ul>
 <li>
-<a href="index.php?a=501" class="inquiretype_btn" title="车辆当前状态" showWidth="915" showHeight="500">
-<img src="images/inquire/status.png" height="120" class="shade"/><div class="inquire_type_text">查询<br/>车辆当前状态</div>
+<a href="index.php?a=501" class="func_type_btn" title="车辆当前状态" showWidth="915" showHeight="500">
+<img src="images/inquire/status.png" height="120" class="shade"/><div class="func_type_text">查询<br/>车辆当前状态</div>
 </a></li>
 <li>
-<a href="index.php?a=352&logic=1" class="inquiretype_btn"  title="车辆历史轨迹" showWidth="915" showHeight="500">
-<img src="images/inquire/track.png" height="120" class="shade"/><div class="inquire_type_text">查询<br/>车辆历史轨迹</div>
+<a href="index.php?a=352" class="func_type_btn"  title="车辆历史轨迹" showWidth="915" showHeight="500">
+<img src="images/inquire/track.png" height="120" class="shade"/><div class="func_type_text">查询<br/>车辆历史轨迹</div>
 </a></li>
 <li>
-<a href="index.php?a=355" class="inquiretype_btn"  title="按区域查询车辆历史轨迹" showWidth="915" showHeight="500">
-<img src="images/inquire/inquire-by-area.png" height="120" class="shade"/><div class="inquire_type_text">按区域查询<br/>车辆历史轨迹</div>
+<a href="index.php?a=355" class="func_type_btn"  title="按区域查询车辆历史轨迹" showWidth="915" showHeight="500">
+<img src="images/inquire/inquire-by-area.png" height="120" class="shade"/><div class="func_type_text">按区域查询<br/>车辆历史轨迹</div>
 </a></li>
 <li>
-<a href="index.php?a=354" class="inquiretype_btn"  title="查询历史信息" showWidth="915" showHeight="500">
-<img src="images/inquire/infohistory.png" height="120" class="shade"/><div class="inquire_type_text">查询<br/>历史发布信息</div>
+<a href="index.php?a=354" class="func_type_btn"  title="查询历史信息" showWidth="915" showHeight="500">
+<img src="images/inquire/infohistory.png" height="120" class="shade"/><div class="func_type_text">查询<br/>历史发布信息</div>
 </a></li>
 </ul>
 </div>
 
-
-<script type="text/javascript">
-var shakeStyle,offset=3,timer,dir=1      
-//offset为图片抖动时的偏移量，dir为抖动方向 
-document.onmouseover=function(){   //鼠标移上对象时执行函数 
-	with(event.srcElement){ 
-	//如果鼠标移上的对象是图片，并且class为shade，执行下面的代码 
-	   if(tagName=="IMG"&&className=="shade"){          
-	//将变量Style的赋值为对象的CSS对象，方便下面写代码(简短) 
-		   shakeStyle=style; 
-	       shade();  //调用shade函数 
-	   } 
-	}
-} 
-document.onmouseout=function(){//鼠标在对象上移开时执行函数 
-if(shakeStyle){    //如果是之前抖动的图片对象，执行下面的代码 
-   clearTimeout(timer);      //清除计时器以停止图片的抖动 
-   shakeStyle.posTop=shakeStyle.posLeft=0;    //图归原位 
-} 
-} 
-function shade(){ 
-// 先实现dir的自加：如果dir小于4，自增1，等于4时重设为1 ,
-// 然后根据它的值判断应该改变对象X或Y坐标的值(1、2、3和4分别对应着向左、下、右和上四个方向的偏移运动)，eval()的功能是先进行字符串连接再执行连接后的JS代码
-eval("shakeStyle.pos"+["Top","Left"][(dir+=dir<4?1:-3)%2]+"+=offset*(dir-3+dir%2)");  
-//timer=setTimeout("shade()",50);    //50毫秒后再次执行shade()函数 
-}
-
-$('.inquiretype_btn').click(function(e) {
-	if ( e && e.preventDefault ){
-		e.preventDefault(); //阻止浏览器默认动作
-	}
-	showOperationDialog(this, $(this).attr('href'), "inquire_type_container");
-});
-
-</script>
+<script language="javascript" src="js/func_select.js" ></script>
