@@ -812,7 +812,7 @@
 					vehicle_id +
 					"\")'><a href='#'>统计分析信息</a></div>" +
 							
-					"<div class='look_history' id='trace_ilook' url='index.php?a=201' showWidth=\"915\" showHeight=\"500\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&logic=0&vehicle_id=" +
+					"<div class='look_history' id='trace_ilook' url='index.php?a=201' showWidth=\"915\" showHeight=\"500\" title='查看历史轨迹' onclick='window.parent.showOperationDialog(this,\"index.php?a=352&vehicle_id=" +
 					vehicle_id +
 					"\")'><a href='#'>查看历史轨迹</a></div>" +
 							
