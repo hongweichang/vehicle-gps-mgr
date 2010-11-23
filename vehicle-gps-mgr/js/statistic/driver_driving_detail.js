@@ -1,6 +1,6 @@
 var driverID=$("#dri_driving_id").val();
-var begin_date = $("#vehicle_begin_data").val();
-var end_date = $("#vehicle_end_data").val();
+var begin_date = $("#driver_begin_data").val();
+var end_date = $("#driver_end_data").val();
 
 jQuery("#drive_begin_data").jqGrid( {
 		url : "index.php?a=411&drive_id="+driverID+"&begin_data="+begin_date+"&end_data="+end_date,
