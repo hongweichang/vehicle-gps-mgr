@@ -208,13 +208,24 @@ class User extends BASE
 	}
 	
 	/**
-	*		查询所有用户
+	*		查询所有公司管理员权限以下用户
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
 	*		@return no
 	*/
 	function get_all_users($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select u.*,r.name role_name,c.name company_name from ".$this->tablename." u left join role r on u.role_id=r.id left join company c on c.id = u.company_id ".$wh." and u.role_id>2 and u.company_id = ".get_session("company_id")." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		return $this->data_list = $GLOBALS["db"]->query($this->sql);
+	}
+	
+	/**
+	*		查询所有公司平台管理员和系统管理员
+	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
+	*		@return no
+	*/
+	function get_sys_users($wh="",$sidx="",$sord="",$start="",$limit="")
+	{
+		$this->sql = "select u.*,r.name role_name,c.name company_name from ".$this->tablename." u left join role r on u.role_id=r.id left join company c on u.company.id=c.id ".$wh." and u.role_id<3 order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	

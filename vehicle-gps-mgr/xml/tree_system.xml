@@ -11,5 +11,9 @@
 	<!-- 公司管理 -->
 	<row><cell>3</cell><cell>公司管理</cell><cell></cell><cell>0</cell><cell>11</cell><cell>20</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>4</cell><cell>公司</cell><cell>index.php?a=5003</cell><cell>1</cell><cell>12</cell><cell>13</cell><cell>true</cell><cell>true</cell></row>
+    
+    	<!-- 公司管理 -->
+	<row><cell>5</cell><cell>用户管理</cell><cell></cell><cell>0</cell><cell>21</cell><cell>30</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>6</cell><cell>用户</cell><cell>index.php?a=1009</cell><cell>1</cell><cell>22</cell><cell>23</cell><cell>true</cell><cell>true</cell></row>
 	
 </rows>

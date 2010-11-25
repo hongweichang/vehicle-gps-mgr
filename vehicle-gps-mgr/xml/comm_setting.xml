@@ -42,6 +42,19 @@
 			<item value="1" displayText="激活" />
 		</state>
 	</user>
+	
+	<!-- 角色表 -->
+	<role>
+		<!-- 角色名 -->
+		<admin>
+			<item value='3' displayText="企业内部管理员"/>
+			<item value='4' displayText="一般使用人员"/>
+		</admin>
+		<sysadmin>
+			<item value='1' displayText="系统管理员"/>
+			<item value='2' displayText="企业平台管理员"/>
+		</sysadmin>
+	</role>
 
 	<!--车辆管理表 -->
 	<vehicle_manage>

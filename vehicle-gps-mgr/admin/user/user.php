@@ -29,6 +29,11 @@ switch($act)
 	case "user_manage":			//加载用户管理的html页面
 		echo $db->display(null,"manage");
 		break;
+		
+	case "user_system":
+		echo $db->display(null,"system");	
+		break;
+		
 	case "list_data":		//用户管理html中，js文件会加载这个case，取得并输出数据
 		$user	= new User();
 		$count = $user->get_user_count();
@@ -72,18 +77,23 @@ switch($act)
 		}
 		
 		//得到所有用户
-		$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
+		if($_REQUEST['role']){
+			$result = $user->get_sys_users($wh,$sidx,$sord,$start,$limit);
+		}else{
+			$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
+		}
 //		file_put_contents("a.txt",$db->sql);
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
+
 		foreach($result as	$key => $val)
 		{
 			$user = new User($val['id']);
 			$state = $user->get_data("v_state");
 			$responce->rows[$key]['id']=$val['id'];
 			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],
-																					$val['company_id'],$val['role_id'],$val['email'],$state
+																					$val['company_id'],$val['company_name'],$val['role_id'],$val['email'],$state,$val['role_name']
 //																					$val['backup1'],$val['backup2'],
 //																					$val['backup3'],$val['backup4'],$val['create_id'],
 //																					$val['create_time'],$val['update_id'],$val['update_time']
@@ -93,6 +103,7 @@ switch($act)
 		//打印json格式的数据
 		echo json_encode($responce);
 		break;
+		
 	case "manage_list":			//模拟管理页面
 		$data["user_name"] = get_session("user_name");
 		$data['identify_id'] = $identify_id;
@@ -119,7 +130,8 @@ switch($act)
 		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");//$_REQUEST['password']
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
 		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");//$_REQUEST['company_id']
-		$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
+		//$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
+		$arr["role_id"] = $db->prepare_value($_REQUEST['role'],"INT");	
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
 //		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
@@ -133,7 +145,7 @@ switch($act)
 		$user = new User($_REQUEST['id']);
 		switch($oper)
 		{
-			case "add":		//增加			
+			case "add":		//增加						
 				if($user->check_login_name($_REQUEST['login_name'])){
 					exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
 				}
@@ -175,6 +187,26 @@ switch($act)
 				{
 					$par = "user";
 					$child = "state";
+				}
+				$xml = new Xml($par,$child);
+				$html = $xml->get_html_xml();
+				break;
+				
+			case "role":
+				if(!$par or !$child)
+				{
+					$par = "role";
+					$child = "admin";
+				}
+				$xml = new Xml($par,$child);
+				$html = $xml->get_html_xml();
+				break;
+				
+			case "sys_role":
+				if(!$par or !$child)
+				{
+					$par = "role";
+					$child = "sysadmin";
 				}
 				$xml = new Xml($par,$child);
 				$html = $xml->get_html_xml();
