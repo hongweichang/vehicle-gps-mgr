@@ -92,7 +92,7 @@ switch($act)
 			$user = new User($val['id']);
 			$state = $user->get_data("v_state");
 			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['password'],$val['name'],
+			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['name'],
 																					$val['company_id'],$val['company_name'],$val['role_id'],$val['email'],$state,$val['role_name']
 //																					$val['backup1'],$val['backup2'],
 //																					$val['backup3'],$val['backup4'],$val['create_id'],
@@ -127,21 +127,12 @@ switch($act)
 		$oper = $_REQUEST['oper'];
 		//file_put_contents("a.txt",$oper);exit;
 		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
-		$arr["password"] = $db->prepare_value($_REQUEST['password'],"VARCHAR");//$_REQUEST['password']
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
-		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");//$_REQUEST['company_id']
-		//$arr["role_id"] = $db->prepare_value(1,"INT");//$_REQUEST['role_id']
+		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
 		$arr["role_id"] = $db->prepare_value($_REQUEST['role'],"INT");	
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
-//		$arr["backup1"] = $db->prepare_value($_REQUEST['backup1'],"VARCHAR");
-//		$arr["backup2"] = $db->prepare_value($_REQUEST['backup2'],"VARCHAR");
-//		$arr["backup3"] = $db->prepare_value($_REQUEST['backup3'],"VARCHAR");
-//		$arr["backup4"] = $db->prepare_value($_REQUEST['backup4'],"VARCHAR");
-//		$arr["create_id"] = $db->prepare_value($_REQUEST['create_id'],"INT");
-//		$arr["create_time"] = $db->prepare_value($_REQUEST['create_time'],"DATETIME");
-//		$arr["update_id"] = $db->prepare_value($_REQUEST['update_id'],"INT");
-//		$arr["update_time"] = $db->prepare_value($_REQUEST['update_time'],"DATETIME");
+		
 		$user = new User($_REQUEST['id']);
 		switch($oper)
 		{

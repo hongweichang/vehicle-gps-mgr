@@ -143,6 +143,7 @@ class User extends BASE
 		}
 		//添加主键ID
 		$user['id'] = $this->user_id;
+		$user['password'] = $this->data['password'];
 		if(!$GLOBALS['db']->update_row($this->tablename,$user,"id"))
 		{
 			$this->message = "error,edit data failed!";
