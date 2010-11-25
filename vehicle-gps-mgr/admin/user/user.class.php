@@ -225,7 +225,7 @@ class User extends BASE
 	*/
 	function get_sys_users($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select u.*,r.name role_name,c.name company_name from ".$this->tablename." u left join role r on u.role_id=r.id left join company c on u.company.id=c.id ".$wh." and u.role_id<3 order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select u.*,r.name role_name,c.name company_name from ".$this->tablename." u left join role r on u.role_id=r.id left join company c on u.company_id=c.id ".$wh." and (u.role_id between 2 and 3) order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
