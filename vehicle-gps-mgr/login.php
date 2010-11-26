@@ -60,7 +60,13 @@
 <body>
    <div id="body" class="body_div">
    		<input type="hidden" name="act" value="signin" />
-		<div class="title"></div>
+		<div class="logo">		
+			<?php 
+				require_once 'include/interface_manage.php';
+				echo "<img src='".$image['image_url']."' class='title'/>";
+				echo "<span class='logo_span'>".$image['name']."</span>";
+			?>
+		</div>
 		<div class="content">
 		    <div style="width:100%; height:7px;">
 		  		<div style="background-image:url(images/login_r1_c1.jpg);width:156px; height:171px; float:left;"></div>
