@@ -18,6 +18,10 @@ body{
 	font-weight:700;
 	margin-left:10px;
 	margin-bottom:10px;
+	position:absolute;
+	top:70px;
+	left:366px;
+	color:blue;
 }
 .title{
 	width:48px;

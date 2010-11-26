@@ -64,7 +64,7 @@
 			<?php 
 				require_once 'include/interface_manage.php';
 				echo "<img src='".$image['image_url']."' class='title'/>";
-				echo "<span class='logo_span'>".$image['name']."</span>";
+				echo "<div class='logo_span'>".$image['name']."</div>";
 			?>
 		</div>
 		<div class="content">
