@@ -1,0 +1,1 @@
+<?php $image=array('image_url'=>'images/upload/20101126112505_284.png','name'=>'北京龙菲业公司'); ?>
