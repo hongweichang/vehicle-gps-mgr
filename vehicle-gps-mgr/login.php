@@ -108,7 +108,7 @@
 			<ul>
 				<li>推荐使用ie浏览器。（使用ie8浏览器可以获得最佳的使用体验）</li>
 				<li class="mt5">
-					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="#">这里。</a>
+					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="help.php" target="view_window">这里。</a>
 				</li>
 			</ul>
 		</div>

@@ -1,0 +1,48 @@
+/* CSS Document */
+
+/* CSS Document */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
+   input,textarea,p,blockquote,th,td{margin:0;padding:0;}
+   img{border:0;}
+   ul{list-style-type:none;}
+	.body_div{
+		margin:40px auto;
+		width:800px;
+		height:401px;
+	}
+	.top{
+		width:100%;
+		height:60px;
+		border-bottom:1px #999999 solid;
+	}
+	.logo,.title{
+		height:100%;
+		float:left;
+	}
+	.logo_img{
+	    height:48px;
+	    width:48px;
+	}
+	.title{
+	   height:46%;
+	   margin-top:13px;
+	   font-size:25px;
+	   font-weight:700;
+	   margin-left:8px;
+	   color:#0099FF;
+	}
+	.content{
+		width:100%;
+	}
+	.mt5{margin-top:5px;}
+	.mt10{margin-top:10px;}
+	.mt15{margin-top:15px;}
+	.mt30{margin-top:30px;}
+	.ml20{ margin-left:20px;}
+	.mt20{margin-top:20px;}
+	.fw700{font-weight:700;}
+	.fs14{font-size:14px;}
+	.fs13{font-size:13px;}
+	.ml30{margin-left:30px;}
+	
