@@ -15,5 +15,10 @@
     	<!-- 公司管理 -->
 	<row><cell>5</cell><cell>用户管理</cell><cell></cell><cell>0</cell><cell>21</cell><cell>30</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>6</cell><cell>用户</cell><cell>index.php?a=1009</cell><cell>1</cell><cell>22</cell><cell>23</cell><cell>true</cell><cell>true</cell></row>
+    
+    	<!-- 首页消息管理 -->
+	<row><cell>7</cell><cell>消息管理</cell><cell></cell><cell>0</cell><cell>31</cell><cell>40</cell><cell>false</cell><cell>false</cell></row>
+    <row><cell>8</cell><cell>发布消息</cell><cell>index.php?a=8001</cell><cell>1</cell><cell>32</cell><cell>33</cell><cell>true</cell><cell>true</cell></row>
+	<row><cell>9</cell><cell>历史记录</cell><cell>index.php?a=8003</cell><cell>1</cell><cell>33</cell><cell>34</cell><cell>true</cell><cell>true</cell></row>
 	
 </rows>

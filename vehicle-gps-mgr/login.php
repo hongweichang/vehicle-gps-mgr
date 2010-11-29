@@ -67,8 +67,10 @@
 					<ul>
 						<li>★最新消息</li>
 						<li class="mt5">
-							本系统将于11月30日00点起维护。维护期间不能看到车辆的最新消息。维护时间大概5个小时，给您带来不便，敬请谅解。
-							<a href="#">更多>></a>
+							<?php 
+								require_once 'templates/new_message.php';
+								echo $new_message['messages'];
+							?>
 						</li>
 					</ul>
 				</div><!--最新消息-->

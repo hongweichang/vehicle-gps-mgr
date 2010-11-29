@@ -1,0 +1,1 @@
+<?php $new_message=array('messages'=>''); ?>
