@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>GPS智能车辆监控调度系统-登录</title>
 	
 	<link href="css/login.css" rel="stylesheet" />
@@ -17,13 +17,6 @@
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$("#loginCar").mouseover(function(){
-				document.getElementById("loginCar").src='images/car.png';
-				document.getElementById("loginCar").style.cursor='hand';
-			});
-			$("#loginCar").mouseout(function(){
-				document.getElementById("loginCar").src='images/ycar.png';
-			});
 			$("#loginCar").click(function(){
 				$("#body").mask("验证中，请稍候...");
 				$("#clue").html("");
@@ -58,68 +51,67 @@
 </head>
 
 <body>
-   <div id="body" class="body_div">
-   		<input type="hidden" name="act" value="signin" />
-		<div class="logo">		
+	<div class="body_div">
+		<input type="hidden" name="act" value="signin" />
+		<div class="top">		
 			<?php 
 				require_once 'include/interface_manage.php';
-				echo "<img src='".$image['image_url']."' class='title'/>";
-				echo "<div class='logo_span'>".$image['name']."</div>";
+				echo "<div class='logo'><img src='".$image['image_url']."'/></div>";
+				echo "<div class='title'>".$image['name']."</div>";
 			?>
 		</div>
-		<div class="content">
-		    <div style="width:100%; height:7px;">
-		  		<div style="background-image:url(images/login_r1_c1.jpg);width:156px; height:171px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r1_c2.jpg);width:149px; height:171px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r1_c3.jpg);width:168px; height:171px; float:left;"></div>
-		  		<div style="background-image:url(images/login_r1_c4.jpg);width:184px; height:171px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r1_c5.jpg);width:148px; height:171px; float:left;"></div>
-		   		<div style="background-image:url(images/spacer.gif);width:1px; height:171px; float:left;"></div>
-		   </div>
-	       <div>
-		 		<div style="background-image:url(images/login_r2_c1.jpg);width:156px; height:180px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r2_c2.jpg);width:149px; height:180px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r2_c3.jpg);width:168px; height:180px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r2_c4.jpg);width:184px; height:180px; float:left;"></div>
-		   		<div style="background-image:url(images/login_r2_c5.jpg);width:148px; height:180px; float:left;"></div>
-		   		<div style="background-image:url(images/spacer.gif);width:1px; height:180px; float:left;"></div>
-	       </div>
-			<div class="conetnt_div">
-				<div class="companyID">
-					<div class="float_text">公司ID：</div>
-					<div class="float_left">
-						<div class="common">
-							<input type="text" name="companyloginid" id="companyId" class="text_password_input" />
-						</div>
-					</div>
-				</div>
-				<div class="input_div">
-					<div class="float_text" >用户ID：</div>
-					<div class="float_left" >
-						<div style="height:21px; width:81px;float:left;">
-							<input type="text" name="username" id="userName"  class="text_password_input"/>
-						</div>
-					</div>
-				</div>
-				<div class="input_div">
-					<div class="float_text">密</div><div class="text">码：</div>
-					<div class="float_left">
-					    <div class="common">
-							<input type="password" name="password" id="password" class="text_password_input" />
-						</div>
-						<div class="commonCheck">
-							<input id="saveall" type="checkbox" value="" />
-							<span style="color:#999999; font-weight:normal;">记住</span>
-						</div>
-					</div>
-				</div> 
-				<div class="submit_div" >
-					<input type="image" class="submit"  src="images/ycar.png" id="loginCar"/> 
-					<div id="clue" style="font-size:10px;color:red;"></div>
-				</div>
+		<div class="content mt5">
+			<div class="login_img"></div>
+			<div class="content_right">
+				<div class="new_info">
+					<ul>
+						<li>★最新消息</li>
+						<li class="mt5">
+							本系统将于11月30日00点起维护。维护期间不能看到车辆的最新消息。维护时间大概5个小时，给您带来不便，敬请谅解。
+							<a href="#">更多>></a>
+						</li>
+					</ul>
+				</div><!--最新消息-->
+				<div class="form_info mt65">
+					<ul>
+						<li>
+							公司ID：
+							<span>
+								<input type="text" name="companyloginid" id="companyId" class="input"/>
+							</span>
+						</li>
+						<li class="mt10">
+							用户ID：
+							<span>
+								<input type="text" name="username" id="userName"  class="input"/>
+							</span>
+						</li>
+						<li class="mt10">
+							密&nbsp;&nbsp;&nbsp;&nbsp;码：
+							<span>
+								<input type="password" name="password" id="password" class="input" />
+							</span>
+						</li>
+						<li class="mt15 tc">
+							 <input id="saveall" type="checkbox" value="" /> 
+							<span class="remenber">记住</span>&nbsp;&nbsp;
+							<span>
+								<input type="submit" class="submit" id="loginCar" name="login" value="登录" />
+								<div id="clue" style="font-size:10px;color:red;"></div>
+							</span>
+						</li>
+					</ul>
+				</div><!--表单-->
 			</div>
+		</div><!--内容-->
+		<div class="help_info mt5">
+			<ul>
+				<li>推荐使用ie浏览器。（使用ie8浏览器可以获得最佳的使用体验）</li>
+				<li class="mt5">
+					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="#">这里。</a>
+				</li>
+			</ul>
 		</div>
 	</div>
 </body>
 </html>
-		

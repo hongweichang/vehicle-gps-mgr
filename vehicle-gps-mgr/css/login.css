@@ -1,106 +1,103 @@
-.body_div{
-	margin:50px auto; 
-	background-repeat:no-repeat; 
-	width:815px; 
-	height:418px;
-}
-body{
-	background-color:#CCCCCC;
-	height:99%;
-	width:99%;
-}
-.logo{
-	width:100%;
-	height:50px;
-}
-.logo_span{
-	font-size:18px;
-	font-weight:700;
-	margin-left:10px;
-	margin-bottom:10px;
-	position:absolute;
-	top:70px;
-	left:366px;
-	color:blue;
-}
-.title{
-	width:48px;
-	height:48px;
-}
-.content{
-	margin:10px auto;
-	background-repeat:no-repeat;
-	width:99%;
-	height:351px;
-	border:3px gray solid;
-}
-.conetnt_div{
-	background-image:url(../images/bg.png);
-	margin:0px auto;
-	width:235px;
-	background-repeat:no-repeat;
-	height:170px;
-	margin-top:-175px;
-	float:right;
-	font-size:14px;
-	color:#489FD8;
-	font-weight:700;
-}
-.companyID{
-	height:24px;
-	margin:20px 10px 0px 10px;
-}
-.float_left{
-	float:left;
-	height:22px;
-}
-.text{
-	margin-left:16px;
-	height:15px;
-	float:left;
-	margin-top:3px;
-}
-.float_text{
-	float:left;
-	height:15px;
-	margin-top:3px;
-}
-.text_password_input{
-	width:80px;
-	height:14px;
-}
-.input_div{
-	height:24px;
-	margin:8px 10px 0px 10px;
-}
-.submit_div{
-	height:40px;
-	text-align:center;
-	margin:5px auto;
-	width:100%;
-}
-.submit{
-	width:80px;
-	height:35px; 
-}
-.common{
-	height:21px;
-	width:81px;
-	float:left;
-}
-.Recheck{
-	height:21px;
-	width:60px;
-	float:left;
-	margin-left:8px;
-}
-span{
-	font-size:12px;
-	color:blue;
-}
-.commonCheck{
-	height:21px;
-	width:60px;
-	float:left;
-	margin-left:8px;
-}
+/* CSS Document */
+
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
+   input,textarea,p,blockquote,th,td,input{margin:0;padding:0;}
+   img{border:0;}
+   body{ background:url(../images/background.jpg)}
+	.body_div{
+		margin:40px auto;
+		width:800px;
+		height:401px;
+	}
+	.top{
+		width:100%;
+		height:50px;
+	}
+	.logo,.title{
+		height:100%;
+		float:left;
+	}
+	.logo_img{
+	    height:48px;
+	    width:48px;
+	}
+	.title{
+	   height:46%;
+	   margin-top:13px;
+	   font-size:20px;
+	   font-weight:700;
+	   margin-left:8px;
+	   color:#0099FF;
+	}
+	.content{
+		width:100%;
+		height:353px;
+	}
+	.login_img{
+		background:url(../images/gps-login.png) no-repeat;
+		width:600px;
+		height:351px;
+		float:left;
+	}
+	.content_right{
+		width:195px;
+		height:351px;
+		float:left;
+		background-color:#F3F3F3;
+		text-align:center;
+	}
+	.remenber{
+		color:#999999;
+		font-weight:normal;
+	}
+	.new_info{
+		height:110px;
+		width:80%;
+		margin-top:10px;
+		margin-left:10px;
+		font-size:12px;
+		text-align:left;
+		color:#66B3FF;
+	}
+	.form_info{
+		padding:15px 6px;
+		height:125px;
+		font-size:14px;
+		font-weight:700;
+		text-align:left;
+		width:92%;
+		border:2px #D7D7D7 solid;
+	}
+	.submit{
+		width:80px;
+		height:35px;
+	}
+	.help_info{
+		height:60px;
+		width:100%;
+		text-align:left;
+		font-size:12px;
+		color:#FF0000;
+	}
+	.input{
+		width:96px;
+		height:15px;
+	}
+	.submit{
+		height:28px;
+		width:72px;
+		border:none;
+		font-size:15px;
+		color:white;
+		font-weight:700;
+		background:url(../images/button.png) no-repeat;
+	}
+	.ml70{margin-left:70px;}
+	.tc{text-align:center;}
+	ul{list-style-type:none;}
+	.mt5{margin-top:5px;}
+	.mt10{margin-top:10px;}
+	.mt15{margin-top:15px;}
+	.mt65{margin-top:65px;}
+	a{ text-decoration:none;}
+	a:hover{color:#FF6600;}
