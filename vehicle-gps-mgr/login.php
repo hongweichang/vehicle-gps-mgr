@@ -5,7 +5,10 @@
 	<title>GPS智能车辆监控调度系统-登录</title>
 	
 	<link href="css/login.css" rel="stylesheet" />
+	<link type="text/css" href="css/alert.css" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
+	<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
+	
 	
 	<style type="text/css">
 	img, div, a, input { behavior: url(css/resources/iepngfix.htc) }
@@ -15,6 +18,8 @@
 	<script language="javascript" src="js/login/login.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
+	<script language="javascript" src="js/jquery.ui.core.js" ></script>
+	<script language="javascript" defer="defer" src="js/jquery-ui-1.8.1.custom.min.js" ></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#loginCar").click(function(){
@@ -47,6 +52,17 @@
 			});
 			
 		});
+		function more_message(str){
+			$("#show_message").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+str);
+			$("#show_message").dialog({title:'详细消息',
+									   autoOpen:true,
+									   position:[500,200],
+									   hide:'blind',
+									   resizable: false,
+									   draggable: false,
+									   closeText:"关闭",
+									   show:'blind'});
+		}
 	</script>
 </head>
 
@@ -69,7 +85,16 @@
 						<li class="mt5">
 							<?php 
 								require_once 'templates/new_message.php';
-								echo $new_message['messages'];
+								$messages = $new_message['messages'];
+								$arr = json_encode($messages);
+								if(strlen($messages)>324){
+									$sub_messages = substr($messages,0,320);
+									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+										.$sub_messages
+										."......<a href=javascript:more_message(".$arr.")>查看更多</a>";
+								}else{
+									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$messages;
+								}
 							?>
 						</li>
 					</ul>
@@ -104,6 +129,7 @@
 						</li>
 					</ul>
 				</div><!--表单-->
+				<div id="show_message" class="fs15"></div>
 			</div>
 		</div><!--内容-->
 		<div class="help_info mt5">
