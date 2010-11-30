@@ -30,6 +30,11 @@ switch($act)
 		$message = new Message();
 		$messages = $_POST['messages'];
 		
+		$encode_type = mb_detect_encoding($messages);
+		if($encode_type!="utf-8"){
+			iconv($encode_type,"utf-8",$messages);
+		}
+		
 		require_once 'templates/new_message.php';
 		$old_message = $new_message['messages'];
 		

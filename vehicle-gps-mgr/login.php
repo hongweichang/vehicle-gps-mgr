@@ -82,7 +82,9 @@
 							<?php 
 								require_once 'templates/new_message.php';
 								$messages = $new_message['messages'];
+								iconv("utf-8","gb2312",$messages);
 								$arr = json_encode($messages);
+								
 								if(strlen($messages)>324){
 									$sub_messages = substr($messages,0,320);
 									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
