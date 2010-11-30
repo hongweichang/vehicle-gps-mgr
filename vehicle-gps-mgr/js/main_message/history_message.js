@@ -18,5 +18,5 @@ jQuery("#history_message").jqGrid({
 	width:"750"
 });
 jQuery("#history_message").jqGrid('navGrid','#pagernav_history',
-{edit:true, add:false, del:true,view:true,search:false}//options
+{edit:false, add:false, del:false,view:true,search:false}//options
 );

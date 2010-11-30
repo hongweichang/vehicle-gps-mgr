@@ -7,11 +7,10 @@
 	<link href="css/login.css" rel="stylesheet" />
 	<link type="text/css" href="css/alert.css" rel="stylesheet" />
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
-	<link type="text/css" href="css/cupertino/jquery-ui-1.8.4.custom.css" rel="stylesheet" />
-	
 	
 	<style type="text/css">
 	img, div, a, input { behavior: url(css/resources/iepngfix.htc) }
+}
 	</style> 
 	
 	<script language="javascript" src="js/login/cookie.js"></script>
@@ -53,15 +52,12 @@
 			
 		});
 		function more_message(str){
-			$("#show_message").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+str);
-			$("#show_message").dialog({title:'详细消息',
-									   autoOpen:true,
-									   position:[500,200],
-									   hide:'blind',
-									   resizable: false,
-									   draggable: false,
-									   closeText:"关闭",
-									   show:'blind'});
+			$("#show_div").show();
+			$("#show_message").html(str);
+		}
+
+		function close_message(){
+			$("#show_div").hide();
 		}
 	</script>
 </head>
@@ -129,7 +125,15 @@
 						</li>
 					</ul>
 				</div><!--表单-->
-				<div id="show_message" class="fs15"></div>
+				<div id="show_div" class="display_none" style="display:none;">
+					<div style="height:25px; background-color:gray;">
+					<ul>
+						<li style="display:inline;float:left;font-weight:700;padding:5px;">详细信息</li>
+						<li style="display:inline;float:right;padding:5px;" onclick="close_message()">关闭</li>
+					</ul>
+					</div>
+					<div id="show_message"></div>
+				</div>
 			</div>
 		</div><!--内容-->
 		<div class="help_info mt5">

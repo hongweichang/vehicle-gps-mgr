@@ -102,3 +102,4 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 	.mt65{margin-top:65px;}
 	a{ text-decoration:none;}
 	a:hover{color:#FF6600;}
+	.display_none{background-color:white;width:260px;position:absolute;top:200px; left:500px;}
