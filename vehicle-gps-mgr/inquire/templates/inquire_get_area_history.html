@@ -1,38 +1,34 @@
 <div class="area_content" style="width:850px">
 		<div id="option_container">
-			<div class="start_div keep_left">开始时间：</div>
-			<div class="start_input keep_left">
-				<input type="text" id="inquire_startTime" size="16"/>
-			</div>
-			<div class="end_time keep_left">结束时间：</div> 
-			<div class="end_div keep_left">
-				<input type="text" id="inquire_endTime" size="16"/>
-			</div>
-			
-			<input type="button" id="show_vehicles" name="his_info" value="显示区域内车辆">
-			<div id="city_mode" style="float:left;">
-						<label for="fromcity">点击选择城市：</label>
-						<INPUT id="city" style="COLOR: #c1c1c1" onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
-	     	</div>
+		 	<ul>
+	     		<li class="dsi">开始时间：</li>
+	     		<li class="dsi"><input type="text" id="inquire_startTime" size="16"/></li>
+	     		<li class="dsi">结束时间：</li>
+	     		<li class="dsi"><input type="text" id="inquire_endTime" size="16"/></li>
+	     		<li class="dsi" id="city_mode">
+	     			点击选择城市：<input id="city" style="COLOR: #c1c1c1" onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
+	     		</li>
+	     		<li class="dsi">
+	     			<input type="button" id="show_vehicles" name="his_info" value="显示区域内车辆">
+	     		</li>
+	     	</ul>
      	</div>
-		
 		<div id="areas" style="width:800px;">
      			<div style="float:left;width:90%">
 				<iframe id="mode_area"  style="width:800px;height:350px;"  marginwidth="0" marginheight="0" scrolling="no" frameborder="0"></iframe>
 			</div>
 		</div>  
-			
-			<input type='hidden' id="post_city_name"></input>
-			
-			<div id="show_area" style="display:none">
-			<table id="show_vehicles_page" style="width:800px;"></table>
-			<div id="page_show"></div>
-			<input id="return_to_area_inquire" type="button" value="返回"/>
-			</div>
-			
-			<div class="vehicle_info_container" style="display:none">
-				<select id="vehicle_info">{{vehicle_list}}</select>
-			</div>
+		<input type='hidden' id="post_city_name"></input>
+		
+		<div id="show_area" style="display:none">
+		<table id="show_vehicles_page" style="width:800px;"></table>
+		<div id="page_show"></div>
+		<input id="return_to_area_inquire" type="button" value="返回"/>
+		</div>
+		
+		<div class="vehicle_info_container" style="display:none">
+			<select id="vehicle_info">{{vehicle_list}}</select>
+		</div>
 	</div>
 	
 <script language="javascript" src="js/inquire_trace/inquire_common.js"></script>
