@@ -126,13 +126,13 @@
 					</ul>
 				</div><!--表单-->
 				<div id="show_div" class="display_none" style="display:none;">
-					<div style="height:25px; background-color:gray;">
+					<div class="show_message_title">
 					<ul>
-						<li style="display:inline;float:left;font-weight:700;padding:5px;">详细信息</li>
-						<li style="display:inline;float:right;padding:5px;" onclick="close_message()">关闭</li>
+						<li class="show_title">详细信息</li>
+						<li class="close_message" onclick="close_message()">关闭</li>
 					</ul>
 					</div>
-					<div id="show_message"></div>
+					<div id="show_message" class="show_message"></div>
 				</div>
 			</div>
 		</div><!--内容-->
