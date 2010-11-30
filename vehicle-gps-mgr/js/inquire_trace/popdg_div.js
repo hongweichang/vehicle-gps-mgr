@@ -77,7 +77,7 @@ function popUp(abc){
     var issue = document.getElementById("issue_map");
     var position = null;
     if(issue==null){
-    	position = "top:-220px; left:-40px;";
+    	position = "top:-210px; left:-150px;";
     }else{
     	//position = "top:-220px; left:-340px;";
     	position = "top:-220px; left:70px;";
