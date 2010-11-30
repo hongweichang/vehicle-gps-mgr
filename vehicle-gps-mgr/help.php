@@ -69,6 +69,12 @@
 					<li class="ml20 mt5">
 						<img alt="" src="images/7.JPG" />
 					</li>
+					<li class="mt15">
+						<span class="fs14 fw700">4、点击“添加“按钮前，去掉下面的勾。（如下图）</span>
+					</li>
+					<li class="ml20 mt5">
+						<img alt="" src="images/8.JPG" />
+					</li>
 				</ul>
 			 </div>
 		</div>
