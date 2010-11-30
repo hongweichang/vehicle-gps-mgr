@@ -1,49 +1,52 @@
-<!-- <link type="text/css" href="css/setting.css"  media="screen" rel="stylesheet" /> -->
 <div class="body_div_setting">
 	<!-- 超速限制 -->
-	<div class="setting_div">
-		<div class="setting_title">超速限制：</div>
-		<div class="speed_content"><input {{DISPLAY}} type='text' name='speed_limit' id='speed_limit' value='{{speed_limit}}'></div>
-		<div class="mile_hour">公里/h</div>
+	<div class="s_setting_div">
+		<div class="s_setting_title">超速限制：</div>
+		<div class="s_speed_content">
+			<input {{DISPLAY}} type='text' name='speed_limit' id='speed_limit' value='{{speed_limit}}'>
+		</div>
+		<div class="s_mile_hour">公里/h</div>
 	</div>
 	
 	
 	<!-- 疲劳驾驶限制 -->
-	<div class="fatigue_div">
-		<div class="setting_title">疲劳驾驶限制：</div>
-		<div class="fatigue_content">
+	<div class="s_fatigue_div">
+		<div class="s_setting_title">疲劳驾驶限制：</div>
+		<div class="s_fatigue_content">
 			<input type='text' {{DRIVER}} name='fatigue_remind_time' id='fatigue_remind_time' value='{{fatigue_remind_time}}'>
 		</div>
-		<div class="mile_hour">小时</div>
+		<div class="s_mile_hour">小时</div>
 	</div>
 	
 	<!-- 刷新时间 -->
-	<div class="time_color">
-		<div class="setting_title">刷新时间：</div>
-		<div class="time_default">{{page_refresh_time}}</div>
+	<div class="s_time_color">
+		<div class="s_setting_title">刷新时间：</div>
+		<div class="s_time_default">{{page_refresh_time}}</div>
 	</div>
 	
 	<!-- 默认颜色 -->
-	<div class="time_color">
-		<div class="setting_title">默认轨迹颜色：</div>
-		<div class="time_default">{{default_color}}</div>
+	<div class="s_time_color">
+		<div class="s_setting_title">默认轨迹颜色：</div>
+		<div class="s_time_default">{{default_color}}</div>
 	</div>
 	
 	<!-- 速度颜色映射设置 -->
-	<div class="color_div">
-		<div class="setting_title">速度颜色映射设置:</div>
-		<div id='speeds' class="speed_color">{{speeds}}</div>
-		<div class="setting_button" style="display:{{SET_COLOR}};">
+	<div class="s_color_div">
+		<div class="s_setting_title">速度颜色映射设置:</div>
+		<div id='speeds' class="s_speed_color">{{speeds}}</div>
+		<div class="s_setting_button" style="display:{{SET_COLOR}};">
 			<a href='javascript:void(0);' onclick='adviceDialog();'>
 				<img src="images/gear.png" border="0" title="设置" alt="设置"/>设置</a>
 		</div>
 	</div>
 	
 	<!-- 修改按钮 -->
-	<div class="submit"><input style="display:{{COMMIT_SET}}" type="submit" value="确认" onclick="update_set();" /></div>
+	<div class="s_submit">
+		<input style="display:{{COMMIT_SET}}" type="submit" value="确认" onclick="update_set();" />
+	</div>
 	
 	<!-- 弹出设置颜色的模式窗口 -->
-	<div class="color_mapping_dialog" id="color_mapping_dialog">
+	<div class="s_color_mapping_dialog" id="color_mapping_dialog">
 		<div id="canAdviceSelectDiv"></div>
 	</div>
 	<div id="process"></div>
