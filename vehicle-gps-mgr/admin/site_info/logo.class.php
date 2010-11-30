@@ -216,11 +216,11 @@ class Logo{
 		// @param $saveName 保存名，如果为空，则系统自动生成一个随机的文件名
 			function setSavename($saveName){
 				if ($saveName == ''){  // 如果未设置文件名，则生成一个随机文件名
-					$name = date('YmdHis')."_".rand(100,999).'.'.$this->ext;
+					$name = 'logo_pic.'.$this->ext;
 					//判断文件是否存在,不允许重复文件
-					if(file_exists($this->savePath . $name)){
+					/**if(file_exists($this->savePath . $name)){
 						$name = setSavename($saveName);
-						}
+						}**/
 				} else {
 					$name = $saveName;
 				}
