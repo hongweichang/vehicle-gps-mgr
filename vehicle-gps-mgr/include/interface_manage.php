@@ -1,1 +1,1 @@
-<?php $image=array('image_url'=>'images/upload/20101129154912_806.png','name'=>'北京龙菲业公司'); ?>
+<?php $image=array('image_url'=>'images/upload/20101130170151_999.png','name'=>'GPS智能车辆监控调度系统'); ?>

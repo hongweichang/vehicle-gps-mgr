@@ -95,7 +95,7 @@
 						</li>
 					</ul>
 				</div><!--最新消息-->
-				<div class="form_info mt65">
+				<div class="form_info">
 					<ul>
 						<li>
 							公司ID：

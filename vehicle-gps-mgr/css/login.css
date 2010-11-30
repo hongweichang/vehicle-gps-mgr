@@ -6,7 +6,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
    body{ background:url(../images/background.jpg)}
 	.body_div{
 		margin:40px auto;
-		width:800px;
+		width:820px;
 		height:401px;
 	}
 	.top{
@@ -41,7 +41,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 		float:left;
 	}
 	.content_right{
-		width:195px;
+		width:215px;
 		height:351px;
 		float:left;
 		background-color:#F3F3F3;
@@ -65,9 +65,12 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 		height:125px;
 		font-size:14px;
 		font-weight:700;
-		text-align:left;
-		width:92%;
+		text-align:center;
+		width:176px;
 		border:2px #D7D7D7 solid;
+		position:absolute;
+		top:280px;
+		left:920px;
 	}
 	.submit{
 		width:80px;
@@ -104,7 +107,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 	a:hover{color:#FF6600;}
 	.display_none{background-color:#F2F5F7;width:260px;position:absolute;top:200px; left:500px;}
 	.show_message{text-align:left;font-size:13px;padding:6px 6px;}
-	.show_message_title{height:25px; background-color:#AED0EA; border:1px #E2EFF8 solid; margin:4px 4px;font-size:14px;}
+	.show_message_title{height:25px; background-color:#E2EFF8; border:1px #AED0EA solid; margin:4px 4px;font-size:14px;}
 	.show_title{display:inline;float:left;font-weight:700;padding:5px;}
 	.close_message{display:inline;float:right;padding:5px; font-size:14px;}
 	.close_message:hover{cursor:hand;}
