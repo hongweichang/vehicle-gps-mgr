@@ -107,3 +107,4 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 	.show_message_title{height:25px; background-color:#AED0EA; border:1px #E2EFF8 solid; margin:4px 4px;font-size:14px;}
 	.show_title{display:inline;float:left;font-weight:700;padding:5px;}
 	.close_message{display:inline;float:right;padding:5px; font-size:14px;}
+	.close_message:hover{cursor:hand;}
