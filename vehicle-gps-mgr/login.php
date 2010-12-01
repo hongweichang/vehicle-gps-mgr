@@ -9,7 +9,7 @@
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
 	<style type="text/css">
-	img, div, a, input { behavior: url(css/resources/iepngfix.htc) }
+	img, div, a, input { behavior: url(images/css/resources/iepngfix.htc) }
 }
 	</style> 
 	
@@ -73,7 +73,54 @@
 			?>
 		</div>
 		<div class="content mt5">
-			<div class="login_img"></div>
+			<div style="width:609px;float:left;">
+			  <div>
+			   <div style="background-image:url(images/spacer.gif);width:92px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:78px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:80px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:78px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:87px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:96px; height:1px; float:left;"></div>
+			   <div style="background-image:url(images/spacer.gif);width:98px; height:1px; float:left;"></div>
+			  </div>
+			
+			  <div>
+			   <div style="background-image:url(images/gps-login_r1_c1.png);width:92px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c2.png);width:78px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c3.png);width:80px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c4.png);width:78px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c5.png);width:87px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c6.png);width:96px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r1_c7.png);width:98px; height:86px; float:left;"></div>
+			  </div>
+			  <div>
+			   <div style="background-image:url(images/gps-login_r2_c1.png);width:92px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c2.png);width:78px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c3.png);width:80px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c4.png);width:78px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c5.png);width:87px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c6.png);width:96px; height:86px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r2_c7.png);width:98px; height:86px; float:left;"></div>
+			  </div>
+			  <div>
+			   <div style="background-image:url(images/gps-login_r3_c1.png);width:92px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c2.png);width:78px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c3.png);width:80px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c4.png);width:78px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c5.png);width:87px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c6.png);width:96px; height:78px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r3_c7.png);width:98px; height:78px; float:left;"></div>
+			  </div>
+			  <div>
+			   <div style="background-image:url(images/gps-login_r4_c1.png);width:92px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c2.png);width:78px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c3.png);width:80px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c4.png);width:78px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c5.png);width:87px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c6.png);width:96px; height:101px; float:left;"></div>
+			   <div style="background-image:url(images/gps-login_r4_c7.png);width:98px; height:101px; float:left;"></div>
+			  </div>
+			</div>
 			<div class="content_right">
 				<div class="new_info">
 					<ul>
