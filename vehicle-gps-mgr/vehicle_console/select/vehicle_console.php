@@ -86,7 +86,7 @@ switch ($act) {
 		   		 		$is_ok=0;
 						for($k = 0;$k<count($vehicles_request);$k++){
 							if($vehicles[$m][0]==$vehicles_request[$k]){
-								$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
+								$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox'".$is_selected.
 
 		   		 							" checked='checked' class='vehicle' name='" . $values [0] . "' 
 											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
@@ -94,14 +94,14 @@ switch ($act) {
 							}
 						}
 						if($is_ok==0){
-		   		 			$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
+		   		 			$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox'".$is_selected.
 
 		   		 							" class='vehicle' name='" . $values [0] . "' 
 											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
 						}
 		   		 	}else{
 
-		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' disabled />" .
 
 		   		 							 $vehicles [$m][1]."</td>" ;
 		   		 		}
@@ -116,7 +116,7 @@ switch ($act) {
 		   		 		$is_right=0;
 						for($k = 0;$k<count($vehicles_request);$k++){
 							if($vehicles[$m][0]==$vehicles_request[$k]){
-								$str = $str . "<td class='table_td'><input type='checkbox'".$is_selected.
+								$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox'".$is_selected.
 
 		   		 							" checked='checked' class='vehicle' name='" . $values [0] . "' 
 											value='".$vehicles[$m][0]."'/>" . $vehicles [$m][1]."</td>" ;
@@ -124,7 +124,7 @@ switch ($act) {
 							}
 						}
 		   		 	if($is_right==0){
-						$str = $str . "<td class='table_td'><input type='checkbox' ".$is_selected.
+						$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' ".$is_selected.
 	
 											"  class='vehicle' name='" . $values [0] . "' 
 			
@@ -132,7 +132,7 @@ switch ($act) {
 		   		 		}
 		   		 	}else{
 
-		   		 		$str = $str . "<td class='table_td'><input type='checkbox' disabled />" .
+		   		 		$str = $str . "<td style='width:30px;height:28px;'><input type='checkbox' disabled />" .
 
 		   		 							 $vehicles [$m][1]."</td>" ;
 		   		 		}
