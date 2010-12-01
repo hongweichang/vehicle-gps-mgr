@@ -99,7 +99,7 @@
 	
 	//点击要查询的车辆
 	function select_vehicle_data(){
-			$("#select_statistic_content").dialog({height:350,width:700,title:'选择要查询的车辆',
+			$("#select_statistic_content").dialog({height:365,width:900,title:'选择要查询的车辆',
 	            autoOpen:true,hide:'blind',show:'blind',close:function(event, ui) {
 				   $("#select_statistic_content").html("");
 			}}); 		                	 			                 
