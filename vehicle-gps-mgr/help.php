@@ -17,14 +17,8 @@
 			</div>
 		</div>
 		<div class="content mt20">
-			 <div>
-			 	<ul class="fs13">
-					<li class="fw700 fs14">GPS智能车辆监控调度系统帮助：</li>
-					<li class="mt10 ml30">首先谢谢您使用GPS智能车辆监控调度系统。</li>
-					<li class="ml30">为了您的操作流畅，请花几分钟把ie浏览器设置一下。</li>
-				</ul>
-			 </div>
-			 <div class="mt20">
+			 
+			 <div class="mt10">
 			 	<ul>
 					<li class="mt20">
 						<h4>一、设置弹出窗口阻止程序？</h4>
@@ -42,7 +36,7 @@
 						<img alt="" src="images/2.JPG" />
 					</li>
 					<li class="mt15">
-						<span class="fs14 fw700">3、打开“弹出窗口阻止程序设置”，添加本机的IP地址，点击“添加“按钮，点击”关闭“按钮。（如下图）</span>
+						<span class="fs14 fw700">3、打开“弹出窗口阻止程序设置”，添加服务器的IP地址或服务器的网址（例如为：192.168.1.120），点击“添加“按钮，点击”关闭“按钮。（如下图）</span>
 					</li>
 					<li class="ml20 mt5">
 						<img alt="" src="images/4.JPG" />
@@ -64,16 +58,10 @@
 						<img alt="" src="images/6.JPG" />
 					</li>
 					<li class="mt15">
-						<span class="fs14 fw700">3、打开“弹出可的信任站点”，添加可信任站点地址，点击“添加“按钮，点击”关闭“按钮。（如下图）</span>
+						<span class="fs14 fw700">3、打开“弹出可的信任站点”，添加服务器网址（例如为：http://192.168.1.105），点击“添加“按钮（点击“添加“按钮前，去掉下面的勾），点击”关闭“按钮。（如下图）</span>
 					</li>
 					<li class="ml20 mt5">
 						<img alt="" src="images/7.JPG" />
-					</li>
-					<li class="mt15">
-						<span class="fs14 fw700">4、点击“添加“按钮前，去掉下面的勾。（如下图）</span>
-					</li>
-					<li class="ml20 mt5">
-						<img alt="" src="images/8.JPG" />
 					</li>
 				</ul>
 			 </div>
