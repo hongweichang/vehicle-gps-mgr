@@ -72,18 +72,8 @@
 			?>
 		</div>
 		<div class="content mt5">
-			<div style="width:609px;float:left;">
-			  <div>
-			   <div style="background-image:url(images/spacer.gif);width:92px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:78px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:80px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:78px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:87px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:96px; height:1px; float:left;"></div>
-			   <div style="background-image:url(images/spacer.gif);width:98px; height:1px; float:left;"></div>
-			  </div>
-			
-			  <div>
+			<div style="width:609px; height:100%;float:left; margin:0;padding:0;">
+			 <div>
 			   <div style="background-image:url(images/gps-login_r1_c1.png);width:92px; height:86px; float:left;"></div>
 			   <div style="background-image:url(images/gps-login_r1_c2.png);width:78px; height:86px; float:left;"></div>
 			   <div style="background-image:url(images/gps-login_r1_c3.png);width:80px; height:86px; float:left;"></div>

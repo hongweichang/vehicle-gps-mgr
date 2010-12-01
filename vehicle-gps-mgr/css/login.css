@@ -6,7 +6,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
    body{ background:url(../images/background.jpg)}
 	.body_div{
 		margin:40px auto;
-		width:817px;
+		width:837px;
 		height:411px;
 	}
 	.top{
@@ -41,8 +41,8 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 		float:left;
 	}
 	.content_right{
-		width:206px;
-		height:351px;
+		width:226px;
+		height:100%;
 		float:left;
 		background-color:#F3F3F3;
 		text-align:center;
