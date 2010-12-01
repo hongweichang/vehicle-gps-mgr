@@ -17,8 +17,6 @@
 	<script language="javascript" src="js/login/login.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
-	<script language="javascript" src="js/jquery.ui.core.js" ></script>
-	<script language="javascript" defer="defer" src="js/jquery-ui-1.8.1.custom.min.js" ></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#loginCar").click(function(){
@@ -129,11 +127,10 @@
 							<?php 
 								require_once 'templates/new_message.php';
 								$messages = $new_message['messages'];
-								iconv("utf-8","gb2312",$messages);
 								$arr = json_encode($messages);
 								
-								if(strlen($messages)>324){
-									$sub_messages = substr($messages,0,320);
+								if(strlen($messages)>314){
+									$sub_messages = substr($messages,0,310);
 									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
 										.$sub_messages
 										."......<a href=javascript:more_message(".$arr.")>查看更多</a>";
