@@ -49,9 +49,10 @@
 			});
 			
 		});
-		function more_message(str){
+		function more_message(){
 			$("#show_div").show();
-			$("#show_message").html(str);
+			var messages = $("#new_message").val();
+			$("#show_message").text(messages);
 		}
 
 		function close_message(){
@@ -127,15 +128,15 @@
 							<?php 
 								require_once 'templates/new_message.php';
 								$messages = $new_message['messages'];
-								$arr = json_encode($messages);
-								
-								if(strlen($messages)>314){
-									$sub_messages = substr($messages,0,310);
+								$count_message = mb_strlen($messages,"utf-8");
+								if(mb_strlen($messages,"utf-8")>91){
+									$sub_messages = substr($messages,0,270);
+									echo "<textarea id='new_message' style='display:none'>".htmlspecialchars($messages)."</textarea>";
 									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-										.$sub_messages
-										."......<a href=javascript:more_message(".$arr.")>查看更多</a>";
+										.htmlspecialchars($sub_messages)
+										."......<a href=javascript:more_message()>查看更多</a>";		
 								}else{
-									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".$messages;
+									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($messages);
 								}
 							?>
 						</li>
@@ -184,7 +185,7 @@
 		</div><!--内容-->
 		<div class="help_info mt5">
 			<ul>
-				<li>推荐使用ie浏览器。（使用ie8浏览器可以获得最佳的使用体验）</li>
+				<li>推荐使用ie浏览器。（使用ie8浏览器可以获j得最佳的使用体验）</li>
 				<li class="mt5">
 					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="help.php" target="view_window">这里。</a>
 				</li>

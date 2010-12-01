@@ -31,9 +31,12 @@ switch($act)
 		$messages = $_POST['messages'];
 		
 		$encode_type = mb_detect_encoding($messages);
-		if($encode_type!="utf-8"){
-			iconv($encode_type,"utf-8",$messages);
+		if($encode_type!="UTF-8"){
+			$messages = iconv($encode_type,"utf-8",$messages);
 		}
+		
+		//将消息中的"'"前加转义字符"\",防止保存时单引号冲突
+		$messages = str_replace("'","\'",$messages);
 		
 		require_once 'templates/new_message.php';
 		$old_message = $new_message['messages'];
