@@ -116,6 +116,11 @@ $("#cancle_commit").click(function(){
 
 //删除驾驶员邮箱
 $("#deleteUser").click(function(){
+	if($("#email_list")[0].selectedIndex==null || $("#email_list")[0].selectedIndex==-1){
+		alert("请选择驾驶员邮箱");
+		return false;
+	}
+	
 	while($("#email_list")[0].selectedIndex!=null && $("#email_list")[0].selectedIndex!=-1){
 		var index = $("#email_list")[0].selectedIndex;
 		$("#email_list")[0].options.remove(index);
@@ -125,9 +130,13 @@ $("#deleteUser").click(function(){
 //保存信息
 $("#add_commit").click(function(){
 	var email = $("#addInput").val();
+	if(email==null || email==""){
+		alert("邮箱不能为空");
+		return false;
+	}
 	if(check_email(email)==false){
 		alert("格式错误");
-		return;
+		return false;
 		}
 	$("#add_input").hide();
 	$("#email_list")[0].options.add(new Option(email,email));
