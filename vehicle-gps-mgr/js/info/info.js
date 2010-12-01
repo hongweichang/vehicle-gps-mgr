@@ -116,10 +116,10 @@ $("#cancle_commit").click(function(){
 
 //删除驾驶员邮箱
 $("#deleteUser").click(function(){
-	while($("#email_list")[0].selectedIndex!=null){
+	while($("#email_list")[0].selectedIndex!=null && $("#email_list")[0].selectedIndex!=-1){
 		var index = $("#email_list")[0].selectedIndex;
 		$("#email_list")[0].options.remove(index);
-		}
+	}
 });
 
 //保存信息
