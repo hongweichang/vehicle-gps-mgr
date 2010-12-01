@@ -533,22 +533,21 @@
 					clearArray(longitudeArray); //清空矩形经度队列数组
 					clearArray(latitudeArray);  //清空矩形纬度队列数组
 					clearArray(points);			//清空当前显示标注点集合
-					
-					//等待队列加载完
-					wait_load_vehicle();
-					
+										
 					//等待加载完车辆定位，运行下一步
 					function wait_load_vehicle(){
 						if(run_index==0){
 							clearArray(data); 
 							refresh_vehicle_info();
-						 }else{ 
+						 }else{
 							 setTimeout(function(){
 								 wait_load_vehicle();
 							 },1000); 
-						 }	 
+						 }
 					 }
-					
+
+					//等待队列加载完
+					wait_load_vehicle();
 				}
 			}
 		});
