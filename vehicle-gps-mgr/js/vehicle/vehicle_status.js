@@ -52,7 +52,7 @@ jQuery("#m1").click( function() {
 			alert("请选择车辆");
 			return false;
 		}
-		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s);
+		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s,"info_issue");
 	}); 
 
 /*定位车辆*/
@@ -70,7 +70,7 @@ jQuery("#m3").click( function() {
 		alert("请选择车辆");
 		return false;
 	}
-	showOperationDialog(this,"index.php?a=402&vehicle_id="+s); //显示该车辆的统计信息
+	showOperationDialog(this,"index.php?a=402&vehicle_id="+s,"static_show"); //显示该车辆的统计信息
 });
 
 //根据车牌号查询
