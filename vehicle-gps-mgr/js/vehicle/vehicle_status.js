@@ -48,6 +48,10 @@ jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 jQuery("#m1").click( function() {
 		var s; 
 		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); //获取所有选中车辆的ID
+		if(s==null || s==""){
+			alert("请选择车辆");
+			return false;
+		}
 		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s);
 	}); 
 
@@ -62,6 +66,10 @@ jQuery("#m2").click( function() {
 jQuery("#m3").click( function() {
 	var s; 
 	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');//获取所有选中车辆的ID
+	if(s==null || s==""){
+		alert("请选择车辆");
+		return false;
+	}
 	showOperationDialog(this,"index.php?a=402&vehicle_id="+s); //显示该车辆的统计信息
 });
 
