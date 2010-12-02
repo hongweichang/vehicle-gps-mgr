@@ -31,18 +31,33 @@ str = str.substr(0,str.length-1);
 	if(str.length!=0){
 		$.post("index.php?a=203&character="+str,function(data){
 			if(data != "|"){
-				var array=data.split("|");
+				var old_array=data.split("|");
+				array = undulpicate(old_array);//去除数组中的重复元素
 				for(var i=0;i<array.length-1;i++){
 					if(check_email(array[i])){
 						$("#email_list")[0].options.add(new Option(array[i],array[i])); 
 					}else{
 						alert("邮箱:"+array[i]+" 格式错误")
-						}
+					}
 				}
 			}
 		});
   	}
 }
+
+//去除数组中重复的元素
+function undulpicate(array){  
+    for(var i=0;i<array.length;i++) {  
+        for(var j=i+1;j<array.length;j++) {  
+            //注意 ===  
+            if(array[i]===array[j]) {  
+                array.splice(j,1);  
+                j--;  
+            }  
+        }  
+    }  
+    return array;  
+} 
 
 function resetDialogSize(width,height){
 	$( "#operation" ).dialog( "option", "width", width );
@@ -129,62 +144,70 @@ $("#deleteUser").click(function(){
 	}
 });
 
-//保存信息
+//手动添加手机邮箱
 $("#add_commit").click(function(){
 	var email = $("#addInput").val();
+	
 	if(email==null || email==""){
 		alert("邮箱不能为空");
 		return false;
 	}
+	
 	if(check_email(email)==false){
 		alert("格式错误");
 		return false;
+	}
+	
+	for(var i = 0;i < $("#email_list")[0].length;i++){
+		if(email == $("#email_list")[0].options[i].text){
+			alert("已有该邮箱");
+			return false;
 		}
+	}
+	
 	$("#add_input").hide();
 	$("#email_list")[0].options.add(new Option(email,email));
-	
 });
 
 $(":button").button();
 
-	/**
-	 * 正则表达式检验邮箱地址格式
-	 */
-	function check_email(email){
-		var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
-	    return reg.test(email);
+/**
+ * 正则表达式检验邮箱地址格式
+ */
+function check_email(email){
+	var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+    return reg.test(email);
+}
+
+/*发布信息*/
+function subInfo(){	
+	var content=document.getElementById("info_content").value;
+	if(""==content) {
+		alert("请输入信息内容");
+		return false;
 	}
+	var str="";
+	var datalist=document.getElementById('email_list');
+    for (i=0;i<datalist.length;i++) {
+		if(i!=0){
+         str=str+datalist.options[i].value+"~";
+		}
+    }
+  
+    str=str+content+"~[["+content+"]]~";
+    $.post("index.php",
+		  {"a":202,"email_data":str,"content":content,"is_area_info":0},
+		  function(data){
+			  if("success"==data){
+				  alert("信息已发出");
+			  }else{
+				  alert("信息发出失败");
+				  return;
+			  }
+		  },"text");
 
-	/*发布信息*/
-	function subInfo(){	
-	  var content=document.getElementById("info_content").value;
-	  if(""==content) {
-		  alert("请输入信息内容");
-		  return false;
-	  }
-	  var str="";
-	  var datalist=document.getElementById('email_list');
-	    for (i=0;i<datalist.length;i++) {
-			if(i!=0){
-	         str=str+datalist.options[i].value+"~";
-			}
-	    }
-	  
-	  str=str+content+"~[["+content+"]]~";
-	  $.post("index.php",
-			  {"a":202,"email_data":str,"content":content,"is_area_info":0},
-		function(data){
-		  if("success"==data){
-			alert("信息已发出");
-		  }else{
-			alert("信息发出失败");
-			return;
-		  }
-	  },"text");
-
-	  //保存已发布的信息
-	  $.post("index.php",{"a":204,"is_area_info":0,"content":content},function(data){
-	  },"text");
+  //保存已发布的信息
+    $.post("index.php",{"a":204,"is_area_info":0,"content":content},function(data){},"text");
 }
 
 /*区域发布信息*/

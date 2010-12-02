@@ -19,17 +19,25 @@ switch ($act) {
 		$vehicle_ids = $_REQUEST["vehicle_ids"];//获取驾驶员ID集合
 		$info = new info();
 		if($vehicle_ids){
-			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
+			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>|";
 			$ids = explode(",",$vehicle_ids);//将驾驶员ID集转换成数组
 			
 			//遍历驾驶员ID获取驾驶员邮箱
 			for($i = 0;$i<count($ids);$i++){
 				$address = $info->get_phone_email($ids[$i]); //获取驾驶员邮箱
-				$param["MAIL_LIST"] = $param["MAIL_LIST"]."<option selected>".$address[0][0]."</option>"; //将驾驶员邮箱放入数组中
+				if($i==count($ids)-1){
+					$param["MAIL_LIST"] = $param["MAIL_LIST"]."<option selected>".$address[0][0]."</option>"; //将驾驶员邮箱放入数组中
+				}else{
+					$param["MAIL_LIST"] = $param["MAIL_LIST"]."<option selected>".$address[0][0]."</option>|"; //将驾驶员邮箱放入数组中
+				}
 			}
+			
+			$mail_array = explode("|",$param["MAIL_LIST"]);//将邮箱字符串拼装成数组
+			$mail_array = array_unique($mail_array);//去除数组中的重复元素
+			$param["MAIL_LIST"] = implode("",$mail_array);//将数组拼成字符串
 		}else{
 			$param["MAIL_LIST"] = "<option>--驾驶员手机邮箱列表--</option>";
-		}	
+		}			
 		
 		$dataMapping = new Data_mapping_handler ( $comm_setting_path );//从xml文件中映射相应的数据库字段值
 		$day_list= $dataMapping->getMappingDataList ( "end_time", "day" ); //从XML文件中读出发布信息的失效天数
