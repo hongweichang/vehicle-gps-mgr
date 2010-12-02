@@ -4,19 +4,20 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>GPS智能车辆监控调度系统-登录</title>
 	
-	<link href="css/login.css" rel="stylesheet" />
-	<link type="text/css" href="css/alert.css" rel="stylesheet" />
+	<link href="css/login.css" rel="stylesheet" /> 
 	<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
 	
 	<style type="text/css">
-	img, div, a, input { behavior: url(images/css/resources/iepngfix.htc) }
-}
+			img, div, a, input { 
+				behavior: url(images/css/resources/iepngfix.htc)
+			}
 	</style> 
 	
 	<script language="javascript" src="js/login/cookie.js"></script>
 	<script language="javascript" src="js/login/login.js"></script>
 	<script language="javascript" src="js/jquery-1.4.2.js" ></script>
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
+	
 	<script type="text/javascript">
 		$(document).ready(function(){
 			$("#loginCar").click(function(){
@@ -64,14 +65,17 @@
 <body>
 	<div class="body_div">
 		<input type="hidden" name="act" value="signin" />
+		<!-- logo -->
 		<div class="top">		
 			<?php 
 				require_once 'include/interface_manage.php';
+				
 				echo "<div class='logo'><img src='".$image['image_url']."'/></div>";
 				echo "<div class='title'>".$image['name']."</div>";
 			?>
 		</div>
 		<div class="content mt5">
+		<!-- 背景图 -->
 			<div style="width:609px; height:100%;float:left; margin:0;padding:0;">
 			 <div>
 			   <div style="background-image:url(images/gps-login_r1_c1.png);width:92px; height:86px; float:left;"></div>
@@ -111,27 +115,34 @@
 			  </div>
 			</div>
 			<div class="content_right">
+				<!--最新消息-->
 				<div class="new_info">
 					<ul>
 						<li>★最新消息</li>
 						<li class="mt5">
 							<?php 
 								require_once 'templates/new_message.php';
+								
+								$blank ="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+								
 								$messages = $new_message['messages'];
 								$count_message = mb_strlen($messages,"utf-8");
 								if(mb_strlen($messages,"utf-8")>91){
 									$sub_messages = substr($messages,0,270);
-									echo "<textarea id='new_message' style='display:none'>".htmlspecialchars($messages)."</textarea>";
-									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
-										.htmlspecialchars($sub_messages)
-										."......<a href=javascript:more_message()>查看更多</a>";		
+									echo "<textarea id='new_message' style='display:none;font-size:12px;'>".htmlspecialchars($messages)."</textarea>";
+									echo $blank
+										."<span style='line-height:15px;font-size:12px;'>"
+											.htmlspecialchars($sub_messages)
+										."</span>"
+										.".... <a href=javascript:more_message()>查看更多</a>";		
 								}else{
-									echo "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;".htmlspecialchars($messages);
+									echo $blank.htmlspecialchars($messages);
 								}
 							?>
 						</li>
 					</ul>
-				</div><!--最新消息-->
+				</div>
+				<!--表单-->
 				<div class="form_info mt65">
 					<ul>
 						<li>
@@ -161,7 +172,8 @@
 							</span>
 						</li>
 					</ul>
-				</div><!--表单-->
+				</div>
+				<!--内容-->
 				<div id="show_div" class="display_none" style="display:none;">
 					<div class="show_message_title">
 					<ul>
@@ -172,7 +184,7 @@
 					<div id="show_message" class="show_message"></div>
 				</div>
 			</div>
-		</div><!--内容-->
+		</div>
 		<div class="help_info mt5">
 			<ul>
 				<li>推荐使用ie浏览器。（使用ie8浏览器可以获j得最佳的使用体验）</li>
