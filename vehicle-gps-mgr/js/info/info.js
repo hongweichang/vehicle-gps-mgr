@@ -199,6 +199,12 @@ function subArea(){
 		alert("请输入信息内容");
 		return false;
 	}
+	
+	if(begin>=end){
+		alert("失效时间不能小于生效时间");
+		$("#operation" ).unmask();
+		return false;
+	}
 
 	/*获取经纬度范围*/
 	var lonMin = document.getElementById("issue_frame").contentWindow.document.getElementById("lonMin").value;

@@ -50,6 +50,16 @@ $("#show_vehicles").click(function(){
 	var latMax = document.getElementById("mode_area").contentWindow.document.getElementById("latMax").value;
 	var begin_time = $("#inquire_startTime").attr("value"); //获取开始时间
 	var end_time = $("#inquire_endTime").attr("value"); //获取结束时间
+
+	if(end_time<=begin_time){
+		alert("结束时间不能小于等于开始时间");
+		return false;
+	}
+
+	if(lonMin==undefined || lonMin==""){
+		alert("请选择区域");
+		return false;
+	}
 	
 	var idList = new Array();
 	$("#vehicle_info > option").each(function(){

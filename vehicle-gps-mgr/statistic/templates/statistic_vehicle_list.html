@@ -40,9 +40,16 @@ function condition_vehicle_data() {
 	if("{{VEHICLE_ID}}"!="-1"){
 	   array_id="{{VEHICLE_ID}}";	    		 
 	}
-	     
-    $("#vehicle_statistic_table").jqGrid().setGridParam({url : "index.php?a=409&begin_data="+$("#vehicle_begin_data").val()
-	+"&end_data="+$("#vehicle_end_data").val()+"&select_vehicle="+array_id,page:1}).trigger("reloadGrid");		
+
+	var begin_date = $("#vehicle_begin_data").val();
+	var end_date = $("#vehicle_end_data").val();
+	if(end_date<=begin_date){
+		alert("结束时间不能小于等于开始时间");
+		return false;
+	}
+	
+    $("#vehicle_statistic_table").jqGrid().setGridParam({url : "index.php?a=409&begin_data="+begin_date
+	+"&end_data="+end_date+"&select_vehicle="+array_id,page:1}).trigger("reloadGrid");		
 }
 </script>
 <script src="js/statistic/vehicle.js" type="text/javascript"></script>

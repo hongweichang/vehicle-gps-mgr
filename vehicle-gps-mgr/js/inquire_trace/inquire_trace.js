@@ -70,6 +70,26 @@ $(document).ready(function(){
 		}
 	})
 	.click(function() {
+		  //开始时间
+	  	var startTime = $("#inquire_startTime").attr("value");
+   		if(startTime == ""){
+			alert("开始时间不能为空!");
+			$("#startTime").focus();
+			return false;
+		}
+		//结束时间
+		var endTime = $("#inquire_endTime").attr("value");
+		if(endTime == ""){
+			alert("结束时间不能为空!");
+			$("#endTime").focus();
+			return false;
+		}
+		
+		if(endTime<=startTime){
+			alert("开始时间不能大于等于结束时间");
+			return false;
+		}
+		
 		var options;
 		var state = document.history_track_frame.document.readyState;
 		if ($(this).text() == '播放') {
@@ -192,22 +212,7 @@ $(document).ready(function(){
 	 /**
 	  * 轨迹播放函数
 	  */
-	  function play_trace(){ 
-		  //开始时间
-		  	var startTime = $("#inquire_startTime").attr("value");
-	   		if(startTime == ""){
-				alert("开始时间不能为空!");
-				$("#startTime").focus();
-				return false;
-			}
-			//结束时间
-			var endTime = $("#inquire_endTime").attr("value");
-			if(endTime == ""){
-				alert("结束时间不能为空!");
-				$("#endTime").focus();
-				return false;
-			}
-			
+	  function play_trace(){ 	
 			//获取车辆编号
 			var history_vehicle_id = $("#vehicle_info option:selected").val(); 
 			

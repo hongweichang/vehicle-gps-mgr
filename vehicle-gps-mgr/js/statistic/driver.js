@@ -2,8 +2,14 @@
 
 //点击查询搜索符合条件的数据
 	function condition_driver_data() {
-			$("#statistic_driver_table").jqGrid().setGridParam({url : "index.php?a=408&begin_data="+$("#driver_begin_data").val()
-				+"&end_data="+$("#driver_end_data").val(),page:1}).trigger("reloadGrid");			
+		var begin_date = $("#driver_begin_data").val();
+		var end_date = $("#driver_end_data").val();
+		if(end_date<=begin_date){
+			alert("结束时间不能小于等于开始时间");
+			return false;
+		}
+		$("#statistic_driver_table").jqGrid().setGridParam({url : "index.php?a=408&begin_data="+begin_date
+			+"&end_data="+end_date,page:1}).trigger("reloadGrid");			
 	}
   	
 	var day = new Date();  		

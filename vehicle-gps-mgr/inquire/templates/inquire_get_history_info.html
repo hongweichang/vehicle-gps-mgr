@@ -33,6 +33,11 @@ $("#inquire_info_btn").click(function(){
 		$("#inquire_endTime").focus();
 		return false;
 	}
+
+	if(endTime<=startTime){
+		alert("结束时间不能小于等于开始时间");
+		return false;
+	}
 	
 	if(!isLoaded){
 	jQuery("#his_infolist").jqGrid({
