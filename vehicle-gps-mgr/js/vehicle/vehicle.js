@@ -204,6 +204,10 @@ $("#commit_edit").click(function(){
 	//判断是编辑车辆还是添加车辆
 	if($("#add_edit").val()=="add"){
 		add_edit = "add";
+		if(number_plate=="" || number_plate==undefined){
+			alert("车牌号不能为空");
+			return false;
+		}
 	}else{
 		add_edit = "edit";
 	}

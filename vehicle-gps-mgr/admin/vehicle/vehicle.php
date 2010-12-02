@@ -158,15 +158,7 @@ switch($act)
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
 		$vehicle = new Vehicle();
-		
-		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null){
-			$next_as_date = "0000-00-00"; //如果年检时间为空则添加默认的
-		}else{
-			//去除时间后面的时分秒,只保留年月日
-			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
-			$next_as_date = $next_date[0];
-		}
-		
+			
 		$type_id = $_REQUEST['type_id'];
 		$vehicle_group_id = $_REQUEST['vehicle_group_id'];
 		$driver_id = $_REQUEST['driver_id'];
@@ -181,7 +173,16 @@ switch($act)
 		$arr["driver_id"] = $db->prepare_value($driver_id,"INT");
 		$arr["type_id"] = $db->prepare_value($type_id,"INT");
 		$arr["color"] = $db->prepare_value($_REQUEST['color'],"VARCHAR");
-		$arr["next_AS_date"] = $db->prepare_value($next_as_date,"VARCHAR");
+
+		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null){
+			$next_as_date = 'null'; //如果年检时间为空则添加默认的
+			$arr["next_AS_date"] = $next_as_date;
+		}else{
+			//去除时间后面的时分秒,只保留年月日
+			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
+			$next_as_date = $next_date[0];
+			$arr["next_AS_date"] = $db->prepare_value($next_as_date,"VARCHAR");
+		}
 		
 		$vehicle = new Vehicle($_REQUEST['id']);
 		switch($oper)
