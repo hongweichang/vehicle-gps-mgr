@@ -132,7 +132,7 @@
 						</li>
 					</ul>
 				</div><!--最新消息-->
-				<div class="form_info">
+				<div class="form_info mt65">
 					<ul>
 						<li>
 							公司ID：
