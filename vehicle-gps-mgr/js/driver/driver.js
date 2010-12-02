@@ -99,12 +99,6 @@ function processAddEdit(response){
 	return [success,message,0];
 }
 
-/*{height:200,reloadAfterSubmit:false}, // edit options
-{height:280,reloadAfterSubmit:false}, // add options
-{reloadAfterSubmit:false}, // del options
-{} // search options 
-);*/
-
 //授权弹出层
 function adviceDialog(driver_id,company_id){
     jQuery("#dialog").dialog({
@@ -153,7 +147,6 @@ function adviceDialog(driver_id,company_id){
 //ajax 得到授权的车辆
 function getTraffic(driver_id,company_id)
 {
-//	alert(driver_id+"===="+company_id);
 	$.ajax({
 		type: "POST",
 		url: "index.php?a=5015",

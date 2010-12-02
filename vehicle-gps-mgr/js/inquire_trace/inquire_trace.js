@@ -1,4 +1,4 @@
-	var is_vehicle_in_area_list_showed = false; //在查询指定时间经过指定区域车辆的时候，确认车辆列表是否已经产生过。
+var is_vehicle_in_area_list_showed = false; //在查询指定时间经过指定区域车辆的时候，确认车辆列表是否已经产生过。
 
 $(document).ready(function(){
 	//是否要从父窗口继承设置值
@@ -37,13 +37,14 @@ $(document).ready(function(){
 	if(isInherit){
 		var startTime = $(window.parent.document).find("#inquire_startTime").attr("value");
 		var endTime =$(window.parent.document).find("#inquire_endTime").attr("value");
-		$("#inquire_startTime").val(startTime);
-		$("#inquire_endTime").val(endTime);
+		$("#inquire_startTime").val(startTime);//设置开始时间
+		$("#inquire_endTime").val(endTime);//设置结束时间
 	}else{
 		$("#inquire_startTime").val(getTodayFormatDate()); //开始时间赋默认值
 		$("#inquire_endTime").val(getNowFormatDate()); //结束时间赋默认值
 	}
 	
+	//加载停止按钮JQUERY样式图标并且添加点击停止按钮事件
 	$('#stop_history').button({
 		text: false,
 		icons: {
@@ -58,9 +59,10 @@ $(document).ready(function(){
 			}
 		});
 		history_track_frame.cancle_mask();
-		history_track_frame.end_history_line();
+		history_track_frame.end_history_line();//停止画线
 	});
 
+	//加载开始按钮JQUERY样式图标并且添加点击开始按钮事件
 	$('#play_history').button({
 		text: false,
 		icons: {
@@ -103,6 +105,7 @@ $(document).ready(function(){
 		$(this).button('option', options);
 	});
 
+	//更换要查看的车辆事件
 	$("#vehicle_info").change(function(){
 		history_track_frame.cancle_mask();
 		history_track_frame.end_history_line();

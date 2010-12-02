@@ -169,5 +169,5 @@ jQuery("#statistic_driver_table").jqGrid( {
 		alerttext : "请选择需要操作的数据行!"
 	});
 	
-	$(":button").button();
+	$(":button").button();//按钮换成JQUERY样式
 	

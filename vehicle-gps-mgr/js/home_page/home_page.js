@@ -145,16 +145,19 @@ function show_as_date(){
 		dataType: "json",
 		success: function(data){
 			if(data==null || data==""){
-				$("#as_date").hide();
+				$("#as_date").hide();//如果没有要年检的车辆显示,则不显示年检提示DIALOG
 			}else{
-				$("#as_date").show();
+				$("#as_date").show();//显示年检提示DIALOG
+				
+				//书写年检提示界面
 				var str="<div>";
 				for(var i=0;i<data.length;i++){
 					str = str+data[i]['number_plate']+"的年检时间为:"+data[i]['next_AS_date']+"&nbsp;&nbsp;<input type='button' id="+(i+1)*3+" class='modify_as'" +
 							" value='修改时间'><br/><div id=tijiao"+(i+1)+" class='tijiao' style='display:none'><input type='text' id="+(i+1)*2+" class='new_as_date'><input type='button' id="+(i+1)+" class='commit_new_date'" +
 							" value='确定' style='height:24px;' name="+data[i]['id']+"></div><br/>";
 				}
-				str = str+"</div><script language='javascript' src='/js/home_page/as_date.js' ></script>"
+				str = str+"</div><script language='javascript' src='/js/home_page/as_date.js' ></script>";
+				
 				$("#as_date").html(str);
 				$("#as_date").dialog({height:150,width:370,title:'年检提示',
 	                 autoOpen:true,position:[1200,900],hide:'blind',show:'blind'});
@@ -238,8 +241,9 @@ function show_as_date(){
 		$("#"+param).dialog("close");
 	}
 	
-	$(":button").button();
+	$(":button").button();//首页所有的按钮样式修改为JQUERY样式
 	
+	//添加公司标注时显示添加标注界面
 	function company_position_show(){
 		$("#show_company_position").show();
 		$("#show_company_position").dialog({height:140,width:340,title:'添加公司标注',
@@ -251,10 +255,12 @@ function show_as_date(){
 		$("#show_company_position").dialog('close');
 	}
 	
+	//关注公司标注弹出框
 	$("#cancle").click(function(){
 		$("#show_company_position").dialog('close');
 	});
 	
+	//弹出修改公司标注框
 	function update_position_show(){
 		$("#update_company_position").show();
 		$("#update_company_position").dialog({height:140,width:340,title:'修改公司标注',
@@ -262,10 +268,6 @@ function show_as_date(){
 	}
 	
 	//关闭公司标注输入框
-	function update_position_close(){
-		$("#update_company_position").dialog('close');
-	}
-	
 	$("#update_cancle").click(function(){
 		$("#update_company_position").dialog('close');
 	});

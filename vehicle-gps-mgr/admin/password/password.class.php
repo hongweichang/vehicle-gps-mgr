@@ -53,11 +53,9 @@ class Password extends BASE
 	 *  修改密码
 	 *  @param $user 用户
 	 */
-	function update_password($user){
-		if(!$GLOBALS['db']->update_row("user",$user,"id")){
-				return false;
-			}
-			return true;
+	function update_password($password,$id){
+		$this->sql = "update ".$this->tablename." set password='".$password."' where id=".$id;
+		return $GLOBALS['db']->query($this->sql);
 	}
 	
 	/**

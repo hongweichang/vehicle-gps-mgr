@@ -274,8 +274,6 @@ class Vehicle extends BASE
 	*/
 	function get_select_driver($tablename,$fieldname,$vehicle_id)
 	{
-		//$this->sql = sprintf("select id,%s from %s where company_id = %d",$fieldname,$tablename,get_session("company_id"));
-		//file_put_contents("a.txt",$this->sql);
 		$this->sql = sprintf("select distinct dr.id,dr.%s from %s dr left join driver_vehicle  dv on dr.id = dv.driver_id
 								 where (dv.vehicle_id = %d or dr.id not in (select driver_id from driver_vehicle)) and company_id = %d"
 								,$fieldname,$tablename,$vehicle_id,get_session('company_id'));

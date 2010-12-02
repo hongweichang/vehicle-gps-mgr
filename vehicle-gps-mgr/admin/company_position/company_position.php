@@ -22,18 +22,15 @@ if(!$sidx) $sidx =1;
 switch($act)
 {
 	case "list":			//加载公司标注管理的html页面
-		
-		//include("include/templates.php");
-		//$param['kobe']='kobe';
 		echo $GLOBALS['db']->display(null,$act);
 		break;
 		
 	case "get_company_position":  //添加所有公司标注内容
 		require_once("home_page.class.php");
 		$home_page = new home_page();
-		$companies = $home_page->get_company_position();
+		$companies = $home_page->get_company_position();//获取公司所有的标注
 		
-		$count = count($companies);
+		$count = count($companies);//得到标注总数
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit); //获取总页数
 		} else {
@@ -43,16 +40,6 @@ switch($act)
 		if ($page > $total_pages) $page=$total_pages;
 		$start = $limit*$page - $limit;
 		if ($start<0) $start = 0;
-		
-		/*if(empty($searchfil) or empty($searchstr))
-			$wh = "";
-		else
-		{
-			$type = $home_page->get_type($searchfil);
-			$searchstr = $db->prepare_value($searchstr,$type);
-			$wh = "where ".$searchfil." = ".$searchstr;
-		}*/
-
 	
 		$response->page	= $page;
 		$response->total = $total_pages;

@@ -20,24 +20,18 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 
-$identify_id = get_session('identify_id');
+$identify_id = get_session('identify_id');//用户角色ID
 
 if(!$sidx) $sidx =1;
 
 switch($act)
 {
 	case "list":			//加载车辆管理的html页面
-		if("sysadmin"==$identify_id){
-			$arr['is_sysadmin'] = "sysadmin";
-			echo $db->display($arr,"list");			
-		}else{
-			$arr['is_sysadmin'] = "not_sysadmin";
-			echo $db->display($arr,"list");
-		}
+		echo $db->display(null,"list");
 		break;
 	case "list_data":		//车辆管理html中，js文件会加载这个case，取得并输出数据
 		$vehicle = new Vehicle();
-		$count = $vehicle->get_vehicle_count();
+		$count = $vehicle->get_vehicle_count();//本公司车辆总数
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
@@ -164,9 +158,11 @@ switch($act)
 	case "operate":		//车辆修改、添加、删除
 		$oper = $_REQUEST['oper'];
 		$vehicle = new Vehicle();
+		
 		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null){
-			$next_as_date = "0000-00-00";
+			$next_as_date = "0000-00-00"; //如果年检时间为空则添加默认的
 		}else{
+			//去除时间后面的时分秒,只保留年月日
 			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
 			$next_as_date = $next_date[0];
 		}
@@ -177,7 +173,6 @@ switch($act)
 		$gps_index_id = $_REQUEST['gps_index_id'];
 		$gps_id = $_REQUEST['gps_id'];
 			
-		//file_put_contents("a.txt",implode(',',array_keys($_REQUEST)).'--'.implode(',',$_REQUEST));exit;
 		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");	
 		$arr['gps_index_id'] = $db->prepare_value($gps_index_id,"INT");
 		$arr['gps_id'] = $db->prepare_value($gps_id,"CHAR");
@@ -194,38 +189,38 @@ switch($act)
 			case "add":		//增加
 				$new_vehicle_id = $vehicle->add_vehicle($arr);
 				if($new_vehicle_id){
-					$vehicle->change_gps_state($_REQUEST['gps_index_id']);
+					$vehicle->change_gps_state($_REQUEST['gps_index_id']);//设置GPS设备号为使用中
 					if($driver_id!="" && $driver_id!=false){
 						$parms["driver_id"]	= $GLOBALS['db']->prepare_value($driver_id,"INT");
 						$parms["vehicle_id"]= $GLOBALS['db']->prepare_value($new_vehicle_id,"INT");
-						$vehicle->set_authority($parms);
+						$vehicle->set_authority($parms); //添加车辆时给车辆授权驾驶员
 					}
-					//echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
 					echo "success";
 				}else{
-					//exit(json_encode(array('success'=>false,'errors'=>'添加失败!')));
 					echo "fail";
 				}
 				break;
 			case "edit":		//修改
-				$vehicle->edit_vehicle($arr);
-				$gps_state = $vehicle->get_gps_state($gps_index_id);
+				$vehicle->edit_vehicle($arr); //修改车辆
+				$gps_state = $vehicle->get_gps_state($gps_index_id); //查询gps设备号是否被使用
+				
+				//如果GPS状态为0,则设置为1即使用中
 				if($gps_state==0){
 					$vehicle->change_gps_state($gps_index_id);
 				}
 				
-				$old_gps_id = $_REQUEST['old_gps_id'];
+				$old_gps_id = $_REQUEST['old_gps_id'];//获取以前使用的GPS设备号
 				if($old_gps_id!=false && $old_gps_id!=""){
-					$vehicle->remove_gps_state($old_gps_id);
+					$vehicle->remove_gps_state($old_gps_id);//解除该GPS设备号
 				}
 				echo "success";
 				break;
 			case "del":		//删除
 				if($vehicle->del_vehicle($arr)){
-					$new_gps_id = $vehicle->data['gps_index_id'];
-					$vehicle->remove_gps_state($new_gps_id);
-					$new_driver_id = $vehicle->data['driver_id'];
-					$vehicle->remove_vehicle_driver($_REQUEST['id'],$new_driver_id);
+					$crrute_gps_id = $vehicle->data['gps_index_id'];//获取该 车辆的GPS设备号
+					$vehicle->remove_gps_state($crrute_gps_id);//设置设备号为未使用
+					$crrute_driver_id = $vehicle->data['driver_id'];//获取该车辆的驾驶员ID
+					$vehicle->remove_vehicle_driver($_REQUEST['id'],$crrute_driver_id);//解除车辆与驾驶员的关系 
 					echo json_encode(array('success'=>true,'errors'=>'删除成功!'));
 				}else{
 					exit(json_encode(array('success'=>false,'errors'=>'删除失败!')));
@@ -238,20 +233,20 @@ switch($act)
 		$vehicle = new Vehicle();
 		switch($p)
 		{
-			case "vehicle_group_id":
+			case "vehicle_group_id"://车辆组
 				$html = $vehicle->get_select("vehicle_group","name");
 				break;
-			case "driver_id":
+			case "driver_id"://驾驶员
 				//$html = $vehicle->get_select("driver_manage","name");
 				$html = $vehicle->get_select_driver("driver_manage","name",$_REQUEST['vehicle_id']);
 				break;
-			case "type_id":
+			case "type_id"://类型
 				$html = $vehicle->get_select("vehicle_type_manage","name");
 				break;
-			case "gps_number":
+			case "gps_number"://gps设备号
 				$html = $vehicle->get_select_gps("gps_equipment","gps_number");
 				break;
-			case "alert_state":
+			case "alert_state"://告警状态
 				if(!$par or !$child)
 				{
 					$par = "vehicle_manage";
@@ -265,10 +260,10 @@ switch($act)
 		break;
 		
 	case "change_driver": //更改驾驶员
-		$vehicle_id = $_REQUEST['vehicle_id'];
-		$driver_id = $_REQUEST['driver_id'];
+		$vehicle_id = $_REQUEST['vehicle_id'];//车辆ID
+		$driver_id = $_REQUEST['driver_id'];//驾驶员ID
 		$vehicle = new Vehicle();
-		$result = $vehicle->change_driver($vehicle_id,$driver_id);
+		$result = $vehicle->change_driver($vehicle_id,$driver_id);//更换驾驶员
 		if($result){
 			echo "ok";
 		}else{

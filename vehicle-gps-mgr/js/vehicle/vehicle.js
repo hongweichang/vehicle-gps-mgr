@@ -42,13 +42,7 @@ jQuery("#navgrid_vehicle").jqGrid({
     sortorder: "desc",
     caption:"车辆管理",
     editurl:"index.php?a=1012",
-	height:360/*,
-	onSelectRow:function(id){
-		//var gps_number = jQuery("#navgrid_vehicle").jqGrid('getGridParam', 'selrow');
-
-		alert($("#gps_number").val());
-		$("#gps_select").val(gps_number);	
-	}*/
+	height:360
 });
 
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
@@ -80,7 +74,7 @@ function processAddEdit(response){
 }
 
 var old_gps_id = null;
-
+//编辑车辆
 function edit_vehicle(){
 	var grid = $("#navgrid_vehicle");
 	 //选择选中的行
@@ -95,6 +89,7 @@ function edit_vehicle(){
 	
 	old_gps_id = jQuery("#navgrid_vehicle").jqGrid('getCell', rowid, 'gps_id_two');
 
+	//填充GPS设备号下拉列表
 	$.get("index.php?a=1013&p=gps_number",function(data){
 		$("#number_gps").html(data);
 		if(gps_id!=null && gps_id!=""){
@@ -105,6 +100,8 @@ function edit_vehicle(){
 			$("#gps_select").get(0).selectedIndex=0;
 		}
 	});
+	
+	//填充车辆组下拉列表
 	$.get("index.php?a=1013&p=vehicle_group_id",function(data){
 		$("#group_vehicle").html(data);
 		if(vehicle_group_name!=null && vehicle_group_name!=""){
@@ -115,6 +112,7 @@ function edit_vehicle(){
 		}
 	});
 	
+	//填充驾驶员下拉列表
 	$.get("index.php?a=1013&p=driver_id&vehicle_id="+rowid,function(data){
 		$("#drivers_vehicle").html(data);
 		if(driver_name!=null && driver_name!=""){
@@ -125,6 +123,7 @@ function edit_vehicle(){
 		}
 	});
 	
+	//填充车辆类型下拉列表
 	$.get("index.php?a=1013&p=type_id",function(data){
 		$("#vehicle_style").html(data);
 		if(type_name!=null && type_name!=""){
@@ -141,25 +140,32 @@ function edit_vehicle(){
 	
 	$("#add_edit").val("edit");
 	
+	//弹出编辑车辆DIALOG
 	$("#gpses").dialog({height:300,width:280,title:'编辑车辆',
         autoOpen:true,position:[500,150],hide:'blind',show:'blind'});
 }
 
+//添加车辆
 function add_vehicle(){
+	//填充GPS设备号下拉列表
 	$.get("index.php?a=1013&p=gps_number",function(data){
 		$("#number_gps").html(data);
 		$("#gps_select").get(0).selectedIndex=0;
 	});
+	
+	//填充车辆类型下拉列表
 	$.get("index.php?a=1013&p=vehicle_group_id",function(data){
 		$("#group_vehicle").html(data);
 		$("#group_options").get(0).selectedIndex=0;		
 	});
 	
+	//填充驾驶员下拉列表
 	$.get("index.php?a=1013&p=driver_id",function(data){
 		$("#drivers_vehicle").html(data);
 		$("#driver_option").get(0).selectedIndex=0;
 	});
 	
+	//填充车辆类型下拉列表
 	$.get("index.php?a=1013&p=type_id",function(data){
 		$("#vehicle_style").html(data);
 		$("#type_options").get(0).selectedIndex=0;	
@@ -171,11 +177,13 @@ function add_vehicle(){
 	
 	$("#add_edit").val("add");
 
+	//弹出添加车辆DIALOG
 	$("#gpses").dialog({height:300,width:280,title:'添加车辆',
         autoOpen:true,position:[500,150],hide:'blind',show:'blind'});
 	
 }
 
+//提交编辑事件
 $("#commit_edit").click(function(){
 	var rowid = null;
 	if($("#add_edit").val()=="edit"){
@@ -193,6 +201,7 @@ $("#commit_edit").click(function(){
 	var gps_id = $("#gps_select option:selected").text();
 	
 	var add_edit = null;
+	//判断是编辑车辆还是添加车辆
 	if($("#add_edit").val()=="add"){
 		add_edit = "add";
 	}else{
@@ -209,6 +218,7 @@ $("#commit_edit").click(function(){
 	});
 });
 
+//配置年检时间日期插件
 $("#date_as").datetimepicker({
 	 ampm: false,//上午下午是否显示  
 	 timeFormat: 'hh:mm:ss',//时间模式  
@@ -222,28 +232,4 @@ $("#date_as").datetimepicker({
 	 createButton:false
 });
 
-/*function change_driver(vehicle_id){
-	$.get("index.php?a=6001&vehicle_id="+vehicle_id,function(data){
-		var drivers = eval("("+data+")");
-		$("#drivers").html("<div style='text-align:center;margin-top:2px'>" + drivers+ "<button style='margin-left:14px' value='change' onclick='update_driver("+vehicle_id+")'>更改</button></div>" +
-				"<p><ul>列表中驾驶员包括：<li>已经分配给该车辆的驾驶员</li><li>没有分配给任何车辆的驾驶员</li></ul></p>");
-		$("#drivers").dialog({height:150,width:230,title:'更换驾驶员',
-             autoOpen:true,position:[500,150],hide:'blind',show:'blind'});
-	});
-}
-
-function update_driver(vehicle_id){
-	var driver_id = $("#driver_option").val();
-	$.get("index.php?a=1014&vehicle_id="+vehicle_id+"&driver_id="+driver_id,function(data){
-		if("ok"==data){
-			$("#drivers").dialog('close');
-			jQuery("#navgrid_vehicle").jqGrid('setGridParam',{url:'index.php?a=1011'}).trigger("reloadGrid");
-		}else{
-			alert("修改失败");
-		}
-	});
-}*/
-
-$(":button").button();
-
-
+$(":button").button();//按钮换成JQUERY样式

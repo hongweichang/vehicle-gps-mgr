@@ -20,7 +20,7 @@ $company_id = get_session("company_id");  //获取公司ID
 if (! $sidx)
 	$sidx = 1;
 
-	$vehicle_console = new vehicle_console ();
+$vehicle_console = new vehicle_console ();
 	
 switch ($act) {
 	case "select" ://选择车辆		

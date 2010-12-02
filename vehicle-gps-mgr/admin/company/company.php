@@ -29,7 +29,7 @@ switch($act)
 
 		$comp	= new Company();	//模拟打印润色后的字符串值
 
-		$count = $comp->get_all_count();
+		$count = $comp->get_all_count();//获取所有公司总数
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
@@ -150,13 +150,10 @@ switch($act)
 							$parms["id"] = $GLOBALS['db']->prepare_value($rtn,"INT"); 
 							$comp->delete_data($parms);
 							echo json_encode(array('success'=>false,'errors'=>'添加失败，请重试!'));
-						}
-						
-						
+						}						
 					}
 					else
-					{
-						
+					{						
 						echo json_encode(array('success'=>false,'errors'=>'添加失败，请重试!'));
 					}
 				}

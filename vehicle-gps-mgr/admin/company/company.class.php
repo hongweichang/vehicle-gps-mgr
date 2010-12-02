@@ -136,12 +136,14 @@ class Company
 	 * @$rtn 公司ID
 	 */
 	function add_admin($rtn){
+		//默认公司平台管理员
 		$admin['login_name'] = $GLOBALS['db']->prepare_value("sysadmin","VARCHAR");
 		$admin['password'] = $GLOBALS['db']->prepare_value("111111","VARCHAR");
 		$admin['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
 		$admin['role_id'] = $GLOBALS['db']->prepare_value(2,"INT");
 		$admin['state'] = $GLOBALS['db']->prepare_value(1,"INT");
 		
+		//默认公司内部管理员
 		$normal['login_name'] = $GLOBALS['db']->prepare_value("admin","VARCHAR");
 		$normal['password'] = $GLOBALS['db']->prepare_value("111111","VARCHAR");
 		$normal['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");

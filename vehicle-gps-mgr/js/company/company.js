@@ -110,9 +110,3 @@ function processAddEdit(response){
 	}
 	return [success,message,0];
 }
-
-/*{height:200,reloadAfterSubmit:false}, // edit options
-{height:280,reloadAfterSubmit:false}, // add options
-{reloadAfterSubmit:false}, // del options
-{} // search options 
-);*/

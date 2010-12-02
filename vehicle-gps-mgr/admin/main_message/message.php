@@ -28,9 +28,11 @@ switch($act)
 	case "add": //添加消息
 		require 'message.class.php';
 		$message = new Message();
-		$messages = $_POST['messages'];
+		$messages = $_POST['messages'];//接收消息内容
 		
-		$encode_type = mb_detect_encoding($messages);
+		$encode_type = mb_detect_encoding($messages);//获取消息编码方式
+		
+		//如果编码不是"utf-8"则转换为"utf-8"
 		if($encode_type!="UTF-8"){
 			$messages = iconv($encode_type,"utf-8",$messages);
 		}
@@ -39,8 +41,9 @@ switch($act)
 		$messages = str_replace("'","\'",$messages);
 		
 		require_once 'templates/new_message.php';
-		$old_message = $new_message['messages'];
+		$old_message = $new_message['messages'];//获取现在显示的消息内容以便保存进数据库
 		
+		//设置消息对象保存记录
 		$arr['company_id'] = $db->prepare_value(get_session("company_id"),"INT");
 		$arr['user_id'] = $db->prepare_value(get_session("user_id"),"INT");
 		$arr['text'] = $db->prepare_value($old_message,"VARCHAR");
@@ -49,8 +52,8 @@ switch($act)
 		$result = $message->add_message($arr);
 		
 		if($result){
-			$file_name="templates/new_message.php";
-			file_put_contents($file_name, "<?php \$new_message=array('messages'=>'".$messages."'); ?>");	
+			$file_name="templates/new_message.php";//保存消息的文件
+			file_put_contents($file_name, "<?php \$new_message=array('messages'=>'".$messages."'); ?>");//将消息写进文件
 			echo "ok";
 		}else{
 			echo "fail";
@@ -64,9 +67,9 @@ switch($act)
 	case "more": //获取历史消息
 		require 'message.class.php';
 		$message = new Message();		
-		$history_messages = $message->history_message();
+		$history_messages = $message->history_message();//获取所有历史消息记录
 		
-		$count = count($history_messages);
+		$count = count($history_messages);//消息总数
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);

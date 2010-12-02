@@ -50,7 +50,7 @@ switch ($act) {
 	case "get_mail" :
 		$str = $_REQUEST ["character"];
 		$info = new info ();
-		$address = $info->get_phone_email ( $str );
+		$address = $info->get_phone_email ( $str );//查询车辆司机的邮箱
 		$email = "";
 		for($i = 0; $i < count ( $address ); $i ++) {
 			$email = $email . $address [$i] [0] . "|";
@@ -62,9 +62,9 @@ switch ($act) {
 		$path=$server_path_config["mail_save_path"];
 		$company_id=get_session("company_id");
 		
-		$eamil_data=iconv("UTF-8","GBK", $_REQUEST ['email_data']);
+		$eamil_data=iconv("UTF-8","GBK", $_REQUEST ['email_data']);//转换编码由utf-8转为gbk
 
-		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' ,$eamil_data);
+		file_put_contents($path."/".$company_id.date( 'YmdHis').'.eml' ,$eamil_data);//写入文件
 		echo "success";
 		
 		break;
@@ -89,7 +89,7 @@ switch ($act) {
         if($result>1){
         	echo $result;
         }else{
-        	echo "fial";
+        	echo "fail";
         }
         break;
         
@@ -115,31 +115,11 @@ switch ($act) {
     case "update_area_info": //更新区域信息表，添加next_id值
 		$info = new info();
 		
-		$first_info = $info->get_area_info($_REQUEST['first_id']); //获取信息
-		$second_info = $info->get_area_info($_REQUEST['second_id']); //获取信息
+		$first_id = $_REQUEST['first_id'];
+		$second_id = $_REQUEST['second_id'];
 		
-		$first_info[0]['next_id']=$_REQUEST['second_id']; //设置第一条信息next_id为第二条信息ID
-		$second_info[0]['next_id']=-1; //设置第二条信息ID为-1
-		
-		/**手动书写发布信息，以符合更新发布信息方法要求的格式**/
-		$info_one['id']=$first_info[0]['id'];
-		$info_one['info_id']=$first_info[0]['info_id'];
-		$info_one['type']=$first_info[0]['type'];
-		$info_one['log']=$first_info[0]['log'];
-		$info_one['lat']=$first_info[0]['lat'];
-		$info_one['radius']=$first_info[0]['radius'];
-		$info_one['next_id']=$first_info[0]['next_id'];
-		
-		$info_two['id']=$second_info[0]['id'];
-		$info_two['info_id']=$second_info[0]['info_id'];
-		$info_two['type']=$second_info[0]['type'];
-		$info_two['log']=$second_info[0]['log'];
-		$info_two['lat']=$second_info[0]['lat'];
-		$info_two['radius']=$second_info[0]['radius'];
-		$info_two['next_id']=$second_info[0]['next_id'];
-		
-		$first = $info->update_next_id($info_one); //更新next_id返回boolean值
-		$second = $info->update_next_id($info_two); //更新next_id返回boolean值
+		$first = $info->update_next_id($first_id,$second_id); //更新next_id返回boolean值
+		$second = $info->update_next_id($second_id,-1); //更新next_id返回boolean值
 		
 		if($first && $second){
 			echo "ok";

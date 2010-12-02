@@ -18,7 +18,7 @@
 	var upOffsetRatio = 0.05;    //	矩形上间距
 	var downOffsetRatio = 0.1;   //	矩形下间距
 
-	var city_mode = window.parent.document.getElementById("post_city_name");
+	var city_mode = window.parent.document.getElementById("post_city_name");//获取是否指定显示的城市
 
 	var mode_area = window.parent.document.getElementById("mode_area");
 	
@@ -26,6 +26,8 @@
 	window._LT_map_disableProgressBar=true;	
 	var maps = new LTMaps( "myMap" ); 
 	maps.setMapCursor("hand","hand");
+
+	//如果有指定要显示的城市则显示该城市,否则默认显示北京
 	if(city_mode!=null && city_mode.value!=null && city_mode.value!=""){
 		var city_name = city_mode.value;
 		maps.cityNameAndZoom( city_name , 6 ); 

@@ -46,7 +46,7 @@ switch($act)
 			echo "add fail";
 		}*/
 		
-		$count = $add_gps->get_count_gps();
+		$count = $add_gps->get_count_gps();//查询登录公司所有GPS设备总数
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
@@ -88,6 +88,8 @@ switch($act)
 		{
 			//对指定字段进行翻译
 			$gps = new add_gps($val['id']);
+			
+			//翻译GPS状态字段
 			if($val['state']==0){
 				$is_use = "未使用";
 			}else{
@@ -113,7 +115,8 @@ switch($act)
 			case "add":		//增加
 				if(strlen($_REQUEST['gps_number']."")!=11 || !is_numeric($_REQUEST['gps_number']."")){
 					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
-				}
+				}//校验GPS号格式与长度
+				
 				$arr['user_id'] =  $db->prepare_value(get_session("user_id"),"INT");	
 				$arr["state"] = $db->prepare_value(0,"TINYINT");
 				$add_gps->add_gps_number($arr);
@@ -122,7 +125,8 @@ switch($act)
 			case "edit":	//修改
 				if(strlen($_REQUEST['gps_number']."")!=11 || !is_numeric($_REQUEST['gps_number']."")){
 					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
-				}
+				}//校验GPS号格式与长度
+				
 				$add_gps->edit_gps($_REQUEST['gps_number'],$_REQUEST['id']);
 				echo json_encode(array('success'=>true,'errors'=>'修改成功!'));
 				break;

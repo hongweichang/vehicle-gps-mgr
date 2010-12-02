@@ -8,10 +8,6 @@ jQuery("#navgrid_vehicle_group").jqGrid({
    		{name:'name',index:'name',align:"center", width:80,editable:true,editrules:{required:true},editoptions:{size:10}},
    		{name:'company_id',index:'company_id',align:"center",width:40,editable:true,hidden:true,edittype:"select",editoptions:{dataUrl:'index.php?a=1023&p=company_id'}},
    		{name:'description',index:'description',align:"center",width:60,editable:true,editoptions:{size:10}}
-//   		{name:'create_id',index:'driver_id', width:60, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'create_time',index:'type_id', width:60, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'update_id',index:'cur_longitude', width:50, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'update_time',index:'cur_latitude', width:50, align:"right",editable:true,editoptions:{size:10}}
    	],
    	width:750,
    	rowNum:10,
@@ -25,11 +21,5 @@ jQuery("#navgrid_vehicle_group").jqGrid({
 	height:350
 });
 jQuery("#navgrid_vehicle_group").jqGrid('navGrid','#pagernav_vehicle_group',
-{edit:true,add:true,del:true,search:false}, //options
-//edit:false,add:false,del:false
+{edit:true,add:true,del:true,search:false},
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
-/*{height:200,reloadAfterSubmit:false}, // edit options
-{height:280,reloadAfterSubmit:false}, // add options
-{reloadAfterSubmit:false}, // del options
-{} // search options 
-);*/

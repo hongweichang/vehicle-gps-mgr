@@ -1,8 +1,10 @@
+//显示更改日期框
 $(".modify_as").click(function(){
 	var id = $(this).attr("id")/3;
 	$("#tijiao"+id).show();
 });
 
+//提交更改后的日期
 $(".commit_new_date").click(function(){
 	var id = $(this).attr("name");
 	var date_id = $(this).attr("id")*2;
@@ -18,6 +20,7 @@ $(".commit_new_date").click(function(){
 	});
 });
 
+//显示日期插件
 $(".new_as_date").datetimepicker({
 	 ampm: false,//上午下午是否显示  
 	 timeFormat: 'hh:mm:ss',//时间模式  
@@ -29,4 +32,5 @@ $(".new_as_date").datetimepicker({
 	 createButton:false
  });	
 
+//按钮样式显示为JQUERY样式
 $(":button").button();

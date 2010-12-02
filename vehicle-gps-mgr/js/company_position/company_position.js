@@ -20,6 +20,7 @@ jQuery("#company_position").jqGrid({
 jQuery("#company_position").jqGrid('navGrid','#company_position_pager',
 {edit:false,add:false,del:false,search:false});
 
+//删除标注信息
 function delete_position(id){
 	$.get("index.php?a=107&position_id="+id,function(data){
 		alert(data);

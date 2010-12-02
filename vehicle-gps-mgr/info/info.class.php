@@ -62,12 +62,9 @@
 		 *  更新info表中的next_id
 		 *  @param $info 信息
 		 */
-		function update_next_id($info){
-			if(!$GLOBALS['db']->update_row("area_info",$info,"id")){
-				return false;
-			}
-			return true;
-			
+		function update_next_id($id,$next_id){
+			$this->sql = "update area_info set next_id=".$next_id." where id=".$id;
+			return $GLOBALS['db']->query($this->sql);
 		}
 		
 		/**

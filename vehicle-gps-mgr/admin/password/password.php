@@ -33,26 +33,16 @@ switch($act)
 		
 	case "update_password": //修改密码
 		$password = new Password();
-		$old = $_REQUEST['old_pass'];
-		$new = $_REQUEST['new_pass'];
+		$old = $_REQUEST['old_pass']; //原密码
+		$new = $_REQUEST['new_pass']; //新密码
 		
+		//检查旧密码是否正确
 		if(!$password->check_old($old)){
 			echo "old_wrong";
 			break;
 		}
 		
-		$old_user = $password->get_user($user_id);
-		
-		$user['id'] = $GLOBALS['db']->prepare_value($user_id,"INT");
-		$user['login_name'] = $GLOBALS['db']->prepare_value($old_user['login_name'],"VARCHAR");
-		$user['password'] = $GLOBALS['db']->prepare_value($new,"VARCHAR");
-		$user['name'] = $GLOBALS['db']->prepare_value($old_user['name'],"VARCHAR");
-		$user['state'] = $GLOBALS['db']->prepare_value($old_user['state'],"TINYINT");
-		$user['company_id'] = $GLOBALS['db']->prepare_value($old_user['company_id'],"INT");
-		$user['role_id'] = $GLOBALS['db']->prepare_value($old_user['role_id'],"INT");
-		$user['email'] = $GLOBALS['db']->prepare_value($old_user['email'],"VARCHAR");
-		
-		$result = $password->update_password($user);
+		$result = $password->update_password($new,$user_id); //更新密码
 		if($result){
 			echo "ok";
 		}else{

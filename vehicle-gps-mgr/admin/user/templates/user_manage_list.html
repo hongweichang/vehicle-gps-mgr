@@ -30,7 +30,7 @@ jQuery(document).ready(function(){
         			  "<div style='width:110px;float:left;text-align:right'>"+
         			  "<a href='index.php?a=1005'>安全退出</a></div></div>"; 
 	  
-     var tree_url = "xml/tree_"+$("#identify_id").attr("name")+".xml";
+     var tree_url = "xml/tree_"+$("#identify_id").attr("name")+".xml";//根据登录用户角色ID获取对应的权限管理XML
      jQuery("#west-grid").jqGrid({
         url: tree_url,
         datatype: "xml",
@@ -203,6 +203,8 @@ jQuery(document).ready(function(){
 			</div>
 		</div>
 	</div> 
+	
+	<!-- 隐藏域,存储登录用户权限 -->
 	<input id="identify_id" type='hidden' name="{{IDENTIFY_ID}}"></input>
 	<!-- #RightPane -->
 </body>

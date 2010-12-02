@@ -12,6 +12,7 @@
 class home_page extends BASE{
 	private $tablename_company_position ="company_position";
 	
+	//添加公司标注
 	function company_position($position_data){
 		
 		$company_position['company_id'] = $GLOBALS['db']->prepare_value($position_data['company_id'],"INT");
@@ -22,6 +23,7 @@ class home_page extends BASE{
 		return $GLOBALS['db']->insert_row($this->tablename_company_position,$company_position);
 	}
 	
+	//获取登录公司所有标注
 	function get_company_position(){
 		$company_id = get_session("company_id");
 		$sql = "select * from ".$this->tablename_company_position." where company_id=".$company_id;

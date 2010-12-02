@@ -25,6 +25,7 @@ function returnInfo(){
 	initStatus();
 }
 
+//填充邮箱列表
 function fillMailList(str){
 str = str.substr(0,str.length-1);
 	if(str.length!=0){
@@ -49,7 +50,7 @@ function resetDialogSize(width,height){
 	$( "#operation" ).dialog({ position : "center" });
 }
 
-//绑定事件处理 
+//载入所有车辆
 $("#car").click(function(event) {
 	$(".info_select").show();
 	$("#info_Commit").show();
@@ -116,6 +117,7 @@ $("#cancle_commit").click(function(){
 
 //删除驾驶员邮箱
 $("#deleteUser").click(function(){
+	//如果没有选择邮箱则提示
 	if($("#email_list")[0].selectedIndex==null || $("#email_list")[0].selectedIndex==-1){
 		alert("请选择驾驶员邮箱");
 		return false;
@@ -180,6 +182,7 @@ $(":button").button();
 		  }
 	  },"text");
 
+	  //保存已发布的信息
 	  $.post("index.php",{"a":204,"is_area_info":0,"content":content},function(data){
 	  },"text");
 }
@@ -220,6 +223,7 @@ function subArea(){
 	});
 }
 
+//区域发布信息时开始日期显示
 $("#begin_time_area").datetimepicker({
 	 ampm: false,//上午下午是否显示  
 	 timeFormat: 'hh:mm:ss',//时间模式  
@@ -231,7 +235,7 @@ $("#begin_time_area").datetimepicker({
 	 createButton:false
 });	
 
-
+//区域发布信息时结束日期显示
 $("#end_time_area").datetimepicker({
 	 ampm: false,//上午下午是否显示  
 	 timeFormat: 'hh:mm:ss',//时间模式  

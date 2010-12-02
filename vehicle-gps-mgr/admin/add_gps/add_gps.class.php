@@ -72,7 +72,7 @@ class add_gps extends BASE
 	}
 	
 	/**
-	 *  添加GPS设备
+	 *  添加GPS设备信息
 	 *  @gps gps设备信息
 	 */
 	function add_gps_number($gps){

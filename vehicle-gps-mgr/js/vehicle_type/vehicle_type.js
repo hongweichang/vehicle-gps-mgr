@@ -9,11 +9,7 @@ jQuery("#navgrid_vehicle_type").jqGrid({
    		{name:'fuel_consumption',index:'fuel_consumption',align:"center",width:40,editable:true,editoptions:{size:10}},
    		{name:'load_capacity',index:'load_capacity',align:"center",width:40,editable:true,editoptions:{size:10}},
    		{name:'description',index:'description',align:"center",width:60,editable:true,editoptions:{size:10}}
-//   		{name:'create_id',index:'driver_id', width:60, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'create_time',index:'type_id', width:60, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'update_id',index:'cur_longitude', width:50, align:"right",editable:true,editoptions:{size:10}},
-//   		{name:'update_time',index:'cur_latitude', width:50, align:"right",editable:true,editoptions:{size:10}}
-   	],
+   		],
    	width:750,
    	rowNum:10,
    	rowList:[10,20,40],
@@ -27,10 +23,4 @@ jQuery("#navgrid_vehicle_type").jqGrid({
 });
 jQuery("#navgrid_vehicle_type").jqGrid('navGrid','#pagernav_vehicle_type',
 {edit:true,add:true,del:true,search:false}, //options
-//edit:false,add:false,del:false
 {del:false,add:true,edit:true,alerttext:"请选择需要操作的数据行!"});
-/*{height:200,reloadAfterSubmit:false}, // edit options
-{height:280,reloadAfterSubmit:false}, // add options
-{reloadAfterSubmit:false}, // del options
-{} // search options 
-);*/

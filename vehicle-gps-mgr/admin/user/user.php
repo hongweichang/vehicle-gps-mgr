@@ -20,7 +20,7 @@ $searchstr = $_REQUEST['searchString']; // get the direction
 $foper = $_REQUEST['searchOper'];
 $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
-$identify_id = get_session("identify_id");
+$identify_id = get_session("identify_id");//获取用户角色ID
 
 if(!$sidx) $sidx =1;
 
@@ -36,7 +36,7 @@ switch($act)
 		
 	case "list_data":		//用户管理html中，js文件会加载这个case，取得并输出数据
 		$user	= new User();
-		$count = $user->get_user_count();
+		$count = $user->get_user_count();//查询登录公司所有用户总数
 
 		if( $count >0 ) {
 			$total_pages = ceil($count/$limit);
@@ -78,9 +78,9 @@ switch($act)
 		
 		//得到所有用户
 		if($_REQUEST['role']){
-			$result = $user->get_sys_users($wh,$sidx,$sord,$start,$limit);
+			$result = $user->get_sys_users($wh,$sidx,$sord,$start,$limit); //查询所有公司平台管理员和系统管理员
 		}else{
-			$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit);
+			$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit); //查询所有公司管理员权限及其以下用户
 		}
 //		file_put_contents("a.txt",$db->sql);
 		$responce->page	= $page;
@@ -164,41 +164,38 @@ switch($act)
 		$vehicle = new User();
 		switch($p)
 		{
-//			case "vehicle_group_id":
-//				$html = $vehicle->get_select("vehicle_group","name");
-//				break;
-//			case "driver_id":
-//				$html = $vehicle->get_select("driver_manage","name");
-//				break;
-//			case "type_id":
-//				$html = $vehicle->get_select("vehicle_type_manage","name");
-//				break;
-			case "state":
+			case "state"://用户状态(激活与未激活)
 				if(!$par or !$child)
 				{
 					$par = "user";
 					$child = "state";
 				}
+				
+				//读取xml
 				$xml = new Xml($par,$child);
 				$html = $xml->get_html_xml();
 				break;
 				
-			case "role":
+			case "role"://用户角色(公司内部管理员与一般使用人员)
 				if(!$par or !$child)
 				{
 					$par = "role";
 					$child = "admin";
 				}
+				
+				//读取xml
 				$xml = new Xml($par,$child);
 				$html = $xml->get_html_xml();
 				break;
 				
-			case "sys_role":
+			case "sys_role"://用户角色(系统管理员与公司平台管理员)
 				if(!$par or !$child)
 				{
 					$par = "role";
 					$child = "sysadmin";
 				}
+				
+				//读取xml
 				$xml = new Xml($par,$child);
 				$html = $xml->get_html_xml();
 				break;

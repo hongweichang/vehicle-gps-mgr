@@ -279,6 +279,7 @@
 		});		
 	}
 	
+	//删除公司标注
 	function delete_position(id){
 		$.get("/index.php?a=107&position_id="+id,function(data){
 			if("ok"==data){

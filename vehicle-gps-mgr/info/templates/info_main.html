@@ -35,6 +35,7 @@
 						</div>
 					</div>
 						
+					<!-- 手动添加收信人手机邮箱 -->
 					<div id='add_input' class="info_add_input">
 						<label class="font_weight">收信人手机邮箱：</label></br>
 						<ul style="width:300px">
@@ -43,19 +44,21 @@
 						<li><input id="cancle_commit" type="button" value="取消"/></li>
 					</div>
 						
+					<!-- 收信人手机邮箱列表 -->
 					<div class="info_select">
 						<select id="email_list" name="email_list"  multiple class="info_select_input">{{mail_list}}</select>
 					</div>
 					
-			<div class="info_select_area" >
-				<div id="city_mode">
-					<label for="fromcity">点击选择城市：</label>
-					</br>
-					<INPUT id=city style="COLOR: #c1c1c1" 
-					 onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
-				</div> 
-			
-			<input type='hidden' id="post_city_name"></input>
+					<div class="info_select_area" >
+						<!-- 选择城市插件 -->
+						<div id="city_mode">
+							<label for="fromcity">点击选择城市：</label>
+							</br>
+							<INPUT id=city style="COLOR: #c1c1c1" 
+							 onfocus="popUp('city')"  onclick="popUp('city')" value="北京" name="city">
+						</div> 
+					
+						<input type='hidden' id="post_city_name"></input>
 						<div id="area_begin_time" class="area_begin_time">
 							生效时间:<input id="begin_time_area" type="text" style="width:120px"/>
 						</div>
@@ -69,10 +72,12 @@
 						</div>
 						<br/>
 						
+						<!-- 提交一般信息 -->
 						<div id='info_Commit' class="info_commit">
 							<input id="areaCommit" type="button" onclick="subInfo();" value="提交信息"/>
 						</div>
 						
+						<!-- 提交区域信息 -->
 						<div id='area_Commit' class="info_area_Commit">
 							<ul style="width:180px">
 							<li><input id="areaCommit" type="button" onclick="subArea();" value="提交信息"/></li>

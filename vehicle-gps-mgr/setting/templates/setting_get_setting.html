@@ -246,7 +246,8 @@ function check_speed(obj){
 	//得到当前值的上一个值
 	var forward_tow = $("#speed_"+parseInt(ss[1])).attr("value");
 	var forward_tow_old = $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value");
-	
+
+	//验证输入格式,必须为整数
 	if(!checkIsInteger(forward_tow) || !checkIsInteger(forward_tow_old)){
 		$("#speed_"+parseInt(ss[1])).attr("value","");
 		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
@@ -254,6 +255,7 @@ function check_speed(obj){
 		alert("请输入整数");
 	}
 
+	//验证速度大小,不能小于当前最大速度
 	if(parseInt(forward_tow_old)>=parseInt(forward_tow)){		
 		$("#speed_"+parseInt(ss[1])).attr("value","");
 		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
@@ -262,6 +264,7 @@ function check_speed(obj){
 	}
 }
 
+//验证速度是否为整数
 function checkIsInteger(str) 
 { 
        //如果为空，则通过校验 
@@ -273,7 +276,7 @@ function checkIsInteger(str)
        return false; 
  } 
 
-$(":submit").button();
+$(":submit").button();//按钮替换成JQUERY样式
 
 //-->
 </SCRIPT>

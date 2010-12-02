@@ -30,7 +30,7 @@ switch($act)
 	case "list_data":
 
 			$driver	= new Driver();	//模拟打印润色后的字符串值
-			$count = $driver->get_all_count();
+			$count = $driver->get_all_count();//获取本公司驾驶员总数
 
 			if( $count >0 ) {
 				$total_pages = ceil($count/$limit);

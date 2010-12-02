@@ -1,12 +1,13 @@
-$(":button").button();
-$("#reset_password").button();
+$(":button").button();//按钮换成JQUERY样式.
+$("#reset_password").button();//重置按钮换成JQUERY样式.
 
-
+//提交事件
 $("#pass_commit").click(function(){
 	$("#old_show").html("");
 	$("#new_one_show").html("");
 	$("#new_two_show").html("");
 	
+	//验证
 	var old_password = $("#old_password").val();
 	var new_password_one = $("#new_password_one").val();
 	var new_password_two = $("#new_password_two").val();

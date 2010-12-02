@@ -144,7 +144,6 @@ class Vehicle_status extends BASE
 	*/
 	function get_all_vehicles($wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		//$company_id = get_session("company_id");
 		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		$this->data_list = $GLOBALS["db"]->query($this->sql);
 		return $this->data_list;
@@ -166,8 +165,7 @@ class Vehicle_status extends BASE
 	*		@return mixed
 	*/
 	function get_type($searchfield=false)
-	{
-		
+	{		
 		if(!$searchfield)
 		{
 			$this->message = 'error,Searchfield is not exists!';
@@ -190,7 +188,6 @@ class Vehicle_status extends BASE
 	function get_select($tablename,$fieldname)
 	{
 		$this->sql = sprintf("select id,%s from %s",$fieldname,$tablename);
-		//file_put_contents("a.txt",$this->sql);
 		$result = $GLOBALS['db']->query($this->sql);
 		$select = '<select>';
 		foreach($result as $temp)
@@ -216,13 +213,13 @@ class Vehicle_status extends BASE
      * @param $v 经度或纬度在数据库中的值
      */
     function around($v=-1,$e=0){
-				$v= $v*100000;
-				$t=1;   
-					for(;$e>0;$t*=10,$e--);   
-					for(;$e<0;$t/=10,$e++);   
+		$v= $v*100000;
+		$t=1;   
+			for(;$e>0;$t*=10,$e--);   
+			for(;$e<0;$t/=10,$e++);   
 
-				return  round($v*$t)/$t;   
-			  } 
+		return  round($v*$t)/$t;   
+	} 
 			  
 	/**
 	 *  将经纬度转换成数据库中的值

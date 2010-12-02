@@ -209,7 +209,7 @@ class User extends BASE
 	}
 	
 	/**
-	*		查询所有公司管理员权限以下用户
+	*		查询所有公司管理员权限及其以下用户
 	*		@param $wh 条件 $sidx 字段 $sord 排序 $start&$limit 取值区间
 	*		@return no
 	*/

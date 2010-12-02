@@ -27,6 +27,7 @@ jQuery("#vehicle_status_list").jqGrid({
     multiselect: true, 
 	height:276,
 
+	//翻译告警状态字段
 	loadComplete:function(){
 	var ids = $("#vehicle_status_list").jqGrid('getDataIDs');
 	for(var i = 0;i<ids.length;i++){
@@ -119,7 +120,7 @@ $("#area_result").click(function(){
 	$("#select").show();
 });
 
-$(":button").button();
+$(":button").button();//按钮替换成JQUERY样式
 $("#frame_map").hide();
 
 var vehicle_id_str = ""; //声明要定位车辆的ID
