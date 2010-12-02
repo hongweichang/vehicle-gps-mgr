@@ -96,6 +96,14 @@ function show_vehicle(id){
 
 //点击要查询的车辆
 function select_vehicle_data(){
+	var begin_date = $("#vehicle_begin_data").val();
+	var end_date = $("#vehicle_end_data").val();
+	
+	if(end_date<=begin_date){
+		alert("结束时间不能小于等于开始时间");
+		return false;
+	}
+	
 	$("#select_statistic_content").dialog({height:400,width:900,title:'选择要查询的车辆',
         autoOpen:true,hide:'blind',show:'blind',close:function(event, ui) {
 		   $("#select_statistic_content").html("");

@@ -43,6 +43,7 @@ function condition_vehicle_data() {
 
 	var begin_date = $("#vehicle_begin_data").val();
 	var end_date = $("#vehicle_end_data").val();
+	
 	if(end_date<=begin_date){
 		alert("结束时间不能小于等于开始时间");
 		return false;
