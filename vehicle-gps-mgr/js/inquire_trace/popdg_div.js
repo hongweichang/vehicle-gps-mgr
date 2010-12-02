@@ -80,7 +80,7 @@ function popUp(abc){
     	position = "top:-210px; left:-150px;";
     }else{
     	//position = "top:-220px; left:-340px;";
-    	position = "top:-220px; left:70px;";
+    	position = "top:-280px; left:-20px;";
     }
   
     popup_int0=0;
