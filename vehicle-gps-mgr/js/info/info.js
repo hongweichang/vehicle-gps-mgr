@@ -117,7 +117,7 @@ $("#area_issue").click(function() {
 	$("#area_end_time").show();
 	$("#begin_time_area").val(getNowFormatDate()); //生效时间赋默认值
 	$("#end_time_area").val(day_date()); //失效时间赋默认值
-	$("#issue_frame").attr("src","templates/51map.html"); //iframe加载地图
+	$("#issue_frame").attr("src","templates/51map.html?a=3"); //iframe加载地图
 });
 
 $("#addUser").click(function(){

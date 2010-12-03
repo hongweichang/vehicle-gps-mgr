@@ -100,6 +100,7 @@ $("#area_select").click(function(){
 	$("#area_result").show();
     $("#select").hide();
 	$("#frame_map").show();
+	$("#locate_select").val("select");
 	$("#frame_map").attr("src","templates/51map.html"); //Iframe加载地图
 });
 
@@ -135,6 +136,7 @@ function  vehicle_position(vehicle_ids){
 		alert("请选择车辆");
 		return false;
 	}
+	$("#locate_select").val("");
 	$("#locates").mask("载入中.....");
 	vehicle_id_str="";
 	vehicle_id_str = vehicle_ids;
