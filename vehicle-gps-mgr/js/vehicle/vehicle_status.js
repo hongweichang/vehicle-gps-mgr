@@ -148,7 +148,7 @@ function locate_vehicle(){
 	if($("#locates").dialog('isOpen')){
 		$("#locates").dialog('close');
 	}
-	$("#locates").dialog({height:356,width:610,title:'定位',zIndex:10000000,
+	$("#locates").dialog({height:356,width:610,title:'定位',zIndex:1000000,
 			                 autoOpen:true,hide:'blind',show:'blind'}); 
 	
 	 var state = document.locate.document.readyState;
