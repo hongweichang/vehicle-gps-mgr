@@ -187,7 +187,7 @@
 		</div>
 		<div class="help_info mt5">
 			<ul>
-				<li>推荐使用ie浏览器。（使用ie8浏览器可以获j得最佳的使用体验）</li>
+				<li>推荐使用ie浏览器。（使用ie8浏览器可以获得最佳的体验效果）</li>
 				<li class="mt5">
 					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="help.php" target="view_window">这里。</a>
 				</li>
