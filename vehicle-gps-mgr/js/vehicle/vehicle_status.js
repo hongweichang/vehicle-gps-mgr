@@ -53,7 +53,7 @@ jQuery("#m1").click( function() {
 			alert("请选择车辆");
 			return false;
 		}
-		showOperationDialog(this,"index.php?a=201&vehicle_ids="+s,"info_issue");
+		showOperationDialog(this,"index.php?a=201&hidden=1&vehicle_ids="+s,"info_issue");
 	}); 
 
 /*定位车辆*/
