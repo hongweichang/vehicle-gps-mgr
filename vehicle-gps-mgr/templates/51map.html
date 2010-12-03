@@ -20,8 +20,8 @@
 
 	var city_mode = window.parent.document.getElementById("post_city_name");//获取是否指定显示的城市
 
-	var mode_area = window.parent.document.getElementById("mode_area");
-	var locate_select = window.parent.document.getElementById("locate_select");
+	var mode_area = window.parent.document.getElementById("mode_area"); //获取父页面值判断是哪个页面引入
+	var locate_select = window.parent.document.getElementById("locate_select"); //获取父页面值判断是哪个页面引入
 	
 	//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 	window._LT_map_disableProgressBar=true;	
@@ -39,6 +39,7 @@
 	maps.handleMouseScroll();
 	maps.addControl(new LTSmallMapControl());
 
+	//判断是否是按区域查询历史轨迹页面引入本页面
 	if(mode_area!=null){
 		/*添加拉框放大控件*/
 		var ltControl = new LTZoomInControl();
@@ -52,6 +53,7 @@
 		}
 	}
 
+	//判断哪个页面引入
 	if(locate_select == null || (locate_select != null && locate_select.value != "")){
 		control = new LTZoomSearchControl();
 		control.setTop(10);
@@ -59,6 +61,7 @@
 		maps.addControl( control );
 	}
 
+	//是否是车辆定位时引入本页面
 	if(locate_select!=null && locate_select.value==""){
 		/**
 		 * 清除所有标点，重新加载新数据
