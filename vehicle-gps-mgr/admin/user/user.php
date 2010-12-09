@@ -140,7 +140,7 @@ switch($act)
 				if($user->check_login_name($_REQUEST['login_name'])){
 					exit(json_encode(array('success'=>false,'errors'=>'重复的登录ID，请重试!')));
 				}
-				
+				$arr['password'] = $db->prepare_value("111111","VARCHAR");//为新用户添加默认密码6个1
 				if($user->add_user($arr)){
 					echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
 				}
