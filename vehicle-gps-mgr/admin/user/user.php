@@ -108,9 +108,6 @@ switch($act)
 		$data["user_name"] = get_session("user_name");
 		$data['identify_id'] = $identify_id;
 		echo $db->display($data,"manage_list");
-		break;
-	case "login_success":	 
-		echo $db->display(null,"login_success");
 		break; 
 	case "logout":	//模拟退出
 		$user = new User();

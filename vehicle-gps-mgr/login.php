@@ -1,3 +1,9 @@
+<?php 
+	session_start();
+	$user_id = $_SESSION["user_id"]; 
+	$user_name = $_SESSION["user_name"];
+?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -19,37 +25,101 @@
 	<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
 	
 	<script type="text/javascript">
+		var prohibitWayleave ="<img src='images/sad.png' alt='禁止通行'/>";
+	    var page_skip="页面跳转中，请稍候...";
+	    var in_validate="验证中，请稍候...";
+	
 		$(document).ready(function(){
+
+			//登录验证
 			$("#loginCar").click(function(){
-				$("#body").mask("验证中，请稍候...");
+
+				$("#login_model").mask(in_validate);
 				$("#clue").html("");
-				var companyId=document.getElementById("companyId").value;
-				var userName=document.getElementById("userName").value;
-				var password=document.getElementById("password").value;
-				
-				var pat=new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i"); 
-				if(pat.test(companyId)==true|| pat.test(userName)==true||pat.test(password)==true) 
+
+				//获取登录参数
+				var companyId=$("#companyId").val();
+				var userName=$("#userName").val();
+				var password=$("#password").val();
+
+				//验证是否存在非法字符
+				if(validate_chars(companyId,userName,password)) 
 				{ 
-					$("#body").unmask();
-					$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码含有非法字符!"); 
-				}else {
-					 $.post("login_check.php?companyloginid="+companyId+"&username="+userName+"&password="+password,function(data){
-							$("#body").unmask();
-							if(data==1){
-								document.location= "index.php?a=1003";
-								$("#body").mask("页面跳转中，请稍候...");
-							}else if(2==data){
-								document.location= "index.php?a=1004";
-								$("#body").mask("页面跳转中，请稍候...");
-							}else{
-								$("#clue").html("<img src='images/sad.png' alt='禁止通行'/>公司ID或用户名或密码错误！");
-							}
-						});
-				 }
+					$("#login_model").unmask();
+					$("#clue").html(prohibitWayleave+"公司ID或用户名或密码含有非法字符!"); 
+				}else { 
+
+					//提交登录 
+					$.post("login_check.php",{
+						companyloginid:companyId,
+						username:userName,
+						password:password
+					},function(data,textStatus){
+						
+						$("#login_model").unmask();
+						if(data==1){
+							// document.location= "index.php?a=1003";
+							 $("#login_model").mask(page_skip);
+							 window.location.reload();
+							 
+						}else if(2==data){
+							document.location= "index.php?a=1004";
+							$("#login_model").mask(page_skip);
+						}else{
+							$("#clue").html(prohibitWayleave+"公司ID或用户名或密码错误！");
+						} 
+					}); 
+				}
+			});
+
+			//验证是否存在非法字符
+			function validate_chars(){
+				var pat=new RegExp("[^a-zA-Z0-9\_\u4e00-\u9fa5]","i"); 
 				
+				var companyId = arguments[0];
+				var userName = arguments[1];
+				var password = arguments[2]; 
+				 
+				if(pat.test(companyId)==true){
+					return true;
+				}
+				if(pat.test(userName)==true){
+					return true;
+				}
+				if(pat.test(password)==true){
+					return true;
+				}
+ 				return false;
+				
+			}
+			//全屏浏览
+			$("#fullScreen").click(function(){ 
+				 
+				var height =window.screen.availHeight-57;
+				var width = window.screen.width-7;
+				window.opener = null;
+				window.open('','_self');
+				window.close();
+				window.open ("index.php?a=100", "newwindow", "height="+height+", width="+width+
+						 ", top=0, left=0, toolbar =no, menubar=no, scrollbars=yes,"+
+						 " resizable=no, location=no, status=yes");
+			});
+
+			//正常浏览
+			$("#normal").click(function(){
+				window.open("index.php?a=100","_self");
+			});
+			
+			$("#manager_center").click(function(){
+				document.location= "index.php?a=1004";
+			});
+			
+			$("#logout").click(function(){
+				document.location= "index.php?a=1005";
 			});
 			
 		});
+ 
 		function more_message(){
 			$("#show_div").show();
 			var messages = $("#new_message").val();
@@ -58,11 +128,11 @@
 
 		function close_message(){
 			$("#show_div").hide();
-		}
+		}  
 	</script>
 </head>
 
-<body>
+<body>   
 	<div class="body_div">
 		<input type="hidden" name="act" value="signin" />
 		<!-- logo -->
@@ -143,7 +213,10 @@
 					</ul>
 				</div>
 				<!--表单-->
-				<div class="form_info mt65">
+				<?php  
+					if(empty($user_id)){
+				?>
+				<div class="form_info mt65" id="login_model">
 					<ul>
 						<li>
 							公司ID：
@@ -173,6 +246,24 @@
 						</li>
 					</ul>
 				</div>
+				<?php 
+					}else{
+				?>
+				<div class="form_info mt65">
+					<div style="font-size:13px;font-weight:100;text-align:left;color:#666666"> 
+						<img src="/images/smiley.png" />
+						<?php echo $user_name; ?> 您已经登录成功!<br><br>请选择以下选项：
+					</div> 
+					<ul style="height:30px;margin-top:20px;">
+						<li class="fl " ><input type="button" id="fullScreen" class="button" value="全屏"/></li>
+						<li class="fl ml5"><input type="button" id="normal"  class="button" value="非全屏"/></li>
+					</ul>
+					<ul style="height:30px;margin-top:4px;">
+						<li class="fl  " ><input type="button" id="manager_center"  class="button" value="管理中心"/></li>
+						<li class="fl  ml5"><input type="button" id="logout"  class="button" value="退出登录"/></li>
+					</ul> 
+				</div>
+				<?php }?>
 				<!--内容-->
 				<div id="show_div" class="display_none" style="display:none;">
 					<div class="show_message_title">
@@ -188,9 +279,7 @@
 		<div class="help_info mt5">
 			<ul>
 				<li>推荐使用ie浏览器。（使用ie8浏览器可以获得最佳的体验效果）</li>
-				<li class="mt5">
-					初次使用，请对ie浏览器进行设置，设置方式请点击<a href="help.php" target="view_window">这里。</a>
-				</li>
+				 
 			</ul>
 		</div>
 	</div>

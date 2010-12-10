@@ -33,6 +33,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 	.content{
 		width:837px;
 		height:353px; 
+	border:6px solid #cccccc;
 	}
 	.login_img{
 		background:url(../images/gps-login.png) no-repeat;
@@ -64,8 +65,7 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 		padding:15px 6px;
 		height:125px;
 		font-size:14px;
-		font-weight:700;
-		text-align:center;
+		font-weight:700; 
 		width:176px;
 		margin-left:17px;
 		border:2px #D7D7D7 solid;
@@ -92,8 +92,22 @@ body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,
 		font-size:15px;
 		color:white;
 		font-weight:700;
+		cursor:hand;
 		background:url(../images/button.png) no-repeat;
 	}
+	.button{ 
+		height:28px;
+		width:80px; 
+		border:none;
+		color:#ffffff;
+		font-size:13px; 
+		font-weight:700;
+		cursor:hand;
+		background:url(../images/button1.png) no-repeat;
+	}
+	
+	.fl{float:left}
+	.ml5{margin-left:6px;}
 	.ml70{margin-left:70px;}
 	.tc{text-align:center;}
 	ul{list-style-type:none;}
