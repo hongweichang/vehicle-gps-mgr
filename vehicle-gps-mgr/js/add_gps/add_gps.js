@@ -9,7 +9,7 @@ jQuery("#navgrid_gps").jqGrid({
   		{name:'id',index:'id', width:20,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
   		{name:'gps_number',index:'gps_number', editable:true,width:20, align:"left"},
   		{name:'is_use',index:'is_use', editable:false,width:20, align:"left"},
-  		{name:'company_id',index:'company_id',hidden:true,editable:true,width:20,align:"left"}
+  		{name:'company_id',index:'company_id',hidden:true,editable:false,width:20,align:"left"}
    	],
    	rowNum:10,
    	rowList:[10,20,30],
@@ -18,7 +18,7 @@ jQuery("#navgrid_gps").jqGrid({
     viewrecords: true,
     sortorder: "asc",
     caption:"GPS管理",
-    editurl:"index.php?a=7003",
+    editurl:"index.php?a=7003&company_id="+company_id,
 	height:"350",
 	width:"450"
 });

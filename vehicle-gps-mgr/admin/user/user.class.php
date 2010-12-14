@@ -268,7 +268,12 @@ class User extends BASE
 		foreach($this->data as $key=>$value){
 			$ids[$key] = $value[0];
 		}
-		return implode($ids,",");
+		if(count($ids)>0){
+			$result = implode($ids,",");
+		}else{
+			$result = false;
+		}
+		return $result;
 	}
 	
 	/**
