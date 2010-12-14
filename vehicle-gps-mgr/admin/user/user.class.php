@@ -230,6 +230,47 @@ class User extends BASE
 		return $this->data_list = $GLOBALS["db"]->query($this->sql);
 	}
 	
+	/*
+	 *  查询直属子业务员
+	 */
+	function get_explorers($user_id){
+		$this->sql = "select * from user where parent_id in(".$user_id.")";
+		return $this->data_list = $GLOBALS["db"]->query($this->sql);
+	}
+	
+	/**
+	 * 查询直属子业务员总数
+	 */
+	function get_count_exp($user_id){
+		$this->sql = "select count(*) from user where parent_id=".$user_id;
+		$count = $GLOBALS["db"]->query_once($this->sql);
+		return $count[0];
+	}
+	
+	/**
+	*		查询非子业务员总数
+	*		@param $
+	*		@return no
+	*/
+	function get_count_child($explorer_ids)
+	{
+		$this->sql = "select count(*) from user where explorer_id in(".$explorer_ids.")";
+		$count = $GLOBALS["db"]->query_once($this->sql);
+		return $count[0];
+	}
+	
+	/**
+	 * 查询子业务员ID
+	 */
+	function get_child_ids($explorer_ids){
+		$this->sql = "select id from user where parent_id in(".$explorer_ids.")";
+		$this->data = $GLOBALS['db']->query($this->sql);
+		foreach($this->data as $key=>$value){
+			$ids[$key] = $value[0];
+		}
+		return implode($ids,",");
+	}
+	
 	/**
 	 *  验证用户名是否存在
 	 *  @param $login_name 用户名

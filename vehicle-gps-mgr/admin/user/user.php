@@ -30,8 +30,12 @@ switch($act)
 		echo $db->display(null,"manage");
 		break;
 		
-	case "user_system":
+	case "user_system": //加载直属业务员html页面
 		echo $db->display(null,"system");	
+		break;
+		
+	case "user_child": //加载子业务员界面
+		echo $db->display(null,"child");	
 		break;
 		
 	case "list_data":		//用户管理html中，js文件会加载这个case，取得并输出数据
@@ -73,7 +77,6 @@ switch($act)
 				$searchstr = str_replace("'","",$searchstr);
 				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
 			}
-			//file_put_contents("a.txt",$wh);
 		}
 		
 		//得到所有用户
@@ -82,7 +85,7 @@ switch($act)
 		}else{
 			$result = $user->get_all_users($wh,$sidx,$sord,$start,$limit); //查询所有公司管理员权限及其以下用户
 		}
-//		file_put_contents("a.txt",$db->sql);
+
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
@@ -93,11 +96,136 @@ switch($act)
 			$state = $user->get_data("v_state");
 			$responce->rows[$key]['id']=$val['id'];
 			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['name'],
-																					$val['company_id'],$val['company_name'],$val['role_id'],$val['email'],$state,$val['role_name']
-//																					$val['backup1'],$val['backup2'],
-//																					$val['backup3'],$val['backup4'],$val['create_id'],
-//																					$val['create_time'],$val['update_id'],$val['update_time']
-																					);
+																					$val['company_id'],$val['company_name'],$val['role_id'],$val['email'],$state,$val['role_name']);
+		}
+
+		//打印json格式的数据
+		echo json_encode($responce);
+		break;
+		
+	case "direct_data":		//直属务员数据显示
+		$user	= new User();
+		$count = $user->get_count_exp(get_session("user_id"));//查询直属业务员总数
+
+		if( $count >0 ) {
+			$total_pages = ceil($count/$limit);
+		} else {
+			$total_pages = 0;
+		}
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		if ($start<0) $start = 0;
+
+		//得到字段类型
+		if(empty($searchfil) or empty($searchstr))
+			$wh = 'where 1=1 ';
+		else
+		{
+			$type = $user->get_type($searchfil);
+			$wh = "where 1=1 ";
+			switch($searchfil)
+			{
+				case "state":
+					$xml = new Xml("user","state");
+					$xmldata = $xml->get_array_xml();
+					$data = array_flip($xmldata);
+					$searchstr = $data[$searchstr];
+					break;
+			}
+			$searchstr = $db->prepare_value($searchstr,$type);
+			if($type == 'INT')
+			{
+				$wh .= "and ".$searchfil." = ".$searchstr;
+			}
+			else
+			{
+				$searchstr = str_replace("'","",$searchstr);
+				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
+			}
+			//file_put_contents("a.txt",$wh);
+		}
+		
+		//得到所有用户
+		$result = $user->get_explorers(get_session("user_id"));
+//		file_put_contents("a.txt",$db->sql);
+		$responce->page	= $page;
+		$responce->total = $total_pages;
+		$responce->records = $count;
+
+		foreach($result as	$key => $val)
+		{
+			$user = new User($val['id']);
+			$state = $user->get_data("v_state");
+			$responce->rows[$key]['id']=$val['id'];
+			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['name'],$val['email'],$state);
+		}
+
+		//打印json格式的数据
+		echo json_encode($responce);
+		break;	
+		
+	case "child_data": //获取所有子业务员
+		$user	= new User();	//模拟打印润色后的字符串值
+		$explorer_id = get_session('user_id');
+		/*
+		 * 获取所有子业务员总数
+		 */
+		$child_ids = $user->get_child_ids($explorer_id);//获取子业务员ID
+		$rtn = $user->get_explorers($explorer_id);
+		while($child_ids!=false && count($child_ids) > 0){
+			$rtn = array_merge($rtn,$user->get_explorers($child_ids));
+			$count = $count + $user->get_count_child($child_ids);//获取所有子业务员总数
+			$child_ids = $user->get_child_ids($child_ids);
+		}
+
+		if( $count >0 ) {
+			$total_pages = ceil($count/$limit);
+		} else {
+			$total_pages = 0;
+		}
+		if ($page > $total_pages) $page=$total_pages;
+		$start = $limit*$page - $limit;
+		if ($start<0) $start = 0;
+
+		//得到字段类型
+		if(empty($searchfil) or empty($searchstr))
+			$wh = 'where 1=1 ';
+		else
+		{
+			$type = $user->get_type($searchfil);
+			$wh = "where 1=1 ";
+			switch($searchfil)
+			{
+				case "state":
+					$xml = new Xml("user","state");
+					$xmldata = $xml->get_array_xml();
+					$data = array_flip($xmldata);
+					$searchstr = $data[$searchstr];
+					break;
+			}
+			$searchstr = $db->prepare_value($searchstr,$type);
+			if($type == 'INT')
+			{
+				$wh .= "and ".$searchfil." = ".$searchstr;
+			}
+			else
+			{
+				$searchstr = str_replace("'","",$searchstr);
+				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
+			}
+			//file_put_contents("a.txt",$wh);
+		}
+
+		$responce->page	= $page;
+		$responce->total = $total_pages;
+		$responce->records = $count;
+
+		foreach($rtn as	$key=>$val)
+		{
+			$user = new User($val['id']);
+			$state = $user->get_data("v_state");
+			$responce->rows[$key]['id']=$val['id'];
+			$responce->rows[$key]['cell']=array($val['id'],$val['login_name'],$val['name'],$val['email'],$state);
 		}
 
 		//打印json格式的数据
@@ -126,10 +254,16 @@ switch($act)
 		$arr["login_name"] = $db->prepare_value($_REQUEST['login_name'],"VARCHAR");
 		$arr["name"] = $db->prepare_value($_REQUEST['name'],"VARCHAR");
 		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
-		$arr["role_id"] = $db->prepare_value($_REQUEST['role'],"INT");	
+		
 		$arr["email"] = $db->prepare_value($_REQUEST['email'],"VARCHAR");
 		$arr["state"] = $db->prepare_value($_REQUEST['state'],"INT");
 		
+		if(get_session("identify_id")=="sysadmin" || get_session("identify_id")=="system"){
+			$arr['parent_id'] = $db->prepare_value(get_session('user_id'),"INT");
+			$arr["role_id"] = $db->prepare_value(2,"INT");	
+		}else{
+			$arr["role_id"] = $db->prepare_value($_REQUEST['role'],"INT");	
+		}
 		$user = new User($_REQUEST['id']);
 		switch($oper)
 		{

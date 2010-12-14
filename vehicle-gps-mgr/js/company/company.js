@@ -110,3 +110,48 @@ function processAddEdit(response){
 	}
 	return [success,message,0];
 }
+
+jQuery("#navgrid_company_child").jqGrid({
+   	url:'index.php?a=6010',
+	datatype: "json",
+	colNames:['ID','登录id', '公司名', '公司注册号','地区1(省)','地区2(市)','地区3(区、县)','描述','联系人名字','地址','邮编','电话','传真','移动电话','邮箱','网址','状态','服务开始时间','服务结束时间','收费标准','创建人','创建时间','更新人','更新时间'],
+   	colModel:[
+   		{name:'id',index:'id',hidden:true, width:55,align:"center",editable:false},
+		{name:'login_id',index:'login_id', width:55,align:"center",editable:false},
+		{name:'name',index:'name', width:55,align:"center",editable:false},
+		{name:'register_num',index:'register_num', width:55,align:"center",editable:false},
+		{name:'area1',index:'area1', hidden:true,width:55,align:"center",editable:false},
+		{name:'area2',index:'area2', hidden:true,width:55,align:"center",editable:false},
+		{name:'area3',index:'area3', hidden:true,width:55,align:"center",editable:false},
+		{name:'description',index:'description', hidden:true, width:55,align:"center",editable:false},
+		{name:'contact',index:'contact', width:55,align:"center",editable:false},
+		{name:'address',index:'address', hidden:true,width:55,align:"center",editable:false},
+		{name:'zipcode',index:'zipcode', hidden:true,width:55,align:"center",editable:false},
+		{name:'tel',index:'tel', width:55,align:"center",editable:false},
+		{name:'fax',index:'fax', hidden:true,width:55,align:"center",editable:false},
+		{name:'mobile',index:'mobile', hidden:true,width:55,align:"center",editable:false},
+		{name:'email',index:'email', width:55,align:"center",editable:false},
+		{name:'site_url',index:'site_url', hidden:true,width:55,align:"center",editable:false},
+		{name:'state',index:'state', width:55,align:"center",editable:false},
+	   	{name:'service_start_time',index:'service_start_time', width:80,align:"center",editable:false},
+	   	{name:'service_end_time',index:'service_end_time', width:80,align:"center",editable:false},
+		{name:'charge_standard',index:'charge_standard',width:55,align:"center",editable:false},
+		{name:'create_id',index:'create_id', hidden:true,width:55,align:"center",editable:false},
+		{name:'create_time',index:'create_time', hidden:true,width:55,align:"center",editable:false},
+		{name:'update_id',index:'update_id',hidden:true, width:55,align:"center",editable:false},
+		{name:'update_time',index:'update_time', hidden:true,width:55,align:"center",editable:false},
+
+   	],
+   	rowNum:10,
+   	rowList:[10,20,30],
+   	pager: '#pagernav_company_child',
+   	sortname: 'id',
+    viewrecords: true,
+    sortorder: "desc",
+    caption:"子公司管理",
+	height:"350",
+	width:"750"
+});
+jQuery("#navgrid_company_child").jqGrid('navGrid','#pagernav_company_child',
+	{edit:false, add:false, del:false,view:true,search:false}
+);

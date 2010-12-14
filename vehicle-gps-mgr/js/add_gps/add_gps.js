@@ -1,13 +1,15 @@
 $(":button").button();
+company_id = $("#companies option:selected").attr("id");
 
 jQuery("#navgrid_gps").jqGrid({
-   	url:'index.php?a=7002',
+   	url:'index.php?a=7002&company_id='+company_id,
 	datatype: "json",
-	colNames:['ID', 'GPS设备号', '是否可用'],
+	colNames:['ID', 'GPS设备号', '是否可用','公司ID'],
    	colModel:[
   		{name:'id',index:'id', width:20,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
   		{name:'gps_number',index:'gps_number', editable:true,width:20, align:"left"},
-  		{name:'is_use',index:'is_use', editable:false,width:20, align:"left"}
+  		{name:'is_use',index:'is_use', editable:false,width:20, align:"left"},
+  		{name:'company_id',index:'company_id',hidden:true,editable:true,width:20,align:"left"}
    	],
    	rowNum:10,
    	rowList:[10,20,30],
@@ -49,3 +51,10 @@ function processAddEdit(response){
 	}
 	return [success,message,0];
 }
+
+//切换公司获取公司GPS设备列表
+$("#companies").change(function(){
+	var company_id = $("#companies option:selected").attr("id");
+	var url = "index.php?a=7002&company_id="+company_id;
+	jQuery("#navgrid_gps").jqGrid('setGridParam',{url:url}).trigger("reloadGrid"); //获取新数据刷新JQGrid
+});

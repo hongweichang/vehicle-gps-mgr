@@ -58,22 +58,35 @@ class Company
 	*		@param $id 
 	*		@return no
 	*/
-	function get_all_companys($wh="",$sidx="",$sord="",$start="",$limit="")
+	function get_all_companys($explorer_ids,$wh="",$sidx="",$sord="",$start="",$limit="")
 	{
-		$this->sql = "select * from ".$this->tablename." ".$wh." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		//$this->sql = "select * from ".$this->tablename." ".$wh." and explorer_id in(".$explorer_ids.") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->sql = "select * from ".$this->tablename." WHERE explorer_id in(".$explorer_ids.")";
 		return $this->data = $GLOBALS["db"]->query($this->sql);
 	}
 
 	/**
-	*		查询所有人员
+	*		查询所有公司总数
 	*		@param $
 	*		@return no
 	*/
-	function get_all_count()
+	function get_all_count($explorer_ids)
 	{
-		$this->sql = "select count(*) from ".$this->tablename;
+		$this->sql = "select count(*) from ".$this->tablename." where explorer_id in(".$explorer_ids.")";
 		$count = $GLOBALS["db"]->query_once($this->sql);
 		return $count[0];
+	}
+	
+	/**
+	 * 查询子业务员ID
+	 */
+	function get_child_ids($explorer_ids){
+		$this->sql = "select id from user where parent_id in(".$explorer_ids.")";
+		$this->data = $GLOBALS['db']->query($this->sql);
+		foreach($this->data as $key=>$value){
+			$ids[$key] = $value[0];
+		}
+		return implode($ids,",");
 	}
 
 	/**
@@ -136,23 +149,15 @@ class Company
 	 * @$rtn 公司ID
 	 */
 	function add_admin($rtn){
-		//默认公司平台管理员
-		$admin['login_name'] = $GLOBALS['db']->prepare_value("sysadmin","VARCHAR");
-		$admin['password'] = $GLOBALS['db']->prepare_value("111111","VARCHAR");
-		$admin['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
-		$admin['role_id'] = $GLOBALS['db']->prepare_value(2,"INT");
-		$admin['state'] = $GLOBALS['db']->prepare_value(1,"INT");
-		
 		//默认公司内部管理员
 		$normal['login_name'] = $GLOBALS['db']->prepare_value("admin","VARCHAR");
 		$normal['password'] = $GLOBALS['db']->prepare_value("111111","VARCHAR");
 		$normal['company_id'] = $GLOBALS['db']->prepare_value($rtn,"INT");
 		$normal['role_id'] = $GLOBALS['db']->prepare_value(3,"INT");
 		$normal['state'] = $GLOBALS['db']->prepare_value(1,"INT");
-		
-		$r1 = $GLOBALS['db']->insert_row("user",$admin);
-		$r2 = $GLOBALS['db']->insert_row("user",$normal);
-		if($r1 && $r2)
+
+		$result = $GLOBALS['db']->insert_row("user",$normal);
+		if($result)
 			return true;
 		return false;
 	}
