@@ -46,3 +46,8 @@ $("#pass_commit").click(function(){
 		});
 	}
 });
+
+//重置事件
+$("#reset_password").click(function(){
+	$(".input").val("");
+});
