@@ -14,6 +14,8 @@ $page = $_REQUEST['page']; // get the requested page
 $limit = $_REQUEST['rows']; // get how many rows we want to have into the grid
 $sidx = $_REQUEST['sidx']; // get index row - i.e. user click to sort
 $sord = $_REQUEST['sord']; // get the direction
+$par = $_REQUEST["par"];
+$child = $_REQUEST["child"];
 $searchfil = $_REQUEST['searchField']; // get the direction
 $searchstr = $_REQUEST['searchString']; // get the direction
 
@@ -192,7 +194,7 @@ switch($act)
 						$vehicle = new Vehicle_group();
 	
 						$result = $vehicle->add_vehicle_group_by_company($rtn,$_REQUEST["name"]);
-						$add = $comp->add_admin($rtn);//添加两个默认帐户，公司平台管理员和公司内部管理员
+						$add = $comp->add_admin($rtn);//添加公司内部管理员
 	
 						if($result == 1 && $add)		//对应的公司已经有车辆组
 						{
@@ -276,6 +278,26 @@ switch($act)
 				break;
 		}
 //		file_put_contents("d:\a.txt",$GLOBALS['db']->sql);
+		break;
+		
+	case "select":		//下拉列表
+		$p = $_REQUEST["p"];		//获得需要翻译的字段
+		$company = new Company();
+		switch($p)
+		{
+			case "state"://公司状态(激活与未激活)
+				if(!$par or !$child)
+				{
+					$par = "company";
+					$child = "state";
+				}
+				
+			//读取xml
+			$xml = new Xml($par,$child);
+			$html = $xml->get_html_xml();
+			break;
+		}
+		echo $html;
 		break;
 }
 ?>

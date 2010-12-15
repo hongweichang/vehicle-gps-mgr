@@ -19,7 +19,7 @@ jQuery("#navgrid_company").jqGrid({
 		{name:'mobile',index:'mobile', hidden:true,width:55,align:"center",editable:true,editoptions:{size:11,maxlength:11},editrules:{edithidden:true}},
 		{name:'email',index:'email', width:55,align:"center",editable:true,editoptions:{size:30,maxlengh:30},formoptions:{elmsuffix:"(*)"},editrules:{required:true,email:true}},
 		{name:'site_url',index:'site_url', hidden:true,width:55,align:"center",editable:true,editoptions:{size:50,maxlength:50},editrules:{edithidden:true}},
-		{name:'state',index:'state', width:55,align:"center",editable:true,edittype:"select",editoptions:{value:"0:未激活;1:激活"}},
+		{name:'state',index:'state', width:55,align:"center",editable:true,editrules:{required:true},edittype:"select",editoptions:{dataUrl:'index.php?a=6041&p=state'}},
 	   	{name:'service_start_time',index:'service_start_time', width:80,align:"center",
 			editable:true,
 			editoptions:{size:17,

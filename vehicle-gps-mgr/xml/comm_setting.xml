@@ -30,7 +30,7 @@
 		<!--状态-->
 		<state>
 			<item value="1" displayText="激活" />
-			<item value="0" displayText="未激活" />
+			<item value="0" displayText="未激活" />	
 		</state>
 	</company>
 
