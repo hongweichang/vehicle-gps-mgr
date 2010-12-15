@@ -123,8 +123,8 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				if(strlen($_REQUEST['gps_number']."")!=11 || !is_numeric($_REQUEST['gps_number']."")){
-					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
+				if(!is_numeric($_REQUEST['gps_number']."")){
+					exit(json_encode(array('success'=>false,'errors'=>'gps必须为数字,请重新输入!')));
 				}//校验GPS号格式与长度
 				
 				$arr['user_id'] =  $db->prepare_value(get_session("user_id"),"INT");	
@@ -133,8 +133,8 @@ switch($act)
 				echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
 				break;
 			case "edit":	//修改
-				if(strlen($_REQUEST['gps_number']."")!=11 || !is_numeric($_REQUEST['gps_number']."")){
-					exit(json_encode(array('success'=>false,'errors'=>'gps必须为11位数字,请重新输入!')));
+				if(!is_numeric($_REQUEST['gps_number']."")){
+					exit(json_encode(array('success'=>false,'errors'=>'gps必须为数字,请重新输入!')));
 				}//校验GPS号格式与长度
 				
 				$add_gps->edit_gps($_REQUEST['gps_number'],$_REQUEST['id']);
