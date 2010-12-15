@@ -40,7 +40,4 @@
 	 -->
 	<row><cell>15</cell><cell>用户管理</cell><cell></cell><cell>0</cell><cell>61</cell><cell>70</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>16</cell><cell>用户</cell><cell>index.php?a=1001</cell><cell>1</cell><cell>62</cell><cell>63</cell><cell>true</cell><cell>true</cell></row>
-    
-    <row><cell>17</cell><cell>界面管理</cell><cell></cell><cell>0</cell><cell>81</cell><cell>90</cell><cell>false</cell><cell>false</cell></row>
-    <row><cell>18</cell><cell>首页LOGO</cell><cell>index.php?a=5030</cell><cell>1</cell><cell>82</cell><cell>83</cell><cell>true</cell><cell>true</cell></row>
 </rows>
