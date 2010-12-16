@@ -13,12 +13,12 @@
     <row><cell>4</cell><cell>直属公司</cell><cell>index.php?a=5003</cell><cell>1</cell><cell>12</cell><cell>13</cell><cell>true</cell><cell>true</cell></row>
     <row><cell>5</cell><cell>所有公司</cell><cell>index.php?a=6011</cell><cell>1</cell><cell>14</cell><cell>15</cell><cell>true</cell><cell>true</cell></row>
     
-    	<!-- 公司管理 -->
+    <!-- 业务员管理 -->
 	<row><cell>6</cell><cell>业务员管理</cell><cell></cell><cell>0</cell><cell>21</cell><cell>30</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>7</cell><cell>直属业务员</cell><cell>index.php?a=1009</cell><cell>1</cell><cell>22</cell><cell>23</cell><cell>true</cell><cell>true</cell></row>
     <row><cell>8</cell><cell>所有业务员</cell><cell>index.php?a=6020</cell><cell>1</cell><cell>24</cell><cell>25</cell><cell>true</cell><cell>true</cell></row>
     
-	<!-- 首页消息管理 -->
+	<!-- GPS设备管理 -->
 	<row><cell>9</cell><cell>GPS设备管理</cell><cell></cell><cell>0</cell><cell>31</cell><cell>40</cell><cell>false</cell><cell>false</cell></row>
     <row><cell>10</cell><cell>直属设备</cell><cell>index.php?a=7001</cell><cell>1</cell><cell>32</cell><cell>33</cell><cell>true</cell><cell>true</cell></row>
     <row><cell>11</cell><cell>所有设备</cell><cell>index.php?a=6031</cell><cell>1</cell><cell>34</cell><cell>35</cell><cell>true</cell><cell>true</cell></row>

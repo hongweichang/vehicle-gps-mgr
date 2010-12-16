@@ -58,8 +58,15 @@ switch($act)
 		echo $db->display($arr,$act);
 		break;
 		
+	case "company": //具体公司GPS主页面
+		echo $db->display(null,$act);
+		break;
+		
 	case "list_gps"://显示GPS设备号列表
 		$company_id = $_GET['company_id'];
+		if($company_id == false || $company_id == "undefined"){
+			$company_id = get_session("company_id");
+		}
 		$count = $add_gps->get_count_gps($company_id);//查询登录公司所有GPS设备总数
 
 		if( $count >0 ) {
@@ -116,9 +123,14 @@ switch($act)
 		
 	case "operator":
 		$oper = $_REQUEST['oper'];
+		if($_REQUEST['company_id'] == false || $_REQUEST['company_id'] == "undefined"){
+			$company_id = get_session("company_id");
+		}else{
+			$company_id = $_REQUEST['company_id'];
+		}
 		
 		$arr["gps_number"] = $db->prepare_value($_REQUEST['gps_number'],"VARCHAR");
-		$arr['company_id'] =  $db->prepare_value($_REQUEST['company_id'],"INT");			
+		$arr['company_id'] =  $db->prepare_value($company_id,"INT");			
 		
 		switch($oper)
 		{
