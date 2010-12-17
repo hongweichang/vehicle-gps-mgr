@@ -17,6 +17,6 @@
   else
   {
   	//用户已经成功登录，如果访问功能（文件）不存在，则直接跳到首页
-  	goto_url(URL("user","user.php","login_success"));
+  	goto_url(URL("home_page","home_page.php","list"));
   }
 ?>
