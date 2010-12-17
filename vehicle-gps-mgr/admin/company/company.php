@@ -8,6 +8,8 @@
 * @modify date		修改日期
 * @modify describe	修改内容
 */
+
+require '/setting/setting.class.php';
 $act = $GLOBALS["all"]["operate"];
 
 $page = $_REQUEST['page']; // get the requested page
@@ -18,6 +20,9 @@ $par = $_REQUEST["par"];
 $child = $_REQUEST["child"];
 $searchfil = $_REQUEST['searchField']; // get the direction
 $searchstr = $_REQUEST['searchString']; // get the direction
+
+//创建设置对象
+$set = new Setting(get_session("company_id"));
 
 if(!$sidx) $sidx =1;
 
@@ -143,6 +148,7 @@ switch($act)
 			// 添加数据
 			case "add":
 				{
+					 
 					//获取各种数据
 					$parms["id"]				= $GLOBALS['db']->prepare_value($_REQUEST["id"],"INT"); 
 					$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"VARCHAR"); 
@@ -186,7 +192,38 @@ switch($act)
 					
 					//执行更新
 					$rtn = $comp->add_data($parms,"id");
-	
+					
+					//添加默认速度颜色
+					foreach($init_speed_color as $key=>$speed){
+						
+						$com_sparms["company_id"]		= $GLOBALS['db']->prepare_value($rtn,"INT");
+						$com_sparms["min"]				= $GLOBALS['db']->prepare_value($speed['min'],"INT");
+						$com_sparms["max"]				= $GLOBALS['db']->prepare_value($speed['max'],"INT");
+						$com_sparms["color"]			= $GLOBALS['db']->prepare_value($speed['color'],"CHAR");
+						$com_sparms["create_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+						$com_sparms["create_time"]		= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+						$com_sparms["update_id"]		= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+						$com_sparms["update_time"]		= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+						
+						$rss = $set->add_speed_color($com_sparms);  
+					}
+					
+					//添加默认设置
+					$set_sparm["company_id"]		    = $GLOBALS['db']->prepare_value($rtn,"INT");
+					$set_sparm["page_refresh_time"]		= $GLOBALS['db']->prepare_value($default_setting['page_refresh_time'],"INT");
+					$set_sparm["default_color"]			= $GLOBALS['db']->prepare_value($default_setting['default_color'],"CHAR");
+					$set_sparm["speed_astrict"]			= $GLOBALS['db']->prepare_value($default_setting['speed_astrict'],"FLOAT");
+					$set_sparm["fatigue_remind_time"]	= floor($GLOBALS['db']->prepare_value($default_setting['fatigue_remind_time'],"FLOAT")*60);
+					
+					$set_sparm["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+					$set_sparm["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+					$set_sparm["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
+					$set_sparm["update_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
+					
+					 
+					$set->add_setting($set_sparm);	
+					
+					
 					if($rtn > 1)
 					{
 						//查一下是否已经车辆组，如果没有，则添加一个默认的

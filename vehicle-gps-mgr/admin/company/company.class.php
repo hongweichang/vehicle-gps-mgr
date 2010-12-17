@@ -112,14 +112,24 @@ class Company
 	*/
 	function delete_data($parms,$wh="")
 	{
+		//删除公司
 		$pk = array_keys($parms);
 		$this->sql = "delete from ".$this->tablename." where ".$pk[0]." = ".$parms[$pk[0]]." ".$wh;
 		$r1 = $GLOBALS["db"]->query($this->sql);
 		
+		//删除用户
 		$this->sql = "delete from user where company_id = ".$parms['id'];
 		$r2 = $GLOBALS["db"]->query($this->sql);
 		
-		if($r1 && $r2){
+		//删除速度颜色对应数据
+		$this->sql = "delete from speed_color where company_id = ".$parms['id'];
+		$r3 = $GLOBALS["db"]->query($this->sql);
+		
+		//删除配置数据
+		$this->sql = "delete from common_setting where company_id = ".$parms['id'];
+		$r4 = $GLOBALS["db"]->query($this->sql);
+		
+		if($r1 && $r2 && $r3 && $r4){
 			return true;
 		}
 		
