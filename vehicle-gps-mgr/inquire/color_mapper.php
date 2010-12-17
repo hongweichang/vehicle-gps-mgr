@@ -1,4 +1,6 @@
 <?php
+
+	
 class Color_mapper
 {
 	private $tablename_common_setting = "common_setting";
@@ -8,16 +10,15 @@ class Color_mapper
 	 * 根据行车速度得到相应的颜色值
 	 * @param unknown_type $speed
 	 */
-	function get_color($speed, $company_id)
+	function get_color($speed, $company_id)	
 	{
-		//查看Session中是否有关于速度颜色映射的信息
+		//查看$speed_color_list中是否有关于速度颜色映射的信息
 		//如果有，则直接利用
-		if($_SESSION["speed_color"])
+		if(isset($this->speed_color_list))
 		{
-			$speed_color_list = $_SESSION["speed_color"];
 			return $this->get_color_by_speed($speed, $speed_color_list,$company_id);
 		}
-		else //如果没有，则从数据库中查询出来，然后设置到Session中
+		else //如果没有，则从数据库中查询出来，然后设置到$speed_color_list中
 		{
 			//查询数据库
 			$sql = sprintf("select min, max, color from speed_color where company_id = %d", $company_id);
@@ -29,7 +30,6 @@ class Color_mapper
 				$speed_color_list[$speedStr] = $value['color'];		
 			}
 			
-			//$_SESSION["speed_color"] = $speed_color_list;
 			return $this->get_color_by_speed($speed, $speed_color_list,$company_id);
 		} 
 	}
@@ -60,16 +60,17 @@ class Color_mapper
 	 * @param unknown_type $company_id
 	 */
 	private function get_default_color($company_id=-1){
+			 require('include/config.php');
 		
-			$sql = "select default_color from ".$this->tablename_common_setting." where company_id =".$company_id;
+			  $sql = "select default_color from ".$this->tablename_common_setting." where company_id =".$company_id;
 			  $common_setting = $GLOBALS["db"]->query_once($sql);
 			  
 			  $color = null;
-			  if(!isset($common_setting['default_color'])) 
-			  	 	$color = "Bec0C2";
-			  else
+			  if(!isset($common_setting['default_color'])){ 
+			  	 	$color = $default_setting['default_color'];
+			  }else{
 			  	    $color = $common_setting['default_color'];
-			  
+			  }
 			  return $color;
 	}
 }

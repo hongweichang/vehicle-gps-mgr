@@ -34,6 +34,7 @@ class Position_parser
 	private $first_gps_id;
 	private $time; //时间
 	private $TIME_BASE_LINE = "2010-11-10 22:00:00"; //从2010年11月11日起，轨迹信息文件按照gps设备的尾号分别存储。
+	private $color_mapper;
 	
 	private $info_list = array();
 	
@@ -46,11 +47,14 @@ class Position_parser
 	 */
 	function __construct($company_id, $vehicle_id, $time)
 	{
+		$this->color_mapper = new Color_mapper();
+		
 		$this->company_id = $company_id;
 		$this->time = $time;
 		$this->gps_id = $this->get_gps_id($vehicle_id);
 		$this->index = $this->get_file_index($this->gps_id,$this->time);
 		
+	
 		$filepath = $this->get_logfile_path($time, $this->gps_id);
 		
 		//当文件存在的时候采取读，直接打开有时候服务器会长时间无反应
@@ -128,7 +132,7 @@ class Position_parser
 	private function readLineData()
 	{
 		$vehicle_status = new Vehicle_status();
-		$color_mapper = new Color_mapper();
+
 		if($this->file)
 		{
 			fseek($this->file,$this->index);
@@ -150,7 +154,7 @@ class Position_parser
 				/**方向*/
 				$trace_info->direction = $data_list[12]; 
 				/**颜色*/
-				$trace_info->color = $color_mapper->get_color($trace_info->speed, $this->company_id); 
+				$trace_info->color = $this->color_mapper->get_color($trace_info->speed, $this->company_id); 
 				/**地址描述*/
 				//$trace_info->location_desc = $vehicle_status->get_location_desc($trace_info->longitude, $trace_info->latitude); 
 				/**图片路径*/
