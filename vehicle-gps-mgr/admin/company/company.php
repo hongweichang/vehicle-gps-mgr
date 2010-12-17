@@ -9,7 +9,7 @@
 * @modify describe	修改内容
 */
 
-require '/setting/setting.class.php';
+require_once ("setting/setting.class.php");
 $act = $GLOBALS["all"]["operate"];
 
 $page = $_REQUEST['page']; // get the requested page
