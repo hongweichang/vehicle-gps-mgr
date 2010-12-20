@@ -29,15 +29,7 @@ if(!$sidx) $sidx =1;
 switch($act)
 {
 	case "list": //GPS主页面
-		$user_id = get_session("user_id");
-		$companies = $add_gps->get_companies($user_id);
-		$arr['company_list'] = false;
-		//将所有公司传到前台页面下拉列表显示
-		foreach($companies as $key=>$value){
-			$arr['company_list'] = $arr['company_list']."<option id=".$value['id'].">".$value['name']."</option>";
-		}
-		
-		echo $db->display($arr,$act);
+		echo $db->display(null,$act);
 		break;
 		
 	case "child": //子业务员管辖GPS主页面
@@ -49,7 +41,7 @@ switch($act)
 			$rtn = array_merge($rtn,$comp->get_all_companys($child_ids));
 			$child_ids = $comp->get_child_ids($child_ids);
 		}
-		$arr['company_list'] = false;
+		$arr['company_list'] = "<option id='all'>全部</option>";
 		//将所有公司传到前台页面下拉列表显示
 		foreach($rtn as $key=>$value){
 			$arr['company_list'] = $arr['company_list']."<option id=".$value['id'].">".$value['name']."</option>";
@@ -63,20 +55,7 @@ switch($act)
 		break;
 		
 	case "list_gps"://显示GPS设备号列表
-		$company_id = $_GET['company_id'];
-		if($company_id == false || $company_id == "undefined"){
-			$company_id = get_session("company_id");
-		}
-		$count = $add_gps->get_count_gps($company_id);//查询登录公司所有GPS设备总数
-
-		if( $count >0 ) {
-			$total_pages = ceil($count/$limit);
-		} else {
-			$total_pages = 0;
-		}
-		if ($page > $total_pages) $page=$total_pages;
-		$start = $limit*$page - $limit;
-		if ($start<0) $start = 0;
+		$action = $_REQUEST['action'];
 
 		//得到字段类型
 		if(empty($searchfil) or empty($searchstr))
@@ -99,8 +78,69 @@ switch($act)
 				$wh .= "and ".$searchfil." like '%".$searchstr."%'";
 			}
 		}
-		//得到所有gps设备
-		$result = $add_gps->get_all_gps($company_id,$wh,$sidx,$sord,$start,$limit);
+		
+		switch ($action){
+			case "company":
+				$company_id = get_session("company_id");
+				$count = $add_gps->get_count_gps($company_id);//查询登录公司所有GPS设备总数
+				
+				if( $count >0 ) {
+					$total_pages = ceil($count/$limit);
+				} else {
+					$total_pages = 0;
+				}
+				if ($page > $total_pages) $page=$total_pages;
+				$start = $limit*$page - $limit;
+				if ($start<0) $start = 0;
+				
+				$result = $add_gps->get_all_gps($company_id,$wh,$sidx,$sord,$start,$limit);
+				break;
+			case "child":
+				if($_REQUEST['company_id'] == "all"){											
+					$count = $add_gps->get_offer_gps_count($user_id);
+					
+					if( $count >0 ) {
+						$total_pages = ceil($count/$limit);
+					} else {
+						$total_pages = 0;
+					}
+					if ($page > $total_pages) $page=$total_pages;
+					$start = $limit*$page - $limit;
+					if ($start<0) $start = 0;
+					
+					$result = $add_gps->get_offer_gps($user_id,$wh,$sidx,$sord,$start,$limit);
+				}else{
+					$company_id = $_REQUEST['company_id'];
+					$count = $add_gps->get_count_gps($company_id);//查询登录公司所有GPS设备总数
+					
+					if( $count >0 ) {
+						$total_pages = ceil($count/$limit);
+					} else {
+						$total_pages = 0;
+					}
+					if ($page > $total_pages) $page=$total_pages;
+					$start = $limit*$page - $limit;
+					if ($start<0) $start = 0;
+					
+					$result = $add_gps->get_all_gps($company_id,$wh,$sidx,$sord,$start,$limit);
+				}
+				break;
+			case "direct":
+				$count = $add_gps->get_offer_gps_count($user_id);
+				
+				if( $count >0 ) {
+						$total_pages = ceil($count/$limit);
+				} else {
+					$total_pages = 0;
+				}
+				if ($page > $total_pages) $page=$total_pages;
+				$start = $limit*$page - $limit;
+				if ($start<0) $start = 0;
+				
+				$result = $add_gps->get_offer_gps($user_id,$wh,$sidx,$sord,$start,$limit);
+				break;
+		}
+		
 		$responce->page	= $page;
 		$responce->total = $total_pages;
 		$responce->records = $count;
@@ -114,9 +154,12 @@ switch($act)
 				$is_use = "使用中";
 			}
 			$responce->rows[$key]['id']=$val['id'];
-			$responce->rows[$key]['cell']=array($val['id'],$val['gps_number'],$is_use,$val['company_id']);
+			if("direct" == $action){
+				$responce->rows[$key]['cell']=array($val['id'],$val['gps_number'],$is_use,$val['company_name']);
+			}else{
+				$responce->rows[$key]['cell']=array($val['id'],$val['gps_number'],$is_use,$val['company_id']);	
+			}
 		}
-
 		//打印json格式的数据
 		echo json_encode($responce);
 		break;
@@ -127,6 +170,7 @@ switch($act)
 			$company_id = get_session("company_id");
 		}else{
 			$company_id = $_REQUEST['company_id'];
+			set_session("gps_company",$company_id);
 		}
 		
 		$arr["gps_number"] = $db->prepare_value($_REQUEST['gps_number'],"VARCHAR");
@@ -142,7 +186,7 @@ switch($act)
 				$arr['user_id'] =  $db->prepare_value(get_session("user_id"),"INT");	
 				$arr["state"] = $db->prepare_value(0,"TINYINT");
 				$add_gps->add_gps_number($arr);
-				echo json_encode(array('success'=>true,'errors'=>'添加成功!'));
+				echo json_encode(array('success'=>true,'errors'=>'添加成功!','company_id'=>$company_id));
 				break;
 			case "edit":	//修改
 				if(!is_numeric($_REQUEST['gps_number']."")){
@@ -160,6 +204,19 @@ switch($act)
 		}
 		break;
 		
+	case "select": //下拉列表	
+		$oper = $_REQUEST['p'];
+		switch ($oper){
+			case "company_name"://公司名下拉列表
+				$companies = $add_gps->get_companies($user_id);
+				$result = "<select id='company_names' name=".get_session('gps_company').">";
+				foreach($companies as $key=>$value){
+					$result = $result."<option value=".$value['id'].">".$value['name']."</option>";
+				}
+				$result = $result."</select>";
+				break;
+		}
+		echo $result;
 	break;
 }
 

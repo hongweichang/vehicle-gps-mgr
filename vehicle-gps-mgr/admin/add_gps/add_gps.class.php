@@ -91,12 +91,50 @@ class add_gps extends BASE
 	}
 	
 	/**
-	 * 查询所有的GPS设备
+	 * 查询公司所有的GPS设备
 	 */
 	function get_all_gps($company_id,$wh,$sidx,$sord,$start,$limit){
 		$this->sql = "select * from ".$this->tablename." ".$wh." and company_id = ".$company_id." order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
 		return $this->data = $GLOBALS["db"]->query($this->sql);
 	}
+	
+	/**
+	 * 查询业务员所有GPS设备
+	 */
+	function get_offer_gps($explorer_id,$wh,$sidx,$sord,$start,$limit){
+		$sql = "select id from company where explorer_id = ".$explorer_id;
+		$result = $GLOBALS['db']->query($sql);
+		
+		if($result){
+			foreach($result as $key=>$value){
+				$company_ids[$key] = $value[0];
+			}
+		}
+		$company_ids = implode($company_ids,",");
+		
+		$this->sql = "select g.*,c.name company_name from gps_equipment g left join company c on g.company_id = c.id where g.company_id in(".$company_ids.") order by ".$sidx." ". $sord." LIMIT ".$start." , ".$limit;
+		$this->data = $GLOBALS['db']->query($this->sql);
+		return $this->data;
+	}
+	
+	/*
+	 * 查询业务员所有GPS设备总数
+	 */
+	function get_offer_gps_count($explorer_id){
+		$sql = "select id from company where explorer_id = ".$explorer_id;
+		$result = $GLOBALS['db']->query($sql);
+		
+		if($result){
+			foreach($result as $key=>$value){
+				$company_ids[$key] = $value[0];
+			}
+		}
+		$company_ids = implode($company_ids,",");
+		
+		$this->sql = "select count(*) from gps_equipment where company_id in(".$company_ids.")";
+		$this->data = $GLOBALS['db']->query_once($this->sql);
+		return $this->data[0];
+	}	
 	
 	/**
 	 * 查询所有GPS总数

@@ -1,12 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//Dth XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/Dth/xhtml1-transitional.dth">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link type="text/css" href="css/vehicle_list.css"  media="screen" rel="stylesheet" />
+</head>
 
- 选择公司：
-<select id="companies">
-	{{company_list}}			
-</select>
-
-<div id="show_gps">
+<body>
 	<table id="navgrid_gps"></table>
 	<div id="pagernav_gps"></div>
-</div>
-
-<script src="js/add_gps/add_gps.js" type="text/javascript"></script>
+	
+	<div id="add_gps" class="gpses">
+		<div class="content border">
+			<div class="content_title">
+				<label for="gps_number_add">GPS设备号</label>
+			</div>
+			<div class="content_value">
+				<input type="text" id="gps_number_add" /><span id="check_gps_add"></span>
+			</div>
+		</div>
+		<div class="content bb">
+			<div class="content_title">
+				<label for="companies_add">公司</label>
+			</div>
+			<div id="companies_add" class="content_value"></div>
+		</div>
+		<div class="submit_pass">
+			<button id="commit_add">提交</button>
+		</div>
+	</div>
+	
+	<div id="edit_gps" class="gpses">
+		<div class="content border">
+			<div class="content_title">
+				<label for="gps_number_edit">GPS设备号</label>
+			</div>
+			<div class="content_value">
+				<input type="text" id="gps_number_edit" /><span id="check_gps_edit"></span>
+			</div>
+		</div>
+		<div class="submit_pass">
+			<button id="commit_edit">提交</button>
+		</div>
+	</div>   
+	
+	<script src="js/add_gps/add_gps.js" type="text/javascript"></script>
+</body>
+</html>

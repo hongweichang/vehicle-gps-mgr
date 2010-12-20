@@ -148,6 +148,9 @@
 			case "identify_id":
 				return $_SESSION["identify_id"] = $value;
 				break;
+			case "gps_company":
+				return $_SESSION["gps_company"] = $value;
+				break;
 		}
 	}
 
@@ -175,6 +178,9 @@
 				break;
 			case "identify_id":
 				return $_SESSION["identify_id"];
+				break;
+			case "gps_company":
+				return $_SESSION["gps_company"];
 				break;
 		}
 	}

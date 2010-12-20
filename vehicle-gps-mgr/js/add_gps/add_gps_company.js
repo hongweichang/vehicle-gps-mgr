@@ -1,5 +1,5 @@
 jQuery("#navgrid_gps").jqGrid({
-   	url:'index.php?a=7002',
+   	url:'index.php?a=7002&action=company',
 	datatype: "json",
 	colNames:['ID', 'GPS设备号', '是否可用','公司ID'],
    	colModel:[
