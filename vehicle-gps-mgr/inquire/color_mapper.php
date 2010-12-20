@@ -14,7 +14,7 @@ class Color_mapper
 	{
 		//查看$speed_color_list中是否有关于速度颜色映射的信息
 		//如果有，则直接利用
-		if(isset($this->speed_color_list))
+		if(count($this->speed_color_list)>0)
 		{
 			return $this->get_color_by_speed($speed, $speed_color_list,$company_id);
 		}
