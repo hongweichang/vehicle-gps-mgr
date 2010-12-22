@@ -142,13 +142,27 @@ switch($act)
 
 		// 取到当前的操作
 		$oper = $_REQUEST["oper"];
+		
+		//验证数据格式是否为数字
+		$check_arr['电话'] = $_REQUEST['tel'];
+		$check_arr['移动电话'] = $_REQUEST['mobile'];
+		$check_arr['邮编'] = $_REQUEST['zipcode'];
+		$check_arr['传真'] = $_REQUEST['fax'];
+		$check_arr['邮费标准'] = $_REQUEST['charge_standard'];
+		
+		foreach($check_arr as $key=>$value){
+			if(!empty($value) && !is_numeric($value)){
+				exit(json_encode(array('success'=>false,'errors'=>''.$key.'必须为数字!')));
+				break;
+			}
+		}
 
 		switch($oper)
 		{
 			// 添加数据
 			case "add":
 				{
-					 
+					
 					//获取各种数据
 					$parms["id"]				= $GLOBALS['db']->prepare_value($_REQUEST["id"],"INT"); 
 					$parms["login_id"]			= $GLOBALS['db']->prepare_value($_REQUEST["login_id"],"VARCHAR"); 
