@@ -367,7 +367,16 @@ class Vehicle_status extends BASE
     				 (minlong<=".$long." and maxlong>=".$long.") and (minlat<=".$lat." and maxlat>=".$lat.")";
     	$result = $GLOBALS['db']->query($this->sql);
     	if($result){
-    		$long = $result[0][0]+$long;
+    		
+    		//取经度最小的值
+    		$data_count = count($result);
+    		$long_array = array($data_count); 
+    		for($i=0;$i<$data_count;$i++){
+    			$long_array[$i] = $result[$i][0];
+    		}
+    		
+    		$long = min($long_array) + $long;
+    		//$long = $result[0][0]+$long;
     		$lat = $result[0][1]+$lat;
     	}
     }
