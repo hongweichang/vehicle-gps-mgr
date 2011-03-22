@@ -11,6 +11,14 @@
 //子页面对象   iframe
 var home_map =  document.getElementById("home_map_frame").contentWindow;
 
+var map_type = "google";
+
+var type = new Array(); //所有地图类型数组
+
+type ['google'] = "谷歌地图";
+type ['51ditu'] = "51地图";
+
+
 //初始化
 $(document).ready(function() {
 	show_as_date();
@@ -83,6 +91,26 @@ $(document).ready(function() {
 	 
 	alertInfo();
 });
+
+//切换地图
+function change_map(){
+	var show_text = formart_map_type(map_type);
+	$("#change_map").text(show_text);
+	
+	if("51ditu" == map_type){
+		map_type = "google";
+
+		document.getElementById("home_map_frame").src = "templates/google_map.html";
+	}else{
+		map_type = "51ditu";
+		
+		document.getElementById("home_map_frame").src = "templates/home_map.html";
+	}
+}
+
+function formart_map_type(type_name){
+	return type[type_name];
+}
 
 	 
 	var id=0;
