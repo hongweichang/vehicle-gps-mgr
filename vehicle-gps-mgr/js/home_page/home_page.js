@@ -300,4 +300,8 @@ function show_as_date(){
 		$("#update_company_position").dialog('close');
 	});
 	
+	function update_position_close(){
+		$("#update_company_position").dialog('close');
+	}
+	
 	
