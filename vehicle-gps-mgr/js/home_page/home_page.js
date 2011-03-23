@@ -297,7 +297,7 @@ function show_as_date(){
 	
 	//关闭公司标注输入框
 	$("#update_cancle").click(function(){
-		$("#update_company_position").dialog('close');
+		update_position_close();
 	});
 	
 	function update_position_close(){
