@@ -441,7 +441,6 @@
 	 * @return
 	 */
 	function refresh_map_page(){
-		
 		//定时刷新未勾选上
 		if (!$("#location_refresh",parent.document).attr('checked'))return false;
 		
