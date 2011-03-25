@@ -61,12 +61,6 @@ function load_map(latlng) {
 
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 	
-	var content = "<div id='show_info_div'>正在载入....</div>";
-	
-	info = new google.maps.InfoWindow({
-		content: content
-	});
-	
 	var ltmControlDiv = document.createElement('DIV');
 	var ltmControl = new HomeControl(ltmControlDiv, map);
 	 
@@ -847,6 +841,7 @@ function company_all_location() {
  *            车牌号，用于标题显示
  */
 var info_old; // 上一次打开的信息浮窗
+
 function addInfoWin(marker,data) {
 	var openEvent = google.maps.event.addListener(marker, 'click', function() {
 		// 如果当前车辆点未发现改变时，不进行重新加载
@@ -861,6 +856,13 @@ function addInfoWin(marker,data) {
 		if(info_old != undefined){
 			info_old.close();
 		}
+		
+		
+		var ready_content = "<div id='show_info_div'>正在载入....</div>";
+		
+		info = new google.maps.InfoWindow({
+			content: ready_content
+		});
 		
 		// 当前车辆点信息窗口添加关闭监控事件
 		var closeEvent = google.maps.event.addListener(info, "closeclick", LTInfoWindow_close);
