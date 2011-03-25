@@ -34,7 +34,10 @@
 				<button id="play_history" style="width:20px;height:20px;">播放</button>
 				<button id="stop_history" style="width:20px;height:20px;">停止</button> 
 			 </div>
-			
+		</div>
+		<div>
+			<span>切换地图：</span>
+			<span><a id="trace_change_map" href="javascript:trace_change_map();">51地图</a></span>
 		</div>
 	</div> 
 	<div class="keep_left spacing"></div>
@@ -93,11 +96,15 @@
 				</div>
 		</div>  
 		<div id="inquireing">	
-			<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_map.html"
+			<iframe id="history_track_frame" name="history_track_frame" src="inquire/templates/history_track_google.html"
 				 style="width:99%;height:400px" 
 				marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align='top'></iframe> 
 		</div>		
-	
+		
+		<!-- 存放隐藏域 -->
+		<div>
+			<input type="hidden" id="pre_vehicle_id" value="" />
+		</div>
 	</div>
 </div>
 {{INHERIT}}

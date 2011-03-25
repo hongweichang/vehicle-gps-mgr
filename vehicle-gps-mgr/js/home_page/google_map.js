@@ -142,7 +142,7 @@ function init_run_refresh_operate() {
 
 		// 定位车辆点
 		//var ltPoint = new LTPoint(cur_longitude, cur_latitude);
-		var ltPoint = new google.maps.LatLng(39.904214, 116.40741300000002);
+		var ltPoint = new google.maps.LatLng(cur_latitude, cur_longitude);
 		
 		//map.centerAndZoom(ltPoint, cur_zoom);
 		map.panTo(ltPoint);

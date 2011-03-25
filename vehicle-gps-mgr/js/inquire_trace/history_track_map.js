@@ -48,13 +48,19 @@
 		
 		//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 		window._LT_map_disableProgressBar=true;	
-		map=new LTMaps("map");
+		map=new LTMaps("51map");
 		map.cityNameAndZoom( "beijing" , 13);
 		var standControl = new LTSmallMapControl();
 		map.addControl(standControl);
 	 	map.handleMouseScroll();
 		//绑定事件注册
 		LTEvent.addListener(map,"dblclick",onDblHistoryClick);
+		
+		var pre_id = parent.document.getElementById("pre_vehicle_id").value;
+		
+		if(pre_id != ""){
+			vehiclePosition(pre_id);
+		}
 	}
 	
 	var moveLsitener;
@@ -137,14 +143,14 @@
 	 * @param {Object} vehicle_id 车辆编号
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
-	 	 
 		var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";   
-		$("#map").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
+		$("#51map").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
+
 		$.ajax({
 			type:"POST",
 			url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
 			dataType:"json",
-			success:function(data){    
+			success:function(data){  
 			if(state == "stop") return false; //停止状态不能运行
 			 
 			$("#map").unmask();
@@ -409,20 +415,18 @@
 	  * @param {Object} str 车辆ID集合 格式"ID1,ID2,ID3,"
 	  */
 	function vehiclePosition(str){ 
-		 
 		 $.ajax({
 				type:"POST",
 				url:window.parent.host+"/index.php?a=2&vehicleIds="+str, 
 				dataType:"json",
 				success:function(data){ 
-				
 					var length = data.length; 
 					var points = new Array();
 					 
 					if(length>0)clearOverLay();
 					
 					for(var i=0;i<length;i++){        
-						  
+						 
 						 vehicle_id = data[0]['id']; //车辆id
 						 number_plate = data[0]['number_plate']; //车牌号
 						 point_longitude = data[0]['cur_longitude']; //当前经度
@@ -440,51 +444,12 @@
 
 						//点添入地图中
 						map.addOverLay(marker);
-
-						//车辆点添加标签
-						var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
-						
-						var labelText = "";
-						var backgroundColor = null;
-						switch(parseInt(alert_state)){//当前车辆状态
-							case 0: //正常状态
-								labelText = number_plate+" 正常";
-							 break; 
-							case 1: //超速状态
-								labelText = number_plate+" 超速";
-							 	backgroundColor = "red";//更改文字标签背景色  
-							 break;
-						  default:  //
-						  		labelText = number_plate+" 疲劳";
-						  	 	text.setBackgroundColor("yellow");//更改文字标签背景色
-						     break;	
-						}
-						//设置车辆点标签属性
-						text.setLabel(labelText);
-						text.setBackgroundColor(backgroundColor);
-						map.addOverLay(text);//车辆点添入地图中
 					}
 					map.getBestMap(points);
 					map.zoomTo(map.getCurrentZoom()==0?1:map.getCurrentZoom()); 
 				 }
-				});
-	}
-		/**
-		 * 车辆提示信息
-		 * @param {Object} obj  点对象
-		 * @param {Object} context 对象提示内容
-		 */
-		function addInfoWin(obj,context){
-			
-			var info = new LTInfoWindow( obj );
-
-			function shwoInfo(){
-				info.setLabel(context);
-				info.clear();
-				map.addOverLay(info);
-			}
-			LTEvent.addListener(obj,"click",shwoInfo); 
-		} 
+		 	});
+		}
 		
 		/**
 		 * 取消遮罩效果。
@@ -492,5 +457,5 @@
 		 * @return
 		 */
 		function cancle_mask(){
-			$("#map").unmask();
+			$("#51map").unmask();
 		}
