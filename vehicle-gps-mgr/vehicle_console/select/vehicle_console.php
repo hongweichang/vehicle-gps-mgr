@@ -190,6 +190,10 @@ switch ($act) {
 				$arr_vehicle[$index]['cur_longitude'] = $lon;  //经度
 				$arr_vehicle[$index]['cur_latitude'] = $lat;   //纬度
 				$arr_vehicle[$index]['cur_direction'] = $cur_direction;  //方向
+				$arr_vehicle[$index]['xMin'] = empty($value['xMin'])?'':$value['xMin'];  //方向
+				$arr_vehicle[$index]['yMin'] = empty($value['yMin'])?'':$value['yMin'];  //方向
+				$arr_vehicle[$index]['xMax'] = empty($value['xMax'])?'':$value['xMax'];  //方向
+				$arr_vehicle[$index]['yMax'] = empty($value['yMax'])?'':$value['yMax'];  //方向
 			   
 			    $index++; 
 		}

@@ -572,6 +572,11 @@
 			 alert_state = data[0]['alert_state'];// 告警状态
 			 img_name = data[0]['cur_direction']; //图片名
 			 file_path = data[0]['file_path']; //文件路径 
+			 
+			 xMin = data[0]['xMin'];
+			 yMin = data[0]['yMin'];
+			 xMax = data[0]['xMax'];
+			 yMax = data[0]['yMax'];
 			
 			 data.shift();//移除已使用下标
 			  
@@ -616,6 +621,13 @@
 			  	 	text.setBackgroundColor("yellow");//更改文字标签背景色
 			     break;	
 			}
+			
+			if(xMin != "" && (point_longitude < xMin || point_longitude > xMax || point_latitude < yMin || point_latitude > yMax)){
+				labelText += " 超出范围";
+			}else{
+				labelText += " 范围内";
+			}
+			
 			//设置车辆点标签属性
 			text.setLabel(labelText);
 			text.setBackgroundColor(backgroundColor);
