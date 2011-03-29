@@ -22,6 +22,7 @@
 
 	var mode_area = window.parent.document.getElementById("mode_area"); //获取父页面值判断是哪个页面引入
 	var locate_select = window.parent.document.getElementById("locate_select"); //获取父页面值判断是哪个页面引入
+	 
 	
 	//因为地图上的进度条可能会影响折线的事件触发，因此先禁止进度条的显示
 	window._LT_map_disableProgressBar=true;	
@@ -52,13 +53,62 @@
 			ltControl.btnClick();
 		}
 	}
+	
+	/*
+	 *区域告警查看区域信息
+	*/
+	var ltRect;
+	
+	if(parent.document.getElementById("manage_lnglat") != undefined){
+		var xMin = parent.document.getElementById("manage_xMin").value;
+		var yMin = parent.document.getElementById("manage_yMin").value;
+		var xMax = parent.document.getElementById("manage_xMax").value;
+		var yMax = parent.document.getElementById("manage_yMax").value;
+
+		var ltBounds = new LTBounds(xMin,yMin,xMax,yMax);
+		
+	    ltRect = new LTRect(ltBounds);
+		maps.addOverLay(ltRect);
+		
+		maps.setCenterAtLatLng(new LTPoint(xMin,yMin));
+	}
 
 	//判断哪个页面引入
 	if(locate_select == null || (locate_select != null && locate_select.value != "")){
 		control = new LTZoomSearchControl();
 		control.setTop(10);
-		control.setLabel("选中矩形区域查询");
+		
+		if(parent.document.getElementById("manage_lnglat") != undefined){
+			control.setLabel("重绘矩形区域");
+		}else{
+			control.setLabel("选中矩形区域");
+		}
+		
 		maps.addControl( control );
+		
+		if(parent.document.getElementById("region") != undefined || parent.document.getElementById("manage_lnglat") != undefined){
+			LTEvent.addListener(control,"draw",note_lnglat);
+		}
+	}
+	
+	//矩形画完后方法
+	function note_lnglat(bounds ,rect){
+		if(ltRect != undefined){
+			maps.removeOverLay(ltRect);
+		}
+		
+		var last_bounds = rect.getBounds();
+		
+		var xMin = last_bounds.getXmin();
+		var yMin = last_bounds.getYmin();
+		var xMax = last_bounds.getXmax();
+		var yMax = last_bounds.getYmax();
+		
+		if(parent.document.getElementById("manage_lnglat") != undefined){
+			parent.update_region(xMin,yMin,xMax,yMax);
+		}else{
+			parent.create_region(xMin,yMin,xMax,yMax);
+		}
 	}
 
 	//是否是车辆定位时引入本页面

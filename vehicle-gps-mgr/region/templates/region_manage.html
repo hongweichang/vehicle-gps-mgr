@@ -1,1 +1,74 @@
-<div>区域信息管理</div>
+<style>
+	tr{
+		border:1px solid gray;
+		margin-top:25px;
+	}
+	.narrow{
+		width:80px;
+		height:20px;
+		margin-left:3px;	
+		font-size:15px;
+	}
+	
+	.wide{
+		width:200px;
+		height:20px;
+		margin-left:3px;	
+		font-size:15px;
+	}
+</style>
+
+<div style="margin:10px 0 0 0;">
+	<table style="border:1px solid gray;text-align:center;width:100%;">
+		<thead style="border:1px solid gray;backgroud:gray;font-weight:5px">
+			<td class="narrow">区域名称</td>
+			<td class="narrow">创建用户</td>
+			<td class="wide">创建时间</td>
+			<td class="wide">备注</td>
+			<td class="narrow"></td>
+			<td class="narrow"></td>
+			<td class="narrow"></td>
+		</thead>
+		<tbody>
+			{{regiones}}
+		</tbody>
+	</table>
+</div>
+
+<div id='infodiv'></div>
+
+<div id="manage_region">
+	<iframe id="manage_frame" name="manage_frame" src="" 
+		 style="width:99%;height:400px" 
+		marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align='top'></iframe> 
+</div>
+
+<!-- 隐藏域  存放要查看的区域的经纬度信息 -->
+<div id="manage_lnglat">
+	<ul style="text-align:center">
+		<li style="margin-top:25px;">
+			<input type="hidden" id="manage_xMin" /><br/>
+			<input type="hidden" id="manage_yMin" /><br/>
+			<input type="hidden" id="manage_xMax" /><br/>
+			<input type="hidden" id="manage_yMax" /><br/>
+			<input type="hidden" id="manage_id" /><br/>
+		</li>
+	</ul>
+</div>
+
+
+<div id="manage_create">
+	<ul style="text-align:center">
+		<li style="margin-top:25px;">
+			<span>最小经度：</span><input type="text" id="create_xMin" /><br/>
+			<span>最小纬度：</span><input type="text" id="create_yMin" /><br/>
+			<span>最大经度：</span><input type="text" id="create_xMax" /><br/>
+			<span>最大纬度：</span><input type="text" id="create_yMax" /><br/>
+		</li>
+	</ul>
+	<ul>
+		<input type="button" id="manage_submit" value="保存" />
+	</ul>
+</div>
+
+<script type="text/javascript" src="js/region/region.js"></script>
