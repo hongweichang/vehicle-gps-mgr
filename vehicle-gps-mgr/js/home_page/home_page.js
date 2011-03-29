@@ -11,7 +11,7 @@
 //子页面对象   iframe
 var home_map =  document.getElementById("home_map_frame").contentWindow;
 
-var map_type = "google";
+var map_type = "51ditu";
 
 var type = new Array(); //所有地图类型数组
 
