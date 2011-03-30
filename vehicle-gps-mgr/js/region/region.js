@@ -9,50 +9,56 @@ $(document).ready(function() {
 	$("#manage_region").dialog({
 		autoOpen : false,
 		width : 900,
-		height : 400,
-		position : 'center'
+		height : 450,
+		position : 'center',
+		stack : true
 	});
-	
+
 	$("#manage_create").dialog({
 		autoOpen : false,
 		width : 480,
 		height : 300,
 		position : 'center'
 	});
-	
-	$("#infodiv").dialog({
+
+	$("#regiondiv").dialog({
 		autoOpen : false,
-		width : 900,
+		width : 800,
 		height : 400,
 		position : 'center'
 	});
 });
 
 function create_region(xMin, yMin, xMax, yMax) {
-	$("#create_info").dialog("close");
-	
+	if($("#create_info").dialog("isOpen")){
+		$("#create_info").dialog("close");
+	}
+
 	$("#xMin").val(xMin);
 	$("#yMin").val(yMin);
 	$("#xMax").val(xMax);
 	$("#yMax").val(yMax);
-	
+
 	$("#create_info").dialog("open");
 }
 
-function update_region(xMin, yMin, xMax, yMax){
-	$("#manage_create").dialog("close");
-	
+function update_region(xMin, yMin, xMax, yMax) {
+	if($("#manage_create").dialog("isOpen")){
+		$("#manage_create").dialog("close");
+	}
+
 	$("#create_xMin").val(xMin);
 	$("#create_yMin").val(yMin);
 	$("#create_xMax").val(xMax);
 	$("#create_yMax").val(yMax);
-	
+
 	$("#manage_create").dialog("open");
 }
 
-
 function exam_region(id, xMin, yMin, xMax, yMax) {
-	$("#manage_region").dialog("close");
+	if($("#manage_region").dialog("isOpen")){
+		$("#manage_region").dialog("close");
+	}
 
 	$("#manage_xMin").val(xMin);
 	$("#manage_yMin").val(yMin);
@@ -61,46 +67,41 @@ function exam_region(id, xMin, yMin, xMax, yMax) {
 	$("#manage_id").val(id);
 
 	$("#manage_frame").attr("src", "templates/51map.html");
-
 	$("#manage_region").dialog("open");
-
 }
 
 /*
  * 为区域指定车辆
  */
-function set_vehicles(id){
-	$("#operation").mask("车辆信息载入中...");
-	
-	$.post("index.php?a=1",function(data){
-		$("#operation" ).unmask();
-		
-		$("#infodiv").html(data);
-		$("#infodiv").dialog("open");
-		
-		$("#sel_vehicle_commit").click(function(){
-			var vehicles = $(".vehicle:checked");
-	     	var str="";
+function set_vehicles(id) {
+	$.post("index.php?a=1", function(data) {
+		$("#regiondiv").html(data);
+		$("#regiondiv").dialog("open");
 
-	     	vehicles.each(function(i){
-	     		if(i === (vehicles.length-1)){
-	     			str = str+$(this).val();
+		$("#sel_vehicle_commit").click(
+				function() {
+					var vehicles = $(".vehicle:checked");
+					var str = "";
+					
+					$("#regiondiv").html("");
+					$("#regiondiv").dialog("close");
+					
+					vehicles.each(function(i) {
+						if (i === (vehicles.length - 1)) {
+							str = str + $(this).val();
 
-	     			$("#infodiv").empty();
-	     			$("#infodiv").dialog("close");
-	     			
-	    	     	$.get("index.php?a=620&region_id="+id+"&vehicle_ids="+str,function(data){
-	    	     		if("success" === data){
-	    	     			alert("指定成功");
-	    	     		}else{
-	    	     			alert("指定失败，请稍候再试");
-	    	     		}
-	    	     	});
-	     		}else{
-	     			str = str+$(this).val()+",";
-	     		}
-	     	});
-		});
+							$.get("index.php?a=620&region_id=" + id + "&vehicle_ids=" + str, function(data) {
+								if ("success" === data) {
+									alert("指定成功");
+								} else {
+									alert("指定失败，请稍候再试");
+								}
+							});
+						} else {
+							str = str + $(this).val() + ",";
+						}
+					});
+				});
 	});
 }
 
@@ -122,7 +123,7 @@ $("#region_submit").click(function() {
 		return false;
 	}
 
-	$("#operation").mask("正在加载，请稍候....");
+	$("#region_mask").mask("正在加载,请稍候....");
 
 	$.get("index.php?a=640", {
 		region_name : $("#region_name").val(),
@@ -131,7 +132,7 @@ $("#region_submit").click(function() {
 		xMax : $("#xMax").val(),
 		yMax : $("#yMax").val()
 	}, function(data) {
-		$("#operation").unmask();
+		$("#region_mask").unmask();
 
 		if ("success" === data) {
 			alert("保存成功");

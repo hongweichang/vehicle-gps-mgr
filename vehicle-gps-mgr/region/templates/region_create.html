@@ -1,0 +1,36 @@
+<style>
+	#create_info span{
+		width:20px;
+		text-align:right;
+	}
+</style>
+
+<div id="region">	
+	<iframe id="region_frame" name="region_frame" src="templates/51map.html"
+		 style="width:99%;height:400px" 
+		marginwidth="0" marginheight="0" scrolling="no" frameborder="0" align='top'></iframe> 
+</div>
+
+<div>
+	<input type="hidde" id="region" />
+</div>
+
+<div id="create_info">
+	<ul style="text-align:center">
+		<li style="margin-top:25px;">
+			<span>区域名称：</span><input type="text" id="region_name" /><br/>
+			<span>最小经度：</span><input type="text" id="xMin" /><br/>
+			<span>最小纬度：</span><input type="text" id="yMin" /><br/>
+			<span>最大经度：</span><input type="text" id="xMax" /><br/>
+			<span>最大纬度：</span><input type="text" id="yMax" /><br/>
+			<span>备注：</span><input type="text" id="description" />
+		</li>
+	</ul>
+	<ul>
+		<input type="button" id="region_submit" value="保存" />
+	</ul>
+</div>
+
+<div id="region_mask"></div>
+
+<script type="text/javascript" src="js/region/region.js"></script>
