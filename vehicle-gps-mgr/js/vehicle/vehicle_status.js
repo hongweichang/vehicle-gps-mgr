@@ -1,9 +1,17 @@
+//$("#assign_photo").dialog({
+//	autoOpen : false,
+//	width : 400,
+//	height : 200,
+//	position : 'center'
+//});
+
 jQuery("#vehicle_status_list").jqGrid({
 	url:'index.php?a=502',
 	datatype: "json",
-   	colNames:['ID','车牌号', 'GPRS状态', '定位时间','当前位置','实速','驾驶员','告警状态','历史轨迹','统计信息','信息发布','定位'],
+   	colNames:['ID','GPSID','车牌号', 'GPRS状态', '定位时间','当前位置','实速','驾驶员','告警状态','历史轨迹','统计信息','信息发布','定位'],
    	colModel:[
    		{name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
+   		{name:'gps_id',index:'gps_id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}},
    		{name:'number_plate',index:'number_plate', width:80},
    		{name:'gps_status',index:'gps_status', width:80},
    		{name:'location_time',index:'location_time', width:90, align:"left"},   
@@ -47,32 +55,152 @@ jQuery("#vehicle_status_list").jqGrid('navGrid','#pager',
 
 /*批量发布信息*/
 jQuery("#m1").click( function() {
-		var s; 
-		s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); //获取所有选中车辆的ID
-		if(s==null || s==""){
-			alert("请选择车辆");
-			return false;
+		var s = is_select();
+		
+		if(s){
+			showOperationDialog(this,"index.php?a=201&hidden=1&vehicle_ids="+s,"info_issue");
 		}
-		showOperationDialog(this,"index.php?a=201&hidden=1&vehicle_ids="+s,"info_issue");
 	}); 
 
 /*定位车辆*/
 jQuery("#m2").click( function() {
-	var s; 
-	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow'); //获取所有选中车辆的ID
-	vehicle_position(s);
+	var s = is_select();
+	
+	if(s){
+		vehicle_position(s);
+	}
 }); 
 
 /*统计信息*/
 jQuery("#m3").click( function() {
+	var s = is_select();
+	
+	if(s){
+		showOperationDialog(this,"index.php?a=402&vehicle_id="+s,"static_show"); //显示该车辆的统计信息
+	}
+});
+
+jQuery("#m4").click(function(){
+	var s = is_one_vehicle();
+	
+	if(!s){
+		return false;
+	}
+	
+	$("#photogpsid").val(jQuery("#vehicle_status_list").jqGrid('getCell',s,"gps_id"));
+	$("#specialname").val("");
+	
+	$("#assign_photo").css("display","block");
+});
+
+jQuery("#m5").click(function(){
+	if($("#photofilename").val() === ""){
+		alert("没有最新下发照片");
+		
+		return false;
+	}else{
+		var name = $("#photofilename").val();
+		
+		$.get("index.php?a=702&name="+name,function(data){
+			if("fail" === data){
+				alert("图片还未传回，请稍等");
+			}else{
+				$("#recentphotobject").attr("src",data);
+				
+				$("#recentphotobject").dialog({
+					position : 'center'
+				});
+			}
+		});
+	}
+});
+
+jQuery("#m6").click(function(){
+	var s = is_one_vehicle();
+	
+	if(!s){
+		return false;
+	}
+	
+	var gps_id = jQuery("#vehicle_status_list").jqGrid('getCell',s,"gps_id");
+	
+	$.get("index.php?a=703&gps_id="+gps_id,function(data){
+		if("fail" === data){
+			alert("没有历史照片");
+		}else{
+			var photos = eval("("+data+")");
+			alert(photos);
+			for(var i in photos){
+				var photo = document.createElement("<img style='float:left;' src='"+photos[i]+"' />");
+				$("#history_photos").append(photo);
+				
+				$("#history_photos").dialog({
+					position : 'center'
+				})
+			}
+		}
+	});
+});
+
+$("#commitassignphoto").click(function(){
+	$("#assign_photo").css("display","none");
+	
+	var name = $("#specialname").val();
+	var gps_id = $("#photogpsid").val();
+	
+	if("" === name){
+		alert("标识不能为空");
+		
+		return false;
+	}
+	
+	$.get("index.php?a=701&name="+name+"&gps_id="+gps_id,function(data){
+		//$("#assign_photo").dialog("close");
+		if("fail" === data){
+			alert("下发失败，请稍候再试");
+		}else{
+			$("#photofilename").val(data);
+			alert("下发成功");
+		}
+	});
+});
+
+$("#escassignphoto").click(function(){
+	$("#photogpsid").val("");
+	$("#specialname").val("");
+	
+	$("#assign_photo").css("display","none");
+});
+
+function is_one_vehicle(){
+	var s = is_select();
+	
+	if( !s ){
+		return false;
+	}else{
+		s += "";
+	}
+	
+	if(s.split(",").length > 1){
+		alert("只能选择一辆车");
+		
+		return false;
+	}else{
+		return s;
+	}
+}
+
+function is_select(){
 	var s; 
 	s = jQuery("#vehicle_status_list").jqGrid('getGridParam','selarrrow');//获取所有选中车辆的ID
+	
 	if(s==null || s==""){
 		alert("请选择车辆");
 		return false;
+	}else{
+		return s;
 	}
-	showOperationDialog(this,"index.php?a=402&vehicle_id="+s,"static_show"); //显示该车辆的统计信息
-});
+}
 
 //根据车牌号查询
 $("#commit_vehicle").click(function(){

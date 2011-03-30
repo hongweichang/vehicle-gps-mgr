@@ -24,9 +24,31 @@
 				<input type="button" title="发布信息" showWidth="250" id="m1"  value="发布信息"></input> 
 				<input type="button"  id="m2" value="定位" ></input> 
 	            <input type="button" id="m3" title='统计分析' value="统计分析" showHeight="320" showWidth="850"></input>
+	            <input type="button" id="m4" title='下发照相指令' value="下发照相指令" showHeight="320" showWidth="850"></input>
+	            <input type="button" id="m5" title='查看最新照片' value="查看最新照片" showHeight="320" showWidth="850"></input>
+	            <input type="button" id="m6" title='查看历史照片' value="查看历史照片" showHeight="320" showWidth="850"></input>
             </div>
+            
+			<!-- 下发指令dialog -->
+			<div id="assign_photo" class="vehicle_select_oparate" style="display:none;margin:10px 0 0 180px;">
+				<ul>
+					<li>
+						请输入标识名：<input type="text" id="specialname" value=""/>
+						<input type="button" id="commitassignphoto" value="提交"/>
+						<input type="button" id="escassignphoto" value="取消"/>
+					</li>
+					<li>
+						<input type="hidden" id="photogpsid" value="" />	
+					</li>
+				</ul>
+			</div>
 		</div>
-
+	</div>
+	
+	<img id="recentphotobject" style="display:none;" alt="最新图片" src="" />
+	
+	<!-- 历史照片 -->
+	<div id="history_photos" style="display:none;width:1000px;">
 	</div>
 		
 		<!-- 查询信息中的子模式窗体 -->
@@ -38,6 +60,9 @@
 		<iframe id="frame_map" scrolling='no' frameborder='0' height="380px" width="850px"></iframe> 
 		<!-- 隐藏域保存信息，用于传值给51map.html，判断是哪个动作引入地图 -->
 		<input type='hidden' id='locate_select'></input>
+		
+		<!-- 隐藏域保存最近下发的照片标识名 -->
+		<input type="hidden" id="photofilename" value=""/>
 	</div>
 
 <div>{{lon_lat}}</div>

@@ -131,7 +131,7 @@ switch($act)
 			
 			//设置显示列表
 			$response->rows[$key]['id']=$val['id'];
-			$response->rows[$key]['cell']=array($val['id'],$val['number_plate'],
+			$response->rows[$key]['cell']=array($val['id'],$val['gps_id'],$val['number_plate'],
 												$vehicle->gps_status_boolean($val['gprs_status']),$val['location_time'],$cur_location,$val['cur_speed'],
 												$driver[0]['name'],$alert_state,
 												"<a href='#' title='查询历史轨迹' onclick='showOperationDialog(this,\"index.php?a=352&vehicle_id=".$val['id']."\",\"inquire_modal_win\")'>查看>></a>",
