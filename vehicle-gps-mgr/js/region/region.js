@@ -83,14 +83,14 @@ function set_vehicles(id) {
 					var vehicles = $(".vehicle:checked");
 					var str = "";
 					
-					$("#regiondiv").html("");
-					$("#regiondiv").dialog("close");
-					
 					vehicles.each(function(i) {
 						if (i === (vehicles.length - 1)) {
 							str = str + $(this).val();
 
 							$.get("index.php?a=620&region_id=" + id + "&vehicle_ids=" + str, function(data) {
+								$("#regiondiv").html("");
+								$("#regiondiv").dialog("close");
+								
 								if ("success" === data) {
 									alert("指定成功");
 								} else {

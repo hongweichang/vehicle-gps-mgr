@@ -24,20 +24,47 @@
 	} 
 	.txr{text-align:right;}
 	.mt5{margin-top:5px;}
+	
+	*{font-family:Tahoma, Arial, Helvetica, Sans-serif,"宋体";}
+	.table{
+		width:100%;
+		margin:0px auto;
+		font:Georgia 11px;
+		font-size:12px;
+		color:#333333;
+		text-align:center;
+		border-collapse:collapse;/*细线表格代码*/
+	}
+	.table td{
+		border:1px solid #999;/*细线表格线条颜色*/
+		height:22px;
+	}
+	.cr{color:red;}
+	.w180{width:180px;}
+	.w120{width:120px;}
+	.w80{width:80px;}
+	.w40{width:40px;}
+	.fs12{font-size:12px;}
+	.fl{float:left;} 
+	.table tr.t1 td {background-color:#fff;}
+	.table tr.t2 td {background-color:#eee;}
+	.table tr.t3 td {background-color:#ccc;}
+	.table th,tfoot tr td{font-weight:bold;text-align:center;background:#c5c5c5;}
+	.table th{line-height:30px;height:30px;} 
 </style>
 
 <div style="margin:10px 0 0 0;height:350px;OVERFLOW-Y:auto;">
-	<table style="border:1px solid gray;text-align:center;width:100%;">
-		<thead style="border:1px solid gray;backgroud:gray;font-weight:5px">
-			<td class="narrow">区域名称</td>
-			<td class="narrow">创建用户</td>
-			<td class="wide">创建时间</td>
-			<td class="wide">备注</td>
-			<td class="narrow"></td>
-			<td class="narrow"></td>
-			<td class="narrow"></td>
+	<table class="table">
+		<thead>
+			<th class="w80">区域名称</th>
+			<th class="w40">创建用户</th>
+			<th class="w120">创建时间</th>
+			<th class="w180">备注</th>
+			<th class="w40"></th>
+			<th class="w40"></th>
+			<th class="w40"></th>
 		</thead>
-		<tbody>
+		<tbody id="manage_tab">
 			{{regiones}}
 		</tbody>
 	</table>
