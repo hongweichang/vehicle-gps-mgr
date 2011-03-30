@@ -129,14 +129,17 @@ jQuery("#m6").click(function(){
 			alert("没有历史照片");
 		}else{
 			var photos = eval("("+data+")");
-			alert(photos);
-			for(var i in photos){
+
+			for(var i = 0 ;i < photos.length ; i ++){
 				var photo = document.createElement("<img style='float:left;' src='"+photos[i]+"' />");
 				$("#history_photos").append(photo);
 				
-				$("#history_photos").dialog({
-					position : 'center'
-				})
+				if(i === (photos.length - 1)){
+					$("#history_photos").dialog({
+						position : 'center',
+						width : 670
+					});
+				}
 			}
 		}
 	});
