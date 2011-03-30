@@ -30,6 +30,8 @@ $(document).ready(function() {
 });
 
 function create_region(xMin, yMin, xMax, yMax) {
+	$("#region_name").val("");
+	
 	if($("#create_info").dialog("isOpen")){
 		$("#create_info").dialog("close");
 	}

@@ -34,7 +34,7 @@ $mail_config = array(
 $server_path_config = array(
 		"gps_info_path"		=> "/usr/local/joycomm/sos_file", 			//gpsx信息文件在服务器上的路径
 		"mail_save_path"	=> "/usr/local/joycomm/email_src/waiting",  //gpsx信息文件在服务器上的路径
-		"photo_assign_path"	=> "usr/local/joycomm/photo_file/",			//下发照相指令照片存入路径
+		"photo_assign_path"	=> "images/photo/",			//下发照相指令照片存入路径
 		"subfolder"			=>"" 										//当系统布置到网站子目录的情况下使用
 	);
 	

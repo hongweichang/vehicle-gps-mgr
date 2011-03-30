@@ -35,7 +35,7 @@ switch ($act) {
 	
 	case "recent_photo" :
 		$photofilename = $_REQUEST ['name'];
-		$photopath = "images/" + $photofilename;
+		$photopath = $server_path_config ['photo_assign_path'] . $photofilename;
 		//$photopath = "images/13823358278_20110323_test1.jpg";
 		
 
