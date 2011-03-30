@@ -38,6 +38,7 @@ switch ($act) {
 		$photopath = "images/" + $photofilename;
 		//$photopath = "images/13823358278_20110323_test1.jpg";
 		
+
 		if (file_exists ( $photopath )) {
 			echo $photopath;
 		} else {
@@ -49,9 +50,10 @@ switch ($act) {
 	case "history_photo" :
 		$gps_id = $_REQUEST ['gps_id'];
 		
-		$allfiles = glob ("usr/local/joycomm/photo_file/". $gps_id . "*", GLOB_NOSORT );
+		$allfiles = glob ( $server_path_config ['photo_assign_path'] . $gps_id . "*", GLOB_NOSORT );
 		//$allfiles = glob ( "images/13823358278*", GLOB_NOSORT );
 		
+
 		echo json_encode ( $allfiles );
 		
 		break;
