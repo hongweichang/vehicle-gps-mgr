@@ -1,8 +1,8 @@
 $(document).ready(function() {
 	$("#create_info").dialog({
 		autoOpen : false,
-		width : 480,
-		height : 300,
+		width : 360,
+		height : 240,
 		position : 'center'
 	});
 
@@ -16,8 +16,8 @@ $(document).ready(function() {
 
 	$("#manage_create").dialog({
 		autoOpen : false,
-		width : 480,
-		height : 300,
+		width : 360,
+		height : 240,
 		position : 'center'
 	});
 

@@ -861,7 +861,8 @@ function addInfoWin(marker,data) {
 		var ready_content = "<div id='show_info_div'>正在载入....</div>";
 		
 		info = new google.maps.InfoWindow({
-			content: ready_content
+			content: ready_content,
+			maxWidth: 250
 		});
 		
 		// 当前车辆点信息窗口添加关闭监控事件

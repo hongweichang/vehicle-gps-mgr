@@ -16,6 +16,14 @@
 		margin-left:3px;	
 		font-size:15px;
 	}
+	
+	.manage_create{
+		margin:25px auto; 
+		text-align:center;
+		font-size:13px;
+	} 
+	.txr{text-align:right;}
+	.mt5{margin-top:5px;}
 </style>
 
 <div style="margin:10px 0 0 0;height:350px;OVERFLOW-Y:auto;">
@@ -57,18 +65,40 @@
 </div>
 
 
-<div id="manage_create">
-	<ul style="text-align:center">
-		<li style="margin-top:25px;">
-			<span>最小经度：</span><input type="text" id="create_xMin" /><br/>
-			<span>最小纬度：</span><input type="text" id="create_yMin" /><br/>
-			<span>最大经度：</span><input type="text" id="create_xMax" /><br/>
-			<span>最大纬度：</span><input type="text" id="create_yMax" /><br/>
-		</li>
-	</ul>
-	<ul>
-		<input type="button" id="manage_submit" value="保存" />
-	</ul>
+<div id="manage_create" class="manage_create"> 
+	<table align="center">
+		<tr>
+			<td class="txr">
+				最小经度：
+			</td>
+			<td>
+				<input type="text" id="create_xMin" />
+			</td>
+		</tr>
+		<tr class="mt5">
+			<td class="txr">
+				最小纬度：
+			</td>
+			<td><input type="text" id="create_yMin" /></td>
+		</tr>
+		<tr  class="mt5">
+			<td class="txr">
+				最大经度：
+			</td>
+			<td><input type="text" id="create_xMax" /></td>
+		</tr>
+		<tr class="mt5">
+			<td class="txr">
+				最大纬度：
+			</td>
+			<td><input type="text" id="create_yMax" /></td>
+		</tr>
+		<tr class="mt5">
+			<td class="mt5" align="center" colspan="2">
+				<input type="button" id="manage_submit" value="保存" />
+			</td>
+		</tr>
+	</table> 
 </div>
 
 <script type="text/javascript" src="js/region/region.js"></script>
