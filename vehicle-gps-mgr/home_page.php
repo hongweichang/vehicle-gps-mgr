@@ -64,7 +64,10 @@ switch ($act) {
 			
 			$lon = $ve_status->around ( $value ['cur_longitude'], 0 );
 			$lat = $ve_status->around ( $value ['cur_latitude'], 0 );
-			$ve_status->exact_lon_lat ( $lon, $lat );
+			
+			if (! isset ( $_REQUEST ['map_type'] ) || (isset ( $_REQUEST ['map_type'] ) && ($google_map_config ['is_exact'] === $_REQUEST ['map_type']))) {
+				$ve_status->exact_lon_lat ( $lon, $lat );
+			}
 			
 			$arr_vehicle [$index] ['id'] = $value ['id']; //车辆id
 			$arr_vehicle [$index] ['number_plate'] = $value ['number_plate']; //车牌号			
@@ -96,8 +99,14 @@ switch ($act) {
 		$vehicle = $vehicle_console->get_vehicle ( $vehicle_id ); //根据ID查询车辆信息
 		
 
-		$lon = $ve_status->exact_lon ( $ve_status->around ( $vehicle [0] ['cur_longitude'], 0 ) ); //经度
-		$lat = $ve_status->exact_lat ( $ve_status->around ( $vehicle [0] ['cur_latitude'], 0 ) ); //纬度
+		if (! isset ( $_REQUEST ['map_type'] ) || (isset ( $_REQUEST ['map_type'] ) && ($google_map_config ['is_exact'] === $_REQUEST ['map_type']))) {
+			$lon = $ve_status->exact_lon ( $ve_status->around ( $vehicle [0] ['cur_longitude'], 0 ) ); //经度
+			$lat = $ve_status->exact_lat ( $ve_status->around ( $vehicle [0] ['cur_latitude'], 0 ) ); //纬度
+		} else {
+			$lon = $ve_status->around ( $vehicle [0] ['cur_longitude'], 0 ); //经度
+			$lat = $ve_status->around ( $vehicle [0] ['cur_latitude'], 0 ); //纬度
+		}
+		
 		$address = $ve_status->get_location_desc ( $lon / 100000, $lat / 100000 ); //地址
 		if ($address != false) {
 			$vehicle [0] ['location_desc'] = $address;

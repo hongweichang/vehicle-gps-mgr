@@ -65,4 +65,9 @@ $default_setting=array(
 	"fatigue_remind_time"=>"5"//疲劳驾驶限制
 );
 
+//GOOGLE地图配置
+$google_map_config = array(
+	"is_exact" => "roadmap" //判断地图是卫星模式还是普通模式，普通模式则对经纬度纠偏
+);
+
 ?>

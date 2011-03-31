@@ -100,7 +100,7 @@ switch ($act) {
 			$long = $ve_status->around ( $v->longitude, 0 );
 			$lat = $ve_status->around ( $v->latitude, 0 );
 			
-			if (! isset ( $_REQUEST ['map_type'] ) || (isset ( $_REQUEST ['map_type'] ) && ("roadmap" === $_REQUEST ['map_type']))) {
+			if (! isset ( $_REQUEST ['map_type'] ) || (isset ( $_REQUEST ['map_type'] ) && ($google_map_config ['is_exact'] === $_REQUEST ['map_type']))) {
 				$ve_status->exact_lon_lat ( $long, $lat );
 			}
 			

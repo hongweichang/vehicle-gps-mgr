@@ -1,6 +1,8 @@
 var map;
 var geocoder;
 
+var map_type;//判断地图是卫星模式还是普通地图,初始设为普通模式
+
 var longitude = 3991104; // 经度
 var latitude = 11636160; // 纬度
 var speed = 1000; // 速度/ms
@@ -60,44 +62,50 @@ function load_map(latlng) {
 	};
 
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+	map_type = map.getMapTypeId();
+	
+	var change_type_event = google.maps.event.addListener(map,"maptypeid_changed",function(){
+		map_type = map.getMapTypeId();
+	});
 	
 	var ltmControlDiv = document.createElement('DIV');
 	var ltmControl = new HomeControl(ltmControlDiv, map);
-	 
+
 	ltmControlDiv.index = 1;
 	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ltmControlDiv);
-	
+
 	init_run_refresh_operate();
 }
 
 function HomeControl(controlDiv, map) {
-	  controlDiv.style.padding = '5px';
-	 
-	  var controlUI = document.createElement('DIV');
-	  
-	  controlUI.style.backgroundColor = 'white';
-	  controlUI.style.borderStyle = 'solid';
-	  controlUI.style.borderWidth = '2px';
-	  controlUI.style.cursor = 'pointer';
-	  controlUI.style.textAlign = 'center';
-	  controlUI.style.marginTop = '4px';
-	  controlUI.style.marginRight = '54px';
-	  controlUI.title = 'Click to set the map to Home';
-	  controlDiv.appendChild(controlUI);
-	 
-	  var controlText = document.createElement('DIV');
-	  
-	  controlText.style.fontFamily = 'Arial,sans-serif';
-	  controlText.style.fontSize = '12px';
-	  controlText.style.paddingLeft = '4px';
-	  controlText.style.paddingRight = '4px';
-	  controlText.style.paddingTop = '4px';
-	  controlText.innerHTML = '<b>添加标注</b>';
-	  controlUI.appendChild(controlText);
-	 
-	  google.maps.event.addDomListener(controlUI, 'mouseup', function() {
-		 alert(3);
-	  });
+	controlDiv.style.padding = '5px';
+
+	var controlUI = document.createElement('DIV');
+
+	controlUI.style.backgroundColor = 'white';
+	controlUI.style.borderStyle = 'solid';
+	controlUI.style.borderWidth = '2px';
+	controlUI.style.cursor = 'pointer';
+	controlUI.style.textAlign = 'center';
+	controlUI.style.marginTop = '4px';
+	controlUI.style.marginRight = '54px';
+	controlUI.title = '添加标注';
+	controlDiv.appendChild(controlUI);
+
+	var controlText = document.createElement('DIV');
+
+	controlText.style.fontFamily = 'Arial,sans-serif';
+	controlText.style.fontSize = '12px';
+	controlText.style.paddingLeft = '4px';
+	controlText.style.paddingRight = '4px';
+	controlText.style.paddingTop = '4px';
+	controlText.innerHTML = '<b>添加标注</b>';
+	controlUI.appendChild(controlText);
+
+	google.maps.event.addDomListener(controlUI, 'mouseup', function() {
+
+	});
 }
 
 function showAddress(address) {
@@ -141,10 +149,10 @@ function init_run_refresh_operate() {
 		var cur_zoom = cur_longlat_arr[2];// 比例
 
 		// 定位车辆点
-		//var ltPoint = new LTPoint(cur_longitude, cur_latitude);
+		// var ltPoint = new LTPoint(cur_longitude, cur_latitude);
 		var ltPoint = new google.maps.LatLng(cur_latitude, cur_longitude);
-		
-		//map.centerAndZoom(ltPoint, cur_zoom);
+
+		// map.centerAndZoom(ltPoint, cur_zoom);
 		map.panTo(ltPoint);
 		map.setZoom(parseInt(cur_zoom));
 
@@ -224,20 +232,20 @@ function vehiclePosition() {
 function get_vehicle_location_data(operate) {
 
 	var request_param = null;// 请求参数
-	
+
 	switch (parseInt(operate)) {
-		case 0: // 获取公司所有车辆
-			request_param = "?a=101";
-			break;
-		case 1: // 获取指定的公司车辆
-			request_param = "?a=2&vehicleIds=" + refresh_vehicles;
-			break;
+	case 0: // 获取公司所有车辆
+		request_param = "?a=101";
+		break;
+	case 1: // 获取指定的公司车辆
+		request_param = "?a=2&vehicleIds=" + refresh_vehicles;
+		break;
 	}
-	
+
 	// 请求车辆定位数据
 	$.ajax({
 		type : "POST",
-		url : window.parent.host + "/index.php" + request_param,
+		url : window.parent.host + "/index.php" + request_param +"&map_type=" + map_type,
 		dataType : "json",
 		success : function(data) {
 			if (data != null) {
@@ -254,7 +262,7 @@ function get_vehicle_location_data(operate) {
 				range_location(longitudeArray, latitudeArray, points);
 
 				// 标注公司所有定位点
-				//company_all_location();
+				// company_all_location();
 
 				clearArray(longitudeArray); // 清空矩形经度队列数组
 				clearArray(latitudeArray); // 清空矩形纬度队列数组
@@ -513,10 +521,10 @@ function clearAllMarker() {
 
 	// 清空标注点
 	var length = overLay.length;
-	
-	if(length > 0){
+
+	if (length > 0) {
 		for ( var i = 0; i < length; i++) {
-			if(overLay[i] != undefined){
+			if (overLay[i] != undefined) {
 				overLay[i].setMap(null);
 			}
 		}
@@ -525,7 +533,7 @@ function clearAllMarker() {
 
 	// 清空标注点事件
 	var vehicleEventLength = vehicleEvent.length;
-	
+
 	for ( var i = 0; i < vehicleEventLength; i++) {
 		google.maps.event.removeListener(vehicleEvent[0]);
 		vehicleEvent.shift();
@@ -572,19 +580,19 @@ function refresh_vehicle_info() {
 	init_state();// 设置地图初始状态
 
 	switch (parseInt(refresh_state)) {
-		case 0: // '0'代表刷新所有车辆
-			refresh_state = 0;
-			setTimeout(function() {
-				loadCompanyVehicle();
-			}, window.parent.page_refresh_time * 1000);
-			break;
-		case 1: // ‘1’代表刷新选择监控车辆
-			refresh_state = 1;
-			setTimeout(function() {
-				vehiclePosition();
-			}, window.parent.page_refresh_time * 1000);
-			break;
-		}
+	case 0: // '0'代表刷新所有车辆
+		refresh_state = 0;
+		setTimeout(function() {
+			loadCompanyVehicle();
+		}, window.parent.page_refresh_time * 1000);
+		break;
+	case 1: // ‘1’代表刷新选择监控车辆
+		refresh_state = 1;
+		setTimeout(function() {
+			vehiclePosition();
+		}, window.parent.page_refresh_time * 1000);
+		break;
+	}
 }
 
 /**
@@ -596,20 +604,18 @@ function refresh_map_page() {
 	// 定时刷新未勾选上
 	if (!$("#location_refresh", parent.document).attr('checked'))
 		return false;
-	
+
 	// 获取当前地图经纬度、比例相关信息
-	//var centerPoint = map.getCenterPoint();
+	// var centerPoint = map.getCenterPoint();
 	var centerPoint = map.getCenter();
-	
+
 	// 信息保存为：经度|纬度|当前比例
-//	$("#cur_longlat", parent.document).val(
-//			centerPoint.getLongitude() + "|" + centerPoint.getLatitude() + "|"
-//					+ map.getCurrentZoom());
+	// $("#cur_longlat", parent.document).val(
+	// centerPoint.getLongitude() + "|" + centerPoint.getLatitude() + "|"
+	// + map.getCurrentZoom());
 	$("#cur_longlat", parent.document).val(
-			centerPoint.lng() + "|" + centerPoint.lat() + "|"
-					+ map.getZoom());
-	
-	
+			centerPoint.lng() + "|" + centerPoint.lat() + "|" + map.getZoom());
+
 	// 当前状态保存为：定位状态｜刷新状态
 	$("#cur_states", parent.document).val(
 			position_vehicle_state + "|" + refresh_state);
@@ -624,8 +630,8 @@ function refresh_map_page() {
 /*
  * 解析经纬度
  */
-function formart_lnglat(data){
-	return data/100000;
+function formart_lnglat(data) {
+	return data / 100000;
 }
 
 /**
@@ -657,67 +663,83 @@ function show_all_vehicle_location(data, length, run_index) {
 		longitudeArray[i] = point_longitude;
 		latitudeArray[i] = point_latitude;
 
-//		var ltPoint = new LTPoint(point_longitude, point_latitude);
-//		var ltIcon = new LTIcon(window.parent.host + "/" + file_path + "/"
-//				+ img_name + ".png");
-//		// 创建点对象
-//		var marker = new LTMarker(ltPoint, ltIcon);
-//
-//		points.push(ltPoint);
-//
-//		// 点对象设置内容
-//		marker.openInfoWinElement("车牌号:" + number_plate);
-//
-//		var title = "<span class='span'>" + number_plate + "</span>";
-//		addInfoWin(marker, title, vehicle_id);
-//
-//		// 点添入地图中
-//		map.addOverLay(marker);
-//
-//		overLay.push(marker);// 将车辆点,添入将删除标注点队列中,定期清除
-//
-//		// 车辆点添加标签
-//		var text = new LTMapText(new LTPoint(point_longitude, point_latitude));
-//
-//		var labelText = "";
-//		var backgroundColor = null;
-//		switch (parseInt(alert_state)) {// 当前车辆状态
-//		case 0: // 正常状态
-//			labelText = number_plate + " 正常";
-//			break;
-//		case 1: // 超速状态
-//			labelText = number_plate + " 超速";
-//			backgroundColor = "red";// 更改文字标签背景色
-//			break;
-//		default: //
-//			labelText = number_plate + " 疲劳";
-//			text.setBackgroundColor("yellow");// 更改文字标签背景色
-//			break;
-//		}
-//		// 设置车辆点标签属性
-//		text.setLabel(labelText);
-//		text.setBackgroundColor(backgroundColor);
-//
-//		map.addOverLay(text);// 车辆点添入地图中
-//		overLay.push(text);// 将车辆点,添入将删除标注点队列中,定期清除
-		
-		var ltPoint = new google.maps.LatLng(point_latitude,point_longitude);
-		var ltIcon = "/" + file_path + "/"+ img_name + ".png";
+		// var ltPoint = new LTPoint(point_longitude, point_latitude);
+		// var ltIcon = new LTIcon(window.parent.host + "/" + file_path + "/"
+		// + img_name + ".png");
+		// // 创建点对象
+		// var marker = new LTMarker(ltPoint, ltIcon);
+		//
+		// points.push(ltPoint);
+		//
+		// // 点对象设置内容
+		// marker.openInfoWinElement("车牌号:" + number_plate);
+		//
+		// var title = "<span class='span'>" + number_plate + "</span>";
+		// addInfoWin(marker, title, vehicle_id);
+		//
+		// // 点添入地图中
+		// map.addOverLay(marker);
+		//
+		// overLay.push(marker);// 将车辆点,添入将删除标注点队列中,定期清除
+		//
+		// // 车辆点添加标签
+		// var text = new LTMapText(new LTPoint(point_longitude,
+		// point_latitude));
+		//
+		// var labelText = "";
+		// var backgroundColor = null;
+		// switch (parseInt(alert_state)) {// 当前车辆状态
+		// case 0: // 正常状态
+		// labelText = number_plate + " 正常";
+		// break;
+		// case 1: // 超速状态
+		// labelText = number_plate + " 超速";
+		// backgroundColor = "red";// 更改文字标签背景色
+		// break;
+		// default: //
+		// labelText = number_plate + " 疲劳";
+		// text.setBackgroundColor("yellow");// 更改文字标签背景色
+		// break;
+		// }
+		// // 设置车辆点标签属性
+		// text.setLabel(labelText);
+		// text.setBackgroundColor(backgroundColor);
+		//
+		// map.addOverLay(text);// 车辆点添入地图中
+		// overLay.push(text);// 将车辆点,添入将删除标注点队列中,定期清除
+
+		var ltPoint = new google.maps.LatLng(point_latitude, point_longitude);
+		var ltIcon = "/" + file_path + "/" + img_name + ".png";
 
 		var marker = new google.maps.Marker({
-		      position: ltPoint,
-		      map: map,
-		      icon: ltIcon,
-		      title: number_plate
+			position : ltPoint,
+			map : map,
+			icon : ltIcon,
+			title : number_plate
 		});
 		
+		switch (parseInt(alert_state)) {// 当前车辆状态
+			 case 0: // 正常状态
+				 labelText = number_plate + " 正常";
+			 break;
+			 case 1: // 超速状态
+			 labelText = number_plate + " 超速";
+			 backgroundColor = "red";// 更改文字标签背景色
+			 break;
+			 default: //
+			 labelText = number_plate + " 疲劳";
+			 text.setBackgroundColor("yellow");// 更改文字标签背景色
+			 break;
+		}
+
+		//var label_text = new USGSOverlay(ltPoint,"kobe",);
+
 		points.push(ltPoint);
-		
-		addInfoWin(marker,data[0]);
-		
+
+		addInfoWin(marker, data[0]);
+
 		points.push(ltPoint);
 		overLay.push(marker);// 将车辆点,添入将删除标注点队列中,定期清除
-		
 
 		data.shift();// 移除已使用下标
 
@@ -731,6 +753,52 @@ function show_all_vehicle_location(data, length, run_index) {
 	}
 
 	return run_index;
+}
+
+USGSOverlay.prototype = new google.maps.OverlayView();
+
+function USGSOverlay(lnglat, text, map) {
+	this.lnglat = lnglat;
+	this.text = text;
+	this.map_ = map;
+
+	this.div_ = null;
+
+	this.setMap(map);
+}
+
+USGSOverlay.prototype.onAdd = function() {
+	var div = document.createElement('DIV');
+	
+	div.style.borderStyle = "none";
+	div.style.borderWidth = "0px";
+	div.style.position = "absolute";
+
+	var text = document.createElement("label");
+	
+	text.html = this.text_;
+	text.style.width = "100%";
+	text.style.height = "100%";
+	div.appendChild(text);
+
+	this.div_ = div;
+
+	var panes = this.getPanes();
+	panes.floatPane.appendChild(div);
+}
+
+USGSOverlay.prototype.draw = function() {
+	var overlayProjection = this.getProjection();
+
+	var sw = overlayProjection
+			.fromLatLngToContainerPixel(this.lnglat);
+
+	var div = this.div_;
+}
+
+USGSOverlay.prototype.onRemove = function() {
+	this.div_.parentNode.removeChild(this.div_);
+	this.div_ = null;
 }
 
 /**
@@ -748,50 +816,52 @@ function range_location(longitudeArray, latitudeArray, points) {
 	var point_longitude_max = Math.max.apply(Math, longitudeArray);
 	var point_latitude_min = Math.min.apply(Math, latitudeArray);
 	var point_latitude_max = Math.max.apply(Math, latitudeArray);
-	
-	var south_west = new google.maps.LatLng(point_latitude_min,point_longitude_min);
-	var north_east = new google.maps.LatLng(point_latitude_max,point_longitude_max);
-	
-	var vehicles_bounds = new google.maps.LatLngBounds(south_west,north_east);
-	
+
+	var south_west = new google.maps.LatLng(point_latitude_min,
+			point_longitude_min);
+	var north_east = new google.maps.LatLng(point_latitude_max,
+			point_longitude_max);
+
+	var vehicles_bounds = new google.maps.LatLngBounds(south_west, north_east);
+
 	/**
 	 * 区域自动匹配用户查看设置 1 匹配 0 非匹配
 	 */
 	switch (parseInt(chanage_state)) {
-		case 1: //匹配
-		
-		//获取当前地图矩形范围
-				var bound = map.getBounds();
-				var map_min = bound.getSouthWest();
-				var map_max = bound.getNorthEast();
-				
-				var xmin = map_min.lng(); // 最小经度
-				var ymin = map_min.lat(); // 最小纬度
-				var xmax = map_max.lng(); // 最大经度
-				var ymax = map_max.lat(); // 最大纬度 
-				
-				var longitudeRange = xmax - xmin; // 矩形经度范围
-				var latitudeRange = ymax - ymin;  // 矩形纬度范围
-				
-				//验证车辆当前位置是否超出范围
-				var isOutofMapRange = (((point_longitude_min - xmin) / longitudeRange) <= leftOffsetRatio) ||
-				(((xmax - point_longitude_max) / longitudeRange) <= rightOffsetRatio) ||
-				(((point_latitude_min - ymin) / latitudeRange) <= downOffsetRatio) ||
-				(((ymax - point_latitude_max) / latitudeRange) <= upOffsetRatio);
-				
-				if (isOutofMapRange) {
-					//重新获得最佳位置
-					map.fitBounds(vehicles_bounds);
-				}
-				
-				break;
-				
-		case 0: // 非匹配
-			chanage_state = 1;
+	case 1: // 匹配
 
+		// 获取当前地图矩形范围
+		var bound = map.getBounds();
+		var map_min = bound.getSouthWest();
+		var map_max = bound.getNorthEast();
+
+		var xmin = map_min.lng(); // 最小经度
+		var ymin = map_min.lat(); // 最小纬度
+		var xmax = map_max.lng(); // 最大经度
+		var ymax = map_max.lat(); // 最大纬度
+
+		var longitudeRange = xmax - xmin; // 矩形经度范围
+		var latitudeRange = ymax - ymin; // 矩形纬度范围
+
+		// 验证车辆当前位置是否超出范围
+		var isOutofMapRange = (((point_longitude_min - xmin) / longitudeRange) <= leftOffsetRatio)
+				|| (((xmax - point_longitude_max) / longitudeRange) <= rightOffsetRatio)
+				|| (((point_latitude_min - ymin) / latitudeRange) <= downOffsetRatio)
+				|| (((ymax - point_latitude_max) / latitudeRange) <= upOffsetRatio);
+
+		if (isOutofMapRange) {
+			// 重新获得最佳位置
 			map.fitBounds(vehicles_bounds);
+		}
 
-			break;
+		break;
+
+	case 0: // 非匹配
+		chanage_state = 1;
+
+		map.fitBounds(vehicles_bounds);
+
+		break;
 	}
 }
 
@@ -842,7 +912,7 @@ function company_all_location() {
  */
 var info_old; // 上一次打开的信息浮窗
 
-function addInfoWin(marker,data) {
+function addInfoWin(marker, data) {
 	var openEvent = google.maps.event.addListener(marker, 'click', function() {
 		// 如果当前车辆点未发现改变时，不进行重新加载
 		if (backup_longitude == marker.getPosition().lng()
@@ -852,83 +922,85 @@ function addInfoWin(marker,data) {
 		// 备份最新车辆点经纬度数据
 		backup_longitude = marker.getPosition().lng();
 		backup_latitude = marker.getPosition().lat();
-		
-		if(info_old != undefined){
+
+		if (info_old != undefined) {
 			info_old.close();
 		}
-		
-		
+
 		var ready_content = "<div id='show_info_div'>正在载入....</div>";
-		
+
 		info = new google.maps.InfoWindow({
-			content: ready_content,
-			maxWidth: 250
+			content : ready_content,
+			maxWidth : 250
 		});
-		
+
 		// 当前车辆点信息窗口添加关闭监控事件
-		var closeEvent = google.maps.event.addListener(info, "closeclick", LTInfoWindow_close);
+		var closeEvent = google.maps.event.addListener(info, "closeclick",
+				LTInfoWindow_close);
 		vehicleEvent.push(closeEvent);// 添入事件队列中，重新加载时，在内存中清空历史事件
-		
-		info.open(map,marker);
+
+		info.open(map, marker);
 		info_old = info;
-		
-		$.ajax({
-			type : "POST",
-			url : window.parent.host + "/index.php?a=102&vehicle_id="
-					+ data.id,
-			dataType : "json",
-			success : function(json) {
-				var content = get_data(json);
-				info.setContent(content);
-			}
-		});
+
+		$
+				.ajax({
+					type : "POST",
+					url : window.parent.host + "/index.php?a=102&vehicle_id="
+							+ data.id,
+					dataType : "json",
+					success : function(json) {
+						var content = get_data(json);
+						info.setContent(content);
+					}
+				});
 	});
-	
+
 	vehicleEvent.push(openEvent);
-	
-//
-//	function shwoInfo() {
-//		info.setPoint(obj);
-//
-//		// 当前车辆点信息窗口添加关闭监控事件
-//		//var closeEvent = LTEvent.addListener(info, "close", LTInfoWindow_close);
-//		vehicleEvent.push(closeEvent);// 添入事件队列中，重新加载时，在内存中清空历史事件
-//
-//		// 如果当前车辆点未发现改变时，不进行重新加载
-//		if (backup_longitude == obj.getPoint().getLongitude()
-//				&& backup_latitude == obj.getPoint().getLatitude())
-//			return false;
-//
-//		// 备份最新车辆点经纬度数据
-//		backup_longitude = obj.getPoint().getLongitude();
-//		backup_latitude = obj.getPoint().getLatitude();
-//
-//		info.setTitle(title);
-//
-//		/**
-//		 * 如果上一次打开的信息浮窗不为空，则关闭它
-//		 */
-//		if (info_old != null) {
-//			info_old.closeInfoWindow();
-//		}
-//
-//		info_old = info; // 将信息浮窗变量赋与info_old;
-//		info.setLabel("<div id='show_info_div'>正在载入....</div>")
-//		$.ajax({
-//			type : "POST",
-//			url : window.parent.host + "/index.php?a=102&vehicle_id="
-//					+ vehicle_id,
-//			dataType : "json",
-//			success : function(data) {
-//				info.clear();// 清除信息浮窗内容
-//				info.setLabel(get_data(data));
-//				info.moveToShow(); // 如果信息浮窗超出屏幕范围，则移动到屏幕中显示
-//			}
-//		});
-//		map.addOverLay(info);// 添加新内容
-//	}
-//	var vehicle_event = LTEvent.addListener(obj, "click", shwoInfo);
-//	vehicleEvent.push(vehicle_event); // 添入事件队列中，重新加载时，在内存中清空历史事件
+
+	//
+	// function shwoInfo() {
+	// info.setPoint(obj);
+	//
+	// // 当前车辆点信息窗口添加关闭监控事件
+	// //var closeEvent = LTEvent.addListener(info, "close",
+	// LTInfoWindow_close);
+	// vehicleEvent.push(closeEvent);// 添入事件队列中，重新加载时，在内存中清空历史事件
+	//
+	// // 如果当前车辆点未发现改变时，不进行重新加载
+	// if (backup_longitude == obj.getPoint().getLongitude()
+	// && backup_latitude == obj.getPoint().getLatitude())
+	// return false;
+	//
+	// // 备份最新车辆点经纬度数据
+	// backup_longitude = obj.getPoint().getLongitude();
+	// backup_latitude = obj.getPoint().getLatitude();
+	//
+	// info.setTitle(title);
+	//
+	// /**
+	// * 如果上一次打开的信息浮窗不为空，则关闭它
+	// */
+	// if (info_old != null) {
+	// info_old.closeInfoWindow();
+	// }
+	//
+	// info_old = info; // 将信息浮窗变量赋与info_old;
+	// info.setLabel("<div id='show_info_div'>正在载入....</div>")
+	// $.ajax({
+	// type : "POST",
+	// url : window.parent.host + "/index.php?a=102&vehicle_id="
+	// + vehicle_id,
+	// dataType : "json",
+	// success : function(data) {
+	// info.clear();// 清除信息浮窗内容
+	// info.setLabel(get_data(data));
+	// info.moveToShow(); // 如果信息浮窗超出屏幕范围，则移动到屏幕中显示
+	// }
+	// });
+	// map.addOverLay(info);// 添加新内容
+	// }
+	// var vehicle_event = LTEvent.addListener(obj, "click", shwoInfo);
+	// vehicleEvent.push(vehicle_event); // 添入事件队列中，重新加载时，在内存中清空历史事件
 }
 
 /**
