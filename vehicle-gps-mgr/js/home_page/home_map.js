@@ -625,7 +625,7 @@
 			if(xMin != "" && (point_longitude < xMin || point_longitude > xMax || point_latitude < yMin || point_latitude > yMax)){
 				labelText += " 超出范围";
 			}else{
-				labelText += " 范围内";
+				labelText += " 正常范围";
 			}
 			
 			//设置车辆点标签属性

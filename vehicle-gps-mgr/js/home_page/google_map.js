@@ -1,7 +1,7 @@
 var map;
 var geocoder;
 
-var map_type;//判断地图是卫星模式还是普通地图,初始设为普通模式
+var map_type;// 判断地图是卫星模式还是普通地图,初始设为普通模式
 
 var longitude = 3991104; // 经度
 var latitude = 11636160; // 纬度
@@ -64,48 +64,13 @@ function load_map(latlng) {
 	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
 	map_type = map.getMapTypeId();
-	
-	var change_type_event = google.maps.event.addListener(map,"maptypeid_changed",function(){
-		map_type = map.getMapTypeId();
-	});
-	
-	var ltmControlDiv = document.createElement('DIV');
-	var ltmControl = new HomeControl(ltmControlDiv, map);
 
-	ltmControlDiv.index = 1;
-	map.controls[google.maps.ControlPosition.TOP_RIGHT].push(ltmControlDiv);
+	var change_type_event = google.maps.event.addListener(map,
+			"maptypeid_changed", function() {
+				map_type = map.getMapTypeId();
+			});
 
 	init_run_refresh_operate();
-}
-
-function HomeControl(controlDiv, map) {
-	controlDiv.style.padding = '5px';
-
-	var controlUI = document.createElement('DIV');
-
-	controlUI.style.backgroundColor = 'white';
-	controlUI.style.borderStyle = 'solid';
-	controlUI.style.borderWidth = '2px';
-	controlUI.style.cursor = 'pointer';
-	controlUI.style.textAlign = 'center';
-	controlUI.style.marginTop = '4px';
-	controlUI.style.marginRight = '54px';
-	controlUI.title = '添加标注';
-	controlDiv.appendChild(controlUI);
-
-	var controlText = document.createElement('DIV');
-
-	controlText.style.fontFamily = 'Arial,sans-serif';
-	controlText.style.fontSize = '12px';
-	controlText.style.paddingLeft = '4px';
-	controlText.style.paddingRight = '4px';
-	controlText.style.paddingTop = '4px';
-	controlText.innerHTML = '<b>添加标注</b>';
-	controlUI.appendChild(controlText);
-
-	google.maps.event.addDomListener(controlUI, 'mouseup', function() {
-
-	});
 }
 
 function showAddress(address) {
@@ -245,7 +210,8 @@ function get_vehicle_location_data(operate) {
 	// 请求车辆定位数据
 	$.ajax({
 		type : "POST",
-		url : window.parent.host + "/index.php" + request_param +"&map_type=" + map_type,
+		url : window.parent.host + "/index.php" + request_param + "&map_type="
+				+ map_type,
 		dataType : "json",
 		success : function(data) {
 			if (data != null) {
@@ -658,6 +624,11 @@ function show_all_vehicle_location(data, length, run_index) {
 		img_name = data[0]['cur_direction']; // 图片名
 		file_path = data[0]['file_path']; // 文件路径
 
+		xMin = data[0]['xMin'];
+		yMin = data[0]['yMin'];
+		xMax = data[0]['xMax'];
+		yMax = data[0]['yMax'];
+
 		// 循环
 		// 取得所有车的最大经度、最小经度、最大纬度、最小纬度
 		longitudeArray[i] = point_longitude;
@@ -717,22 +688,38 @@ function show_all_vehicle_location(data, length, run_index) {
 			icon : ltIcon,
 			title : number_plate
 		});
-		
+
+		var labelText = "";
+		var backgroundColor = null;
+
 		switch (parseInt(alert_state)) {// 当前车辆状态
-			 case 0: // 正常状态
-				 labelText = number_plate + " 正常";
-			 break;
-			 case 1: // 超速状态
-			 labelText = number_plate + " 超速";
-			 backgroundColor = "red";// 更改文字标签背景色
-			 break;
-			 default: //
-			 labelText = number_plate + " 疲劳";
-			 text.setBackgroundColor("yellow");// 更改文字标签背景色
-			 break;
+		case 0: // 正常状态
+			labelText = number_plate + " 正常";
+			backgroundColor = "#FFFFD7";// 更改文字标签背景色
+			
+			break;
+
+		case 1: // 超速状态
+			labelText = number_plate + " 超速";
+			backgroundColor = "red";// 更改文字标签背景色
+
+			break;
+
+		default: //
+			labelText = number_plate + " 疲劳";
+			backgroundColor = "yellow";
+			break;
 		}
 
-		//var label_text = new USGSOverlay(ltPoint,"kobe",);
+		if (xMin != ""
+				&& (point_longitude < xMin || point_longitude > xMax
+						|| point_latitude < yMin || point_latitude > yMax)) {
+			labelText += " 超出范围";
+		} else {
+			labelText += " 正常范围";
+		}
+
+		var label = new NameOverlay(ltPoint, labelText, backgroundColor, map);
 
 		points.push(ltPoint);
 
@@ -740,6 +727,7 @@ function show_all_vehicle_location(data, length, run_index) {
 
 		points.push(ltPoint);
 		overLay.push(marker);// 将车辆点,添入将删除标注点队列中,定期清除
+		overLay.push(label);
 
 		data.shift();// 移除已使用下标
 
@@ -755,48 +743,59 @@ function show_all_vehicle_location(data, length, run_index) {
 	return run_index;
 }
 
-USGSOverlay.prototype = new google.maps.OverlayView();
+NameOverlay.prototype = new google.maps.OverlayView();
 
-function USGSOverlay(lnglat, text, map) {
-	this.lnglat = lnglat;
-	this.text = text;
+// NameOverlay定义
+function NameOverlay(point, name, backgroundColor, map) {
+
+	// 初始化参数：坐标、文字、地图
+	this.point_ = point;
+	this.name_ = name;
 	this.map_ = map;
+	this.backgroundColor = backgroundColor;
 
+	// 到onAdd时才需要创建div
 	this.div_ = null;
 
+	// 加入map
 	this.setMap(map);
 }
 
-USGSOverlay.prototype.onAdd = function() {
+NameOverlay.prototype.onAdd = function() {
+	// 创建一个div，其中包含了当前文字
 	var div = document.createElement('DIV');
-	
-	div.style.borderStyle = "none";
 	div.style.borderWidth = "0px";
+	div.style.background = this.backgroundColor;
 	div.style.position = "absolute";
 
-	var text = document.createElement("label");
-	
-	text.html = this.text_;
-	text.style.width = "100%";
-	text.style.height = "100%";
-	div.appendChild(text);
+	var span = document.createElement("span");
+	var text = document.createTextNode(this.name_);
+	span.appendChild(text);
+	div.appendChild(span);
 
 	this.div_ = div;
 
 	var panes = this.getPanes();
-	panes.floatPane.appendChild(div);
+	panes.overlayImage.appendChild(div);
 }
 
-USGSOverlay.prototype.draw = function() {
+NameOverlay.prototype.draw = function() {
+	// 利用projection获得当前视图的坐标
 	var overlayProjection = this.getProjection();
 
-	var sw = overlayProjection
-			.fromLatLngToContainerPixel(this.lnglat);
+	var center = overlayProjection.fromLatLngToDivPixel(this.point_);
 
+	// 为简单，长宽是固定的，实际应该根据文字改变
 	var div = this.div_;
+	div.style.left = center.x + 'px';
+	div.style.top = center.y + 'px';
+	div.style.width = '146px';
+	div.style.height = '10px';
+	div.style.color = "#993300";
+	div.style.border = "solid 1px #ADAEAC";
 }
 
-USGSOverlay.prototype.onRemove = function() {
+NameOverlay.prototype.onRemove = function() {
 	this.div_.parentNode.removeChild(this.div_);
 	this.div_ = null;
 }
