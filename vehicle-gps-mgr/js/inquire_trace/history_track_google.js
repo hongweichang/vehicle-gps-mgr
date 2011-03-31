@@ -132,7 +132,7 @@ function wait(){
 function drawHistoryTrack(time,vehicle_id){   
 	var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";   
 	$("#google_history").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
-	alert(map_type);
+
 	$.ajax({
 		type:"POST",
 		url:window.parent.host+"/index.php?a=353&map_type="+map_type+"&time="+time+"&vehicle_id="+vehicle_id, 
