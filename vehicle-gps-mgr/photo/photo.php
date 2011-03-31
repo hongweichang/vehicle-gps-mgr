@@ -54,7 +54,11 @@ switch ($act) {
 		//$allfiles = glob ( "images/13823358278*", GLOB_NOSORT );
 		
 
-		echo json_encode ( $allfiles );
+		if (empty ( $allfiles )) {
+			echo "fail";
+		} else {
+			echo json_encode ( $allfiles );
+		}
 		
 		break;
 }
