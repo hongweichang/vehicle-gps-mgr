@@ -20,6 +20,8 @@ var chanage_state = 0;
 var state = "stop"; 
 var marker;   // 地图标记对象
 
+var map_type;//判断地图是卫星模式还是普通地图,初始设为普通模式
+
 
 var leftOffsetRatio = 0.05;  // 矩形左间距
 var rightOffsetRatio = 0.1;  // 矩形右间距
@@ -40,6 +42,12 @@ function load_map(latlng) {
 	};
 
 	map = new google.maps.Map(document.getElementById("google_history"), myOptions);
+	
+	map_type = map.getMapTypeId();
+	
+	var change_type_event = google.maps.event.addListener(map,"maptypeid_changed",function(){
+		map_type = map.getMapTypeId();
+	});
 	
 	var pre_id = parent.document.getElementById("pre_vehicle_id").value;
 	
@@ -124,10 +132,10 @@ function wait(){
 function drawHistoryTrack(time,vehicle_id){   
 	var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";   
 	$("#google_history").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
-	
+	alert(map_type);
 	$.ajax({
 		type:"POST",
-		url:window.parent.host+"/index.php?a=353&time="+time+"&vehicle_id="+vehicle_id, 
+		url:window.parent.host+"/index.php?a=353&map_type="+map_type+"&time="+time+"&vehicle_id="+vehicle_id, 
 		dataType:"json",
 		success:function(data){  
 		if(state == "stop") return false; // 停止状态不能运行
