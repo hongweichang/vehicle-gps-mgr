@@ -122,6 +122,8 @@ jQuery("#m6").click(function(){
 		return false;
 	}
 	
+	$("#history_photos").empty();
+	
 	var gps_id = jQuery("#vehicle_status_list").jqGrid('getCell',s,"gps_id");
 	
 	$.get("index.php?a=703&gps_id="+gps_id,function(data){
