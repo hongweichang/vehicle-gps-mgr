@@ -20,7 +20,7 @@ var chanage_state = 0;
 var state = "stop"; 
 var marker;   // 地图标记对象
 
-var map_type;//判断地图是卫星模式还是普通地图,初始设为普通模式
+var map_type;//判断地图是卫星模式还是普通地图,初始设为卫星模式
 
 
 var leftOffsetRatio = 0.05;  // 矩形左间距
@@ -38,7 +38,7 @@ function load_map(latlng) {
 	var myOptions = {
 		zoom : 8,
 		center : latlng,
-		mapTypeId : google.maps.MapTypeId.ROADMAP
+		mapTypeId : google.maps.MapTypeId.HYBRID
 	};
 
 	map = new google.maps.Map(document.getElementById("google_history"), myOptions);
@@ -75,6 +75,12 @@ function showAddress(address) {
  * 运行历史轨迹
  */
 function runHistoryTrack(){  
+	var myOptions = {
+		mapTypeControl : false
+	};
+	
+	map.setOptions(myOptions);
+	
 	// 如果当前画线数组还存在数据，继续执行画线
 	if(window.parent.drawLine_arr != null  && state === "normal"){
 		if(window.parent.drawLine_arr.length > 0 ){ 
@@ -265,6 +271,12 @@ function newDrawLine(){
  * @return 停止运行 返回上一级操作
  */
 function  end_history_line(){
+	var myOptions = {
+			mapTypeControl : true
+		};
+		
+	map.setOptions(myOptions);
+	
 	window.parent.empty_cur_vhicle_history();
 	
 	state = "stop";
