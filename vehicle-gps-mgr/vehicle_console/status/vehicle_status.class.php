@@ -272,8 +272,8 @@ class Vehicle_status extends BASE
  			//获取地址信息并将gb2312编码转换为utf-8
  			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude_51ditu.",".$latitude_51ditu));
  		 	
- 			$location_desc = $this->parse_location_decs($location);//从XML中解析地址信息
- 			
+ 			//$location_desc = $this->parse_location_decs($location);//从XML中解析地址信息
+ 			$location_desc = iconv("gb2312","utf-8",$this->get_address_by_lnglat($cur_longitude, $cur_latitude));
  			
  		 	$parms["pos_longitude"] = $longitude;
  		 	$parms["pos_latitude"] = $latitude;
@@ -288,6 +288,17 @@ class Vehicle_status extends BASE
  		
  		return $location_desc;
     }
+    
+	/**
+	 * php模拟POST提交获取地址信息
+	 */
+	function get_address_by_lnglat($longitude, $latitude) {
+		require 'HttpClient.class.php';
+		$xml_str = iconv("utf-8","gb2312",'<?xml version="1.0" encoding="gb2312"?><GIS><REQUEST user="111" pwd="111" ><BODY cmd="GETPOS" lat="'.$latitude.'" lon="'.$longitude.'" ></BODY></REQUEST></GIS>');
+
+		$pageContents = HttpClient::quickPost ( 'http://61.139.76.49:7001', $xml_str );
+		return $pageContents;
+	}
     
     /**
      *     判断gps状态 ，0无，1有
