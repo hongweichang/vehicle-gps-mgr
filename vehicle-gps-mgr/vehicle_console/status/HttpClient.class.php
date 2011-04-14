@@ -110,7 +110,7 @@ class HttpClient {
     	// Now start reading back the response
     	
     	while (!feof($fp)) {
-    	    $line = fgets($fp);
+    	    $line = fgets($fp,4096);
     	    
     	    if ($atStart) {
     	        // Deal with first line of returned data
@@ -130,6 +130,12 @@ class HttpClient {
     	        if (trim($line) == '') {
     	            $inHeaders = false;
     	            $this->debug('Received Headers', $this->headers);
+    	            
+    	         	if($content_length){
+		    	    	$this->content = fread($fp, $content_length);
+		    	    	//$this->content = file_get_contents($fp,null,null,null,$content_length);
+    	   			}
+    	   			
     	            if ($this->headers_only) {
     	                break; // Skip the rest of the input
     	            }
@@ -160,13 +166,6 @@ class HttpClient {
     	        continue;
     	    }
     	    // We're not in the headers, so append the line to the contents
-    	    $this->content .= $line;
-    	    
-    	    if($content_length){
-    	    	if($content_length == strlen($this->content)){
-    	    		break;
-    	    	}
-    	    }
         }
         fclose($fp);
         // If data is compressed, uncompress it

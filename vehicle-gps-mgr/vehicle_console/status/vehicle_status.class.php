@@ -270,7 +270,7 @@ class Vehicle_status extends BASE
  		else
  		{
  			//获取地址信息并将gb2312编码转换为utf-8
- 			$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude_51ditu.",".$latitude_51ditu));
+ 			//$location = iconv("gb2312", "utf-8",file_get_contents("http://ls.vip.51ditu.com/mosp/gc?pos=".$longitude_51ditu.",".$latitude_51ditu));
  		 	
  			//$location_desc = $this->parse_location_decs($location);//从XML中解析地址信息
  			$location_desc = iconv("gb2312","utf-8",$this->get_address_by_lnglat($cur_longitude, $cur_latitude));
