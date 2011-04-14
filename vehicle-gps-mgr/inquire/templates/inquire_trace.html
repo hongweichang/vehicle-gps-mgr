@@ -1,16 +1,28 @@
 {{HEADER}}
- 
+<link type="text/css" href="css/jquery.loadmask.small.css"  media="screen" rel="stylesheet" />
+<style type="text/css">
+
+.export{
+	border:solid 1px #999999;
+	background-color:#cdd3dc;
+	height:20px;
+	cursor:hand;
+	padding-top:1px;
+}
+
+</style>
 <div style="left:0px;height:100%;width:93%;">
 	<div class="body_div" >
 		<div id="control_map" class="control_map">
+		<form method="post" action="/index.php?a=303">
 			<div class="area_content">
-				<div class="start_div keep_left">开始时间1：</div>
+				<div class="start_div keep_left">开始时间：</div>
 				<div class="start_input keep_left">
-					<input type="text" id="inquire_startTime" size="16"/>
+					<input type="text" id="inquire_startTime" name="inquire_startTime" size="16"/>
 				</div>
 				<div class="end_time keep_left">结束时间：</div> 
 				<div class="end_div keep_left">
-					<input type="text" id="inquire_endTime" size="16"/>
+					<input type="text" id="inquire_endTime" name="inquire_endTime" size="16"/>
 				</div>
 			</div>
 			
@@ -19,11 +31,12 @@
 					<span id='info_select_vehicle'>选择车辆</span>
 				</div>
 				<div class="vehicle_info">
-					<select id="vehicle_info">{{vehicle_list}}</select>
+					<select id="vehicle_info" name="vehicle_info">{{vehicle_list}}</select>
 				</div>
 			</div>
-			
-			<div id="progress_content" class="progress_content">
+						 <input class="export keep_left" type="submit" value="导出数据"  />
+			</form>
+			<div id="progress_content" class="progress_content keep_left">
 				 	<div class="slow_div keep_left">慢</div>
 					<div id="cur_run_time" class="keep_left"></div>
 					<div class="fase_content keep_left">快</div>
@@ -34,6 +47,7 @@
 				<button id="play_history" style="width:20px;height:20px;">播放</button>
 				<button id="stop_history" style="width:20px;height:20px;">停止</button> 
 			 </div>
+
 		</div>
 		<div>
 			<span>切换地图：</span>
@@ -108,7 +122,9 @@
 	</div>
 </div>
 {{INHERIT}}
+
 <script type="text/javascript">
+
 
 /**
  * 将变量声明此处，为了关闭窗口时，清除历史轨迹请求数据。
@@ -127,7 +143,9 @@ function position(){
 	 }else{
 		setTimeout("position();",1000);
 	 }	 
-} 
+}
+
+
 /**
  * 清除历史轨迹数据
  */
@@ -135,9 +153,14 @@ function clear_history_track(){
 		arr_history = null; //初始历史时间数组为空
 		drawLine_arr = null;//初始画线数组为空 
 }
+
+/**
+ * 读取数据等待页面结果
+ */
+
 </script>
 <script language="javascript" src="js/common.js"></script>
 <script language="javascript" src="js/inquire_trace/inquire_common.js"></script>
 <script type="text/javascript" src="js/inquire_trace/inquire_trace.js"></script>
-
+<script language="javascript" src="js/jquery.loadmask.min.js" ></script>
 {{FOOTER}}	

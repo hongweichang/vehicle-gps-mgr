@@ -100,6 +100,16 @@ class Inquire extends BASE
     	$driver = $GLOBALS['db']->query($this->sql);
     	return $driver;
     }
+    
+    /**
+     * 		根据车辆ID查询车辆名称
+     */
+    function get_vehicle_name($id){
+    	$sql = "select number_plate from vehicle_manage where id='$id'";
+		$result = mysql_query($sql);
+		$row = mysql_fetch_row($result);
+		return  $row[0];
+    }
  
 }
 ?>

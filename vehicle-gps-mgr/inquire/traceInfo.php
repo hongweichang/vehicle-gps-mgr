@@ -156,7 +156,7 @@ class Position_parser
 				/**颜色*/
 				$trace_info->color = $this->color_mapper->get_color($trace_info->speed, $this->company_id); 
 				/**地址描述*/
-				//$trace_info->location_desc = $vehicle_status->get_location_desc($trace_info->longitude, $trace_info->latitude); 
+				$trace_info->location_desc = $vehicle_status->get_location_desc($trace_info->longitude, $trace_info->latitude); 
 				/**图片路径*/
 				$trace_info->img_path = $this->get_img_path($trace_info->color, $trace_info->direction); 
 				
@@ -293,4 +293,5 @@ class Position_parser
 		&& $position->latitude <= $areaInfo->positionList[1]->latitude);
 	}
 }
+
 ?>

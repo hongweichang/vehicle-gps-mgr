@@ -20,12 +20,94 @@ $sord = $_REQUEST ['sord']; // get the direction
 $searchfil = $_REQUEST ['searchField']; // get the direction
 $searchstr = $_REQUEST ['searchString']; // get the direction
 
+ 
+switch($act)
+{
+	
+	case "export":	//导出历史轨迹数据
 
-switch ($act) {
-	case "main" : //填写信息内容页面
-		echo $GLOBALS ['db']->display ( null, $act );
+		require_once 'traceInfo.php';
+		require_once 'color_mapper.php';
+		
+		//获取前台数据
+		$inquire_startTime = $_POST['inquire_startTime'];		
+		$inquire_endTime = $_POST['inquire_endTime'];
+		$company_id = get_session("company_id"); //获取当前公司ID  		
+		$id = $_POST['vehicle_info'];	
+		
+		
+		//时间按照1小时循环递增,并随时间读取数据文件		
+		$inquire_startTime = strtotime($inquire_startTime); 
+		$timeunix=date('Y/m/d H:i:s',time());
+		$inquire_endTime = strtotime($inquire_endTime);
+		$point_info = array();
+		$index= 0;
+		
+		for ($timeunix=$inquire_startTime;$timeunix<=$inquire_endTime;$timeunix+=(60*60)){
+			$time = date("YmdH",$timeunix);
+		
+			$parser = new Position_parser($company_id,$id,$time);			//traceInfo类
+			$export_list = $parser->getDataList();							//读取数据文件形成数据列表
+		
+			if($export_list == null){
+				echo json_encode(0);
+				break;
+			}
+						
+			$ve_status = new Vehicle_status(); 		
+				 
+			foreach($export_list as $key=>$val)						//读取数据形成记录
+				{
+					$long = $ve_status->around($val->longitude,0);
+					$lat = $ve_status->around($val->latitude,0);
+					$ve_status->exact_lon_lat($long, $lat);			//通过经纬度解析地址
+							
+					$point_info[$index][$key][0] = $val->location_time;		//时间
+					$point_info[$index][$key][1] = $val->speed;				//速度
+					$point_info[$index][$key][2] = $val->location_desc;		//地址 
+				}			
+				$index ++;
+
+		}
+		//导出excel表名称为选择车辆名称
+		$inquire = new Inquire;									//实例化inquire.class
+		$vehicle_name = $inquire->get_vehicle_name($id);		//通过车辆ID查询车辆名称
+		
+		//数据导入excel并执行下载功能
+		$output = "<HTML>";
+		
+		$output .= "<HEAD>";
+		$output .= "<META http-equiv=Content-Type content=\"text/html; charset=utf-8\">";
+		$output .= "</HEAD>";
+		
+		$output .= "<BODY>";
+		$output .= "<TABLE BORDER=1>";
+		$output .= "<tr><td>当前时间</td><td>速度</td><td>当前时间所在详细地址</td></tr>";
+		foreach ($point_info as $item) {
+			foreach ($item as $key =>$val)
+			{
+				$output .= "<tr><td>'$val[0]</td><td>$val[1]</td><td>$val[2]</td></tr>";	
+			}
+		}
+		$output .= "</TABLE>";
+		$output .= "</BODY>";		
+		$output .= "</HTML>";										
+		$filename="$vehicle_name.xls";										//文件名称
+		if (preg_match("/MSIE/",$_SERVER['HTTP_USER_AGENT'])) {		//判断是否为IE浏览器
+			$filename = rawurlencode($filename);
+		}
+		header("Content-type:application/msexcel");
+		header("Content-disposition: attachment; filename=$filename");							
+		header("Cache-control: private");
+		header("Pragma: private");
+		print($output);		
 		break;
-	case "trace" :
+		
+	case "main":	//填写信息内容页面
+		echo $GLOBALS['db']->display(null,$act);
+ 
+		break; 
+	case "trace": 
 		$options = ""; //车辆下拉框
 		$function_operate = ""; //功能操作
 		$position_vehicle = ""; //定位车辆脚本 
@@ -83,11 +165,12 @@ switch ($act) {
 		$id = $_REQUEST ['vehicle_id']; //车辆ID
 		$company_id = get_session ( "company_id" ); //获取当前公司ID  
 		$time = $_REQUEST ['time'];
-		
-		$parser = new Position_parser ( $company_id, $id, $time );
-		$datalist = $parser->getDataList ();
-		if ($datalist == null) {
-			echo json_encode ( 0 );
+		 
+		$parser = new Position_parser($company_id,$id,$time);		//traceInfo类	直接调用
+		$datalist = $parser->getDataList();							//类方法,从数据文件里提取数据.直接调用
+		if($datalist == null){
+			echo json_encode(0);
+ 
 			break;
 		}
 		
@@ -121,6 +204,7 @@ switch ($act) {
 		}
 		
 		echo json_encode ( array_reverse ( $trace_info ) );
+		
 		break;
 	
 	case "get_history_info" : //查询历史发布信息
