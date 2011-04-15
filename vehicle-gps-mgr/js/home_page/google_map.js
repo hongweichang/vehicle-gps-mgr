@@ -930,7 +930,7 @@ function addInfoWin(marker, data) {
 
 		info = new google.maps.InfoWindow({
 			content : ready_content,
-			maxWidth : 250
+			maxWidth : 270
 		});
 
 		// 当前车辆点信息窗口添加关闭监控事件
@@ -1040,7 +1040,7 @@ function get_data(data) {
 				+ location_time
 				+ "</div></div>"
 				+ "<div class='content_div'><div class='title'>地址：</div> "
-				+ "<div class='address_content' id='cur_address'><a href='javascript:getAddressByLngLat("+data.cur_longitude+","+data.cur_latitude+")'>点击获取地址</a><br/><br/></div></div></div>"
+				+ "<div class='address_content' id='cur_address'><a href='javascript:getAddressByLngLat("+data.cur_longitude+","+data.cur_latitude+")'>点击获取地址</a><br/><br/><br/></div></div></div>"
 				+ "<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"300\" showHeight=\"350\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids="
 				+ vehicle_id
 				+ "\")'><a href='#'>发布信息</a></div>"
