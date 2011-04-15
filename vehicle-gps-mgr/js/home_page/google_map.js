@@ -950,10 +950,6 @@ function addInfoWin(marker, data) {
 					success : function(json) {
 						var content = get_data(json);
 						info.setContent(content);
-						
-						$.get(window.parent.host+"/index.php?a=110",{lng:data['cur_longitude'],lat:data['cur_latitude']},function(address){
-							$("#cur_address").text(address);
-						});
 					}
 				});
 	});
@@ -1044,7 +1040,7 @@ function get_data(data) {
 				+ location_time
 				+ "</div></div>"
 				+ "<div class='content_div'><div class='title'>地址：</div> "
-				+ "<div class='address_content' id='cur_address'>获取中...<br/><br/></div></div></div>"
+				+ "<div class='address_content' id='cur_address'><a href='javascript:getAddressByLngLat("+data.cur_longitude+","+data.cur_latitude+")'>点击获取地址</a><br/><br/></div></div></div>"
 				+ "<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"300\" showHeight=\"350\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids="
 				+ vehicle_id
 				+ "\")'><a href='#'>发布信息</a></div>"
@@ -1069,6 +1065,16 @@ function get_data(data) {
 		return context;
 	}
 }
+
+/**
+ * 根据经纬度获取地址
+ */
+function getAddressByLngLat(lng,lat){
+	$.get(window.parent.host+"/index.php?a=110",{lng:lng,lat:lat},function(address){
+		$("#cur_address").html(address);
+	});
+}
+
 /**
  * 车辆刷新定位操作
  * 
