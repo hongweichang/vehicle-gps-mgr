@@ -126,7 +126,7 @@ switch($act)
 			//gprs正常状态操作
 			if($val['gprs_status'] == 1){
 				$vehicle_position_str = "<a href='#' title='车辆定位' onclick='vehicle_position(".$val['id'].")' name=".$val['id'].">定位>></a>";
-				$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude']);//根据经纬度得到地址信息
+				$cur_location = $vehicle->get_location_desc($val['cur_longitude'],$val['cur_latitude'] ,$gis_info ['gis_url'], $gis_info ['user_name'], $gis_info ['passwd']);//根据经纬度得到地址信息
 			} 
 			
 			//设置显示列表
