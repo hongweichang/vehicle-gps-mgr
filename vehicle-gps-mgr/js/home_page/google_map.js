@@ -1070,6 +1070,7 @@ function get_data(data) {
  * 根据经纬度获取地址
  */
 function getAddressByLngLat(lng,lat){
+	$("#cur_address").html("获取中...");
 	$.get(window.parent.host+"/index.php?a=110",{lng:lng,lat:lat},function(address){
 		$("#cur_address").html(address);
 	});

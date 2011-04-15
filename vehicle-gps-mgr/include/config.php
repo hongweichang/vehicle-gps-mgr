@@ -70,4 +70,11 @@ $google_map_config = array(
 	"is_exact" => "roadmap" //判断地图是卫星模式还是普通模式，普通模式则对经纬度纠偏
 );
 
+//根据经纬度解析地址，彭总服务器用户名密码
+$gis_info = array(
+	"user_name" => "111", //用户名
+	"passwd" => "111", //密码
+	"gis_url" => "http://61.139.76.49:7001" //根据经纬度查询地址信息URL
+);
+
 ?>

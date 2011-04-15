@@ -107,16 +107,17 @@ switch ($act) {
 			$lat = $ve_status->around ( $vehicle [0] ['cur_latitude'], 0 ); //纬度
 		}
 		
-		$vehicle[0]['cur_longitude'] = $lon;
-		$vehicle[0]['cur_latitude'] = $lat;
+		$vehicle [0] ['cur_longitude'] = $lon;
+		$vehicle [0] ['cur_latitude'] = $lat;
 		
-//		$address = $ve_status->get_location_desc ( $lon / 100000, $lat / 100000 ); //地址
-//		if ($address != false) {
-//			$vehicle [0] ['location_desc'] = $address;
-//		} else {
-//			$vehicle [0] ['location_desc'] = "经纬度信息错误";
-//		}
+		//		$address = $ve_status->get_location_desc ( $lon / 100000, $lat / 100000 ); //地址
+		//		if ($address != false) {
+		//			$vehicle [0] ['location_desc'] = $address;
+		//		} else {
+		//			$vehicle [0] ['location_desc'] = "经纬度信息错误";
+		//		}
 		
+
 		if ($vehicle [0] ['group_name'] == null) {
 			$vehicle [0] ['group_name'] = "未设置";
 		}
@@ -127,13 +128,13 @@ switch ($act) {
 		
 		echo json_encode ( ($vehicle [0]) );
 		break;
-		
+	
 	case "getAdressByLngLat" :
 		$ve_status = new Vehicle_status ();
-		$lon = $_REQUEST['lng'];
-		$lat = $_REQUEST['lat'];
+		$lon = $_REQUEST ['lng'];
+		$lat = $_REQUEST ['lat'];
 		
-		$address = $ve_status->get_location_desc ( $lon / 100000, $lat / 100000 ); //地址
+		$address = $ve_status->get_location_desc ( $lon / 100000, $lat / 100000, $gis_info ['gis_url'], $gis_info ['user_name'], $gis_info ['passwd'] ); //地址
 		if ($address != false) {
 			echo $address;
 		} else {

@@ -254,7 +254,7 @@ class Vehicle_status extends BASE {
 	 * @param $cur_longitude
 	 * @param $cur_latitude
 	 */
-	function get_location_desc($cur_longitude, $cur_latitude) {
+	function get_location_desc($cur_longitude, $cur_latitude, $url, $user_name, $passwd) {
 		//将经纬度转换成51地图规定的经纬度
 		$longitude_51ditu = $this->around ( $cur_longitude, 0 );
 		$latitude_51ditu = $this->around ( $cur_latitude, 0 );
@@ -275,7 +275,7 @@ class Vehicle_status extends BASE {
 			
 
 			//$location_desc = $this->parse_location_decs($location);//从XML中解析地址信息
-			$location = iconv ( "gb2312", "utf-8", $this->get_address_by_lnglat ( $cur_longitude, $cur_latitude ) );
+			$location = iconv ( "gb2312", "utf-8", $this->get_address_by_lnglat ( $cur_longitude, $cur_latitude, $url, $user_name, $passwd ) );
 			$location_desc = $this->parse_location_dis ( $location );
 			
 			$parms ["pos_longitude"] = $longitude;
@@ -294,11 +294,12 @@ class Vehicle_status extends BASE {
 	/**
 	 * php模拟POST提交获取地址信息
 	 */
-	function get_address_by_lnglat($longitude, $latitude) {
+	function get_address_by_lnglat($longitude, $latitude, $url, $user_name, $passwd) {
 		require 'HttpClient.class.php';
-		$xml_str = iconv ( "utf-8", "gb2312", '<?xml version="1.0" encoding="gb2312"?><GIS><REQUEST user="111" pwd="111" ><BODY cmd="GETPOS" lat="' . $latitude . '" lon="' . $longitude . '" ></BODY></REQUEST></GIS>' );
 		
-		$pageContents = HttpClient::quickPost ( 'http://61.139.76.49:7001', $xml_str );
+		$xml_str = iconv ( "utf-8", "gb2312", '<?xml version="1.0" encoding="gb2312"?><GIS><REQUEST user="' . $user_name . '" pwd="' . $passwd . '" ><BODY cmd="GETPOS" lat="' . $latitude . '" lon="' . $longitude . '" ></BODY></REQUEST></GIS>' );
+		$pageContents = HttpClient::quickPost ( $url, $xml_str );
+		
 		return $pageContents;
 	}
 	
