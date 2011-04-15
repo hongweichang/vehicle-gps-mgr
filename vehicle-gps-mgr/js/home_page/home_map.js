@@ -779,6 +779,10 @@
 					info.clear();//清除信息浮窗内容
 					info.setLabel(get_data(data));
 					info.moveToShow(); //如果信息浮窗超出屏幕范围，则移动到屏幕中显示 
+					
+					$.get(window.parent.host+"/index.php?a=110",{lng:data['cur_longitude'],lat:data['cur_latitude']},function(address){
+						$("#cur_address").text(address);
+					});
 				}
 			}); 
 			map.addOverLay(info);//添加新内容		
@@ -800,7 +804,7 @@
 			var cur_speed = data['cur_speed'];//当前速度
 			var vehicle_group_name = data['group_name']; //车队
 			var driver_name = data['driver_name']; //驾驶员
-			var location_desc = data['location_desc']; //地址
+			//var location_desc = data['location_desc']; //地址
 			
 			var context = 
 					"<div class='content_div'><div class='title'>GPS编号：</div>" +
@@ -814,7 +818,7 @@
 					"<div class='content_div'><div class='title'>定位时间：</div>" +
 					"<div class='content'>"+location_time +"</div></div>" +
 					"<div class='content_div'><div class='title'>地址：</div> " +
-					"<div class='address_content'>"+location_desc +"</div></div></div>" +
+					"<div class='address_content' id='cur_address'>获取中...<br/><br/></div></div></div>" +
 					"<div class='oprate'><div class='send_info' url='index.php?a=201' showWidth=\"300\" showHeight=\"350\" title='发布信息' onclick='window.parent.showOperationDialog(this,\"index.php?a=201&hidden=1&vehicle_ids=" +
 					vehicle_id +
 					"\")'><a href='#'>发布信息</a></div>" +

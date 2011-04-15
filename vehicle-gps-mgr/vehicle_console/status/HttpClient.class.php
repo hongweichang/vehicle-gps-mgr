@@ -106,11 +106,10 @@ class HttpClient {
     	$inHeaders = true;
     	$atStart = true;
     	$content_length = false;
-    	$read_length = false;
     	// Now start reading back the response
     	
     	while (!feof($fp)) {
-    	    $line = fgets($fp,4096);
+    	    $line = fgets($fp);
     	    
     	    if ($atStart) {
     	        // Deal with first line of returned data
@@ -133,6 +132,7 @@ class HttpClient {
     	            
     	         	if($content_length){
 		    	    	$this->content = fread($fp, $content_length);
+		    	    	break;
 		    	    	//$this->content = file_get_contents($fp,null,null,null,$content_length);
     	   			}
     	   			
