@@ -265,8 +265,9 @@ function trace_change_map() {
 	
 	var show_text = formart_map_type(trace_map_type);
 	$("#trace_change_map").text(show_text);
-	
 	$("#pre_vehicle_id").val($("#vehicle_info").val());
+	
+	$("#history_track_frame").empty();
 
 	if ("51ditu" == trace_map_type) {
 		trace_map_type = "google";

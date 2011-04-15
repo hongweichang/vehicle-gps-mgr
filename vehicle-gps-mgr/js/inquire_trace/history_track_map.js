@@ -144,7 +144,7 @@
 	 */
 	function drawHistoryTrack(time,vehicle_id){   
 		var space = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";   
-		$("#51map").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
+		$("#51mask").mask(space+"查询中...<br>"+format_time(time,"yyyy/MM/DD/HH"));  
 
 		$.ajax({
 			type:"POST",
@@ -153,7 +153,7 @@
 			success:function(data){  
 			if(state == "stop") return false; //停止状态不能运行
 			 
-			$("#map").unmask();
+			$("#51mask").unmask();
 			
 			/**
 			 * 日期请求查询路线为空操作
@@ -457,5 +457,5 @@
 		 * @return
 		 */
 		function cancle_mask(){
-			$("#51map").unmask();
+			$("#51mask").unmask();
 		}
