@@ -3,9 +3,9 @@
 
 //数据库配置
 $db_config = array(
-	'HOST'			=> '220.194.47.152',
-	'USERNAME'			=> 'qinyh',
-	'PASSWORD'			=> '608',
+	'HOST'			=> '112.125.39.11',
+	'USERNAME'		=> 'qinyh',
+	'PASSWORD'		=> 'qinyh',
 	'DB'		=> 'vehicle_gps_mgr');
 	
 //memcached配置
@@ -32,7 +32,7 @@ $mail_config = array(
 
 //服务路径
 $server_path_config = array(
-		"gps_info_path"		=> "/usr/local/joycomm/sos_file", 			//gpsx信息文件在服务器上的路径
+		"gps_info_path"		=> "D:/vehicle-gps-mgr/trunk/vehicle-gps-mgr/log/", 			//gpsx信息文件在服务器上的路径
 		"mail_save_path"	=> "/usr/local/joycomm/email_src/waiting",  //gpsx信息文件在服务器上的路径
 		"photo_assign_path"	=> "images/photo/",			//下发照相指令照片存入路径
 		"subfolder"			=>"" 										//当系统布置到网站子目录的情况下使用

@@ -53,6 +53,7 @@ class Driver
 			return false;
 	}
 
+	
 	/**
 	*		查询所有人员
 	*		@param $driver_id 
@@ -76,6 +77,34 @@ class Driver
 		return $count[0];
 	}
 
+	/**
+	 * function:字段数据是否存在
+	 * @param  $feild 字段名
+	 * @param  $data 字段数据
+	 * @param  $is_edit	 是否编辑状态(用于判断非字段以外的数据存在)
+	 *
+	 * @author yewen
+	 */
+	function exist_feild_data($feild='',$data='',$is_edit=false)
+	{
+		if($is_edit)
+		{
+			$this->sql = "select count(id) from {$this->tablename} where id <>{$this->driver_id} and {$feild}=$data";	
+		}else 
+		{
+			$this->sql = "select count(id) from {$this->tablename} where {$feild}=".$data;
+		}
+		
+		$this->data = $GLOBALS["db"]->query_once($this->sql);
+		if($this->data[0]>0)
+		{
+			return true;
+		}else 
+		{
+			return false;
+		}
+	}
+	
 	/**
 	*		修改单条数据
 	*		@param $

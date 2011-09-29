@@ -514,7 +514,7 @@
 			url: window.parent.host+"/index.php"+request_param,
 			dataType: "json",
 			success: function(data){ 
-				if (data != null) { 
+				if (data != null && data !="") { 
 					var length = data.length;
 					var run_index = length;
 					  

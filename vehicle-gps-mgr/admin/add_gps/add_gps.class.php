@@ -131,16 +131,27 @@ class add_gps extends BASE
 		}
 		$company_ids = implode($company_ids,",");
 		
-		$this->sql = "select count(*) from gps_equipment where company_id in(".$company_ids.")";
+		$this->sql = "select count(id) from gps_equipment where company_id in(".$company_ids.")";
 		$this->data = $GLOBALS['db']->query_once($this->sql);
 		return $this->data[0];
 	}	
+	
+	/*
+	 * 获取gps设备号总数
+	 * @param $gps_number GPS设备号
+	 */
+	function get_gps_number_count($gps_number)
+	{
+		$this->sql = "select count(id) from gps_equipment where gps_number=".$gps_number;
+		$this->data = $GLOBALS["db"]->query_once($this->sql);
+		return $this->data[0];
+	}
 	
 	/**
 	 * 查询所有GPS总数
 	 */
 	function get_count_gps($company_id){
-		$this->sql = "select count(*) from gps_equipment where company_id=".$company_id;
+		$this->sql = "select count(id) from gps_equipment where company_id=".$company_id;
 		$this->data = $GLOBALS["db"]->query_once($this->sql);
 		return $this->data[0];
 	}

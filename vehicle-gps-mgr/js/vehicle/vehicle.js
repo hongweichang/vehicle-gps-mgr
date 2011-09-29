@@ -48,7 +48,9 @@ jQuery("#navgrid_vehicle").jqGrid({
 jQuery("#navgrid_vehicle").jqGrid('navGrid','#pagernav_vehicle',
 {editfunc:edit_vehicle,addfunc:add_vehicle,del:true,search:false}, //options
 {
-	afterSubmit:processAddEdit,
+	afterSubmit:function(r,data){
+		alert('run..'+data);
+	},
 	closeAfterAdd:true,
 	closeAfterEdit:true,
 	reloadAfterSubmit:true
@@ -213,11 +215,13 @@ $("#commit_edit").click(function(){
 	}
 	
 	$.post("index.php?a=1012",{oper:add_edit,id:rowid,number_plate:number_plate,gps_index_id:gps_index_id,gps_id:gps_id,old_gps_id:old_gps_id,vehicle_group_id:vehicle_group_id,type_id:type_id,driver_id:driver_id,color:color,next_AS_date:next_AS_date},function(data){
-		if("success"==data){
+		 
+		var data = eval("("+data+")");
+		if(true==data.success){
 			$("#gpses").dialog('close');
 			jQuery("#navgrid_vehicle").jqGrid('setGridParam',{url:'index.php?a=1011'}).trigger("reloadGrid");
 		}else{
-			alert("操作失败");
+			alert(data.errors);
 		}
 	});
 });

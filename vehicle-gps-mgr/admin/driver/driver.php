@@ -137,6 +137,21 @@ switch($act)
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'重复的姓名!')));
 				}
+				// 验证驾驶证号是否存在
+				if($driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"]))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该驾驶证号已存在!')));
+				}
+				//	验证手机号码是否重复
+				if($driver->exist_feild_data('mobile',$parms["mobile"]))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该手机号码已存在!')));
+				}
+				//	验证手机邮箱是否重复
+				if($driver->exist_feild_data('phone_email',$parms["phone_email"]))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该手机邮箱已存在!')));
+				}
 
 				//执行插入
 				$rtn = $driver->add_data($parms);
@@ -169,7 +184,7 @@ switch($act)
 				$parms["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 				$parms["update_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
 				
-				$driver = new Driver();
+				$driver = new Driver($_REQUEST["id"]);
 
 				//检查同一公司的人员是否重复
 				$result = $driver->checkName($_REQUEST["name"],get_session("company_id"),$_REQUEST["id"]);
@@ -177,7 +192,21 @@ switch($act)
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'重复的姓名!')));
 				}
-
+				//	验证驾驶证号是否重复
+				if($driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"],true))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该驾驶证号已存在!')));
+				}
+				//	验证手机号码是否重复
+				if($driver->exist_feild_data('mobile',$parms["mobile"],true))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该手机号码已存在!')));
+				}
+				//	验证手机邮箱是否重复
+				if($driver->exist_feild_data('phone_email',$parms["phone_email"],true))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该手机邮箱已存在!')));
+				}
 				//执行更新
 				$rtn = $driver->edit_data($parms,"id");
 				if(!$rtn)

@@ -172,10 +172,9 @@ switch($act)
 		{
 			$parms["company_id"]			= $GLOBALS['db']->prepare_value(get_session("company_id"),"INT");
 			$parms["page_refresh_time"]		= $GLOBALS['db']->prepare_value($_REQUEST["page_refresh_time"],"VARCHAR");
-			$parms["default_color"]		= $GLOBALS['db']->prepare_value(substr($_REQUEST["default_color"],1),"VARCHAR");
-			$parms["speed_astrict"]		= $GLOBALS['db']->prepare_value($_REQUEST["speed_limit"],"FLOAT");
-			$parms["fatigue_remind_time"]		= floor($GLOBALS['db']->prepare_value($_REQUEST["fatigue_remind_time"],"FLOAT")*60);
-
+			$parms["default_color"]			= $GLOBALS['db']->prepare_value(substr($_REQUEST["default_color"],1),"VARCHAR");
+			$parms["speed_astrict"]			= $GLOBALS['db']->prepare_value($_REQUEST["speed_limit"],"FLOAT");
+			$parms["fatigue_remind_time"]	= floor($GLOBALS['db']->prepare_value($_REQUEST["fatigue_remind_time"],"FLOAT")*60);
 			$parms["create_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
 			$parms["create_time"]			= $GLOBALS['db']->prepare_value(get_sysdate(),"VARCHAR");
 			$parms["update_id"]				= $GLOBALS['db']->prepare_value(get_session("user_id"),"INT");
@@ -195,16 +194,15 @@ switch($act)
 		else if($part == 2)
 		{
 			$parm = $_REQUEST["parm"];
-//			file_put_contents("d:\a.txt",$parm);
 			//去掉最后一个字符
 			$parm = substr($parm, 0, -1);
 
 			$parm_arr = explode("|",$parm);
 			//检查一下是不是8个
-			if(count($parm_arr) <> 8)
+			/*if(count($parm_arr) <> 8)
 			{
 				exit("未知错误，联系管理员");
-			}
+			}*/
 
 			//删除所有
 			$set->delete_speed_color();
@@ -214,10 +212,10 @@ switch($act)
 			{
 				$p_temp_arr = explode("_",$p_temp);
 
-				if(count($p_temp_arr) <> 3)
+				/*if(count($p_temp_arr) <> 3)
 				{
 					exit("设置数量错误，联系管理员");
-				}
+				}*/
 
 				if(!empty($p_temp_arr[1]) && !empty($p_temp_arr[2]))
 				{
@@ -318,15 +316,17 @@ switch($act)
 			}
 			else
 				$va = "0";
-
+	//onKeyUp='change_speed(this);'
 			$html .= "<tr>";
-			$html .= "<td align='center'>".
-			"<input readonly  style='border:1px solid #EFEFEF; text-align:center; background-color:#EFEFEF'  type='text' size='5' name='speed_".(2*$key)."'  id='speed_".(2*$key)."' value='".$va."' ></td>".
-			"<td align='center'> -- </td>".
-			"<td align='center'>".
-			"<input type='text' onKeyUp='change_speed(this);' onchange='check_speed(this)' size='5' name='speed_".(2*$key+1)."' id='speed_".(2*$key+1)."' value='".$temp["max"]."'>".
-			"</td>".
-			"<td id='td".$key."' name='td_c[]'>".$a."</td>";
+			$html .= 	 "<td align='center'>".
+						 "<input readonly  style='border:1px solid #EFEFEF; text-align:center;
+						 	background-color:#EFEFEF'  type='text' size='5' name='speed_".(2*$key)."'  id='speed_".(2*$key)."' value='".$va."' ></td>".
+						 "<td align='center'> -- </td>".
+						 "<td align='center'>".
+						 "<input type='text'   onchange='check_speed(this)' size='5' name='speed_".(2*$key+1)."' 
+							id='speed_".(2*$key+1)."' value='".$temp["max"]."'>".
+						 "</td>".
+						 "<td id='td".$key."' name='td_c[]'>".$a."</td>";
 			$html .= "</tr>";
 		}
 

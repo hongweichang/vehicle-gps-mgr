@@ -51,15 +51,23 @@
 	</div>
 	<div id="process"></div>
 </div>
-
-<SCRIPT LANGUAGE="JavaScript">
+ <style type="text/css">  
+       .input{  
+	       border-color:#FF0000;  
+	       border-style:solid;
+  		   width:46px;
+  		   height:15px;  
+       }  
+     </style> 
+<SCRIPT LANGUAGE="JavaScript"><!--
 var judgeResult=true;
-<!--
+
 //速度时间映射
 function adviceDialog(){
+	
       jQuery("#color_mapping_dialog").dialog({
 			bgiframe: true,
-			autoOpen: true, 
+			autoOpen: true,
 			height: 400, 
 			width: 300,
 			modal: true,
@@ -67,35 +75,59 @@ function adviceDialog(){
 			buttons: {
 			    '取消': function() {
 					jQuery(this).dialog('close');
-			  },'提交': function() { 
-					var str="";//循环取出所有已经有的数
-					var str_color="";//循环取出
+			  },'提交': function() 
+			  { 
+					var str			=	"";//循环取出所有已经有的数
+					var str_color	=	"";//循环取出
+				 
+					
 					for(var i=0;i<8;i++)
-					{    					
-					//取出每个颜色的默认
+					{ 
+						//	取出每个颜色的默认
 						var d_color = document.getElementById("hi_color_p_"+i).value;
-					//取出最小值 和 最大值
-						var min = document.getElementById("speed_"+2*i).value;
-						var max = document.getElementById("speed_"+(parseInt(2*i)+parseInt(1))).value;
-						str += min+"_"+max+"_"+d_color+"|";
-
-                    //取出所选的车辆颜色信息
-						if(min!=""&&max!=""){
-	 	                     	str_color=str_color+d_color+","
-	 	                  }
-	 				 }
-					 
-                  //判断是否有重复的颜色            
-                  var repeat=false;                
-					  var color_array=str_color.split(",");
-					  var compare=str_color.split(",");
 						
-	                  for(var i=0;i<color_array.length-1;i++){
-	                	  if(repeat){
+						//	取出最小值 和 最大值
+						var min = parseInt(document.getElementById("speed_"+2*i).value);
+						var max = parseInt(document.getElementById("speed_"+(parseInt(2*i)+parseInt(1))).value);
+						
+						
+						if(!isNaN(min) && !isNaN(max))
+						{
+							if(max <= min)
+							{
+								$("#speed_"+(parseInt(2*i)+parseInt(1))).addClass('input');
+								set_message('最大速度不能小于或等于最小速度');
+								return false;
+							}
+						}else
+						{
+							$("#speed_"+(parseInt(2*i)+parseInt(1))).removeClass('input');
+						} 
+						 
+                    	//	取出所选的车辆颜色信息
+						if(!isNaN(min) && !isNull(max))
+						{ 
+								str += min+"_"+max+"_"+d_color+"|"; 
+	 	                     	str_color+=d_color+","
+	 	                }
+                    	 
+	 				 } 
+					 
+                  	  //	判断是否有重复的颜色            
+                  	  var repeat		=	false;                
+					  var color_array	=	str_color.split(",");
+					  var compare		=	str_color.split(",");
+						
+	                  for(var i=0;i<color_array.length-1;i++)
+	                  {
+	                	  if(repeat)
+	                	  {
 			                  break;
 		                  }
-	                	   compare.splice(i,1);
-		                  for(var a=0;a<compare.length-1;a++){			           			              
+	                	  compare.splice(i,1);
+	                	  
+		                  for(var a=0;a<compare.length-1;a++)
+		                  {			           			              
 	                	    if(color_array[i]==compare[a])
 	                	    {		              	                	              	
 	                	      repeat=true;
@@ -106,33 +138,44 @@ function adviceDialog(){
 	                  }
 
 	                  
-		            if(repeat){
+		            if(repeat)
+		            {
 			            alert("不能选择相同颜色的车辆");
 			            return;			            		     
-		            }else if(judgeResult==false){
+		            }
+		            else if(judgeResult==false)
+		            {
 			            return;
-		            }else{
+		            }else
+		            {
 		            	$.ajax({
 							type: "POST",
 							url: "index.php?a=5019&part=2",
 							data: "parm="+str,
-							success: function(msg){
-								 //刷新页面中的数据
-							$.ajax({										
-										type: "POST",
-										url: "index.php?a=5020",
-										data: "",
-										success: function(msg){
-										jQuery("#speeds").html(msg); 
-								   }
-							  });
+							success: function(msg)
+							{
+								if(msg=="设置成功")
+								{
+									//刷新页面中的数据
+									 $.ajax
+										({										
+											type: "POST",
+											url: "index.php?a=5020",
+											data: "",
+											success: function(msg){
+											jQuery("#speeds").html(msg); 
+										 }
+									  });
+								}
+								 alert(msg);
 							}
 					   });
 		            }    
 					//关闭
 					jQuery(this).dialog('close');
 				}
-        },open:function(event,ui){
+        },open:function(event,ui)
+        {
 		        getTraffic();
         }
 	 });
@@ -203,66 +246,123 @@ function update_set(){
 
 }
 
-//验证设置时速是否合理
-function change_speed(obj)
-{  	
-	var ss;
-	var speed_id = obj.id;
-	ss = speed_id.split("_");
-
-	//得到当前值的上一个值
-	var forward_tow = $("#speed_"+(parseInt(ss[1])-parseInt(2))).attr("value");
-	if(forward_tow=="" && ss[1]!=0){
-		alert("上一级速度不能为空");
-		$("#speed_"+(parseInt(ss[1]))).attr("value","");
-	}
-	//得到当前值 
-	var my_value=  $("#speed_"+(parseInt(ss[1]))).attr("value");
-
-	//vaule输入不等于空的时候给上一个input赋值
-	if(my_value!=""){
-		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value",forward_tow);//赋值
-	}
-	else if(my_value==""){
-		 $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");//赋值
-	}
-
-	//最大时速和最小时速比较 错误给出提示	
-    if(parseInt(my_value) <= parseInt($("#speed_"+(parseInt(ss[1])-parseInt(1))).val())){
-		$("#message").html("<span style='font-size:14px;color:red'>当前速度不能小于最大速度！</span>");
-		judgeResult=false;
-	}else{
-		$("#message").html("<span></span>");
-		judgeResult=true;
-	}
-	return judgeResult;
+function isNull(str)
+{ 
+	 return (isNaN(str) || str == null || str =="" )?true:false;
+}
+ 
+function check_speed(obj)
+{
+		var speed_id = obj.id;
+		var ss 		 = speed_id.split("_");
+		
+		//==== 速度排列ID序号===
+		var before_two_num  = parseInt(ss[1])-parseInt(2);		//	前两位序号
+		var age_a_num		= parseInt(ss[1])-parseInt(1);		//	前一位序号
+		var curr_num 		= parseInt(ss[1]);					//	当前序号
+		var next_num		= parseInt(ss[1])+parseInt(1);		//	下一位序号
+		var next_two_num	= parseInt(ss[1])+parseInt(2);		//	下两位序号
+		
+		var before_two_val 	= parseInt($("#speed_"+before_two_num).attr("value")); 	// 前两位值
+		var age_a_val 		= parseInt($("#speed_"+age_a_num).attr("value")); 		// 前一位值
+		var curr_val 		= parseInt($("#speed_"+curr_num).attr("value")); 		// 当前值
+		var next_val 		= parseInt($("#speed_"+next_num).attr("value")); 		// 下一位值
+		var next_two_val 	= parseInt($("#speed_"+next_two_num).attr("value")); 	// 下两位值
+		
+		
+		//==验证输入格式,必须为整数==
+		if(!checkIsInteger(curr_val) && !isNull(curr_val))
+		{
+			$("#speed_"+curr_val).attr("value","");
+			$(this).focus();
+			set_message('请输入整数!');
+			
+			return false;
+		}else
+		{ 
+			set_message('');
+		}
+		if(isNull(curr_val) && !isNaN(before_two_val))		//	当前值空时and前两位存在值时
+		{
+			$("#speed_"+age_a_num).attr("value","");
+			return false;
+		}else if(isNull(curr_val) && age_a_num != 0)
+		{
+			$("#speed_"+age_a_num).attr("value","");
+			return false;
+		}
+		
+		if(isNaN(curr_val) && curr_num == 1)				//	当前是否没有值
+		{ 
+			if(!isNull(next_val))
+			{
+				$("#speed_"+curr_num).attr("value",next_val-1);
+			}else
+			{
+				$("#speed_"+curr_num).attr("value",40);
+			}
+			return false;			
+		} 
+		
+		if(curr_val<=age_a_val)						//	当前  <= 上一位
+		{
+			$(this).focus();
+			$("#speed_"+curr_num).addClass('input');
+			set_message('最大速度不能小于或等于最小速度,推荐:'+(age_a_val+1));
+			
+			return false;
+		} 
+		
+		if(curr_val>=next_val && !isNaN(next_two_val))	//	当前	 >=	下一位 && 下二位非等于NaN
+		{
+			//	当前 < 下二位
+			if((curr_val+1)<next_two_val)
+			{
+				//	将当前的值赋值给下一位
+				$("#speed_"+next_num).attr("value",(curr_val+1));
+			}else
+			{
+				//	当前 > 下二位
+				$(this).focus();
+				$("#speed_"+curr_num).addClass('input');
+				set_message('最大速度必须小于下一行最大速度2位,推荐:'+(next_two_val-2));
+				
+				return false;
+			} 
+		}else
+		{
+			//	过滤第一排的条件	
+			if(!isNaN(before_two_val))
+			{
+				//	当前	  <	上两位
+				if(curr_val<=(before_two_val+1))
+				{
+					$(this).focus();
+					$("#speed_"+curr_num).addClass('input');
+					set_message('最大速度必须大于前一行最大速度2位,推荐:'+(before_two_val+2));
+					
+					return false;
+				}else
+				{
+					$("#speed_"+age_a_num).attr("value",before_two_val+1);
+				}
+			} 
+			
+			if(next_two_val != "" && !isNaN(next_two_val) && next_two_val!='undefined')
+			{
+				$("#speed_"+next_num).attr("value",curr_val+1);
+			}
+		}
+		$("#speed_"+curr_num).removeClass('input');
+		
+		return true;
 }
 
-function check_speed(obj){
-	var ss;
-	var speed_id = obj.id;
-	ss = speed_id.split("_");
-
-	//得到当前值的上一个值
-	var forward_tow = $("#speed_"+parseInt(ss[1])).attr("value");
-	var forward_tow_old = $("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value");
-
-	//验证输入格式,必须为整数
-	if(!checkIsInteger(forward_tow) || !checkIsInteger(forward_tow_old)){
-		$("#speed_"+parseInt(ss[1])).attr("value","");
-		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
-		$(this).focus();
-		alert("请输入整数");
-	}
-
-	//验证速度大小,不能小于当前最大速度
-	if(parseInt(forward_tow_old)>=parseInt(forward_tow)){		
-		$("#speed_"+parseInt(ss[1])).attr("value","");
-		$("#speed_"+(parseInt(ss[1])-parseInt(1))).attr("value","");
-		$(this).focus();
-		alert("当前速度不能小于等于最大速度！");
-	}
-}
+//	设置提示信息
+function set_message(message)
+{
+	$("#message").html("<span style='font-size:14px;color:red'>"+message+"</span>");	
+} 
 
 //验证速度是否为整数
 function checkIsInteger(str) 
@@ -278,5 +378,5 @@ function checkIsInteger(str)
 
 $(":submit").button();//按钮替换成JQUERY样式
 
-//-->
-</SCRIPT>
+//
+--></SCRIPT>

@@ -52,6 +52,33 @@ class Vehicle extends BASE
 	}
 	
 	/**
+	 * function:车牌号是否存在
+	 * @param  $number_plate 车牌号
+	 * @param  $is_edit	 是否编辑状态(用于判断非车辆ID以外的车牌号存在)
+	 *
+	 * @author yewen
+	 */
+	function exist_number_plate($number_plate='',$is_edit=false)
+	{
+		if($is_edit)
+		{
+			$this->sql = "select count(id) from {$this->tablename} where id <>{$this->id} and number_plate=upper($number_plate)";	
+		}else 
+		{
+			$this->sql = "select count(id) from {$this->tablename} where number_plate=upper(".$number_plate.")";
+		}
+		
+		$this->data = $GLOBALS["db"]->query_once($this->sql);
+		if($this->data[0]>0)
+		{
+			return true;
+		}else 
+		{
+			return false;
+		}
+	} 
+	
+	/**
 	*	添加车辆
 	*	@param $vehicle
 	*	@return boolean
@@ -98,15 +125,15 @@ class Vehicle extends BASE
 	function edit_vehicle($vehicle)
 	{
 		if(!$vehicle)
-		{
-			$this->message = "error,object must be not empty!";
+		{	
+			$this->message = "error,the object can't empty!";
 			return false;
 		}
 		//添加主键ID
 		$vehicle['id'] = $this->id;
 		if(!$GLOBALS['db']->update_row($this->tablename,$vehicle,"id"))
 		{
-			$this->message = "error,edit data failed!";
+			$this->message = "error,the date edit in failed!";
 			return false;
 		}
 		return true;
@@ -127,7 +154,7 @@ class Vehicle extends BASE
 		$this->sql = sprintf("delete from %s where id = %d",$this->tablename,$this->id);
 		if(!$GLOBALS['db']->query($this->sql))
 		{
-			$this->message = "error,delete data failed!";
+			$this->message = "error,the data delete in failed!";
 			return false;
 		}
 		return true;
@@ -141,7 +168,7 @@ class Vehicle extends BASE
 		$this->sql = sprintf("delete from driver_vehicle where vehicle_id = %d",$vehicle_id);
 		if(!$GLOBALS['db']->query($this->sql))
 		{
-			$this->message = "error,delete data failed!";
+			$this->message = "error,the data delete in failed!";
 			return false;
 		}
 		return true;
@@ -156,7 +183,7 @@ class Vehicle extends BASE
 		$this->sql = sprintf("update gps_equipment set state=1 where id=".$gps_id);
 		if(!$GLOBALS['db']->query($this->sql))
 		{
-			$this->message = "error,delete data failed!";
+			$this->message = "error,the data delete in failed!";
 			return false;
 		}
 		return true;
@@ -171,7 +198,7 @@ class Vehicle extends BASE
 		$this->sql = sprintf("update gps_equipment set state=0 where id=".$gps_id);
 		if(!$GLOBALS['db']->query($this->sql))
 		{
-			$this->message = "error,delete data failed!";
+			$this->message = "error,the data delete in failed!";
 			return false;
 		}
 		return true;
@@ -361,7 +388,7 @@ class Vehicle extends BASE
 		$this->sql = sprintf("update vehicle_manage set driver_id=".$driver_id." where id=".$vehicle_id);
 		if(!$GLOBALS['db']->query($this->sql))
 		{
-			$this->message = "error,delete data failed!";
+			$this->message = "error,the data delete in failed!";
 			return false;
 		}
 		return true;

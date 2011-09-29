@@ -179,9 +179,14 @@ switch($act)
 		switch($oper)
 		{
 			case "add":		//增加
-				if(!is_numeric($_REQUEST['gps_number']."")){
+				if(!is_numeric($_REQUEST['gps_number'].""))
+				{
+					//校验GPS号格式与长度
 					exit(json_encode(array('success'=>false,'errors'=>'gps必须为数字,请重新输入!')));
-				}//校验GPS号格式与长度
+				}else if($add_gps->get_gps_number_count($arr["gps_number"])>0)
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该gps设备号已经存在，请使用其它设备号')));
+				}
 				
 				$arr['user_id'] =  $db->prepare_value(get_session("user_id"),"INT");	
 				$arr["state"] = $db->prepare_value(0,"TINYINT");

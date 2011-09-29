@@ -156,28 +156,35 @@ switch($act)
 		break;
 		
 	case "operate":		//车辆修改、添加、删除
+		
 		$oper = $_REQUEST['oper'];
+		
+		//	实例车辆对象
 		$vehicle = new Vehicle();
 			
-		$type_id = $_REQUEST['type_id'];
-		$vehicle_group_id = $_REQUEST['vehicle_group_id'];
-		$driver_id = $_REQUEST['driver_id'];
-		$gps_index_id = $_REQUEST['gps_index_id'];
-		$gps_id = $_REQUEST['gps_id'];
+		//接收新增参数
+		$type_id 			= $_REQUEST['type_id'];
+		$vehicle_group_id 	= $_REQUEST['vehicle_group_id'];
+		$driver_id 			= $_REQUEST['driver_id'];
+		$gps_index_id 		= $_REQUEST['gps_index_id'];
+		$gps_id 			= $_REQUEST['gps_id'];
 			
-		$arr["number_plate"] = $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");	
-		$arr['gps_index_id'] = $db->prepare_value($gps_index_id,"INT");
-		$arr['gps_id'] = $db->prepare_value($gps_id,"CHAR");
-		$arr["company_id"] = $db->prepare_value(get_session("company_id"),"INT");
-		$arr["vehicle_group_id"] = $db->prepare_value($vehicle_group_id,"INT");
-		$arr["driver_id"] = $db->prepare_value($driver_id,"INT");
-		$arr["type_id"] = $db->prepare_value($type_id,"INT");
-		$arr["color"] = $db->prepare_value($_REQUEST['color'],"VARCHAR");
+		$arr["number_plate"] 		= $db->prepare_value($_REQUEST['number_plate'],"VARCHAR");	
+		$arr['gps_index_id'] 		= $db->prepare_value($gps_index_id,"INT");
+		$arr['gps_id'] 		 		= $db->prepare_value($gps_id,"CHAR");
+		$arr["company_id"] 			= $db->prepare_value(get_session("company_id"),"INT");
+		$arr["vehicle_group_id"] 	= $db->prepare_value($vehicle_group_id,"INT");
+		$arr["driver_id"] 			= $db->prepare_value($driver_id,"INT");
+		$arr["type_id"] 			= $db->prepare_value($type_id,"INT");
+		$arr["color"] 				= $db->prepare_value($_REQUEST['color'],"VARCHAR");
 
-		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null){
-			$next_as_date = 'null'; //如果年检时间为空则添加默认的
+		if($_REQUEST['next_AS_date']=="" || $_REQUEST['next_AS_date']==null)
+		{
+			//如果年检时间为空则添加默认的
+			$next_as_date = 'null'; 
 			$arr["next_AS_date"] = $next_as_date;
-		}else{
+		}else
+		{
 			//去除时间后面的时分秒,只保留年月日
 			$next_date = explode(" ",$_REQUEST['next_AS_date'],2);
 			$next_as_date = $next_date[0];
@@ -185,23 +192,44 @@ switch($act)
 		}
 		
 		$vehicle = new Vehicle($_REQUEST['id']);
+		$number_plate = str_replace(' ', '',$arr["number_plate"]);
 		switch($oper)
 		{
 			case "add":		//增加
+				
+				// 验证车牌号是存在
+				if($vehicle->exist_number_plate($number_plate))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该车牌号已经被使用')));
+				}
+				
 				$new_vehicle_id = $vehicle->add_vehicle($arr);
-				if($new_vehicle_id){
+				
+				if($new_vehicle_id)
+				{
 					$vehicle->change_gps_state($_REQUEST['gps_index_id']);//设置GPS设备号为使用中
-					if($driver_id!="" && $driver_id!=false){
+
+					if($driver_id!="" && $driver_id!=false)
+					{
 						$parms["driver_id"]	= $GLOBALS['db']->prepare_value($driver_id,"INT");
 						$parms["vehicle_id"]= $GLOBALS['db']->prepare_value($new_vehicle_id,"INT");
+
 						$vehicle->set_authority($parms); //添加车辆时给车辆授权驾驶员
 					}
-					echo "success";
-				}else{
-					echo "fail";
+					exit(json_encode(array('success'=>true)));
+				}else
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'添加失败')));
 				}
 				break;
 			case "edit":		//修改
+				
+				// 验证车牌号是存在
+				if($vehicle->exist_number_plate($number_plate,true))
+				{
+					exit(json_encode(array('success'=>false,'errors'=>'该车牌号已经被使用')));
+				}
+				
 				$vehicle->edit_vehicle($arr); //修改车辆
 				$gps_state = $vehicle->get_gps_state($gps_index_id); //查询gps设备号是否被使用
 				
@@ -214,7 +242,7 @@ switch($act)
 				if($old_gps_id!=false && $old_gps_id!=""){
 					$vehicle->remove_gps_state($old_gps_id);//解除该GPS设备号
 				}
-				echo "success";
+				exit(json_encode(array('success'=>true)));
 				break;
 			case "del":		//删除
 				if($vehicle->del_vehicle($arr)){
