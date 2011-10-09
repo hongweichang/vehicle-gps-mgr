@@ -138,7 +138,7 @@ switch($act)
 					exit(json_encode(array('success'=>false,'errors'=>'重复的姓名!')));
 				}
 				// 验证驾驶证号是否存在
-				if($driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"]))
+				if(rtrim(ltrim($_REQUEST["driving_licence_id"])) != '' && $driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"]))
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'该驾驶证号已存在!')));
 				}
@@ -148,7 +148,7 @@ switch($act)
 					exit(json_encode(array('success'=>false,'errors'=>'该手机号码已存在!')));
 				}
 				//	验证手机邮箱是否重复
-				if($driver->exist_feild_data('phone_email',$parms["phone_email"]))
+				if(rtrim(ltrim($_REQUEST["phone_email"])) != '' && $driver->exist_feild_data('phone_email',$parms["phone_email"]))
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'该手机邮箱已存在!')));
 				}
@@ -193,7 +193,7 @@ switch($act)
 					exit(json_encode(array('success'=>false,'errors'=>'重复的姓名!')));
 				}
 				//	验证驾驶证号是否重复
-				if($driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"],true))
+				if(rtrim(ltrim($_REQUEST["driving_licence_id"])) != '' && $driver->exist_feild_data('driving_licence_id',$parms["driving_licence_id"],true))
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'该驾驶证号已存在!')));
 				}
@@ -203,7 +203,7 @@ switch($act)
 					exit(json_encode(array('success'=>false,'errors'=>'该手机号码已存在!')));
 				}
 				//	验证手机邮箱是否重复
-				if($driver->exist_feild_data('phone_email',$parms["phone_email"],true))
+				if(rtrim(ltrim($_REQUEST["phone_email"])) != '' && $driver->exist_feild_data('phone_email',$parms["phone_email"],true))
 				{
 					exit(json_encode(array('success'=>false,'errors'=>'该手机邮箱已存在!')));
 				}
